@@ -1,0 +1,88 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
+package Models;
+
+import java.sql.Date;
+
+/**
+ *
+ * @author Admin
+ */
+public class Club {
+    private int clubID;
+    private String clubName;
+    private Date establishDate;
+    private String description;
+    private Boolean isApprove;
+    private Boolean isActive;
+    private int managerProfileID;
+
+    public Club(int clubID, String clubName, Date establishDate, String description, Boolean isApprove, Boolean isActive, int managerProfileID) {
+        this.clubID = clubID;
+        this.clubName = clubName;
+        this.establishDate = establishDate;
+        this.description = description;
+        this.isApprove = isApprove;
+        this.isActive = isActive;
+        this.managerProfileID = managerProfileID;
+    }
+
+    public int getClubID() {
+        return clubID;
+    }
+
+    public void setClubID(int clubID) {
+        this.clubID = clubID;
+    }
+
+    public String getClubName() {
+        return clubName;
+    }
+
+    public void setClubName(String clubName) {
+        this.clubName = clubName;
+    }
+
+    public Date getEstablishDate() {
+        return establishDate;
+    }
+
+    public void setEstablishDate(Date establishDate) {
+        this.establishDate = establishDate;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public Boolean getIsApprove() {
+        return isApprove;
+    }
+
+    public void setIsApprove(Boolean isApprove) {
+        this.isApprove = isApprove;
+    }
+
+    public Boolean getIsActive() {
+        return isActive;
+    }
+
+    public void setIsActive(Boolean isActive) {
+        this.isActive = isActive;
+    }
+
+    public int getManagerProfileID() {
+        return managerProfileID;
+    }
+
+    public void setManagerProfileID(int managerProfileID) {
+        this.managerProfileID = managerProfileID;
+    }
+
+}
