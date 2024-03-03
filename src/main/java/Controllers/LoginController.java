@@ -46,7 +46,7 @@ public class LoginController extends HttpServlet {
                         request.getRequestDispatcher("/index.jsp").forward(request, response);
                         break;
                     case "Student":
-                        request.getRequestDispatcher("/index.jsp").forward(request, response);
+                        request.getRequestDispatcher("/student").forward(request, response);
                         break;
                 }
             }
