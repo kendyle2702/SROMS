@@ -4,8 +4,6 @@
     Author     : QuocCu
 --%>
 
-<%@page import="java.sql.ResultSet"%>
-<%@page import="DAOs.LoginDAO"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="en">
@@ -820,7 +818,7 @@ John Smith
 <script src="assets/plugins/apexchart/chart-data.js" type="0c0e42f825511c0fd8b7bcca-text/javascript"></script>
 
 <script src="assets/js/script.js" type="0c0e42f825511c0fd8b7bcca-text/javascript"></script>
-<script src="../cdn-cgi/scripts/7d0fa10a/cloudflare-static/rocket-loader.min.js" data-cf-settings="0c0e42f825511c0fd8b7bcca-|49" defer></script></body>
+<script src="assets/cdn-cgi/scripts/7d0fa10a/cloudflare-static/rocket-loader.min.js" data-cf-settings="0c0e42f825511c0fd8b7bcca-|49" defer></script></body>
 
 <!-- Mirrored from preschool.dreamstechnologies.com/template/index.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 22 Feb 2024 02:37:23 GMT -->
 </html>
