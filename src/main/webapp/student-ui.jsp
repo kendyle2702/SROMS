@@ -3,11 +3,12 @@
     Created on : Mar 1, 2024, 6:09:25 PM
     Author     : khuy
 --%>
-<%@page import="java.util.List"%>
+
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<%@page import="DB.DBConnection"%>
 <%@ page import="DAOs.NewsDAO" %>
 <%@ page import="Models.News" %>
+<%@ page import="DAOs.ClubsDAO" %>
+<%@ page import="Models.Club" %>
 
 <!DOCTYPE html>
 <html>
@@ -558,7 +559,6 @@
                             <img src="assets/img/icons/header-icon-04.svg" alt>
                         </a>
                     </li>
-
                     <li class="nav-item dropdown has-arrow new-user-menus">
                         <a href="#" class="dropdown-toggle nav-link" data-bs-toggle="dropdown">
                             <div class="user-img">
@@ -697,7 +697,6 @@
                                 </div>
 
                                 <div class="card-body">
-                                    <h4 class="header-title mb-4">Tabs Justified</h4>
                                     <ul class="nav nav-pills navtab-bg nav-justified" role="tablist">
                                         <li class="nav-item" role="presentation">
                                             <a href="#listClub" data-bs-toggle="tab" aria-expanded="false"
@@ -718,40 +717,30 @@
                                                 <div class="table-responsive lesson">
                                                     <table class="table table-center">
                                                         <tbody>
+                                                            <%-- Retrieve the club with the latest establishment date --%>
+                                                            <% DAOs.ClubsDAO clubsDAO = new DAOs.ClubsDAO();
+                                                            Models.Club latestClub = clubsDAO.getClubByLatestEstablishDate();
+                                                            if (latestClub != null) {%>
                                                             <tr>
                                                                 <td>
                                                                     <div class="date">
-                                                                        <b> FCoder</b>
-                                                                        <p> 255/1000 </p>
+                                                                        <b><%= latestClub.getClubName()%></b>
+                                                                        <p><%= latestClub.getDescription()%></p>
                                                                     </div>
                                                                 </td>
                                                                 <td>
                                                                     <div class="lesson-confirm">
-                                                                        <a href="student/clubs/detail"> Club Details</a>
+                                                                        <a href="/student/clubs/detail">Club Details</a>
                                                                     </div>
-                                                                    <button type="submit" class="btn btn-info">
-                                                                        Register</button>
+                                                                    <button type="submit" class="btn btn-info">Register</button>
                                                                 </td>
                                                             </tr>
-                                                            <tr>
-                                                                <td>
-                                                                    <div class="date">
-                                                                        <b> FChess</b>
-                                                                        <p> 25/100</p>
-                                                                    </div>
-                                                                </td>
-                                                                <td>
-                                                                    <div class="lesson-confirm">
-                                                                        <a href="student/clubs/detail"> Club Details</a>
-                                                                    </div>
-                                                                    <button type="submit" class="btn btn-info">
-                                                                        Register</button>
-                                                                </td>
-                                                            </tr>
+                                                            <% }%>
                                                         </tbody>
                                                     </table>
                                                 </div>
                                             </div>
+
                                         </div>
                                         <div class="tab-pane" id="myClub" role="tabpanel">
                                             <div class="pt-3 pb-3">
