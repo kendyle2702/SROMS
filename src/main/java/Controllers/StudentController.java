@@ -88,7 +88,6 @@ public class StudentController extends HttpServlet {
         } else {
             res.sendRedirect("/login");
         }
-
     }
 
     @Override
