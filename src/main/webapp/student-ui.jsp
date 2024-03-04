@@ -4,6 +4,7 @@
     Author     : khuy
 --%>
 
+<%@page import="Models.UserProfile"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ page import="DAOs.NewsDAO" %>
 <%@ page import="Models.News" %>
@@ -559,14 +560,17 @@
                             <img src="assets/img/icons/header-icon-04.svg" alt>
                         </a>
                     </li>
+                    <%
+                        UserProfile userProfile = (UserProfile)session.getAttribute("user");
+                    %>
                     <li class="nav-item dropdown has-arrow new-user-menus">
                         <a href="#" class="dropdown-toggle nav-link" data-bs-toggle="dropdown">
                             <div class="user-img">
                                 <img class="rounded-circle" src="assets/img/profiles/avatar-01.jpg" width="31"
                                      alt="Ryan Taylor">
                                 <div class="user-text">
-                                    <h6>Khuy</h6>
-                                    <p class="text-muted mb-0">Student</p>
+                                    <h6><%= userProfile.getLastName()+" "+userProfile.getFirstName()%></h6>
+                                    <p class="text-muted mb-0"><%=(String)session.getAttribute("role") %></p>
                                 </div>
                             </div>
                         </a>
@@ -577,8 +581,8 @@
                                          class="avatar-img rounded-circle">
                                 </div>
                                 <div class="user-text">
-                                    <h6>Khuy</h6>
-                                    <p class="text-muted mb-0">student</p>
+                                    <h6><%= userProfile.getLastName()+" "+userProfile.getLastName() %></h6>
+                                    <p class="text-muted mb-0"><%=(String)session.getAttribute("role") %></p>
                                 </div>
                             </div>
                             <a class="dropdown-item" href="/student/profile">My Profile</a>

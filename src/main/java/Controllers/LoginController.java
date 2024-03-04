@@ -34,16 +34,17 @@ public class LoginController extends HttpServlet {
         if (userProfile != null){
             boolean isLogin = userLoginDAO.loginWithGoogleByUsernameAndRole(username,role);
             if(isLogin){
+                session.setAttribute("user", userProfile);
                 // Redirect to the corresponding Controller role
                 switch (role) {
                     case "Admin":
-                        request.getRequestDispatcher("/index.jsp").forward(request, response);
+                        request.getRequestDispatcher("/student").forward(request, response);
                         break;
                     case "Event Manager":
-                        request.getRequestDispatcher("/index.jsp").forward(request, response);
+                        request.getRequestDispatcher("/student").forward(request, response);
                         break;
                     case "Club Manager":
-                        request.getRequestDispatcher("/index.jsp").forward(request, response);
+                        request.getRequestDispatcher("/student").forward(request, response);
                         break;
                     case "Student":
                         request.getRequestDispatcher("/student").forward(request, response);

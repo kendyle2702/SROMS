@@ -49,7 +49,7 @@ public class StudentController extends HttpServlet {
         String role = (String) session.getAttribute("role");
         String path = request.getServletPath();
 
-        if (role != null && "Student".equals(role)) {
+        if (role != null) {
             if (path.endsWith("/student")) {
                 request.getRequestDispatcher("/student-ui.jsp").forward(request, response);
 
