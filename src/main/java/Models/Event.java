@@ -47,6 +47,15 @@ public class Event {
         this.managerProfileID = managerProfileID;
         this.studentProfileID = studentProfileID;
     }
+    
+    public Event(int eventID, String eventName, Timestamp holdTime, String location, String description, int eventCategoryID) {
+        this.eventID = eventID;
+        this.eventName = eventName;
+        this.holdTime = holdTime;
+        this.location = location;
+        this.description = description;
+        this.eventCategoryID = eventCategoryID;
+    }
 
     public int getEventID() {
         return eventID;

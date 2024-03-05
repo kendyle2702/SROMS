@@ -9,6 +9,9 @@
 <%@page import="DB.DBConnection"%>
 <%@ page import="DAOs.NewsDAO" %>
 <%@ page import="Models.News" %>
+<%@page import="Models.Event" %>
+<%@page import="Models.EventCategory" %>
+<%@page import="DAOs.EventsDAO" %>%>
 <%@page import="Models.UserProfile"%>
 
 <%
@@ -19,7 +22,7 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
-        <title>List News</title>
+        <title>Events List</title>
 
         <link rel="shortcut icon" href="/assets/img/favicon.png">
 
@@ -634,46 +637,64 @@
                     <div class="page-header">
                         <div class="row align-items-center">
                             <div class="col">
-                                <h3 class="page-title">List Events</h3>
+                                <h3 class="page-title">Events List</h3>
                                 <ul class="breadcrumb">
                                     <li><a href="/student">Dashboard</a></li>
-                                    <li>/List Events</li>
+                                    <li>/Events List</li>
                                 </ul>
                             </div>
                         </div>
                     </div>
                     <div class="row">
-                        <%
-                            // Create an instance of NewsDAO
-                            NewsDAO newsDAO = new NewsDAO();
-
-                            // Call the getAllNews method to fetch all news articles
-                            List<News> newsList = newsDAO.getAllNews();
-
-                            // Check if there are any news articles
-                            if (newsList != null && !newsList.isEmpty()) {
-                                // Iterate through the list of news articles
-                                for (News news : newsList) {
-                        %>
-                        <!-- Use the data from the 'news' object to display news information -->
-                        <div class="col-md-6 col-xl-4 col-sm-12 d-flex">
-                            <div class="blog grid-blog flex-fill">
-                                <div class="blog-content">
-                                    <h3 class="blog-title"><a href="/student/news/detail"><%= news.getTitle()%></a></h3>
-                                    <p><%= news.getContent()%></p>
-                                    <p>Create at: <%= news.getCreateAt()%></p>
-                                    <p>Create by: <%= news.getAdminProfileID()%></p>
+                        <div class="col-xl-12 d-flex">
+                            <div class="card flex-fill student-space comman-shadow">
+                                <div class="card-body">
+                                    <div class="table-responsive">
+                                        <table class="table star-student table-hover table-center table-borderless table-striped">
+                                            <thead class="thead-light">
+                                                <tr>
+                                                    <th class="text-center">#</th>
+                                                    <th class="text-center">ID</th>
+                                                    <th class="text-center">Name</th>
+                                                    <th class="text-center">Start Time</th>
+                                                    <th class="text-center">Description</th>
+                                                    <th class="text-center">Location</th>
+                                                    <th class="text-center">Category</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <%
+                                                    EventsDAO eventsDAO = new EventsDAO();
+                                                    List<Event> events = eventsDAO.getAllEventsForStudent();
+                                                    int count = 1;
+                                                    if (events != null && !events.isEmpty()) {
+                                                        for (Event event : events) {
+                                                            String categoryName = eventsDAO.getEventCategoryName(event.getEventCategoryID());
+                                                %>
+                                                <tr>
+                                                    <td class="text-center"><%= count++%></td>
+                                                    <td class="text-center"><%= event.getEventID()%></td>
+                                                    <td class="text-center"><%= event.getEventName()%></td>
+                                                    <td class="text-center"><%= event.getHoldTime()%></td>
+                                                    <td class="text-center"><%= event.getDescription()%></td>
+                                                    <td class="text-center"><%= event.getLocation()%></td>
+                                                    <td class="text-center"><%= categoryName%></td>
+                                                </tr>
+                                                <%
+                                                    }
+                                                } else {
+                                                %>
+                                                <tr>
+                                                    <td colspan="7" class="text-center">No events.</td>
+                                                </tr>
+                                                <% }%>
+                                            </tbody>
+                                        </table>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                        <%
-                            }
-                        } else {
-                        %>
-                        <p>No news articles found.</p>
-                        <%
-                            }
-                        %>
+
                     </div>
                 </div>
             </div>
