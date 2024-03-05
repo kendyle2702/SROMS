@@ -1,6 +1,6 @@
 <%-- 
-    Document   : news
-    Created on : Mar 3, 2024, 10:29:38 PM
+    Document   : events
+    Created on : Mar 5, 2024, 8:57:54 PM
     Author     : khuy
 --%>
 
@@ -562,7 +562,7 @@
 
                     <li class="nav-item zoom-screen me-2">
                         <a href="#" class="nav-link header-nav-list">
-                            <img src="/assets/img/icons/header-icon-04.svg" alt>
+                            <img src="assets/img/icons/header-icon-04.svg" alt>
                         </a>
                     </li>
 
@@ -609,10 +609,10 @@
                             <li >
                                 <a href="/student"><i class=""></i> <span> Home</span></a>
                             </li>
-                            <li class="active">
+                            <li>
                                 <a href="/student/news/view"><i class=""></i><span> View News</span></a>
                             </li>
-                            <li>
+                            <li class="active">
                                 <a href="/student/events/view"><i class=""></i><span> View Events</span></a>
                             </li>
                             <li>
@@ -634,10 +634,10 @@
                     <div class="page-header">
                         <div class="row align-items-center">
                             <div class="col">
-                                <h3 class="page-title">List News</h3>
+                                <h3 class="page-title">List Events</h3>
                                 <ul class="breadcrumb">
                                     <li><a href="/student">Dashboard</a></li>
-                                    <li>/List News</li>
+                                    <li>/List Events</li>
                                 </ul>
                             </div>
                         </div>
