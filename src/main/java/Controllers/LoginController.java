@@ -38,13 +38,13 @@ public class LoginController extends HttpServlet {
                 // Redirect to the corresponding Controller role
                 switch (role) {
                     case "Admin":
-                        request.getRequestDispatcher("/student").forward(request, response);
+                        request.getRequestDispatcher("/admin").forward(request, response);
                         break;
                     case "Event Manager":
-                        request.getRequestDispatcher("/student").forward(request, response);
+                        request.getRequestDispatcher("/eventmanager").forward(request, response);
                         break;
                     case "Club Manager":
-                        request.getRequestDispatcher("/student").forward(request, response);
+                        request.getRequestDispatcher("/clubmanager").forward(request, response);
                         break;
                     case "Student":
                         request.getRequestDispatcher("/student").forward(request, response);

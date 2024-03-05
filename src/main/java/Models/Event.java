@@ -28,8 +28,9 @@ public class Event {
     private int adminProfileID;
     private int managerProfileID;
     private int studentProfileID;
+    private Timestamp endTime;
 
-    public Event(int eventID, String eventName, Timestamp preparationTime, Timestamp holdTime, String location, int cost, int expectedNumber, String organization, String description, String feedback, Boolean isApprove, String createdBy, int eventCategoryID, int adminProfileID, int managerProfileID, int studentProfileID) {
+    public Event(int eventID, String eventName, Timestamp preparationTime, Timestamp holdTime, String location, int cost, int expectedNumber, String organization, String description, String feedback, Boolean isApprove, String createdBy, int eventCategoryID, int adminProfileID, int managerProfileID, int studentProfileID, Timestamp endTime) {
         this.eventID = eventID;
         this.eventName = eventName;
         this.preparationTime = preparationTime;
@@ -46,10 +47,47 @@ public class Event {
         this.adminProfileID = adminProfileID;
         this.managerProfileID = managerProfileID;
         this.studentProfileID = studentProfileID;
+        this.endTime = endTime;
+    }
+
+    public Event(String eventName) {
+        this.eventName = eventName;
+    }
+
+    public Event(String eventName, Timestamp preparationTime, Timestamp holdTime, String location, int cost, int expectedNumber, String organization, String description, String createdBy, Timestamp endTime) {
+        this.eventName = eventName;
+        this.preparationTime = preparationTime;
+        this.holdTime = holdTime;
+        this.location = location;
+        this.cost = cost;
+        this.expectedNumber = expectedNumber;
+        this.organization = organization;
+        this.description = description;
+        this.createdBy = createdBy;
+        this.endTime = endTime;
+    }
+
+    public Event(int eventID, String eventName, Timestamp preparationTime, Timestamp holdTime, String location, int cost, int expectedNumber, String organization, String description, String feedback, Boolean isApprove, String createdBy, Timestamp endTime) {
+        this.eventID = eventID;
+        this.eventName = eventName;
+        this.preparationTime = preparationTime;
+        this.holdTime = holdTime;
+        this.location = location;
+        this.cost = cost;
+        this.expectedNumber = expectedNumber;
+        this.organization = organization;
+        this.description = description;
+        this.feedback = feedback;
+        this.isApprove = isApprove;
+        this.createdBy = createdBy;
+        this.endTime = endTime;
     }
 
     public int getEventID() {
         return eventID;
+    }
+
+    public Event() {
     }
 
     public void setEventID(int eventID) {
@@ -174,6 +212,14 @@ public class Event {
 
     public void setStudentProfileID(int studentProfileID) {
         this.studentProfileID = studentProfileID;
+    }
+
+    public Timestamp getEndTime() {
+        return endTime;
+    }
+
+    public void setEndTime(Timestamp endTime) {
+        this.endTime = endTime;
     }
 
 }

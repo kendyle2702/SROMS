@@ -36,6 +36,11 @@ public class UserProfile {
         this.phone = phone;
     }
 
+    public UserProfile(String firstName, String lastName) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+    }
+
     public int getUserProfileID() {
         return userProfileID;
     }
