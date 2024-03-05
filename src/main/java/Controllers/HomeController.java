@@ -11,7 +11,7 @@ public class HomeController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.sendRedirect("/eventmanager");
+        response.sendRedirect("/login");
     }
 
     @Override

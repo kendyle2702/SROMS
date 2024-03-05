@@ -555,7 +555,7 @@
 
 
                     <footer>
-                        <p>COPYRIGHT © 2023 DREAMSTECHNOLOGIES.</p>
+                        <p></p>
                     </footer>
 
                 </div>

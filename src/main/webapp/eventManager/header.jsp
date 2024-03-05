@@ -1,7 +1,8 @@
+<%@page import="Models.UserProfile"%>
 <div class="header">
     <div class="header-left">
         <a href="#" class="logo">
-            <img src="${pageContext.request.contextPath}/assets/img/logo.png" alt="Logo">
+            <!--<img src="${pageContext.request.contextPath}/assets/img/logo.png" alt="Logo">-->
         </a>
         <a href="index.html" class="logo logo-small">
             <img src="${pageContext.request.contextPath}/assets/img/logo-small.png" alt="Logo" width="30" height="30">
@@ -54,13 +55,16 @@
                 <img src="${pageContext.request.contextPath}/assets/img/icons/header-icon-04.svg" alt>
             </a>
         </li>
+         <%
+                        UserProfile userProfile = (UserProfile)session.getAttribute("user");
+         %>
         <li class="nav-item dropdown has-arrow new-user-menus">
             <a href="#" class="dropdown-toggle nav-link" data-bs-toggle="dropdown">
                 <div class="user-img">
                     <img class="rounded-circle" src="${pageContext.request.contextPath}/assets/img/profiles/avatar-01.jpg" width="31" alt="Ryan Taylor">
                     <div class="user-text">
-                        <h6>Manager Name</h6>
-                        <p class="text-muted mb-0">Administrator</p>
+                        <h6><%= userProfile.getLastName()+" "+userProfile.getFirstName()%></h6>
+                        <p class="text-muted mb-0"><%=(String)session.getAttribute("role") %></p>
                     </div>
                 </div>
             </a>
@@ -73,14 +77,14 @@
                     </div>
                     <!-- User information -->
                     <div class="user-text">
-                        <h6>Name</h6> <!-- User's name -->
-                        <p class="text-muted mb-0">Manager</p> <!-- User's role/job title -->
+                        <h6><%= userProfile.getLastName()+" "+userProfile.getFirstName()%></h6> <!-- User's name -->
+                        <p class="text-muted mb-0"><%=(String)session.getAttribute("role")%></p> <!-- User's role/job title -->
                     </div>
                 </div>
 
                 <!-- Dropdown menu items -->
                 <a class="dropdown-item" href="profile.html">My Profile</a> <!-- Link to user's profile -->
-                <a class="dropdown-item" href="login.html">Logout</a> <!-- Link to logout functionality -->
+                <a class="dropdown-item" href="/login">Logout</a> <!-- Link to logout functionality -->
             </div>
 
         </li>

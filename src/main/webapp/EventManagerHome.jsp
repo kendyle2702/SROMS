@@ -436,7 +436,7 @@
     <body>
         <div class="main-wrapper">
 
-            <%@ include file="./eventManager/header.jsp" %>
+            <%@include file="./eventManager/header.jsp" %>
             <%@include file="./eventManager/menu.jsp" %>
             <div class="page-wrapper">
                 <div class="content container-fluid">
@@ -586,7 +586,7 @@
                     </div>
 
                     <footer>
-                        <p>COPYRIGHT © 2023 DREAMSTECHNOLOGIES.</p>
+                        <p></p>
                     </footer>
 
                 </div>

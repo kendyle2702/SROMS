@@ -441,8 +441,7 @@
                                 <div class="col">
                                     <h3 class="page-title">Event Detail</h3>
                                     <ul class="breadcrumb">
-                                        <li class="breadcrumb-item"><a href="fees.html">Fees</a></li>
-                                        <li class="breadcrumb-item active">Event Detail</li>
+                                       
                                     </ul>
                                 </div>
                             </div>
