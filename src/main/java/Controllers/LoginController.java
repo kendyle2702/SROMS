@@ -24,17 +24,17 @@ public class LoginController extends HttpServlet {
         String code = request.getParameter("code");
         String authToken = getToken(code);
         GoogleInformation userInfor = getUserInfo(authToken);
-        
+
 //      System.out.println(userInfor.getEmail() + ":" +(String)session.getAttribute("role") );
-        
         UserLoginDAO userLoginDAO = new UserLoginDAO();
-        String role = (String)session.getAttribute("role");
+        String role = (String) session.getAttribute("role");
         String username = userInfor.getEmail();
         UserProfile userProfile = userLoginDAO.getUserProfileByUsername(username);
-        if (userProfile != null){
-            boolean isLogin = userLoginDAO.loginWithGoogleByUsernameAndRole(username,role);
-            if(isLogin){
+        if (userProfile != null) {
+            boolean isLogin = userLoginDAO.loginWithGoogleByUsernameAndRole(username, role);
+            if (isLogin) {
                 session.setAttribute("user", userProfile);
+                session.setAttribute("taburl", 100);
                 // Redirect to the corresponding Controller role
                 switch (role) {
                     case "Admin":
@@ -50,24 +50,23 @@ public class LoginController extends HttpServlet {
                         request.getRequestDispatcher("/student").forward(request, response);
                         break;
                 }
-            }
-            else{
-                request.setAttribute("errorLogin", "You don't have permission to log in to the \""+ (String)session.getAttribute("role") +"\" role");
+
+            } else {
+                request.setAttribute("errorLogin", "You don't have permission to log in to the \"" + (String) session.getAttribute("role") + "\" role");
                 request.getRequestDispatcher("/login.jsp").forward(request, response);
             }
-        }
-        else{
+        } else {
             request.setAttribute("errorLogin", "Account does not exist");
             request.getRequestDispatcher("/login.jsp").forward(request, response);
         }
-        
+
     }
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         if (request.getParameter("code") != null) {
-            doGetLoginWithGoogle(request,response);
+            doGetLoginWithGoogle(request, response);
         } else {
             request.getRequestDispatcher("/login.jsp").forward(request, response);
         }

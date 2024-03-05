@@ -38,7 +38,7 @@ public class EventManagerDAO {
             // Create Event object using data from the result set and add it to the list
             event = new Event(
                     rs.getInt(1), rs.getString(2), rs.getTimestamp(3), rs.getTimestamp(4), rs.getString(5),
-                    rs.getInt(6), rs.getInt(7), rs.getString(8), rs.getString(9), rs.getString(10), rs.getBoolean(11),
+                    rs.getInt(6), rs.getInt(7), rs.getString(8), rs.getString(9), rs.getString(10), rs.getString(11),
                     rs.getString(12), rs.getInt(13), rs.getInt(14), rs.getInt(15), rs.getInt(16), rs.getTimestamp(17)
             );
             listE.add(event);
@@ -118,7 +118,7 @@ public class EventManagerDAO {
         Event event = null;
         conn = DBConnection.connect();
         String query = "SELECT [EventID],[EventName],[PreparationTime],[HoldTime],[Location],[Cost],[ExpectedNumber]\n"
-                + ",[Organization],[Description],[Feedback],[IsApprove],[CreateBy],[EndTime]\n"
+                + ",[Organization],[Description],[Feedback],[Approve],[CreateBy],[EndTime]\n"
                 + "FROM [SROMS].[dbo].[Event] WHERE EventID = ?";
         ps = conn.prepareStatement(query);
         ps.setInt(1, id);
@@ -126,7 +126,7 @@ public class EventManagerDAO {
         if (rs.next()) {
             event = new Event(rs.getInt(1), rs.getString(2), rs.getTimestamp(3), rs.getTimestamp(4),
                     rs.getString(5), rs.getInt(6), rs.getInt(7), rs.getString(8), rs.getString(9),
-                    rs.getString(10), rs.getBoolean(11), rs.getString(12), rs.getTimestamp(13));
+                    rs.getString(10), rs.getString(11), rs.getString(12), rs.getTimestamp(13));
         }
         return event;
 
@@ -151,6 +151,7 @@ public class EventManagerDAO {
         }
         return totalIsPresent;
     }
+
     public void addEvent(Event event) throws SQLException {
         conn = DBConnection.connect();
         String query = "INSERT INTO [SROMS].[dbo].[Event]"

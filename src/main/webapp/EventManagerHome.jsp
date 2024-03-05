@@ -426,122 +426,18 @@
 
         <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/style.css">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+        <style>
+            /* Apply hover effect directly to the anchor tag */
+            li a:hover {
+                background-color: orange;
+            }
+        </style>
     </head>
     <body>
         <div class="main-wrapper">
-            <div class="header">
-                <div class="header-left">
-                    <a href="#" class="logo">
-                        <img src="${pageContext.request.contextPath}/assets/img/logo.png" alt="Logo">
-                    </a>
-                    <a href="index.html" class="logo logo-small">
-                        <img src="${pageContext.request.contextPath}/assets/img/logo-small.png" alt="Logo" width="30" height="30">
-                    </a>
-                </div>
-                <div class="menu-toggle">
-                    <a href="javascript:void(0);" id="toggle_btn">
-                        <i class="fas fa-bars"></i>
-                    </a>
-                </div>
-                <div class="top-nav-search">
-                    <form>
-                        <input type="text" class="form-control" placeholder="Search here">
-                        <button class="btn" type="submit"><i class="fas fa-search"></i></button>
-                    </form>
-                </div>
-                <a class="mobile_btn" id="mobile_btn">
-                    <i class="fas fa-bars"></i>
-                </a>
-                <ul class="nav user-menu">
-                    <li class="nav-item dropdown language-drop me-2">
-                        <a href="#" class="dropdown-toggle nav-link header-nav-list" data-bs-toggle="dropdown">
-                            <img src="${pageContext.request.contextPath}/assets/img/icons/header-icon-01.svg" alt>
-                        </a>
-                        <div class="dropdown-menu">
-                            <a class="dropdown-item" href="javascript:;"><i class="flag flag-lr me-2"></i>English</a>
-                            <a class="dropdown-item" href="javascript:;"><i class="flag flag-bl me-2"></i>Francais</a>
-                            <a class="dropdown-item" href="javascript:;"><i class="flag flag-cn me-2"></i>Turkce</a>
-                        </div>
-                    </li>
-                    <li class="nav-item dropdown noti-dropdown me-2">
-                        <a href="#" class="dropdown-toggle nav-link header-nav-list" data-bs-toggle="dropdown">
-                            <img src="${pageContext.request.contextPath}/assets/img/icons/header-icon-05.svg" alt>
-                        </a>
-                        <div class="dropdown-menu notifications">
-                            <div class="topnav-dropdown-header">
-                                <span class="notification-title">Notifications</span>
-                                <a href="javascript:void(0)" class="clear-noti"> Clear All </a>
-                            </div>
-                            <div class="noti-content">
 
-                            </div>
-                            <div class="topnav-dropdown-footer">
-                                <a href="#">View all Notifications</a>
-                            </div>
-                        </div>
-                    </li>
-                    <li class="nav-item zoom-screen me-2">
-                        <a href="#" class="nav-link header-nav-list">
-                            <img src="${pageContext.request.contextPath}/assets/img/icons/header-icon-04.svg" alt>
-                        </a>
-                    </li>
-                    <li class="nav-item dropdown has-arrow new-user-menus">
-                        <a href="#" class="dropdown-toggle nav-link" data-bs-toggle="dropdown">
-                            <div class="user-img">
-                                <img class="rounded-circle" src="${pageContext.request.contextPath}/assets/img/profiles/avatar-01.jpg" width="31" alt="Ryan Taylor">
-                                <div class="user-text">
-                                    <h6>Manager Name</h6>
-                                    <p class="text-muted mb-0">Administrator</p>
-                                </div>
-                            </div>
-                        </a>
-                        <div class="dropdown-menu">
-                            <!-- User header section -->
-                            <div class="user-header">
-                                <!-- User avatar -->
-                                <div class="avatar avatar-sm">
-                                    <img src="${pageContext.request.contextPath}/assets/img/profiles/avatar-01.jpg" alt="User Image" class="avatar-img rounded-circle">
-                                </div>
-                                <!-- User information -->
-                                <div class="user-text">
-                                    <h6>Name</h6> <!-- User's name -->
-                                    <p class="text-muted mb-0">Manager</p> <!-- User's role/job title -->
-                                </div>
-                            </div>
-
-                            <!-- Dropdown menu items -->
-                            <a class="dropdown-item" href="profile.html">My Profile</a> <!-- Link to user's profile -->
-                            <a class="dropdown-item" href="login.html">Logout</a> <!-- Link to logout functionality -->
-                        </div>
-
-                    </li>
-                </ul>
-            </div>
-            <div class="sidebar" id="sidebar">
-                <div class="sidebar-inner slimscroll">
-                    <div id="sidebar-menu" class="sidebar-menu">
-                        <ul>
-                            <li class="menu-title">
-                                <span>Main Menu</span>
-                            </li>
-                            <li class="submenu">
-                                <a href="#"><i class="fas fa-graduation-cap"></i> <span>Manage Events</span> <span class="menu-arrow"></span></a>
-                                <ul>
-                                    <li><a href="/eventmanager/events/create">Create Event</a></li>
-                                    <li><a href="/eventmanager/events/viewevent">View Event</a></li>
-                                </ul>
-                            </li>
-                            <li class="submenu">
-                                <a href="#"><i class="fas fa-chalkboard-teacher"></i> <span>Manage Participants</span> <span class="menu-arrow"></span></a>
-                                <ul>
-                                    <li><a href="teachers.html">Check Atttentdent</a></li>
-                                    <li><a href="teacher-details.html">Evalute Participant</a></li>
-                                </ul>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
+            <%@ include file="./eventManager/header.jsp" %>
+            <%@include file="./eventManager/menu.jsp" %>
             <div class="page-wrapper">
                 <div class="content container-fluid">
                     <div class="page-header">                               
@@ -637,10 +533,10 @@
                                                                 <td class="text-center">${liste.getHoldTime()}</td>
 
                                                                 <c:choose>
-                                                                    <c:when test="${liste.getIsApprove() eq 'none'}">
+                                                                    <c:when test="${liste.getApprove() eq 'none'}">
                                                                         <td class="text-center">Waiting</td>
                                                                     </c:when>
-                                                                    <c:when test="${liste.getIsApprove() eq 'true'}">
+                                                                    <c:when test="${liste.getApprove() eq 'true'}">
                                                                         <td class="text-center">Accepted</td>
                                                                     </c:when>
                                                                     <c:otherwise>
@@ -673,8 +569,7 @@
                                                                 </td>
                                                             </tr>
                                                         </c:forEach>
-                                                    </c:if>
-
+                                                    </c:if>                                              
                                                     <c:if test="${empty sessionScope.listEvent}">
                                                         <tr>
                                                             <td colspan="7" class="text-center">No events found.</td>

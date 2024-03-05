@@ -421,253 +421,142 @@
         <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/plugins/fontawesome/css/all.min.css">
 
         <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/style.css">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     </head>
     <body>
 
         <div class="main-wrapper">
+            <jsp:include page="./eventManager/header.jsp"></jsp:include>
+            <jsp:include page="./eventManager/menu.jsp"></jsp:include>
+                <div class="page-wrapper">
+                    <div class="content container-fluid">
 
-            <div class="header">
-                <div class="header-left">
-                    <a href="#" class="logo">
-                        <img src="${pageContext.request.contextPath}/assets/img/logo.png" alt="Logo">
-                    </a>
-                    <a href="index.html" class="logo logo-small">
-                        <img src="${pageContext.request.contextPath}/assets/img/logo-small.png" alt="Logo" width="30" height="30">
-                    </a>
-                </div>
-                <div class="menu-toggle">
-                    <a href="javascript:void(0);" id="toggle_btn">
-                        <i class="fas fa-bars"></i>
-                    </a>
-                </div>
-                <div class="top-nav-search">
-                    <form>
-                        <input type="text" class="form-control" placeholder="Search here">
-                        <button class="btn" type="submit"><i class="fas fa-search"></i></button>
-                    </form>
-                </div>
-                <a class="mobile_btn" id="mobile_btn">
-                    <i class="fas fa-bars"></i>
-                </a>
-                <ul class="nav user-menu">
-                    <li class="nav-item dropdown language-drop me-2">
-                        <a href="#" class="dropdown-toggle nav-link header-nav-list" data-bs-toggle="dropdown">
-                            <img src="${pageContext.request.contextPath}/assets/img/icons/header-icon-01.svg" alt>
-                        </a>
-                        <div class="dropdown-menu">
-                            <a class="dropdown-item" href="javascript:;"><i class="flag flag-lr me-2"></i>English</a>
-                            <a class="dropdown-item" href="javascript:;"><i class="flag flag-bl me-2"></i>Francais</a>
-                            <a class="dropdown-item" href="javascript:;"><i class="flag flag-cn me-2"></i>Turkce</a>
-                        </div>
-                    </li>
-                    <li class="nav-item dropdown noti-dropdown me-2">
-                        <a href="#" class="dropdown-toggle nav-link header-nav-list" data-bs-toggle="dropdown">
-                            <img src="${pageContext.request.contextPath}/assets/img/icons/header-icon-05.svg" alt>
-                        </a>
-                        <div class="dropdown-menu notifications">
-                            <div class="topnav-dropdown-header">
-                                <span class="notification-title">Notifications</span>
-                                <a href="javascript:void(0)" class="clear-noti"> Clear All </a>
-                            </div>
-                            <div class="noti-content">
-
-                            </div>
-                            <div class="topnav-dropdown-footer">
-                                <a href="#">View all Notifications</a>
-                            </div>
-                        </div>
-                    </li>
-                    <li class="nav-item zoom-screen me-2">
-                        <a href="#" class="nav-link header-nav-list">
-                            <img src="${pageContext.request.contextPath}/assets/img/icons/header-icon-04.svg" alt>
-                        </a>
-                    </li>
-                    <li class="nav-item dropdown has-arrow new-user-menus">
-                        <a href="#" class="dropdown-toggle nav-link" data-bs-toggle="dropdown">
-                            <div class="user-img">
-                                <img class="rounded-circle" src="${pageContext.request.contextPath}/assets/img/profiles/avatar-01.jpg" width="31" alt="Ryan Taylor">
-                                <div class="user-text">
-                                    <h6>Manager Name</h6>
-                                    <p class="text-muted mb-0">Administrator</p>
+                        <div class="page-header">
+                            <div class="row align-items-center">
+                                <div class="col">
+                                    <h3 class="page-title">Add Event</h3>                             
                                 </div>
                             </div>
-                        </a>
-                        <div class="dropdown-menu">
-                            <!-- User header section -->
-                            <div class="user-header">
-                                <!-- User avatar -->
-                                <div class="avatar avatar-sm">
-                                    <img src="${pageContext.request.contextPath}/assets/img/profiles/avatar-01.jpg" alt="User Image" class="avatar-img rounded-circle">
-                                </div>
-                                <!-- User information -->
-                                <div class="user-text">
-                                    <h6>Name</h6> <!-- User's name -->
-                                    <p class="text-muted mb-0">Manager</p> <!-- User's role/job title -->
-                                </div>
-                            </div>
-
-                            <!-- Dropdown menu items -->
-                            <a class="dropdown-item" href="profile.html">My Profile</a> <!-- Link to user's profile -->
-                            <a class="dropdown-item" href="login.html">Logout</a> <!-- Link to logout functionality -->
                         </div>
 
-                    </li>
-                </ul>
-            </div>
-            <div class="sidebar" id="sidebar">
-                <div class="sidebar-inner slimscroll">
-                    <div id="sidebar-menu" class="sidebar-menu">
-                        <ul>
-                            <li class="menu-title">
-                                <span>Main Menu</span>
-                            </li>
-                            <li class="submenu">
-                                <a href="#"><i class="fas fa-graduation-cap"></i> <span>Manage Events</span> <span class="menu-arrow"></span></a>
-                                <ul>
-                                    <li><a href="#">Create Event</a></li>
-                                    <li><a href="/eventmanager/events/viewevent">View Events</a></li>
-                                </ul>
-                            </li>
-                            <li class="submenu">
-                                <a href="#"><i class="fas fa-chalkboard-teacher"></i> <span>Manage Participants</span> <span class="menu-arrow"></span></a>
-                                <ul>
-                                    <li><a href="teachers.html">Check Atttentdent</a></li>
-                                    <li><a href="teacher-details.html">Evalute Participant</a></li>
-                                </ul>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-            <div class="page-wrapper">
-                <div class="content container-fluid">
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <form action="eventManager" method="post">
+                                            <div class="row">
+                                                <div class="col-12">
+                                                    <h5 class="form-title"><span>Event Information</span></h5>
+                                                </div>
+                                                <div class="col-12 col-sm-4">
+                                                    <div class="form-group">
+                                                        <label>Event Name <span class="login-danger">*</span></label>
+                                                        <input id="eventname" name="eventname" type="text" class="form-control" required>
+                                                    </div>
 
-                    <div class="page-header">
-                        <div class="row align-items-center">
-                            <div class="col">
-                                <h3 class="page-title">Add Event</h3>                             
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="row">
-                        <div class="col-sm-12">
-                            <div class="card">
-                                <div class="card-body">
-                                    <form action="eventmanager" method="post">
-                                        <div class="row">
-                                            <div class="col-12">
-                                                <h5 class="form-title"><span>Event Information</span></h5>
-                                            </div>
-                                            <div class="col-12 col-sm-4">
-                                                <div class="form-group">
-                                                    <label>Event Name <span class="login-danger">*</span></label>
-                                                    <input id="eventname" name="eventname" type="text" class="form-control" required>
                                                 </div>
-
-                                            </div>
-                                            <div class="col-12 col-sm-4">
-                                                <div class="form-group  calendar-icon">
-                                                    <label>Preparation Time <span class="login-danger">*</span></label>
-                                                    <input id="preparetime" name="pretime" class="form-control"  type="datetime-local" placeholder="YYYY-MM-DDTHH:MM" required>
+                                                <div class="col-12 col-sm-4">
+                                                    <div class="form-group  calendar-icon">
+                                                        <label>Preparation Time <span class="login-danger">*</span></label>
+                                                        <input id="preparetime" name="pretime" class="form-control"  type="datetime-local" placeholder="YYYY-MM-DDTHH:MM" required>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                            <div class="col-12 col-sm-4">
-                                                <div class="form-group calendar-icon">
-                                                    <label>Hole Time <span class="login-danger">*</span></label>
-                                                    <input id="holetime" name="holetime" class="form-control"  type="datetime-local" placeholder="YYYY-MM-DDTHH:MM" required>
+                                                <div class="col-12 col-sm-4">
+                                                    <div class="form-group calendar-icon">
+                                                        <label>Hole Time <span class="login-danger">*</span></label>
+                                                        <input id="holetime" name="holetime" class="form-control"  type="datetime-local" placeholder="YYYY-MM-DDTHH:MM" required>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                            <div class="col-12 col-sm-4">
-                                                <div class="form-group calendar-icon">
-                                                    <label>Location <span class="login-danger">*</span></label>
-                                                    <input id="location" name="location" type="text" class="form-control" required>
+                                                <div class="col-12 col-sm-4">
+                                                    <div class="form-group calendar-icon">
+                                                        <label>Location <span class="login-danger">*</span></label>
+                                                        <input id="location" name="location" type="text" class="form-control" required>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                            <div class="col-12 col-sm-4">
-                                                <div class="form-group calendar-icon">
-                                                    <label>Cost<span class="login-danger">*</span></label>
-                                                    <input id="cost" name="cost" type="number" class="form-control" required>
-                                                    <p id="costerror" style="color: red"></p>
+                                                <div class="col-12 col-sm-4">
+                                                    <div class="form-group calendar-icon">
+                                                        <label>Cost<span class="login-danger">*</span></label>
+                                                        <input id="cost" name="cost" type="number" class="form-control" required>
+                                                        <p id="costerror" style="color: red"></p>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                            <div class="col-12 col-sm-4">
-                                                <div class="form-group">
-                                                    <label>Expected Number <span class="login-danger">*</span></label>
-                                                    <input id="exnum" name="exnum" type="number" class="form-control" required>
-                                                    <p id="exnumerror" style="color: red"></p>
+                                                <div class="col-12 col-sm-4">
+                                                    <div class="form-group">
+                                                        <label>Expected Number <span class="login-danger">*</span></label>
+                                                        <input id="exnum" name="exnum" type="number" class="form-control" required>
+                                                        <p id="exnumerror" style="color: red"></p>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                            <div class="col-12 col-sm-4">
-                                                <div class="form-group ">
-                                                    <label>Organization<span class="login-danger">*</span></label>
-                                                    <input id="organization" name="organization" type="text" class="form-control" required>
+                                                <div class="col-12 col-sm-4">
+                                                    <div class="form-group ">
+                                                        <label>Organization<span class="login-danger">*</span></label>
+                                                        <input id="organization" name="organization" type="text" class="form-control" required>
+                                                    </div>
+                                                </div>
+                                                <div class="col-12 col-sm-4">
+                                                    <div class="form-group ">
+                                                        <label>Description<span class="login-danger">*</span></label>
+                                                        <input id="description" name="description" type="text" class="form-control" required>
+                                                    </div>
+                                                </div>
+                                                <div class="col-12 col-sm-4">
+                                                    <div class="form-group calendar-icon">
+                                                        <label>End Time <span class="login-danger">*</span></label>
+                                                        <input id="endtime" name="endtime" class="form-control"  type="datetime-local" placeholder="YYYY-MM-DDTHH:MM" required>
+                                                    </div>
+                                                </div>
+                                                <div class="col-12">
+                                                    <div class="student-submit">
+                                                        <input class="btn btn-primary" id="submit" type="submit" value="Submit">
+                                                    </div>
                                                 </div>
                                             </div>
-                                            <div class="col-12 col-sm-4">
-                                                <div class="form-group ">
-                                                    <label>Description<span class="login-danger">*</span></label>
-                                                    <input id="description" name="description" type="text" class="form-control" required>
-                                                </div>
-                                            </div>
-                                            <div class="col-12 col-sm-4">
-                                                <div class="form-group calendar-icon">
-                                                    <label>End Time <span class="login-danger">*</span></label>
-                                                    <input id="endtime" name="endtime" class="form-control"  type="datetime-local" placeholder="YYYY-MM-DDTHH:MM" required>
-                                                </div>
-                                            </div>
-                                            <div class="col-12">
-                                                <div class="student-submit">
-                                                    <input class="btn btn-primary" id="submit" type="submit" value="Submit">
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </form>
+                                        </form>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </body>
-    <!--        <script>
-                
-                
-                function checkSubmit(event) {
-                    event.preventDefault();
-                    let condtions = [];
-                    var submit = document.getElementById("submit");
-                    var cost = parseFloat(document.getElementById("cost").value); // Parse the value to a float
-                    var costerror = document.getElementById("costerror");
-                    var exnum = parseFloat(document.getElementById("exnum").value); // Parse the value to a float
-                    var exnumerror = document.getElementById("exnumerror");
-                    if (cost < 0) {
-                        costerror.innerHTML = "Please enter cost more than or equal to 0!";
-                        condtions.push(false)
-                    } else {
-                        condtions.push(true)
-                        costerror.innerHTML = ""; // Clear error message
-                        window.location.href = "localhost:8080/eventmanager";
+        </body>
+        <!--        <script>
+                    
+                    
+                    function checkSubmit(event) {
+                        event.preventDefault();
+                        let condtions = [];
+                        var submit = document.getElementById("submit");
+                        var cost = parseFloat(document.getElementById("cost").value); // Parse the value to a float
+                        var costerror = document.getElementById("costerror");
+                        var exnum = parseFloat(document.getElementById("exnum").value); // Parse the value to a float
+                        var exnumerror = document.getElementById("exnumerror");
+                        if (cost < 0) {
+                            costerror.innerHTML = "Please enter cost more than or equal to 0!";
+                            condtions.push(false)
+                        } else {
+                            condtions.push(true)
+                            costerror.innerHTML = ""; // Clear error message
+                            window.location.href = "localhost:8080/eventmanager";
+                        }
+            
+            // Validate expected number
+                        if (exnum < 0) {
+                            condtions.push(false)
+                            exnumerror.innerHTML = "Please enter expected number more than or equal to 0!";
+                        } else {
+                            condtions.push(true)
+                            exnumerror.innerHTML = ""; // Clear error message
+                            window.location.href = "localhost:8080/eventmanager";
+                        }
+                        for (var item in condtions) {
+                            console.log(item)
+                        }
                     }
-        
-        // Validate expected number
-                    if (exnum < 0) {
-                        condtions.push(false)
-                        exnumerror.innerHTML = "Please enter expected number more than or equal to 0!";
-                    } else {
-                        condtions.push(true)
-                        exnumerror.innerHTML = ""; // Clear error message
-                        window.location.href = "localhost:8080/eventmanager";
-                    }
-                    for (var item in condtions) {
-                        console.log(item)
-                    }
-                }
-        
-            </script>-->
+            
+                </script>-->
 
-    <script src="${pageContext.request.contextPath}/assets/js/jquery-3.7.1.min.js" type="4a7d50c615020b7a3a170a1d-text/javascript"></script>
+        <script src="${pageContext.request.contextPath}/assets/js/jquery-3.7.1.min.js" type="4a7d50c615020b7a3a170a1d-text/javascript"></script>
 
     <script src="${pageContext.request.contextPath}/assets/js/feather.min.js" type="4a7d50c615020b7a3a170a1d-text/javascript"></script>
 
@@ -680,6 +569,8 @@
 
     <script src="${pageContext.request.contextPath}/assets/js/script.js" type="4a7d50c615020b7a3a170a1d-text/javascript"></script>
     <script src="${pageContext.request.contextPath}/assets/cdn-cgi/scripts/7d0fa10a/cloudflare-static/rocket-loader.min.js" data-cf-settings="4a7d50c615020b7a3a170a1d-|49" defer></script></body>
-
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 <!-- Mirrored from preschool.dreamstechnologies.com/template/add-events.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 22 Feb 2024 02:46:21 GMT -->
 </html>

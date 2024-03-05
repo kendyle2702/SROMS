@@ -4,10 +4,13 @@
  */
 package Controllers;
 
+import static Controllers.LoginController.getToken;
+import static Controllers.LoginController.getUserInfo;
 import DAOs.EventManagerDAO;
 import Models.Event;
 import Models.ParticipationEventDetail;
 import Models.StudentProfile;
+import Utils.GoogleInformation;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
@@ -68,29 +71,31 @@ public class EventManagerController extends HttpServlet {
             HttpSession session = request.getSession();
             EventManagerDAO eventManagerDAO = new EventManagerDAO();
             List<Event> listE = eventManagerDAO.eventList();
-
+            List<ParticipationEventDetail> pertiList = eventManagerDAO.participateEventList();
+            int totalEventTook = eventManagerDAO.getTotalEventTook();
+            int totalEventTaking = eventManagerDAO.getTotalEventTaking();
+            long totalCost = eventManagerDAO.getTotalCost();
+            List<StudentProfile> studentList = eventManagerDAO.participateEventList();
+            Calendar calen = Calendar.getInstance();
+            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH-mm-ss");
+            List<Map<String, Integer>> numberParti = eventManagerDAO.getTotalIsPresent();
+            Timestamp d = new Timestamp(calen.getTimeInMillis());
             if (path.equals("/eventmanager")) {
                 session.setAttribute("listEvent", listE);
-                List<ParticipationEventDetail> pertiList = eventManagerDAO.participateEventList();
                 session.setAttribute("pertiList", pertiList);
-                int totalEventTaking = eventManagerDAO.getTotalEventTaking();
                 session.setAttribute("totalevent", totalEventTaking);
-                int totalEventTook = eventManagerDAO.getTotalEventTook();
                 session.setAttribute("totalEventTook", totalEventTook);
-                long totalCost = eventManagerDAO.getTotalCost();
                 session.setAttribute("totalcost", totalCost);
-                List<StudentProfile> studentList = eventManagerDAO.participateEventList();
                 session.setAttribute("studentList", studentList);
-                Calendar calen = Calendar.getInstance();
-                SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH-mm-ss");
-                Timestamp d = new Timestamp(calen.getTimeInMillis());
                 String s = format.format(d);
-                List<Map<String, Integer>> numberParti = eventManagerDAO.getTotalIsPresent();
                 session.setAttribute("numberParti", numberParti);
+                session.setAttribute("taburl", 1);
                 request.getRequestDispatcher("/EventManagerHome.jsp").forward(request, response);
             } else if (path.equals("/eventmanager/events/viewevent")) {
+                session.setAttribute("taburl", 3);
                 request.getRequestDispatcher("/ViewEvents.jsp").forward(request, response);
             } else if (path.equals("/eventmanager/events/create")) {
+                session.setAttribute("taburl", 2);
                 request.getRequestDispatcher("/CreateEvent.jsp").forward(request, response);
             } else if (path.startsWith("/eventmanager/events/detail/")) {
                 String[] idArray = path.split("/");
@@ -99,7 +104,6 @@ public class EventManagerController extends HttpServlet {
                 session.setAttribute("event", event);
                 request.getRequestDispatcher("/EventDetail.jsp").forward(request, response);
             }
-
         } catch (SQLException ex) {
             Logger.getLogger(EventManagerController.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -126,7 +130,8 @@ public class EventManagerController extends HttpServlet {
         String description = request.getParameter("description");
         String createBy = request.getParameter("createby");
         Timestamp endTime = formatTime(LocalDateTime.parse(request.getParameter("endtime")));
-        Event event = new Event(eventName, pretime, holeTime, location, cost, exNum, organization, description, createBy, endTime);
+        Event event = new Event(eventName, pretime, holeTime, location, cost, exNum, organization,
+                description, createBy, endTime);
         EventManagerDAO eventManagerDAO = new EventManagerDAO();
         HttpSession session = request.getSession();
 

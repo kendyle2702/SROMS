@@ -22,7 +22,7 @@ public class Event {
     private String organization;
     private String description;
     private String feedback;
-    private Boolean isApprove;
+    private String Approve;
     private String createdBy;
     private int eventCategoryID;
     private int adminProfileID;
@@ -30,7 +30,10 @@ public class Event {
     private int studentProfileID;
     private Timestamp endTime;
 
-    public Event(int eventID, String eventName, Timestamp preparationTime, Timestamp holdTime, String location, int cost, int expectedNumber, String organization, String description, String feedback, Boolean isApprove, String createdBy, int eventCategoryID, int adminProfileID, int managerProfileID, int studentProfileID, Timestamp endTime) {
+    public Event() {
+    }
+
+    public Event(int eventID, String eventName, Timestamp preparationTime, Timestamp holdTime, String location, int cost, int expectedNumber, String organization, String description, String feedback, String Approve, String createdBy, int eventCategoryID, int adminProfileID, int managerProfileID, int studentProfileID, Timestamp endTime) {
         this.eventID = eventID;
         this.eventName = eventName;
         this.preparationTime = preparationTime;
@@ -41,17 +44,13 @@ public class Event {
         this.organization = organization;
         this.description = description;
         this.feedback = feedback;
-        this.isApprove = isApprove;
+        this.Approve = Approve;
         this.createdBy = createdBy;
         this.eventCategoryID = eventCategoryID;
         this.adminProfileID = adminProfileID;
         this.managerProfileID = managerProfileID;
         this.studentProfileID = studentProfileID;
         this.endTime = endTime;
-    }
-
-    public Event(String eventName) {
-        this.eventName = eventName;
     }
 
     public Event(String eventName, Timestamp preparationTime, Timestamp holdTime, String location, int cost, int expectedNumber, String organization, String description, String createdBy, Timestamp endTime) {
@@ -67,7 +66,7 @@ public class Event {
         this.endTime = endTime;
     }
 
-    public Event(int eventID, String eventName, Timestamp preparationTime, Timestamp holdTime, String location, int cost, int expectedNumber, String organization, String description, String feedback, Boolean isApprove, String createdBy, Timestamp endTime) {
+    public Event(int eventID, String eventName, Timestamp preparationTime, Timestamp holdTime, String location, int cost, int expectedNumber, String organization, String description, String feedback, String Approve, String createdBy, Timestamp endTime) {
         this.eventID = eventID;
         this.eventName = eventName;
         this.preparationTime = preparationTime;
@@ -78,16 +77,17 @@ public class Event {
         this.organization = organization;
         this.description = description;
         this.feedback = feedback;
-        this.isApprove = isApprove;
+        this.Approve = Approve;
         this.createdBy = createdBy;
         this.endTime = endTime;
     }
 
-    public int getEventID() {
-        return eventID;
+    public Event(String eventName) {
+        this.eventName = eventName;
     }
 
-    public Event() {
+    public int getEventID() {
+        return eventID;
     }
 
     public void setEventID(int eventID) {
@@ -166,12 +166,12 @@ public class Event {
         this.feedback = feedback;
     }
 
-    public Boolean getIsApprove() {
-        return isApprove;
+    public String getApprove() {
+        return Approve;
     }
 
-    public void setIsApprove(Boolean isApprove) {
-        this.isApprove = isApprove;
+    public void setApprove(String Approve) {
+        this.Approve = Approve;
     }
 
     public String getCreatedBy() {
@@ -222,4 +222,5 @@ public class Event {
         this.endTime = endTime;
     }
 
+  
 }
