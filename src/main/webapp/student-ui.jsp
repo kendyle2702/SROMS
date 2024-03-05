@@ -11,6 +11,10 @@
 <%@ page import="DAOs.ClubsDAO" %>
 <%@ page import="Models.Club" %>
 
+<%
+    UserProfile userProfile = (UserProfile) session.getAttribute("user");
+%>
+
 <!DOCTYPE html>
 <html>
     <head>
@@ -560,17 +564,15 @@
                             <img src="assets/img/icons/header-icon-04.svg" alt>
                         </a>
                     </li>
-                    <%
-                        UserProfile userProfile = (UserProfile)session.getAttribute("user");
-                    %>
+
                     <li class="nav-item dropdown has-arrow new-user-menus">
                         <a href="#" class="dropdown-toggle nav-link" data-bs-toggle="dropdown">
                             <div class="user-img">
                                 <img class="rounded-circle" src="assets/img/profiles/avatar-01.jpg" width="31"
                                      alt="Ryan Taylor">
                                 <div class="user-text">
-                                    <h6><%= userProfile.getLastName()+" "+userProfile.getFirstName()%></h6>
-                                    <p class="text-muted mb-0"><%=(String)session.getAttribute("role") %></p>
+                                    <h6><%= userProfile.getLastName() + " " + userProfile.getFirstName()%></h6>
+                                    <p class="text-muted mb-0"><%=(String) session.getAttribute("role")%></p>
                                 </div>
                             </div>
                         </a>
@@ -581,8 +583,8 @@
                                          class="avatar-img rounded-circle">
                                 </div>
                                 <div class="user-text">
-                                    <h6><%= userProfile.getLastName()+" "+userProfile.getLastName() %></h6>
-                                    <p class="text-muted mb-0"><%=(String)session.getAttribute("role") %></p>
+                                    <h6><%= userProfile.getLastName()%></h6>
+                                    <p class="text-muted mb-0"><%=(String) session.getAttribute("role")%></p>
                                 </div>
                             </div>
                             <a class="dropdown-item" href="/student/profile">My Profile</a>
@@ -629,12 +631,7 @@
                         <div class="row">
                             <div class="col-sm-12">
                                 <div class="page-sub-header">
-                                    <h3 class="page-title">Welcome Student!</h3>
-                                    <ul class="breadcrumb">
-                                        <li class="breadcrumb-item"><a href="/student">Home</a></li>
-                                        <li class="breadcrumb-item active"><a href="/student/profile/view">Management Profile</a>
-                                        </li>
-                                    </ul>
+                                    <h3 class="page-title">Welcome <%=(String) session.getAttribute("role")%></h3>
                                 </div>
                             </div>
                         </div>
@@ -688,6 +685,9 @@
                                 </div>
                             </div>
 
+
+
+
                             <div class="card flex-fill comman-shadow">
                                 <div class="card-header">
                                     <div class="row align-items-center">
@@ -723,8 +723,8 @@
                                                         <tbody>
                                                             <%-- Retrieve the club with the latest establishment date --%>
                                                             <% DAOs.ClubsDAO clubsDAO = new DAOs.ClubsDAO();
-                                                            Models.Club latestClub = clubsDAO.getClubByLatestEstablishDate();
-                                                            if (latestClub != null) {%>
+                                                                Models.Club latestClub = clubsDAO.getClubByLatestEstablishDate();
+                                                                if (latestClub != null) {%>
                                                             <tr>
                                                                 <td>
                                                                     <div class="date">
