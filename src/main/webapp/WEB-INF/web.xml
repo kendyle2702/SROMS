@@ -12,7 +12,10 @@
         <servlet-name>StudentController</servlet-name>
         <servlet-class>Controllers.StudentController</servlet-class>
     </servlet>
-   
+   <servlet>
+        <servlet-name>clubmanager</servlet-name>
+        <servlet-class>Controllers.ClubManagerController</servlet-class>
+    </servlet>
     <servlet>
         <servlet-name>home</servlet-name>
         <servlet-class>Controllers.HomeController</servlet-class>
@@ -92,6 +95,10 @@
     <servlet-mapping>
         <servlet-name>eventmanager</servlet-name>
         <url-pattern>/eventmanager/*</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>clubmanager</servlet-name>
+        <url-pattern>/clubmanager/*</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
