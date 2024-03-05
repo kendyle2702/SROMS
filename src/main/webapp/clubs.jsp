@@ -630,10 +630,10 @@
                     <div class="row">
                         <div class="col-sm-12">
                             <div class="page-sub-header">
-                                <h3 class="page-title">List Clubs</h3>
+                                <h3 class="page-title">Clubs List</h3>
                                 <ul class="breadcrumb">
                                     <li><a href="/student">Home</a></li>
-                                    <li>/List Clubs</li>
+                                    <li>/Clubs List</li>
                                 </ul>
                             </div>
                         </div>
@@ -664,7 +664,7 @@
                                 <li class="nav-item" role="presentation">
                                     <a href="#listClub" data-bs-toggle="tab" aria-expanded="false"
                                        class="nav-link active" aria-selected="false" role="tab" tabindex="-1">
-                                        List Club
+                                        Clubs List
                                     </a>
                                 </li>
                                 <li class="nav-item" role="presentation">

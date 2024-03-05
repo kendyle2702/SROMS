@@ -702,7 +702,7 @@
                                         <li class="nav-item" role="presentation">
                                             <a href="#listClub" data-bs-toggle="tab" aria-expanded="false"
                                                class="nav-link active" aria-selected="false" role="tab" tabindex="-1">
-                                                List Club
+                                                Clubs List
                                             </a>
                                         </li>
                                         <li class="nav-item" role="presentation">
