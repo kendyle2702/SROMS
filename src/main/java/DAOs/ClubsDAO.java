@@ -87,4 +87,29 @@ public class ClubsDAO {
         }
         return clubsList;
     }
+    
+   public List<Club> getClubsForStudent(int userProfileID) {
+        List<Club> clubList = new ArrayList<>();
+        try {
+            String sql = "SELECT c.* FROM Club c JOIN ClubMember cm ON c.clubID = cm.clubID JOIN StudentProfile sp ON cm.studentProfileID = sp.studentProfileID WHERE sp.userProfileID = ?";
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setInt(1, userProfileID);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                Club club = new Club(
+                        rs.getInt("clubID"),
+                        rs.getString("clubName"),
+                        rs.getDate("establishDate"),
+                        rs.getString("description"),
+                        rs.getBoolean("isApprove"),
+                        rs.getBoolean("isActive"),
+                        rs.getInt("managerProfileID")
+                );
+                clubList.add(club);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(ClubsDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return clubList;
+    }
 }
