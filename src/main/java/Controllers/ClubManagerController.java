@@ -25,29 +25,7 @@ import java.util.logging.Logger;
  */
 public class ClubManagerController extends HttpServlet {
 
-    /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException, SQLException {
 
-    }
-
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
-    /**
-     * Handles the HTTP <code>GET</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -60,7 +38,8 @@ public class ClubManagerController extends HttpServlet {
             session.setAttribute("Club", listClub);
             session.setAttribute("totalClub", totalClub);
             if (path.endsWith("/clubmanager")) {
-                request.getRequestDispatcher("/ClubHome.jsp").forward(request, response);
+                session.setAttribute("tabId", 1);
+                request.getRequestDispatcher("/clubManager.jsp").forward(request, response);
             } else if (path.startsWith("/clubmanager/delete")) {
                 String[] parts = path.split("/");
                 String p = parts[parts.length - 1];
@@ -70,9 +49,10 @@ public class ClubManagerController extends HttpServlet {
                 totalClub = clubDAO.getTotalClub();
                 session.setAttribute("Club", listClub);
                 session.setAttribute("totalClub", totalClub);
-                request.getRequestDispatcher("/ClubHome.jsp").forward(request, response);
+                request.getRequestDispatcher("/clubManager.jsp").forward(request, response);
             } else if (path.startsWith("/clubmanager/viewdetail")) {
-                request.getRequestDispatcher("/ClubDetail.jsp").forward(request, response);
+                session.setAttribute("tabId", 2);
+                request.getRequestDispatcher("/clubManager.jsp").forward(request, response);
             }
 
         } catch (SQLException ex) {
@@ -80,27 +60,9 @@ public class ClubManagerController extends HttpServlet {
         }
     }
 
-    /**
-     * Handles the HTTP <code>POST</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
+  
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
     }
-
-    /**
-     * Returns a short description of the servlet.
-     *
-     * @return a String containing servlet description
-     */
-    @Override
-    public String getServletInfo() {
-        return "Short description";
-    }// </editor-fold>
-
 }

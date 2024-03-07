@@ -1,40 +1,4 @@
-
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
-<!DOCTYPE html>
-<html lang="en">
-    <head>
-        <%@include file="./general/head_html.jsp" %>
-    </head>
-    <body>
-        <!--        <div class="main-wrapper">-->
-        <%@include file="./general/header.jsp" %>
-        <div class="sidebar" id="sidebar">
-            <div class="sidebar-inner slimscroll">
-                <div id="sidebar-menu" class="sidebar-menu">
-                    <ul>
-                        <li class="menu-title">
-                            <span>Main Menu</span>
-                        </li>
-                        <li class="submenu">
-                            <a href="#"><i class="fas fa-graduation-cap"></i> <span>Manage Club</span> <span class="menu-arrow"></span></a>
-                            <ul>
-                                <li><a href="students.html">Update Club</a></li>
-                                <li><a href="student-details.html">Delete Club</a></li>
-                            </ul>
-                        </li>
-                        <li class="submenu">
-                            <a href="#"><i class="fas fa-chalkboard-teacher"></i> <span>Manage Participants</span> <span class="menu-arrow"></span></a>
-                            <ul>
-                                <li><a href="teachers.html">Check Atttentdent</a></li>
-                                <li><a href="teacher-details.html">Evalute Participant</a></li>
-                            </ul>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-        <div class="page-wrapper">
+<div class="page-wrapper">
             <div class="content container-fluid">
                 <!--                <div class="page-header">                               
                                     <div>
@@ -80,7 +44,7 @@
                         </div>
                     </div>
                     <div class="col-xl-4 col-sm-12 col-12 d-flex">
-                        <!--                        <div class="card bg-comman w-100">
+<!--                        <div class="card bg-comman w-100">
                                                     <div class="card-body">
                                                         <div class="db-widgets d-flex justify-content-between align-items-center">
                                                             <div class="db-info">
@@ -119,7 +83,7 @@
                                                 <c:if test="${not empty sessionScope.Club}">
                                                     <c:forEach items="${sessionScope.Club}" var="c" varStatus="varC">
                                                         <tr>
-                                                            <td class="text-center">${varC.index +1}</td>
+<td class="text-center">${varC.index +1}</td>
                                                             <td class="text-center">${c.getClubName()}</td>
                                                             <td class="text-center">${c.getEstablishDate()}</td>
                                                             <c:choose>
@@ -153,12 +117,6 @@
             </div>
 
             <footer>
-                <!--<p>COPYRIGHT © 2023 DREAMSTECHNOLOGIES.</p>-->
             </footer>
 
         </div>
-
-        <!--        </div>-->
-
-        <%@include file="./general/js.jsp" %>
-</html>

@@ -21,7 +21,20 @@
         <div class="main-wrapper">
             <%@include file="./general/header.jsp" %>
             <%@include file="./eventManager/sidebar.jsp"%>
-            <%@include file="./eventManager/home.jsp" %>
+            <c:choose>
+                <c:when test="${sessionScope.tabId == 1}">
+                    <%@include file="./eventManager/home.jsp" %>
+                </c:when>
+                <c:when test="${sessionScope.tabId == 2}">
+                    <%@include file="./eventManager/createEvent.jsp" %>
+                </c:when>
+                <c:when test="${sessionScope.tabId == 3}">
+                    <%@include file="./eventManager/viewEvents.jsp" %>
+                </c:when>
+                <c:when test="${sessionScope.tabId == 4}">
+                    <%@include file="./eventManager/eventDetail.jsp" %>
+                </c:when>
+            </c:choose>
         </div>
     </body>
 

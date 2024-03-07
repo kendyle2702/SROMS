@@ -61,20 +61,21 @@ public class EventManagerController extends HttpServlet {
                 session.setAttribute("studentList", studentList);
                 String s = format.format(d);
                 session.setAttribute("numberParti", numberParti);
-                session.setAttribute("taburl", 1);
+                session.setAttribute("tabId", 1);
                 request.getRequestDispatcher("/eventManager.jsp").forward(request, response);
             } else if (path.equals("/eventmanager/events/viewevent")) {
-                session.setAttribute("taburl", 3);
-                request.getRequestDispatcher("/ViewEvents.jsp").forward(request, response);
+                session.setAttribute("tabId", 3);
+                request.getRequestDispatcher("/eventManager.jsp").forward(request, response);
             } else if (path.equals("/eventmanager/events/create")) {
-                session.setAttribute("taburl", 2);
-                request.getRequestDispatcher("/CreateEvent.jsp").forward(request, response);
+                session.setAttribute("tabId", 2);
+                request.getRequestDispatcher("/eventManager.jsp").forward(request, response);
             } else if (path.startsWith("/eventmanager/events/detail/")) {
                 String[] idArray = path.split("/");
                 int id = Integer.parseInt(idArray[idArray.length - 1]);
                 Event event = eventManagerDAO.getEvent(id);
                 session.setAttribute("event", event);
-                request.getRequestDispatcher("/EventDetail.jsp").forward(request, response);
+                session.setAttribute("tabId", 4);
+                request.getRequestDispatcher("/eventManager.jsp").forward(request, response);
             }
         } catch (SQLException ex) {
             Logger.getLogger(EventManagerController.class.getName()).log(Level.SEVERE, null, ex);
