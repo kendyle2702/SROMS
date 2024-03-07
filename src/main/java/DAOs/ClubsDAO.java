@@ -1,4 +1,3 @@
-
 package DAOs;
 
 import Models.Club;
@@ -10,7 +9,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
 
 public class ClubsDAO {
 
@@ -81,8 +79,8 @@ public class ClubsDAO {
         }
         return clubsList;
     }
-    
-   public List<Club> getClubsForStudent(int userProfileID) {
+
+    public List<Club> getClubsForStudent(int userProfileID) {
         List<Club> clubList = new ArrayList<>();
         try {
             String sql = "SELECT c.* FROM Club c JOIN ClubMember cm ON c.clubID = cm.clubID JOIN StudentProfile sp ON cm.studentProfileID = sp.studentProfileID WHERE sp.userProfileID = ?";
@@ -106,4 +104,5 @@ public class ClubsDAO {
         }
         return clubList;
     }
+
 }

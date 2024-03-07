@@ -1,5 +1,7 @@
+<%@page import="java.util.List"%>
 <%@page import="Models.News"%>
 <%@page import="DAOs.NewsDAO"%>
+
 <div class="page-wrapper" style="min-height: 691px;">
     <div class="content container-fluid">
 
@@ -99,8 +101,8 @@
                                             <tbody>
                                                 <%-- Retrieve the club with the latest establishment date --%>
                                                 <% DAOs.ClubsDAO clubsDAO = new DAOs.ClubsDAO();
-                                                                Models.Club latestClub = clubsDAO.getClubByLatestEstablishDate();
-                                                                if (latestClub != null) {%>
+                                                    Models.Club latestClub = clubsDAO.getClubByLatestEstablishDate();
+                                                    if (latestClub != null) {%>
                                                 <tr>
                                                     <td>
                                                         <div class="date">
@@ -127,19 +129,37 @@
                                     <div class="table-responsive lesson">
                                         <table class="table table-center">
                                             <tbody>
+                                                <%
+                                                    List<Models.Club> clubs = clubsDAO.getClubsForStudent(userProfile.getUserProfileID()); // Assuming studentProfileID is available
+                                                    if (clubs != null && !clubs.isEmpty()) {
+                                                        for (Models.Club club : clubs) {
+                                                %>
                                                 <tr>
                                                     <td>
                                                         <div class="date">
-                                                            <b> FCoderrrr</b>
-                                                            <p> You is menber </p>
+                                                            <b><%= club.getClubName()%></b>
+                                                            <p><%= club.getDescription()%></p> <!-- Assuming getClubRole method exists -->
                                                         </div>
                                                     </td>
                                                     <td>
                                                         <div class="lesson-confirm">
-                                                            <a href="student/clubs/detail"> Club Details</a>
+                                                            <a href="student/clubs/detail?clubID=<%= club.getClubID()%>">Club Details</a> <!-- Assuming getClubID method exists -->
                                                         </div>
                                                     </td>
                                                 </tr>
+                                                <%
+                                                    }
+                                                } else {
+                                                %>
+                                            <div class="row align-items-center">
+                                                <div class="col-6">
+                                                    <h5 class="card-text">You haven't joined the club yet</h5>
+                                                </div>
+                                                <div class="col-6">
+                                                    <span class="float-end view-link"><a href="/student/clubs/view"> See More</a></span>
+                                                </div>
+                                            </div> 
+                                            <% }%>
                                             </tbody>
                                         </table>
                                     </div>

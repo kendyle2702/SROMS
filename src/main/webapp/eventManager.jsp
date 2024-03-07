@@ -30,10 +30,6 @@
                     <%@include file="./eventManager/eventDetail.jsp" %>
                 </c:when>
             </c:choose>
-<<<<<<< HEAD
-=======
-
->>>>>>> eventmanager
         </div>
     </body>
 
