@@ -1,8 +1,15 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
 package Models;
 
 import java.sql.Timestamp;
 
-
+/**
+ *
+ * @author Admin
+ */
 public class Event {
 
     private int eventID;
@@ -72,6 +79,18 @@ public class Event {
         this.feedback = feedback;
         this.Approve = Approve;
         this.createdBy = createdBy;
+        this.endTime = endTime;
+    }
+
+    public Event(String eventName, Timestamp preparationTime, Timestamp holdTime, String location, int cost, int expectedNumber, String organization, String description, Timestamp endTime) {
+        this.eventName = eventName;
+        this.preparationTime = preparationTime;
+        this.holdTime = holdTime;
+        this.location = location;
+        this.cost = cost;
+        this.expectedNumber = expectedNumber;
+        this.organization = organization;
+        this.description = description;
         this.endTime = endTime;
     }
 
@@ -215,5 +234,4 @@ public class Event {
         this.endTime = endTime;
     }
 
-  
 }

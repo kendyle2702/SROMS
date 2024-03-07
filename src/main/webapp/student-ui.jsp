@@ -14,10 +14,7 @@
     </head>
     <body>
         <div class="main-wrapper">
-
             <%@include file="./general/header.jsp" %>
-
-
             <div class="sidebar" id="sidebar">
                 <div class="sidebar-inner slimscroll">
                     <div id="sidebar-menu" class="sidebar-menu">
@@ -44,7 +41,6 @@
                     </div>
                 </div>
             </div>
-
             <div class="page-wrapper" style="min-height: 691px;">
                 <div class="content container-fluid">
 
@@ -54,13 +50,12 @@
                                 <div class="page-sub-header">
                                     <h3 class="page-title">Welcome Student!</h3>
                                     <ul class="breadcrumb">
-                                        
+
                                     </ul>
                                 </div>
                             </div>
                         </div>
                     </div>
-
                     <div class="row">
                         <div class="col-12 col-lg-12 col-xl-8">
                             <div class="card flex-fill comman-shadow">
@@ -83,8 +78,7 @@
                                                         <h5 class="card-title">Today’s New</h5>
                                                     </div>
                                                 </div>
-                                                <%
-                                                    // Create an instance of NewsDAO
+                                                <%                                                    // Create an instance of NewsDAO
                                                     NewsDAO newsDAO = new NewsDAO();
 
                                                     // Call the getLatestNews method to fetch the latest news article
@@ -108,7 +102,6 @@
                                     </div>
                                 </div>
                             </div>
-
                             <div class="card flex-fill comman-shadow">
                                 <div class="card-header">
                                     <div class="row align-items-center">
@@ -144,8 +137,8 @@
                                                         <tbody>
                                                             <%-- Retrieve the club with the latest establishment date --%>
                                                             <% DAOs.ClubsDAO clubsDAO = new DAOs.ClubsDAO();
-                                                            Models.Club latestClub = clubsDAO.getClubByLatestEstablishDate();
-                                                            if (latestClub != null) {%>
+                                                                Models.Club latestClub = clubsDAO.getClubByLatestEstablishDate();
+                                                                if (latestClub != null) {%>
                                                             <tr>
                                                                 <td>
                                                                     <div class="date">
@@ -299,16 +292,11 @@
                                 </div>
                             </div>
                         </div>
-
                     </div>
-
-
                 </div>
-
                 <footer>
                     <p></p>
                 </footer>
-
             </div>
         </div>
 
