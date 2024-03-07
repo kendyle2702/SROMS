@@ -1,14 +1,7 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+
 package Utils;
 
 
-/**
- *
- * @author QuocCu
- */
 public class Constants {
     public static String GOOGLE_CLIENT_ID = "1093071600440-1m4qgqcjvkmerb6vomi3rmtsntn9eoth.apps.googleusercontent.com";
     public static String GOOGLE_CLIENT_SECRET = "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";

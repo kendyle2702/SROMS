@@ -22,14 +22,18 @@ public class Event {
     private String organization;
     private String description;
     private String feedback;
-    private Boolean isApprove;
+    private String Approve;
     private String createdBy;
     private int eventCategoryID;
     private int adminProfileID;
     private int managerProfileID;
     private int studentProfileID;
+    private Timestamp endTime;
 
-    public Event(int eventID, String eventName, Timestamp preparationTime, Timestamp holdTime, String location, int cost, int expectedNumber, String organization, String description, String feedback, Boolean isApprove, String createdBy, int eventCategoryID, int adminProfileID, int managerProfileID, int studentProfileID) {
+    public Event() {
+    }
+
+    public Event(int eventID, String eventName, Timestamp preparationTime, Timestamp holdTime, String location, int cost, int expectedNumber, String organization, String description, String feedback, String Approve, String createdBy, int eventCategoryID, int adminProfileID, int managerProfileID, int studentProfileID, Timestamp endTime) {
         this.eventID = eventID;
         this.eventName = eventName;
         this.preparationTime = preparationTime;
@@ -40,12 +44,58 @@ public class Event {
         this.organization = organization;
         this.description = description;
         this.feedback = feedback;
-        this.isApprove = isApprove;
+        this.Approve = Approve;
         this.createdBy = createdBy;
         this.eventCategoryID = eventCategoryID;
         this.adminProfileID = adminProfileID;
         this.managerProfileID = managerProfileID;
         this.studentProfileID = studentProfileID;
+        this.endTime = endTime;
+    }
+
+    public Event(String eventName, Timestamp preparationTime, Timestamp holdTime, String location, int cost, int expectedNumber, String organization, String description, String createdBy, Timestamp endTime) {
+        this.eventName = eventName;
+        this.preparationTime = preparationTime;
+        this.holdTime = holdTime;
+        this.location = location;
+        this.cost = cost;
+        this.expectedNumber = expectedNumber;
+        this.organization = organization;
+        this.description = description;
+        this.createdBy = createdBy;
+        this.endTime = endTime;
+    }
+
+    public Event(int eventID, String eventName, Timestamp preparationTime, Timestamp holdTime, String location, int cost, int expectedNumber, String organization, String description, String feedback, String Approve, String createdBy, Timestamp endTime) {
+        this.eventID = eventID;
+        this.eventName = eventName;
+        this.preparationTime = preparationTime;
+        this.holdTime = holdTime;
+        this.location = location;
+        this.cost = cost;
+        this.expectedNumber = expectedNumber;
+        this.organization = organization;
+        this.description = description;
+        this.feedback = feedback;
+        this.Approve = Approve;
+        this.createdBy = createdBy;
+        this.endTime = endTime;
+    }
+
+    public Event(String eventName, Timestamp preparationTime, Timestamp holdTime, String location, int cost, int expectedNumber, String organization, String description, Timestamp endTime) {
+        this.eventName = eventName;
+        this.preparationTime = preparationTime;
+        this.holdTime = holdTime;
+        this.location = location;
+        this.cost = cost;
+        this.expectedNumber = expectedNumber;
+        this.organization = organization;
+        this.description = description;
+        this.endTime = endTime;
+    }
+
+    public Event(String eventName) {
+        this.eventName = eventName;
     }
     
     public Event(int eventID, String eventName, Timestamp holdTime, String location, String description, int eventCategoryID) {
@@ -137,12 +187,12 @@ public class Event {
         this.feedback = feedback;
     }
 
-    public Boolean getIsApprove() {
-        return isApprove;
+    public String getApprove() {
+        return Approve;
     }
 
-    public void setIsApprove(Boolean isApprove) {
-        this.isApprove = isApprove;
+    public void setApprove(String Approve) {
+        this.Approve = Approve;
     }
 
     public String getCreatedBy() {
@@ -183,6 +233,14 @@ public class Event {
 
     public void setStudentProfileID(int studentProfileID) {
         this.studentProfileID = studentProfileID;
+    }
+
+    public Timestamp getEndTime() {
+        return endTime;
+    }
+
+    public void setEndTime(Timestamp endTime) {
+        this.endTime = endTime;
     }
 
 }

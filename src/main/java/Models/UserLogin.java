@@ -1,15 +1,9 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+
 package Models;
 
 import java.sql.Timestamp;
 
-/**
- *
- * @author Admin
- */
+
 public class UserLogin {
 
     private int userLoginID;
