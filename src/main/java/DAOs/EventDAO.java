@@ -18,9 +18,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.servlet.http.HttpSession;
 
-public class EventManagerDAO {
+public class EventDAO {
 
     private Connection conn = null;
     private PreparedStatement ps = null;
@@ -185,7 +184,7 @@ public class EventManagerDAO {
 //        Timestamp d =  new Timestamp(calen.getTimeInMillis());
 //        String s = format.format(d);
 //        System.out.println("Date: " + s);
-//EventManagerDAO dao = new EventManagerDAO();
+//EventManagerDAO dao = new EventDAO();
 //
 //
 //for(int i = 0; i < m.size(); i++) {

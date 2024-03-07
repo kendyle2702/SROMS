@@ -1,12 +1,9 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
- */
+
 package Controllers;
 
 import static Controllers.LoginController.getToken;
 import static Controllers.LoginController.getUserInfo;
-import DAOs.EventManagerDAO;
+import DAOs.EventDAO;
 import Models.Event;
 import Models.ParticipationEventDetail;
 import Models.StudentProfile;
@@ -36,32 +33,7 @@ import java.util.Map;
  */
 public class EventManagerController extends HttpServlet {
 
-    /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException, SQLException {
 
-//        } catch (SQLException ex) {
-//            Logger.getLogger(EventManagerController.class.getName()).log(Level.SEVERE, null, ex);
-//        }
-    }
-
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
-    /**
-     * Handles the HTTP <code>GET</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -69,7 +41,7 @@ public class EventManagerController extends HttpServlet {
             // HttpSession is already an HttpSession, no need to cast
             String path = request.getRequestURI();
             HttpSession session = request.getSession();
-            EventManagerDAO eventManagerDAO = new EventManagerDAO();
+            EventDAO eventManagerDAO = new EventDAO();
             List<Event> listE = eventManagerDAO.eventList();
             List<ParticipationEventDetail> pertiList = eventManagerDAO.participateEventList();
             int totalEventTook = eventManagerDAO.getTotalEventTook();
@@ -90,7 +62,7 @@ public class EventManagerController extends HttpServlet {
                 String s = format.format(d);
                 session.setAttribute("numberParti", numberParti);
                 session.setAttribute("taburl", 1);
-                request.getRequestDispatcher("/EventManagerHome.jsp").forward(request, response);
+                request.getRequestDispatcher("/eventManager.jsp").forward(request, response);
             } else if (path.equals("/eventmanager/events/viewevent")) {
                 session.setAttribute("taburl", 3);
                 request.getRequestDispatcher("/ViewEvents.jsp").forward(request, response);
@@ -132,7 +104,7 @@ public class EventManagerController extends HttpServlet {
         Timestamp endTime = formatTime(LocalDateTime.parse(request.getParameter("endtime")));
         Event event = new Event(eventName, pretime, holeTime, location, cost, exNum, organization,
                 description, createBy, endTime);
-        EventManagerDAO eventManagerDAO = new EventManagerDAO();
+        EventDAO eventManagerDAO = new EventDAO();
         HttpSession session = request.getSession();
 
         try {

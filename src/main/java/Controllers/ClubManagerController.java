@@ -4,7 +4,7 @@
  */
 package Controllers;
 
-import DAO.ClubDAO;
+import DAOs.ClubDAO;
 import Models.Club;
 import java.io.IOException;
 import java.io.PrintWriter;

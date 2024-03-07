@@ -8,7 +8,7 @@ import jakarta.servlet.http.HttpServletResponse;
 
 public class HomeController extends HttpServlet {
 
-    @Override
+    @Override 
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.sendRedirect("/login");

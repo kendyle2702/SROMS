@@ -1,7 +1,4 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
- */
+
 package Controllers;
 
 import DAOs.UserLoginDAO;
@@ -17,10 +14,7 @@ import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.fluent.Form;
 import org.apache.http.client.fluent.Request;
 
-/**
- *
- * @author khuy
- */
+
 public class StudentController extends HttpServlet {
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
