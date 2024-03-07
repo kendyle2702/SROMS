@@ -208,21 +208,4 @@ public class EventDAO {
         ps.setInt(1, eventID);
         ps.executeUpdate();
     }
-
-    public static void main(String[] args) throws SQLException {
-//      Calendar calen = Calendar.getInstance();
-//        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH-mm-ss");
-//        Timestamp d =  new Timestamp(calen.getTimeInMillis());
-//        String s = format.format(d);
-//        System.out.println("Date: " + s);
-//EventManagerDAO dao = new EventDAO();
-//
-//
-//for(int i = 0; i < m.size(); i++) {
-//    System.out.println(m.get(i));
-//}
-//
-//    }
-
-    }
 }

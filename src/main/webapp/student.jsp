@@ -23,7 +23,7 @@
                     <%@include file="./student/viewNews.jsp" %>
                 </c:when>
                 <c:when test="${sessionScope.tabId == 3}">
-                    <%@include file="./student/home.jsp" %>
+                    <%@include file="./student/viewEvents.jsp" %>
                 </c:when>
                 <c:when test="${sessionScope.tabId == 4}">
                     <%@include file="./student/viewClubs.jsp" %>
