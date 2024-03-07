@@ -1,4 +1,3 @@
-
 package Controllers;
 
 import static Controllers.LoginController.getToken;
@@ -32,7 +31,6 @@ import java.util.Map;
  * @author vietn
  */
 public class EventManagerController extends HttpServlet {
-
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -93,31 +91,47 @@ public class EventManagerController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String eventName = request.getParameter("eventname");
-        Timestamp pretime = formatTime(LocalDateTime.parse(request.getParameter("pretime")));
-        Timestamp holeTime = formatTime(LocalDateTime.parse(request.getParameter("holetime")));
-        String location = request.getParameter("location");
-        int cost = Integer.parseInt(request.getParameter("cost"));
-        int exNum = Integer.parseInt(request.getParameter("exnum"));
-        String organization = request.getParameter("organization");
-        String description = request.getParameter("description");
-        String createBy = request.getParameter("createby");
-        Timestamp endTime = formatTime(LocalDateTime.parse(request.getParameter("endtime")));
-        Event event = new Event(eventName, pretime, holeTime, location, cost, exNum, organization,
-                description, createBy, endTime);
         EventDAO eventManagerDAO = new EventDAO();
         HttpSession session = request.getSession();
-
+        String action = request.getParameter("event");
         try {
-            eventManagerDAO.addEvent(event);
-//            List<Event> listE = eventManagerDAO.eventList();
-//            session.setAttribute("listEvent", listE);
-//            List<Map<String, Integer>> NumberParti = eventManagerDAO.getTotalIsPresent();
-//            session.setAttribute("numberParti", NumberParti);
-            List<Event> listE = eventManagerDAO.eventList();
-            session.setAttribute("listEvent", listE);
-            response.sendRedirect(request.getContextPath() + "/EventManagerHome.jsp");
+            if (action.equals("Submit")) {
+                String eventName = request.getParameter("eventname");
+                Timestamp pretime = formatTime(LocalDateTime.parse(request.getParameter("pretime")));
+                Timestamp holeTime = formatTime(LocalDateTime.parse(request.getParameter("holetime")));
+                String location = request.getParameter("location");
+                int cost = Integer.parseInt(request.getParameter("cost"));
+                int exNum = Integer.parseInt(request.getParameter("exnum"));
+                String organization = request.getParameter("organization");
+                String description = request.getParameter("description");
 
+                Timestamp endTime = formatTime(LocalDateTime.parse(request.getParameter("endtime")));
+                Event event = new Event(eventName, pretime, holeTime,
+                        location, cost, exNum, organization,
+                        description, endTime);
+                eventManagerDAO.addEvent(event);
+                response.sendRedirect("/eventmanager");
+            } else if (action.equals("Update")) {
+                String nameUpdate = request.getParameter("eventnameupdate");
+                Timestamp preTimeUpdate = formatTime(LocalDateTime.parse(request.getParameter("pretimeupdate")));
+                Timestamp holeTimeUpdate = formatTime(LocalDateTime.parse(request.getParameter("holetimeupdate")));
+                String locationUpdate = request.getParameter("locationeupdate");
+                int costUpdate = Integer.parseInt(request.getParameter("costupdate"));
+                int exnumUpdate = Integer.parseInt(request.getParameter("exnumupdate"));
+                String organUpdate = request.getParameter("organupdate");
+                String descriptionUpdate = request.getParameter("descriptionupdate");
+                Timestamp endTimeUpdate = formatTime(LocalDateTime.parse(request.getParameter("endtimeupdate")));
+                int idUpdate = Integer.parseInt(request.getParameter("idupdate"));
+                String feedbackupdate = request.getParameter("feedbackupdate");
+                int check = eventManagerDAO.updateEvent(nameUpdate, preTimeUpdate, holeTimeUpdate, locationUpdate, costUpdate, exnumUpdate, organUpdate, descriptionUpdate, feedbackupdate, endTimeUpdate, idUpdate);
+                if (check != 0) {
+                    session.setAttribute("massage", "success");
+                } else {
+                    session.setAttribute("massage", "failed!");
+                }
+//                request.getRequestDispatcher("/eventDetail.jsp").forward(request, response);
+                response.sendRedirect("/eventmanager/events/detail/" + idUpdate);
+            }
         } catch (SQLException ex) {
             Logger.getLogger(EventManagerController.class.getName()).log(Level.SEVERE, null, ex);
         }

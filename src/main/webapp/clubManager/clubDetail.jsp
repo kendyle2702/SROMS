@@ -1,18 +1,9 @@
 <div class="page-wrapper">
             <div class="content container-fluid">
-                <!--                <div class="page-header">                               
-                                    <div>
-                                        <div class="page-sub-header">                          
-                                            <div>
-                                                <h3>News</h3>
-                                                <p>Contents</p>
-                                              
-                                            </div>
-                                        </div>
-                                    </div>                     
-                                </div>-->
+
                 <div class="row">
 
+<<<<<<< HEAD:src/main/webapp/clubManager/clubDetail.jsp
                     <!--                    <div class="col-xl-4 col-sm-6 col-12 d-flex">-->
                     <!--                        <div class="card bg-comman w-100">
                                                 <div class="card-body">
@@ -58,6 +49,8 @@
                                                 </div>
                                             </div>-->
                     <!--                    </div>-->
+=======
+>>>>>>> eventmanager:src/main/webapp/ClubDetail.jsp
                     <div class="row">
                         <div class="col-xl-12 d-flex">
                             <div class="card flex-fill student-space comman-shadow">
@@ -119,8 +112,17 @@
                     </div>
                 </div>
             </div>
+<<<<<<< HEAD:src/main/webapp/clubManager/clubDetail.jsp
 
             <footer>
             </footer>
 
         </div>
+=======
+        </div>
+
+        <!--        </div>-->
+
+        <%@include file="./general/js.jsp" %>
+</html>
+>>>>>>> eventmanager:src/main/webapp/ClubDetail.jsp

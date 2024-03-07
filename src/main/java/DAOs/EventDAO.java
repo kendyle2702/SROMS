@@ -18,6 +18,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.servlet.http.HttpSession;
 
 public class EventDAO {
 
@@ -78,7 +79,7 @@ public class EventDAO {
     public int getTotalEventTaking() throws SQLException {
         int count = 0;
         conn = DBConnection.connect();
-        String query = "SELECT COUNT(*) AS total_events FROM Event  WHERE EndTime > CURRENT_TIMESTAMP;";
+        String query = "SELECT COUNT(*) AS total_events FROM Event  WHERE EndTime >= CURRENT_TIMESTAMP;";
         ps = conn.prepareStatement(query);
         rs = ps.executeQuery();
         if (rs.next()) {
@@ -91,7 +92,7 @@ public class EventDAO {
     public int getTotalEventTook() throws SQLException {
         int count = 0;
         conn = DBConnection.connect();
-        String query = "SELECT COUNT(*) AS total_events FROM Event  WHERE EndTime = CURRENT_TIMESTAMP;";
+        String query = "SELECT COUNT(*) AS total_events FROM Event  WHERE EndTime < CURRENT_TIMESTAMP;";
         ps = conn.prepareStatement(query);
         rs = ps.executeQuery();
         if (rs.next()) {
@@ -154,8 +155,8 @@ public class EventDAO {
     public void addEvent(Event event) throws SQLException {
         conn = DBConnection.connect();
         String query = "INSERT INTO [SROMS].[dbo].[Event]"
-                + " (EventName,PreparationTime,HoldTime,[Location],Cost,ExpectedNumber,Organization,[Description], CreateBy, EndTime)"
-                + "VALUES (?,?,?,?,?,?,?,?,?,?)";
+                + " (EventName,PreparationTime,HoldTime,Location,Cost,ExpectedNumber,Organization,Description, EndTime)"
+                + "VALUES (?,?,?,?,?,?,?,?,?)";
         ps = conn.prepareStatement(query);
         ps.setString(1, event.getEventName());
         ps.setTimestamp(2, event.getPreparationTime());
@@ -165,9 +166,39 @@ public class EventDAO {
         ps.setInt(6, event.getExpectedNumber());
         ps.setString(7, event.getOrganization());
         ps.setString(8, event.getDescription());
-        ps.setString(9, event.getCreatedBy());
-        ps.setTimestamp(10, event.getEndTime());
+        ps.setTimestamp(9, event.getEndTime());
         ps.executeUpdate();
+    }
+
+    public int updateEvent(String name, Timestamp preTime, Timestamp holeTime, String location, int cost, int exNum, String organization, String description, String feedback, Timestamp endTime, int id) throws SQLException {
+        conn = DBConnection.connect();
+        int check = 0;
+        String query = " UPDATE [SROMS].[dbo].[Event]\n"
+                + "      SET [EventName] = ?,\n"
+                + "      [PreparationTime] = ?,\n"
+                + "      [HoldTime] = ?,\n"
+                + "      [Location] = ?,\n"
+                + "      [Cost] = ?,\n"
+                + "      [ExpectedNumber] = ?,\n"
+                + "      [Organization] = ?,\n"
+                + "      [Description] = ?,\n"
+                + "	 [Feedback] = ?,\n"
+                + "      [EndTime] = ?\n"
+                + "       WHERE [EventID] = ?;";
+        ps = conn.prepareStatement(query);
+        ps.setString(1, name);
+        ps.setTimestamp(2, preTime);
+        ps.setTimestamp(3, holeTime);
+        ps.setString(4, location);
+        ps.setInt(5, cost);
+        ps.setInt(6, exNum);
+        ps.setString(7, organization);
+        ps.setString(8, description);
+        ps.setString(9, feedback);
+        ps.setTimestamp(10, endTime);
+        ps.setInt(11, id);
+        check = ps.executeUpdate();
+        return check;
     }
 
     public void deleteEvent(int eventID) throws SQLException {

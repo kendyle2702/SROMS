@@ -10,15 +10,10 @@
 <html lang="en">
     <head>
         <%@include file="./general/head_html.jsp" %>
-        <style>
-            /* Apply hover effect directly to the anchor tag */
-            li a:hover {
-                background-color: orange;
-            }
-        </style>
     </head>
     <body>
         <div class="main-wrapper">
+
             <%@include file="./general/header.jsp" %>
             <%@include file="./eventManager/sidebar.jsp"%>
             <c:choose>
@@ -35,6 +30,10 @@
                     <%@include file="./eventManager/eventDetail.jsp" %>
                 </c:when>
             </c:choose>
+<<<<<<< HEAD
+=======
+
+>>>>>>> eventmanager
         </div>
     </body>
 

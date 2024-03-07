@@ -1,5 +1,10 @@
+<<<<<<< HEAD
 <%@page import="java.sql.Timestamp"%>
 <%@page import="java.text.SimpleDateFormat"%>
+=======
+<%@page import="java.text.SimpleDateFormat"%>
+<%@page import="java.sql.Timestamp"%>
+>>>>>>> eventmanager
 <%@page import="java.util.Calendar"%>
 <%@page import="Models.Event"%>
 <%@page import="java.util.List"%>
@@ -111,25 +116,25 @@
                                             </c:choose>
 
                                             <%-- Scriptlets should be avoided, but for demonstration, I'm maintaining them --%>
+                                            <%-- Scriptlets should be avoided, but for demonstration, I'm maintaining them --%>
                                             <%
                                                 EventDAO dao = new EventDAO();
                                                 List<Event> events = dao.eventList();
 
                                                 Calendar calen = Calendar.getInstance();
                                                 SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH-mm-ss");
-                                                Timestamp d = new Timestamp(calen.getTimeInMillis());
-                                                String currentDateTimeString = format.format(d);
-                                                String eventEndDateTimeString = null;
-                                                for (Event event : events) {
-                                                    eventEndDateTimeString = format.format(event.getEndTime());
-                                                }
-
-                                                if (currentDateTimeString.compareTo(eventEndDateTimeString) < 0) {
+                                                Timestamp currentDateTime = new Timestamp(calen.getTimeInMillis());
+                                                String currentDateTimeString = format.format(currentDateTime);
+                                                session.setAttribute("currentTime", currentDateTimeString);
                                             %>
-                                            <td class="text-center">Happening</td>
-                                            <% } else { %>
-                                            <td class="text-center">Finished</td>
-                                            <% }%>
+                                            <c:choose>
+                                                <c:when test="${sessionScope.currentTime <= liste.getEndTime()}">
+                                                    <td class="text-center">Happening</td>
+                                                </c:when>
+                                                <c:otherwise>
+                                                    <td class="text-center">Finished</td>
+                                                </c:otherwise>
+                                            </c:choose>
                                             <td class="text-center">
                                                 <a href="/eventmanager/events/detail/${liste.getEventID()}" type="button" class="btn btn-primary">Detail</a>
                                             </td>
