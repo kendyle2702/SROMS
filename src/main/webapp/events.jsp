@@ -654,12 +654,12 @@
                                             <thead class="thead-light">
                                                 <tr>
                                                     <th class="text-center">#</th>
-                                                    <th class="text-center">ID</th>
                                                     <th class="text-center">Name</th>
                                                     <th class="text-center">Start Time</th>
                                                     <th class="text-center">Description</th>
                                                     <th class="text-center">Location</th>
                                                     <th class="text-center">Category</th>
+                                                    <td class="text-cemter"></td>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -673,19 +673,26 @@
                                                 %>
                                                 <tr>
                                                     <td class="text-center"><%= count++%></td>
-                                                    <td class="text-center"><%= event.getEventID()%></td>
                                                     <td class="text-center"><%= event.getEventName()%></td>
                                                     <td class="text-center"><%= event.getHoldTime()%></td>
                                                     <td class="text-center"><%= event.getDescription()%></td>
                                                     <td class="text-center"><%= event.getLocation()%></td>
                                                     <td class="text-center"><%= categoryName%></td>
+                                                    <td>
+                                                       <td>
+                                                            <form action="register" method="post">
+                                                                <input type="hidden" name="EventID" value="<%=event.getEventID()%>">
+                                                                <button type="submit" class="btn btn-info">Register</button>
+                                                            </form>
+                                                        </td> 
+                                                    </td>
                                                 </tr>
                                                 <%
                                                     }
                                                 } else {
                                                 %>
                                                 <tr>
-                                                    <td colspan="7" class="text-center">No events.</td>
+                                                    <td colspan="4" class="text-center">No events.</td>
                                                 </tr>
                                                 <% }%>
                                             </tbody>

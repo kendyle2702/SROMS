@@ -771,14 +771,14 @@
                                                                 }
                                                             } else {
                                                             %>
-                                                                <div class="row align-items-center">
-                                                                    <div class="col-6">
-                                                                        <h5 class="card-text">You haven't joined the club yet</h5>
-                                                                    </div>
-                                                                    <div class="col-6">
-                                                                        <span class="float-end view-link"><a href="/student/clubs/view"> See More</a></span>
-                                                                    </div>
-                                                                </div> 
+                                                        <div class="row align-items-center">
+                                                            <div class="col-6">
+                                                                <h5 class="card-text">You haven't joined the club yet</h5>
+                                                            </div>
+                                                            <div class="col-6">
+                                                                <span class="float-end view-link"><a href="/student/events/register"> Join Now</a></span>
+                                                            </div>
+                                                        </div> 
                                                         <% }%>
                                                         </tbody>
                                                     </table>
@@ -791,6 +791,42 @@
 
                             </div>
 
+                            <!--                            <div class="card flex-fill comman-shadow">
+                                                            <div class="card-header">
+                                                                <div class="row align-items-center">
+                                                                    <div class="col-4">
+                                                                        <h5 class="card-title"> Movement Activities Point</h5>
+                                                                    </div>
+                                                                    <div class="col-8">
+                                                                        <ul class="chart-list-out">
+                                                                            <li class="lesson-view-all"><a href="/student/point/view">View Detail</a></li>
+                                                                        </ul>
+                                                                    </div>
+                            
+                            
+                                                                </div>
+                                                            </div>
+                                                        </div>-->
+
+                            <div class="card flex-fill comman-shadow">
+                                <div class="card-header">
+                                    <div class="row align-items-center">
+                                        <div class="col-12">
+                                            <h5 class="card-title">Movement Activities Point</h5>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="dash-widget">
+                                    <div class="circle-bar circle-bar1">
+                                        <div class="circle-graph1" data-percent="50">
+                                            <div class="progress-less">
+                                                <b>55/60</b>
+                                                <p>Lesson Progressed</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
 
                         </div>
 

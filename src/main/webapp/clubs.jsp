@@ -699,7 +699,7 @@
                                                             <div class="lesson-confirm">
                                                                 <a href="student/clubs/detail?clubID=<%= club.getClubID()%>">Club Details</a>
                                                             </div>
-                                                            <form action="registerClub" method="post">
+                                                            <form action="register" method="post">
                                                                 <input type="hidden" name="clubID" value="<%= club.getClubID()%>">
                                                                 <button type="submit" class="btn btn-info">Register</button>
                                                             </form>

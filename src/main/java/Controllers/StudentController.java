@@ -84,6 +84,10 @@ public class StudentController extends HttpServlet {
                 if (path.endsWith("/student/new/detail")) {
                     request.getRequestDispatcher("/new-detail.jsp").forward(request, response);
                 }
+            } else if (path.startsWith("/student/point")) {
+                if (path.endsWith("/student/point/view")) {
+                    request.getRequestDispatcher("/point.jsp").forward(request, response);
+                }
             }
         } else {
             res.sendRedirect("/login");

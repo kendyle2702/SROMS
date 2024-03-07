@@ -35,8 +35,10 @@
         <url-pattern>/student/events/detail</url-pattern>
         <url-pattern>/student/events/detail/*</url-pattern>
         <url-pattern>/student/events/register</url-pattern>
+        <url-pattern>/student/events/register/*</url-pattern>
         <url-pattern>/student/news/view</url-pattern>
         <url-pattern>/student/news/detail</url-pattern>
+        <url-pattern>/student/point/view</url-pattern>
     </servlet-mapping>
     
     
