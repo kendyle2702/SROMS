@@ -13,13 +13,13 @@
                 <li class="menu-title">
                     <span>Main Menu</span>
                 </li>
-                <li class="<%=(session.getAttribute("taburl").equals(1)) ? "active" : ""%>">
+                <li class="<%=(session.getAttribute("tabId").equals(1)) ? "active" : ""%>">
                     <a href="/eventmanager"><i class=""></i> <span>Home</span></a>
                 </li>
-                <li  class="<%=(session.getAttribute("taburl").equals(2)) ? "active" : ""%>">
+                <li  class="<%=(session.getAttribute("tabId").equals(2)) ? "active" : ""%>">
                     <a href="/eventmanager/events/create"><i class=""></i> <span>Create Event</span></a>
                 </li>
-                <li class=" <%=(session.getAttribute("taburl").equals(3)) ? "active" : ""%>">
+                <li class=" <%=(session.getAttribute("tabId").equals(3)) ? "active" : ""%>">
                     <a href="/eventmanager/events/viewevent"><i class=""></i><span>View Event</span></a>
                 </li>
                 <li class="menu-title">Participants Management</li>
