@@ -1,4 +1,3 @@
-
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
 <title>Student Relation Office Management System</title>
@@ -410,3 +409,8 @@
 <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/style.css">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css"/>
+<style>
+    body{
+       background-color: #f7f7fa !important;
+    }
+</style>

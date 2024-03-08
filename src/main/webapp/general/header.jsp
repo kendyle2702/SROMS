@@ -1,15 +1,15 @@
 <%@page import="Models.UserProfile"%>
 <div class="header">
     <div class="header-left">
-        <a href="/" class="logo">
-            <img src="${pageContext.request.contextPath}/assets/img/login_favicon.jpg" alt="Logo" width="30" height="30"> SRO
+        <a href="/" class="logo" style="text-decoration: none;font-size: 36px;color: #ea7127;">
+            <img src="${pageContext.request.contextPath}/assets/img/login_favicon.jpg" alt="Logo" width="100" height="100"> SROMS
         </a>
-        <a href="index.html" class="logo logo-small">
-            <img src="${pageContext.request.contextPath}/assets/img/login_favicon.jpg" alt="Logo" width="30" height="30">
+        <a href="/" class="logo logo-small">
+            <img src="${pageContext.request.contextPath}/assets/img/login_favicon.jpg" alt="Logo" width="100" height="100">
         </a>
     </div>
     <div class="menu-toggle">
-        <a href="javascript:void(0);" id="toggle_btn">
+        <a style="background:#ea7127; " href="javascript:void(0);" id="toggle_btn">
             <i class="fas fa-bars"></i>
         </a>
     </div>
@@ -64,7 +64,7 @@
                     <img class="rounded-circle" src="${pageContext.request.contextPath}/assets/img/profiles/avatar-01.jpg" width="31" alt="Ryan Taylor">
                     <div class="user-text">
                         <h6><%= userProfile.getLastName()+" "+userProfile.getFirstName()%></h6>
-                        <p class="text-muted mb-0"><%=(String)session.getAttribute("role") %></p>
+                        <p style="color: #ea7127" class="text-muted mb-0"><%=(String)session.getAttribute("role") %></p>
                     </div>
                 </div>
             </a>
