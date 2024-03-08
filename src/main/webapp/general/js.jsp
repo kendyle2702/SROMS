@@ -19,4 +19,7 @@
     $(document).ready(function () {
         $("#viewEvents").DataTable();
     });
+    $(document).ready(function () {
+        $("#viewClubs").DataTable();
+    });
 </script>

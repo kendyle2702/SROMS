@@ -14,7 +14,7 @@
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">
-                                <table class="table star-student table-hover table-center table-borderless table-striped">
+                                <table id='viewClubs' class="table star-student table-hover table-center table-borderless table-striped">
                                     <thead class="thead-light">
                                         <tr>
                                             <th class="text-center">No.</th>

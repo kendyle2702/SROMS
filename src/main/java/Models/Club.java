@@ -11,6 +11,7 @@ public class Club {
     private String description;
     private Boolean isApprove;
     private Boolean isActive;
+    
     private int managerProfileID;
 
     public Club() {
