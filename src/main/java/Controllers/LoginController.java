@@ -8,10 +8,12 @@ import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import java.io.IOException;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import java.net.URLEncoder;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.fluent.Form;
 import org.apache.http.client.fluent.Request;
@@ -34,6 +36,9 @@ public class LoginController extends HttpServlet {
             boolean isLogin = userLoginDAO.loginWithGoogleByUsernameAndRole(username, role);
             if (isLogin) {
                 session.setAttribute("user", userProfile);
+                Cookie c = new Cookie("login", URLEncoder.encode(userProfile.getEmail() + "/" + role));
+                c.setMaxAge(24 * 60 * 60 * 3);
+                response.addCookie(c);
                 // Redirect to the corresponding Controller role
                 switch (role) {
                     case "Admin":
@@ -64,9 +69,13 @@ public class LoginController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        HttpSession session = request.getSession();
         if (request.getParameter("code") != null) {
             doGetLoginWithGoogle(request, response);
-        } else {
+        } else if(session.getAttribute("user") != null) {
+            response.sendRedirect("/");
+        }
+        else{
             request.getRequestDispatcher("/login.jsp").forward(request, response);
         }
     }

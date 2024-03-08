@@ -21,7 +21,6 @@ public class UserLoginDAO {
             Logger.getLogger(UserLoginDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-
     public UserProfile getUserProfileByUsername(String username) {
         UserProfile userProfile = null;
         try {

@@ -1,18 +1,13 @@
 
 package Controllers;
 
-import DAOs.UserLoginDAO;
-import Models.UserProfile;
 import java.io.IOException;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
-import java.io.PrintWriter;
-import org.apache.http.client.ClientProtocolException;
-import org.apache.http.client.fluent.Form;
-import org.apache.http.client.fluent.Request;
+
 
 
 public class StudentController extends HttpServlet {
@@ -20,13 +15,11 @@ public class StudentController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        HttpServletRequest req = (HttpServletRequest) request;
-        HttpServletResponse res = (HttpServletResponse) response;
         HttpSession session = request.getSession();
         String role = (String) session.getAttribute("role");
         String path = request.getServletPath();
-
-        if (role != null) {
+        
+        if (role != null && role.equals("Student")) {
             if (path.endsWith("/student")) {
                 session.setAttribute("tabId", 1);
                 request.getRequestDispatcher("/student.jsp").forward(request, response);
@@ -66,7 +59,7 @@ public class StudentController extends HttpServlet {
                 }
             }
         } else {
-            res.sendRedirect("/login");
+            response.sendRedirect("/");
         }
     }
 
