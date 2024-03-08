@@ -72,9 +72,11 @@
                                 <li class="star-menus"><a href="javascript:;"><i class="fas fa-ellipsis-v"></i></a></li>
                             </ul>
                         </div>
+
+
                         <div class="card-body">                                      
                             <div class="table-responsive">
-                                <table class="table star-student table-hover table-center table-borderless table-striped">
+                                <table id="viewEvents" class="table table-hover table-striped table-bordered">
                                     <thead class="thead-light">
                                         <tr>
                                             <th class="text-center">No.</th>
@@ -85,28 +87,27 @@
                                             <th class="text-center">Is Approve</th>
                                             <th class="text-center">Status</th>       
                                             <th class="text-center"></th> 
-                                            <th class="text-center"></th> 
                                         </tr>
                                     </thead>
                                     <tbody>
                                     <c:if test="${not empty sessionScope.listEvent}">
                                         <c:forEach items="${sessionScope.listEvent}" var="liste" varStatus="count">
                                             <tr>
-                                                <td class="text-center">${count.index+1}</td>
-                                                <td class="text-center">${liste.getEventID()}</td>
-                                                <td class="text-start">${liste.getEventName()}</td>
-                                                <td class="text-center">${liste.getLocation()}</td>
-                                                <td class="text-center">${liste.getHoldTime()}</td>
+                                                <td class="">${count.index+1}</td>
+                                                <td class="">${liste.getEventID()}</td>
+                                                <td class="">${liste.getEventName()}</td>
+                                                <td class="">${liste.getLocation()}</td>
+                                                <td class="">${liste.getHoldTime()}</td>
 
                                             <c:choose>
                                                 <c:when test="${liste.getApprove() eq 'none'}">
-                                                    <td class="text-center">Waiting</td>
+                                                    <td class="">Waiting</td>
                                                 </c:when>
                                                 <c:when test="${liste.getApprove() eq 'true'}">
-                                                    <td class="text-center">Accepted</td>
+                                                    <td class="">Accepted</td>
                                                 </c:when>
                                                 <c:otherwise>
-                                                    <td class="text-center">Rejected</td>
+                                                    <td class="">Rejected</td>
                                                 </c:otherwise>
                                             </c:choose>
 
@@ -124,10 +125,10 @@
                                             %>
                                             <c:choose>
                                                 <c:when test="${sessionScope.currentTime <= liste.getEndTime()}">
-                                                    <td class="text-center">Happening</td>
+                                                    <td class="">Happening</td>
                                                 </c:when>
                                                 <c:otherwise>
-                                                    <td class="text-center">Finished</td>
+                                                    <td class="">Finished</td>
                                                 </c:otherwise>
                                             </c:choose>
                                             <td class="text-center">
@@ -158,3 +159,4 @@
     </div>
 
 </div>
+
