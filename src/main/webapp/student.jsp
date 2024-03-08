@@ -2,7 +2,7 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ page import="DAOs.NewsDAO" %>
 <%@ page import="Models.News" %>
-<%@ page import="DAOs.ClubsDAO" %>
+<%@ page import="DAOs.ClubDAO" %>
 <%@ page import="Models.Club" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 

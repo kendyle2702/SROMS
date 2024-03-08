@@ -18,4 +18,6 @@
                 </c:when>
             </c:choose>
         <%@include file="./general/js.jsp" %>
+        </div>
+    </body>   
 </html>

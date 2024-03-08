@@ -1,10 +1,5 @@
-<<<<<<< HEAD
 <%@page import="java.sql.Timestamp"%>
 <%@page import="java.text.SimpleDateFormat"%>
-=======
-<%@page import="java.text.SimpleDateFormat"%>
-<%@page import="java.sql.Timestamp"%>
->>>>>>> eventmanager
 <%@page import="java.util.Calendar"%>
 <%@page import="Models.Event"%>
 <%@page import="java.util.List"%>

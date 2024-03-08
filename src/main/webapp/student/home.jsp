@@ -98,8 +98,8 @@
                                         <table class="table table-center">
                                             <tbody>
                                                 <%-- Retrieve the club with the latest establishment date --%>
-                                                <% DAOs.ClubsDAO clubsDAO = new DAOs.ClubsDAO();
-                                                                Models.Club latestClub = clubsDAO.getClubByLatestEstablishDate();
+                                                <% DAOs.ClubDAO clubDAO = new DAOs.ClubDAO();
+                                                                Models.Club latestClub = clubDAO.getClubByLatestEstablishDate();
                                                                 if (latestClub != null) {%>
                                                 <tr>
                                                     <td>

@@ -1,8 +1,3 @@
-<%-- 
-    Document   : login
-    Created on : Feb 28, 2024, 10:48:58 AM
-    Author     : QuocCu
---%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>

@@ -15,29 +15,80 @@ import java.util.logging.Logger;
 
 public class ClubDAO {
 
-    Connection conn = null;
-    PreparedStatement ps = null;
-    ResultSet rs = null;
+    private Connection conn;
 
+    public ClubDAO() {
+        try {
+            conn = DB.DBConnection.connect();
+        } catch (SQLException ex) {
+            Logger.getLogger(ClubDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    public Club getClubByLatestEstablishDate() {
+        Club club = null;
+        try {
+            String sql = "SELECT TOP 1 * FROM Club ORDER BY EstablishDate DESC";
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                club = new Club(
+                        rs.getInt("ClubID"),
+                        rs.getString("ClubName"),
+                        rs.getDate("EstablishDate"),
+                        rs.getString("Description"),
+                        rs.getBoolean("IsApprove"),
+                        rs.getBoolean("IsActive"),
+                        rs.getInt("ManagerProfileID")
+                );
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(ClubDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return club;
+    }
+    
+    public List<Club> getAllClubs() {
+        List<Club> clubsList = new ArrayList<>();
+        try {
+            String sql = "SELECT * FROM Club";
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                Club club = new Club(
+                        rs.getInt("ClubID"),
+                        rs.getString("ClubName"),
+                        rs.getDate("EstablishDate"),
+                        rs.getString("Description"),
+                        rs.getBoolean("IsApprove"),
+                        rs.getBoolean("IsActive"),
+                        rs.getInt("ManagerProfileID")
+                );
+                clubsList.add(club);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(ClubDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return clubsList;
+    }
+    
     public List<Club> listClub() throws SQLException {
         List<Club> listC = new ArrayList<>();
         Club club = null;
-        conn = DBConnection.connect();
-        String ex = "select* from Club";
-        ps = conn.prepareStatement(ex);
-        rs = ps.executeQuery();
+        String ex = "select * from Club";
+        PreparedStatement ps = conn.prepareStatement(ex);
+        ResultSet rs = ps.executeQuery();
         while (rs.next()) {
-            club = new Club(rs.getInt(1), rs.getString(2), rs.getDate(3), rs.getString(4), rs.getBoolean(5), rs.getBoolean(6), rs.getInt(7));
+            club = new Club(rs.getInt(1), rs.getString(2),rs.getString(3), rs.getDate(4), rs.getString(5), rs.getBoolean(6), rs.getBoolean(7), rs.getInt(8));
             listC.add(club);
         }
         return listC;
     }
 
     public int getTotalClub() throws SQLException {
-        conn = DBConnection.connect();
         String ex = "select COUNT(*) as TotalClub from Club;";
-        ps = conn.prepareStatement(ex);
-        rs = ps.executeQuery();
+        PreparedStatement ps = conn.prepareStatement(ex);
+        ResultSet rs = ps.executeQuery();
         int totalClub = 0;
         if (rs.next()) {
             totalClub = rs.getInt("TotalClub");
@@ -54,9 +105,5 @@ public class ClubDAO {
             Logger.getLogger(ClubDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
-//    public int getNumberOfMember(){
-//        conn = DBConnection.connect();
-//        String query = 
-//    }
+
 }
