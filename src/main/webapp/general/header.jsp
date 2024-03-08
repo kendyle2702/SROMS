@@ -1,7 +1,7 @@
 <%@page import="Models.UserProfile"%>
 <div class="header">
     <div class="header-left">
-        <!--<a href="/" class="logo">-->
+        <a href="/" class="logo">
             <img src="${pageContext.request.contextPath}/assets/img/login_favicon.jpg" alt="Logo" width="30" height="30"> SRO
         </a>
         <a href="index.html" class="logo logo-small">
@@ -84,7 +84,7 @@
 
                 <!-- Dropdown menu items -->
                 <a class="dropdown-item" href="profile.html">My Profile</a> <!-- Link to user's profile -->
-                <a class="dropdown-item" href="/login">Logout</a> <!-- Link to logout functionality -->
+                <a class="dropdown-item" href="/logout">Logout</a> <!-- Link to logout functionality -->
             </div>
 
         </li>

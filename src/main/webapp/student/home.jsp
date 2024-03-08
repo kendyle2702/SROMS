@@ -35,7 +35,7 @@
                                 <div class="card-header">
                                     <div class="row align-items-center">
                                         <div class="col-4">
-                                            <h5 class="card-title">Today?s New</h5>
+                                            <h5 class="card-title">Today's New</h5>
                                         </div>
                                     </div>
                                     <%

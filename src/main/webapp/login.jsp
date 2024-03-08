@@ -24,7 +24,7 @@
                                         <label>Select Your Role</label>
                                         <select id="selectRole" class="form-control select" name="userRoleLogin" onchange="chooseRole(event)">
                                             <%
-                                                String role = (String) session.getAttribute("role");
+                                                String role = (String) session.getAttribute("roleLogin");
                                                 if (role == null) {
                                                     role = "";
                                                 }
