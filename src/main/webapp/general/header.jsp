@@ -1,11 +1,11 @@
 <%@page import="Models.UserProfile"%>
 <div class="header">
     <div class="header-left">
-        <a href="#" class="logo">
-            <!--<img src="${pageContext.request.contextPath}/assets/img/logo.png" alt="Logo">-->
+        <!--<a href="/" class="logo">-->
+            <img src="${pageContext.request.contextPath}/assets/img/login_favicon.jpg" alt="Logo" width="30" height="30"> SRO
         </a>
         <a href="index.html" class="logo logo-small">
-            <img src="${pageContext.request.contextPath}/assets/img/logo-small.png" alt="Logo" width="30" height="30">
+            <img src="${pageContext.request.contextPath}/assets/img/login_favicon.jpg" alt="Logo" width="30" height="30">
         </a>
     </div>
     <div class="menu-toggle">

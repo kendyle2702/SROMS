@@ -2,7 +2,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
 <title>Student Relation Office Management System</title>
-<link rel="shortcut icon" href="">
+<link rel="shortcut icon" href="${pageContext.request.contextPath}/assets/img/login_favicon.jpg">
 <style type="text/css">@font-face {
         font-family:Roboto;
         font-style:normal;
