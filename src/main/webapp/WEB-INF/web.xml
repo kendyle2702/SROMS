@@ -9,7 +9,7 @@
         <servlet-class>Controllers.EventManagerController</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>StudentController</servlet-name>
+        <servlet-name>student</servlet-name>
         <servlet-class>Controllers.StudentController</servlet-class>
     </servlet>
    <servlet>
@@ -32,21 +32,9 @@
     </servlet-mapping>
     
     <servlet-mapping>
-        <servlet-name>StudentController</servlet-name>
-        <url-pattern>/student</url-pattern>
-        <url-pattern>/student/profile/view</url-pattern>
-        <url-pattern>/student/profile/edit</url-pattern>
-        <url-pattern>/student/clubs/view</url-pattern>
-        <url-pattern>/student/clubs/detail</url-pattern>
-        <url-pattern>/student/clubs/register</url-pattern>
-        <url-pattern>/student/clubs/myclub</url-pattern>
-        <url-pattern>/student/events/view</url-pattern>
-        <url-pattern>/student/events/detail</url-pattern>
-        <url-pattern>/student/events/register</url-pattern>
-        <url-pattern>/student/news/view</url-pattern>
-        <url-pattern>/student/news/detail</url-pattern>
+        <servlet-name>student</servlet-name>
+        <url-pattern>/student/*</url-pattern>
     </servlet-mapping>
-    
     
     <servlet-mapping>
         <servlet-name>eventmanager</servlet-name>

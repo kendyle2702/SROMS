@@ -42,7 +42,16 @@ public class ClubManagerController extends HttpServlet {
             if (path.endsWith("/clubmanager")) {
                 session.setAttribute("tabId", 1);
                 request.getRequestDispatcher("/clubManager.jsp").forward(request, response);
-            } else if (path.startsWith("/clubmanager/delete")) {
+            } else if (path.startsWith("/clubmanager/profile")) {
+                if (path.endsWith("/clubmanager/profile/edit")) {
+                        session.setAttribute("tabId", 4);
+                        request.getRequestDispatcher("/clubManager.jsp").forward(request, response);
+                    } else {
+                        session.setAttribute("tabId", 3);
+                        request.getRequestDispatcher("/clubManager.jsp").forward(request, response);
+                    }
+            }
+            else if (path.startsWith("/clubmanager/delete")) {
                 String[] parts = path.split("/");
                 String p = parts[parts.length - 1];
                 int id = Integer.parseInt(p);

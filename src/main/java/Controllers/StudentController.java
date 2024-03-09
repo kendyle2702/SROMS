@@ -17,17 +17,20 @@ public class StudentController extends HttpServlet {
             throws ServletException, IOException {
         HttpSession session = request.getSession();
         String role = (String) session.getAttribute("role");
-        String path = request.getServletPath();
+        String path = request.getRequestURI();
         
         if (role != null && role.equals("Student")) {
             if (path.endsWith("/student")) {
                 session.setAttribute("tabId", 1);
                 request.getRequestDispatcher("/student.jsp").forward(request, response);
             } else if (path.startsWith("/student/profile")) {
-                if (path.endsWith("/student/profile/view")) {
-                    request.getRequestDispatcher("/profile.jsp").forward(request, response);
-                } else if (path.endsWith("/student/profile/edit")) {
-                    request.getRequestDispatcher("/profile-edit.jsp").forward(request, response);
+                if (path.endsWith("/student/profile/edit")) {
+                    session.setAttribute("tabId", 6);
+                    request.getRequestDispatcher("/student.jsp").forward(request, response);
+                }
+                else{
+                    session.setAttribute("tabId", 5);
+                    request.getRequestDispatcher("/student.jsp").forward(request, response);
                 }
             } else if (path.startsWith("/student/clubs")) {
                 if (path.endsWith("/student/clubs/view")) {

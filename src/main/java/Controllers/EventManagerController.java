@@ -63,6 +63,14 @@ public class EventManagerController extends HttpServlet {
                     session.setAttribute("numberParti", numberParti);
                     session.setAttribute("tabId", 1);
                     request.getRequestDispatcher("/eventManager.jsp").forward(request, response);
+                } else if (path.startsWith("/eventmanager/profile")) {
+                    if (path.endsWith("/eventmanager/profile/edit")) {
+                        session.setAttribute("tabId", 6);
+                        request.getRequestDispatcher("/eventManager.jsp").forward(request, response);
+                    } else {
+                        session.setAttribute("tabId", 5);
+                        request.getRequestDispatcher("/eventManager.jsp").forward(request, response);
+                    }
                 } else if (path.equals("/eventmanager/events/viewevent")) {
                     session.setAttribute("tabId", 3);
                     request.getRequestDispatcher("/eventManager.jsp").forward(request, response);
@@ -80,8 +88,7 @@ public class EventManagerController extends HttpServlet {
             } catch (SQLException ex) {
                 Logger.getLogger(EventManagerController.class.getName()).log(Level.SEVERE, null, ex);
             }
-        }
-        else{
+        } else {
             response.sendRedirect("/");
         }
 
