@@ -208,4 +208,40 @@ public class EventDAO {
         ps.setInt(1, eventID);
         ps.executeUpdate();
     }
+
+    // Method to get EventCategoryName by EventCategoryID
+    public String getEventCategoryName(int eventCategoryID) {
+        String categoryName = null;
+        try {
+
+            String sql = "SELECT EventCategoryName FROM EventCategory WHERE EventCategoryID = ?";
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setInt(1, eventCategoryID);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                categoryName = rs.getString("EventCategoryName");
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(EventDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return categoryName;
+    }
+
+    public void addStudentToParticipationEventDetail(ParticipationEventDetail participationEventDetail) throws SQLException {
+        conn = DBConnection.connect(); // Establish database connection
+
+        // SQL command to insert a new record into ParticipationEventDetail
+        String query = "INSERT INTO [SROMS].[dbo].[ParticipationEventDetail] ([EventID], [StudentProfileID], [RoleEvent], [IsPresent], [Report], [Result])"
+                + " VALUES (?, ?, ?, ?, ?, ?)";
+        ps = conn.prepareStatement(query);
+
+        // Set parameters
+        ps.setInt(1, participationEventDetail.getEventID());
+        ps.setInt(2, participationEventDetail.getStudentProfileID());
+        ps.setString(3, participationEventDetail.getRoleEvent());
+        ps.setBoolean(4, participationEventDetail.getIsPresent());
+        ps.setString(5, participationEventDetail.getReport());
+        ps.setString(6, participationEventDetail.getResult());
+        ps.executeUpdate(); // Execute the insert operation
+    }
 }

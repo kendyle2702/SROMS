@@ -25,6 +25,9 @@ public class StudentProfile {
         this.major = major;
     }
 
+    public StudentProfile() {
+    }
+
     public int getStudentProfileID() {
         return studentProfileID;
     }

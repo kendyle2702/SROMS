@@ -19,7 +19,7 @@
         </div>
 
         <div class="row">
-            <div class="col-12 col-lg-12 col-xl-8">
+            <div class="col-12 col-lg-12 col-xl-12">
                 <div class="card flex-fill comman-shadow">
                     <div class="card-header">
                         <div class="row align-items-center">
@@ -96,73 +96,66 @@
                         <div class="tab-content">
                             <div class="tab-pane active show" id="listClub" role="tabpanel">
                                 <div class="pt-3 pb-3">
-                                    <div class="table-responsive lesson">
-                                        <table class="table table-center">
-                                            <tbody>
-                                                <%-- Retrieve the club with the latest establishment date --%>
-                                                <% DAOs.ClubDAO clubDAO = new DAOs.ClubDAO();
-                                                                Models.Club latestClub = clubDAO.getClubByLatestEstablishDate();
-                                                                if (latestClub != null) {%>
-
-                                                <tr>
-                                                    <td>
-                                                        <div class="date">
-                                                            <b><%= latestClub.getClubName()%></b>
-                                                            <p><%= latestClub.getDescription()%></p>
-                                                        </div>
-                                                    </td>
-                                                    <td>
-                                                        <div class="lesson-confirm">
-                                                            <a href="/student/clubs/detail">Club Details</a>
-                                                        </div>
-                                                        <button type="submit" class="btn btn-info">Register</button>
-                                                    </td>
-                                                </tr>
-                                                <% }%>
-                                            </tbody>
-                                        </table>
+                                    <!-- List Club Tab -->
+                                    <div class="tab-pane active show" id="listClub" role="tabpanel">
+                                        <div class="table-responsive lesson">
+                                            <table class="table table-center">
+                                                <tbody>
+                                                <c:forEach items="${sessionScope.listClub}" var="club">
+                                                    <tr>
+                                                        <td>
+                                                            <!-- Club Details -->
+                                                            <div class="date">
+                                                                <b>${club.clubName}</b>
+                                                                <p>${club.description}</p>
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="lesson-confirm">
+                                                                <a href="student/clubs/detail?clubID=${club.clubID}">Club Details</a>
+                                                            </div>
+                                                            <form action="registerClub" method="post">
+                                                                <input type="hidden" name="clubID" value="${club.clubID}">
+                                                                <button type="submit" class="btn btn-info">Register</button>
+                                                            </form>
+                                                        </td>
+                                                    </tr>
+                                                </c:forEach>
+                                                </tbody>
+                                            </table>
+                                            <c:if test="${empty sessionScope.listClub}">
+                                                <p>No clubs found.</p>
+                                            </c:if>
+                                        </div>
                                     </div>
-                                </div>
 
-                            </div>
-                            <div class="tab-pane" id="myClub" role="tabpanel">
-                                <div class="pt-3 pb-3">
-                                    <div class="table-responsive lesson">
-                                        <table class="table table-center">
-                                            <tbody>
-                                                <%
-                                                    List<Models.Club> clubs = clubsDAO.getClubsForStudent(userProfile.getUserProfileID()); // Assuming studentProfileID is available
-                                                    if (clubs != null && !clubs.isEmpty()) {
-                                                        for (Models.Club club : clubs) {
-                                                %>
-                                                <tr>
-                                                    <td>
-                                                        <div class="date">
-                                                            <b><%= club.getClubName()%></b>
-                                                            <p><%= club.getDescription()%></p> <!-- Assuming getClubRole method exists -->
-                                                        </div>
-                                                    </td>
-                                                    <td>
-                                                        <div class="lesson-confirm">
-                                                            <a href="student/clubs/detail?clubID=<%= club.getClubID()%>">Club Details</a> <!-- Assuming getClubID method exists -->
-                                                        </div>
-                                                    </td>
-                                                </tr>
-                                                <%
-                                                    }
-                                                } else {
-                                                %>
-                                            <div class="row align-items-center">
-                                                <div class="col-6">
-                                                    <h5 class="card-text">You haven't joined the club yet</h5>
-                                                </div>
-                                                <div class="col-6">
-                                                    <span class="float-end view-link"><a href="/student/clubs/view"> See More</a></span>
-                                                </div>
-                                            </div> 
-                                            <% }%>
-                                            </tbody>
-                                        </table>
+                                    <!-- My Club Tab -->
+                                    <div class="tab-pane" id="myClub" role="tabpanel">
+                                        <div class="table-responsive lesson">
+                                            <table class="table table-center">
+                                                <tbody>
+                                                <c:forEach items="${sessionScope.myclub}" var="club">
+                                                    <tr>
+                                                        <td>
+                                                            <!-- Club Details for My Club -->
+                                                            <div class="date">
+                                                                <b>${club.clubName}</b>
+                                                                <p>${club.description}</p>
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="lesson-confirm">
+                                                                <a href="student/clubs/detail?clubID=${club.clubID}">Club Details</a>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                </c:forEach>
+                                                </tbody>
+                                            </table>
+                                            <c:if test="${empty sessionScope.myclub}">
+                                                <p>You haven't joined any clubs yet.</p>
+                                            </c:if>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -175,101 +168,48 @@
 
             </div>
 
-            <div class="col-12 col-lg-12 col-xl-4 d-flex">
-                <div class="card flex-fill comman-shadow">
-                    <div class="card-body">
-                        <div class="calendar-info calendar-info1">
-                            <div class="up-come-header">
-                                <h2>Upcoming Events</h2>
-                                <span><a href="javascript:;"><i class="feather-plus"></i></a></span>
-                            </div>
-                            <div class="upcome-event-date">
-                                <h3>10 Jan</h3>
-                                <span><i class="fas fa-ellipsis-h"></i></span>
-                            </div>
-                            <div class="calendar-details">
-                                <p>08:00 am</p>
-                                <div class="calendar-box normal-bg">
-                                    <div class="calandar-event-name">
-                                        <h4>Botony</h4>
-                                        <h5>Lorem ipsum sit amet</h5>
-                                    </div>
-                                    <span>08:00 - 09:00 am</span>
-                                </div>
-                            </div>
-                            <div class="calendar-details">
-                                <p>09:00 am</p>
-                                <div class="calendar-box normal-bg">
-                                    <div class="calandar-event-name">
-                                        <h4>Botony</h4>
-                                        <h5>Lorem ipsum sit amet</h5>
-                                    </div>
-                                    <span>09:00 - 10:00 am</span>
-                                </div>
-                            </div>
-                            <div class="calendar-details">
-                                <p>10:00 am</p>
-                                <div class="calendar-box normal-bg">
-                                    <div class="calandar-event-name">
-                                        <h4>Botony</h4>
-                                        <h5>Lorem ipsum sit amet</h5>
-                                    </div>
-                                    <span>10:00 - 11:00 am</span>
-                                </div>
-                            </div>
-                            <div class="upcome-event-date">
-                                <h3>10 Jan</h3>
-                                <span><i class="fas fa-ellipsis-h"></i></span>
-                            </div>
-                            <div class="calendar-details">
-                                <p>08:00 am</p>
-                                <div class="calendar-box normal-bg">
-                                    <div class="calandar-event-name">
-                                        <h4>English</h4>
-                                        <h5>Lorem ipsum sit amet</h5>
-                                    </div>
-                                    <span>08:00 - 09:00 am</span>
-                                </div>
-                            </div>
-                            <div class="calendar-details">
-                                <p>09:00 am</p>
-                                <div class="calendar-box normal-bg">
-                                    <div class="calandar-event-name">
-                                        <h4>Mathematics </h4>
-                                        <h5>Lorem ipsum sit amet</h5>
-                                    </div>
-                                    <span>09:00 - 10:00 am</span>
-                                </div>
-                            </div>
-                            <div class="calendar-details">
-                                <p>10:00 am</p>
-                                <div class="calendar-box normal-bg">
-                                    <div class="calandar-event-name">
-                                        <h4>History</h4>
-                                        <h5>Lorem ipsum sit amet</h5>
-                                    </div>
-                                    <span>10:00 - 11:00 am</span>
-                                </div>
-                            </div>
-                            <div class="calendar-details">
-                                <p>11:00 am</p>
-                                <div class="calendar-box break-bg">
-                                    <div class="calandar-event-name">
-                                        <h4>Break</h4>
-                                        <h5>Lorem ipsum sit amet</h5>
-                                    </div>
-                                    <span>11:00 - 12:00 am</span>
-                                </div>
-                            </div>
-                            <div class="calendar-details">
-                                <p>11:30 am</p>
-                                <div class="calendar-box normal-bg">
-                                    <div class="calandar-event-name">
-                                        <h4>History</h4>
-                                        <h5>Lorem ipsum sit amet</h5>
-                                    </div>
-                                    <span>11:30 - 12:00 am</span>
-                                </div>
+            <div class="row">
+                <div class="col-xl-12 d-flex">
+                    <div class="card flex-fill student-space comman-shadow">
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table id="viewEvents" class="table table-hover table-striped table-bordered">
+                                    <thead class="thead-light">
+                                        <tr>
+                                            <th class="text-center">No</th>
+                                            <th class="text-center">Event ID</th>
+                                            <th class="text-center">Name</th>
+                                            <th class="text-center">Location</th>
+                                            <th class="text-center">Date</th>
+                                            <th class="text-center">Category</th>
+                                            <th class="text-center">Register</th> 
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    <c:forEach items="${sessionScope.listEvent}" var="event" varStatus="count">
+                                        <tr>
+                                            <td>${count.index + 1}</td>
+                                            <td>${event.eventID}</td>
+                                            <td>${event.eventName}</td>
+                                            <td>${event.location}</td>
+                                            <td>${event.holdTime}</td>
+                                       <td>${sessionScope.eventCategoryNames[event.eventID]}</td>
+                                        <td class="text-center">
+                                            <form action="student" method="post">
+                                                <input type="hidden" name="action" value="registerEvent">
+                                                <input type="hidden" name="EventID" value="${event.eventID}">
+                                                <button type="submit" class="btn btn-primary">Register</button>
+                                            </form>
+                                        </td>
+                                        </tr>
+                                    </c:forEach>
+                                    <c:if test="${empty sessionScope.listEvent}">
+                                        <tr>
+                                            <td colspan="7" class="text-center">No events found.</td>
+                                        </tr>
+                                    </c:if>
+                                    </tbody>
+                                </table>                                          
                             </div>
                         </div>
                     </div>

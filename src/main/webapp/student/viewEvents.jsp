@@ -1,6 +1,5 @@
 <%@page import="Models.Event"%>
 <%@page import="java.util.List"%>
-<%@page import="DAOs.EventsDAO"%>
 <div class="page-wrapper" style="min-height: 691px;">
     <div class="content container-fluid">
 
@@ -22,63 +21,47 @@
                 <div class="card flex-fill student-space comman-shadow">
                     <div class="card-body">
                         <div class="table-responsive">
-                            <table class="table star-student table-hover table-center table-borderless table-striped">
+                            <table id="viewEvents" class="table table-hover table-striped table-bordered">
                                 <thead class="thead-light">
                                     <tr>
-                                        <th class="text-center">#</th>
+                                        <th class="text-center">No</th>
+                                        <th class="text-center">Event ID</th>
                                         <th class="text-center">Name</th>
-                                        <th class="text-center">Start Time</th>
-                                        <th class="text-center">Description</th>
                                         <th class="text-center">Location</th>
+                                        <th class="text-center">Date</th>
                                         <th class="text-center">Category</th>
-                                        <td class="text-cemter"></td>
+                                        <th class="text-center">Register</th> 
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <%
-                                        EventsDAO eventsDAO = new EventsDAO();
-                                        List<Event> events = eventsDAO.getAllEventsForStudent();
-                                        int count = 1;
-                                        if (events != null && !events.isEmpty()) {
-                                            for (Event event : events) {
-                                                String categoryName = eventsDAO.getEventCategoryName(event.getEventCategoryID());
-                                    %>
+                                <c:forEach items="${sessionScope.listEvent}" var="event" varStatus="count">
                                     <tr>
-                                        <td class="text-center"><%= count++%></td>
-                                        <td class="text-center"><%= event.getEventName()%></td>
-                                        <td class="text-center"><%= event.getHoldTime()%></td>
-                                        <td class="text-center"><%= event.getDescription()%></td>
-                                        <td class="text-center"><%= event.getLocation()%></td>
-                                        <td class="text-center"><%= categoryName%></td>
-                                        <td>
-                                        <td>
-                                            <form action="register" method="post">
-                                                <input type="hidden" name="EventID" value="<%=event.getEventID()%>">
-                                                <button type="submit" class="btn btn-info">Register</button>
-                                            </form>
-                                        </td> 
-                                        </td>
+                                        <td>${count.index + 1}</td>
+                                        <td>${event.eventID}</td>
+                                        <td>${event.eventName}</td>
+                                        <td>${event.location}</td>
+                                        <td>${event.holdTime}</td>
+                                    <td>${sessionScope.eventCategoryNames[event.eventID]}</td>
+                                    <td class="text-center">
+                                        <form action="student" method="post">
+                                            <input type="hidden" name="action" value="registerEvent">
+                                            <input type="hidden" name="EventID" value="${event.eventID}">
+                                            <button type="submit" class="btn btn-primary">Register</button>
+                                        </form>
+                                    </td>
                                     </tr>
-                                    <%
-                                        }
-                                    } else {
-                                    %>
+                                </c:forEach>
+                                <c:if test="${empty sessionScope.listEvent}">
                                     <tr>
-                                        <td colspan="4" class="text-center">No events.</td>
+                                        <td colspan="7" class="text-center">No events found.</td>
                                     </tr>
-                                    <% }%>
+                                </c:if>
                                 </tbody>
-                            </table>
+                            </table>                                          
                         </div>
                     </div>
                 </div>
             </div>
-
         </div>
-
-
-
     </div>
-
-
 </div>

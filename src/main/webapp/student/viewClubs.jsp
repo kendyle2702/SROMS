@@ -29,12 +29,7 @@
                         </div>
                     </div>
                 </div>
-                <%                            // Instantiate the ClubsDAO
-                    ClubDAO clubDAO = new ClubDAO();
 
-                    // Call the getAllClubs method to retrieve all clubs
-                    List<Club> clubsList = clubDAO.getAllClubs();
-                %>
                 <div class="card-body">
                     <ul class="nav nav-pills navtab-bg nav-justified" role="tablist">
                         <li class="nav-item" role="presentation">
@@ -53,102 +48,72 @@
                     <div class="tab-content">
                         <div class="tab-pane active show" id="listClub" role="tabpanel">
                             <div class="pt-3 pb-3">
-                                <div class="table-responsive lesson">
-                                    <%
-                                        // Check if there are any clubs in the list
-                                        if (clubsList != null && !clubsList.isEmpty()) {
-                                    %>
-                                    <table class="table table-center">
-                                        <tbody>
-                                            <%
-                                                // Iterate through the list of clubs
-                                                for (Club club : clubsList) {
-                                            %>
-                                            <tr>
-                                                <td>
-                                                    <div class="date">
-                                                        <b><%= club.getClubName()%></b>
-                                                        <p><%= club.getDescription()%></p>
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <div class="lesson-confirm">
-                                                        <a href="student/clubs/detail?clubID=<%= club.getClubID()%>">Club Details</a>
-                                                    </div>
-                                                    <form action="registerClub" method="post">
-                                                        <input type="hidden" name="clubID" value="<%= club.getClubID()%>">
-                                                        <button type="submit" class="btn btn-info">Register</button>
-                                                    </form>
-                                                </td>
-                                            </tr>
-                                            <%
-                                                }
-                                            %>
-                                        </tbody>
-                                    </table>
-                                    <%
-                                    } else {
-                                    %>
-                                    <p>No clubs found.</p>
-                                    <%
-                                        }
-                                    %>
+                                <!-- List Club Tab -->
+                                <div class="tab-pane active show" id="listClub" role="tabpanel">
+                                    <div class="table-responsive lesson">
+                                        <table class="table table-center">
+                                            <tbody>
+                                            <c:forEach items="${sessionScope.listClub}" var="club">
+                                                <tr>
+                                                    <td>
+                                                        <!-- Club Details -->
+                                                        <div class="date">
+                                                            <b>${club.clubName}</b>
+                                                            <p>${club.description}</p>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div class="lesson-confirm">
+                                                            <a href="student/clubs/detail?clubID=${club.clubID}">Club Details</a>
+                                                        </div>
+                                                        <form action="registerClub" method="post">
+                                                            <input type="hidden" name="clubID" value="${club.clubID}">
+                                                            <button type="submit" class="btn btn-info">Register</button>
+                                                        </form>
+                                                    </td>
+                                                </tr>
+                                            </c:forEach>
+                                            </tbody>
+                                        </table>
+                                        <c:if test="${empty sessionScope.listClub}">
+                                            <p>No clubs found.</p>
+                                        </c:if>
+                                    </div>
                                 </div>
-                            </div>
-                        </div>
-                        <div class="tab-pane" id="myClub" role="tabpanel">
-                            <div class="pt-3 pb-3">
-                                <div class="table-responsive lesson">
-                                    <table class="table table-center">
-                                        <tbody>
-                                            <%
-                                                List<Models.Club> clubs = clubsDAO.getClubsForStudent(userProfile.getUserProfileID()); // Assuming studentProfileID is available
-                                                if (clubs != null && !clubs.isEmpty()) {
-                                                    for (Models.Club club : clubs) {
-                                            %>
-                                            <tr>
-                                                <td>
-                                                    <div class="date">
-                                                        <b><%= club.getClubName()%></b>
-                                                        <p><%= club.getDescription()%></p> <!-- Assuming getClubRole method exists -->
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <div class="lesson-confirm">
-                                                        <a href="student/clubs/detail?clubID=<%= club.getClubID()%>">Club Details</a> <!-- Assuming getClubID method exists -->
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                            <%
-                                                }
-                                            } else {
-                                            %>
-                                        <div class="row align-items-center">
-                                            <div class="col-6">
-                                                <h5 class="card-text">You haven't joined the club yet</h5>
-                                            </div>
-                                            <div class="col-6">
-                                                <span class="float-end view-link"><a href="/student/clubs/view"> See More</a></span>
-                                            </div>
-                                        </div> 
-                                        <% }%>
-                                        </tbody>
-                                    </table>
+
+                                <!-- My Club Tab -->
+                                <div class="tab-pane" id="myClub" role="tabpanel">
+                                    <div class="table-responsive lesson">
+                                        <table class="table table-center">
+                                            <tbody>
+                                            <c:forEach items="${sessionScope.myclub}" var="club">
+                                                <tr>
+                                                    <td>
+                                                        <!-- Club Details for My Club -->
+                                                        <div class="date">
+                                                            <b>${club.clubName}</b>
+                                                            <p>${club.description}</p>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div class="lesson-confirm">
+                                                            <a href="student/clubs/detail?clubID=${club.clubID}">Club Details</a>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            </c:forEach>
+                                            </tbody>
+                                        </table>
+                                        <c:if test="${empty sessionScope.myclub}">
+                                            <p>You haven't joined any clubs yet.</p>
+                                        </c:if>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-
-
             </div>
-
-
         </div>
-
-
-
     </div>
-
-
 </div>
