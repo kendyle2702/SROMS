@@ -46,7 +46,7 @@
                     <div class="row align-items-center">
                         <div class="col-auto profile-image">
                             <a href="#">
-                                <img class="rounded-circle" alt="User Image" src="${pageContext.request.contextPath}/assets/img/avatar/<%=userPro.getAvatar()%>">
+                                <img class="" alt="User Image" src="${pageContext.request.contextPath}/assets/img/avatar/<%=userPro.getAvatar()%>">
                             </a>
                         </div>
                         <div class="col ms-md-n2 profile-user-info">
@@ -123,7 +123,6 @@
                                     <div class="card-body">
                                         <h5 class="card-title d-flex justify-content-between">
                                             <span>Academic Information</span>
-                                            <a class="edit-link" href="<%=urlEdit%>"><i class="far fa-edit me-1"></i> Edit</a>
                                         </h5>
                                         <%
                                             if(rolePro.equals("Student")){

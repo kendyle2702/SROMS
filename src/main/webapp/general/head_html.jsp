@@ -411,6 +411,15 @@
 <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css"/>
 <style>
     body{
-       background-color: #f7f7fa !important;
+        background-color: #f7f7fa !important;
+    }
+</style>
+
+<style>
+    .invalid div {
+        color: red;
+    }
+    .invalid input {
+        border: 1px solid red;
     }
 </style>

@@ -15,6 +15,7 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 <script src="${pageContext.request.contextPath}/assets/plugins/sweetalert/sweetalert2.all.min.js" type="text/javascript"></script>>
 <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+<script src="${pageContext.request.contextPath}/assets/js/Validator.js"></script>
 <script>
     $(document).ready(function () {
         $("#viewEvents").DataTable();
@@ -23,3 +24,39 @@
         $("#viewClubs").DataTable();
     });
 </script>
+
+<!--Edit avatar-->
+<script>
+    document.querySelector("#uploadAvatar").addEventListener('change', (e) => {
+                const selectedFile = e.target.files[0];
+                let isImg = false;
+                let endFile = selectedFile.name.split(".")[selectedFile.name.split(".").length - 1];
+                if (endFile == "jpeg" || endFile == "jpg" || endFile == "png" || endFile == "gif" || endFile == "webp") {
+                    isImg = true;
+                } else {
+                    isImg = false;
+                }
+                if (isImg) {
+                    const imageURL = URL.createObjectURL(selectedFile);
+                    document.querySelector('#avatarImg').src = imageURL;
+                    document.querySelector('#avatarImg').style.display = 'block';
+                } else {
+                    document.querySelector('#avatarImg').src = "";
+                    document.querySelector('#avatarImg').style.display = 'none';
+                }
+            });
+    Validator({
+                form: "#formEditProfile",
+                message: ".message", // Selector class
+                invalid: "invalid", // Tên class message
+                rules: [
+                    Validator.isRequire("#firstname", "First Name is required"),
+                    Validator.isRequire("#lastname", "Last Name is required"),
+                    Validator.isRequire("#birthdate", "Birthdate is required"),
+                    Validator.isRequire("#address", "Address is required"),
+                    Validator.isRequire("#phone", "Phone is required"),
+                    Validator.isImage("#uploadAvatar", "Avatar must be image"),
+                ]
+            });
+</script>
+    
