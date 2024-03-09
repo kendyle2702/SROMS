@@ -81,11 +81,18 @@
                                             <label>Feedback</label>
                                             <input name="feedbackupdate" type="text" class="form-control" value="${sessionScope.event.getFeedback()}" >
                                         </div> 
-                                    </div>
+                                    </div>                                
                                     <div class="col-12 col-sm-4">
                                         <div class="form-group local-forms">
-                                            <label>Description</label>
-                                            <input name="descriptionupdate" type="text" class="form-control" value="${sessionScope.event.getDescription()}">
+                                            <label>Is Approve</label>
+                                            <c:choose>
+                                                <c:when test="${liste.getApprove() eq 'AA'}">
+                                                    <input type="text" class="form-control" value="Accept" readonly="">
+                                                </c:when>                                            
+                                                <c:otherwise>
+                                                    <input type="text" class="form-control" value="Waiting" readonly=""> 
+                                                </c:otherwise>
+                                            </c:choose>
                                         </div>
                                     </div>
                                     <div class="col-12 col-sm-4">
@@ -100,11 +107,14 @@
                                                 session.setAttribute("currentTime", currentDateTimeString);
                                             %>
                                             <c:choose>
-                                                <c:when test="${sessionScope.currentTime <= sessionScope.event.getEndTime()}">
-                                                    <input type="text" class="form-control" value="Happening" readonly>
+                                                <c:when test="${sessionScope.currentTime <= liste.getEndTime() && liste.getApprove() eq 'AA'}">
+                                                    <input type="text" class="form-control" value="Happening" readonly="">
+                                                </c:when>
+                                                <c:when test="${sessionScope.currentTime > liste.getEndTime() && liste.getApprove() eq 'AA'}">
+                                                    <input type="text" class="form-control" value="Finished" readonly="">   
                                                 </c:when>
                                                 <c:otherwise>
-                                                    <input type="text" class="form-control" value="Finished" readonly>
+                                                    <input type="text" class="form-control" value="Waiting Accept" readonly="">  
                                                 </c:otherwise>
                                             </c:choose>
                                         </div>
@@ -120,7 +130,13 @@
                                             <label>End Time</label>
                                             <input name="endtimeupdate" class="form-control" type="datetime-local" value="${sessionScope.event.getEndTime()}">
                                         </div>
-                                    </div>      
+                                    </div>  
+                                    <div class="col-12 col-sm-4">
+                                        <div class="form-group local-forms">
+                                            <label>Description</label>
+                                            <textarea name="descriptionupdate" type="text" class="form-control" >${sessionScope.event.getDescription()}</textarea>
+                                        </div>
+                                    </div>
                                     <div class="col-12">
                                         <div class="student-submit">
                                             <input class="btn btn-primary" name="event" id="submit" type="submit" value="Update">

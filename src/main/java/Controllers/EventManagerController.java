@@ -6,6 +6,7 @@ import DAOs.EventDAO;
 import Models.Event;
 import Models.ParticipationEventDetail;
 import Models.StudentProfile;
+import Models.UserProfile;
 import Utils.GoogleInformation;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -23,6 +24,7 @@ import java.text.SimpleDateFormat;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.Calendar;
 import java.util.Map;
 
@@ -43,22 +45,22 @@ public class EventManagerController extends HttpServlet {
                 // HttpSession is already an HttpSession, no need to cast
                 EventDAO eventManagerDAO = new EventDAO();
                 List<Event> listE = eventManagerDAO.eventList();
-                List<ParticipationEventDetail> pertiList = eventManagerDAO.participateEventList();
+//                List<ParticipationEventDetail> pertiList = eventManagerDAO.participateEventList();
                 int totalEventTook = eventManagerDAO.getTotalEventTook();
                 int totalEventTaking = eventManagerDAO.getTotalEventTaking();
                 long totalCost = eventManagerDAO.getTotalCost();
-                List<StudentProfile> studentList = eventManagerDAO.participateEventList();
+                //    List<StudentProfile> studentList = eventManagerDAO.participateEventList();
                 Calendar calen = Calendar.getInstance();
                 SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH-mm-ss");
                 List<Map<String, Integer>> numberParti = eventManagerDAO.getTotalIsPresent();
                 Timestamp d = new Timestamp(calen.getTimeInMillis());
                 if (path.equals("/eventmanager")) {
                     session.setAttribute("listEvent", listE);
-                    session.setAttribute("pertiList", pertiList);
+                    //   session.setAttribute("pertiList", pertiList);
                     session.setAttribute("totalevent", totalEventTaking);
                     session.setAttribute("totalEventTook", totalEventTook);
                     session.setAttribute("totalcost", totalCost);
-                    session.setAttribute("studentList", studentList);
+                    //         session.setAttribute("studentList", studentList);
                     String s = format.format(d);
                     session.setAttribute("numberParti", numberParti);
                     session.setAttribute("tabId", 1);
@@ -111,20 +113,21 @@ public class EventManagerController extends HttpServlet {
         try {
             if (action.equals("Submit")) {
                 String eventName = request.getParameter("eventname");
-                Timestamp pretime = formatTime(LocalDateTime.parse(request.getParameter("pretime")));
+                Timestamp preTime = formatTime(LocalDateTime.parse(request.getParameter("pretime")));
                 Timestamp holeTime = formatTime(LocalDateTime.parse(request.getParameter("holetime")));
                 String location = request.getParameter("location");
                 int cost = Integer.parseInt(request.getParameter("cost"));
                 int exNum = Integer.parseInt(request.getParameter("exnum"));
                 String organization = request.getParameter("organization");
                 String description = request.getParameter("description");
-
+                String feedback = request.getParameter("feedback");
                 Timestamp endTime = formatTime(LocalDateTime.parse(request.getParameter("endtime")));
-                Event event = new Event(eventName, pretime, holeTime,
-                        location, cost, exNum, organization,
-                        description, endTime);
-                eventManagerDAO.addEvent(event);
+                UserProfile userProfile = (UserProfile) session.getAttribute("user");
+                String role = (String) session.getAttribute("role");
+                int id = userProfile.getUserProfileID();
+                eventManagerDAO.addEvent(eventName, preTime, holeTime, location, cost, exNum, organization, description, feedback, endTime, role, id);
                 response.sendRedirect("/eventmanager");
+
             } else if (action.equals("Update")) {
                 String nameUpdate = request.getParameter("eventnameupdate");
                 Timestamp preTimeUpdate = formatTime(LocalDateTime.parse(request.getParameter("pretimeupdate")));

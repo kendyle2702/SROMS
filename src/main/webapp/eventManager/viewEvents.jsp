@@ -30,7 +30,6 @@
                                         <th class="text-center">Cost</th>
                                         <th class="text-center">Expected Number</th>
                                         <th class="text-center">Organization</th>
-                                        <th class="text-center">Description</th>
                                         <th class="text-center">Feedback</th>
                                         <th class="text-center">Is Approve</th><!-- comment -->
                                         <th class="text-center">Created By</th>                                           
@@ -52,17 +51,13 @@
                                             <td class="">${liste.getCost()}</td>
                                             <td class="">${liste.getExpectedNumber()}</td>
                                             <td class="">${liste.getOrganization()}</td>
-                                            <td class="">${liste.getDescription()}</td>
                                             <td class="">${liste.getFeedback()}</td>
                                         <c:choose>
-                                            <c:when test="${liste.getApprove() eq 'none'}">
-                                                <td class="">Waiting</td>
-                                            </c:when>
-                                            <c:when test="${liste.getApprove() eq 'CE'}">
-                                                <td class="">Accepted</td>
-                                            </c:when>
+                                            <c:when test="${liste.getApprove() eq 'AA'}">
+                                                <td class="text-center">Accept</td>
+                                            </c:when>                                            
                                             <c:otherwise>
-                                                <td class="">Rejected</td>
+                                                <td class="text-center">Waiting</td>
                                             </c:otherwise>
                                         </c:choose>
                                         <td class="">${liste.getCreatedBy()}</td>                                                          
@@ -88,13 +83,16 @@
                                             session.setAttribute("currentTime", currentDateTimeString);
                                         %>
                                         <c:choose>
-                                            <c:when test="${sessionScope.currentTime <= liste.getEndTime()}">
+                                            <c:when test="${sessionScope.currentTime <= liste.getEndTime() && liste.getApprove() eq 'AA'}">
                                                 <td class="">Happening</td>
                                             </c:when>
-                                            <c:otherwise>
+                                            <c:when test="${sessionScope.currentTime > liste.getEndTime() && liste.getApprove() eq 'AA'}">
                                                 <td class="">Finished</td>
+                                            </c:when>
+                                            <c:otherwise>
+                                                <td class="">Waiting Accept</td>
                                             </c:otherwise>
-                                        </c:choose>                                   
+                                        </c:choose>                               
                                         <td><a href="/eventmanager/events/detail/${liste.getEventID()}" type="button" class="btn btn-primary">Detail</a></td>
                                         </tr>
                                     </c:forEach>

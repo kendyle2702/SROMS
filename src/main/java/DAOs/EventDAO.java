@@ -50,36 +50,35 @@ public class EventDAO {
      *
      * @return @throws SQLException
      */
-    public List participateEventList() throws SQLException {
-        ArrayList partiList = new ArrayList<>();
-        ParticipationEventDetail parti = null;
-        StudentProfile student = null;
-        UserProfile profile = null;
-        Event event = null;
-        conn = DBConnection.connect();
-        String query = "SELECT* FROM [dbo].[ParticipationEventDetail]\n"
-                + "LEFT JOIN [dbo].[StudentProfile] ON ParticipationEventDetail.StudentProfileID = StudentProfile.StudentProfileID \n"
-                + "LEFT JOIN [dbo].[UserProfile] ON StudentProfile.UserProfileID = UserProfile.UserProfileID\n"
-                + "LEFT JOIN [dbo].[Event] ON ParticipationEventDetail.EventID = [dbo].[Event].EventID;";
-        ps = conn.prepareStatement(query);
-        rs = ps.executeQuery();
-        while (rs.next()) {
-            parti = new ParticipationEventDetail(rs.getInt(1), rs.getInt(2), rs.getString(3), rs.getBoolean(4), rs.getString(5));
-            profile = new UserProfile(rs.getString("FirstName"), rs.getString("LastName"));
-            student = new StudentProfile(rs.getString("RollNumber"), rs.getString("Major"));
-            event = new Event(rs.getString("EventName"));
-            partiList.add(parti);
-            partiList.add(profile);
-            partiList.add(student);
-            partiList.add(event);
-        }
-        return partiList;
-    }
-
+//    public List participateEventList() throws SQLException {
+//        ArrayList partiList = new ArrayList<>();
+//        ParticipationEventDetail parti = null;
+//        StudentProfile student = null;
+//        UserProfile profile = null;
+//        Event event = null;
+//        conn = DBConnection.connect();
+//        String query = "SELECT* FROM [dbo].[ParticipationEventDetail]\n"
+//                + "LEFT JOIN [dbo].[StudentProfile] ON ParticipationEventDetail.StudentProfileID = StudentProfile.StudentProfileID \n"
+//                + "LEFT JOIN [dbo].[UserProfile] ON StudentProfile.UserProfileID = UserProfile.UserProfileID\n"
+//                + "LEFT JOIN [dbo].[Event] ON ParticipationEventDetail.EventID = [dbo].[Event].EventID;";
+//        ps = conn.prepareStatement(query);
+//        rs = ps.executeQuery();
+//        while (rs.next()) {
+//            parti = new ParticipationEventDetail(rs.getInt(1), rs.getInt(2), rs.getString(3), rs.getBoolean(4), rs.getString(5));
+//            profile = new UserProfile(rs.getString("FirstName"), rs.getString("LastName"));
+//            student = new StudentProfile(rs.getString("RollNumber"), rs.getString("Major"));
+//            event = new Event(rs.getString("EventName"));
+//            partiList.add(parti);
+//            partiList.add(profile);
+//            partiList.add(student);
+//            partiList.add(event);
+//        }
+//        return partiList;
+//    }
     public int getTotalEventTaking() throws SQLException {
         int count = 0;
         conn = DBConnection.connect();
-        String query = "SELECT COUNT(*) AS total_events FROM Event  WHERE EndTime >= CURRENT_TIMESTAMP;";
+        String query = "SELECT COUNT(*) AS total_events FROM Event  WHERE EndTime >= CURRENT_TIMESTAMP AND Approve ='AA'";
         ps = conn.prepareStatement(query);
         rs = ps.executeQuery();
         if (rs.next()) {
@@ -92,7 +91,7 @@ public class EventDAO {
     public int getTotalEventTook() throws SQLException {
         int count = 0;
         conn = DBConnection.connect();
-        String query = "SELECT COUNT(*) AS total_events FROM Event  WHERE EndTime < CURRENT_TIMESTAMP;";
+        String query = "SELECT COUNT(*) AS total_events FROM Event  WHERE EndTime < CURRENT_TIMESTAMP AND Approve ='AA'";
         ps = conn.prepareStatement(query);
         rs = ps.executeQuery();
         if (rs.next()) {
@@ -152,21 +151,25 @@ public class EventDAO {
         return totalIsPresent;
     }
 
-    public void addEvent(Event event) throws SQLException {
+    public void addEvent(String eventName, Timestamp preTime, Timestamp holdTime, String location, int cost, int expectedNumber, String organization, String description, String feedback, Timestamp endTime, String createBy, int managerProfileID) throws SQLException {
         conn = DBConnection.connect();
-        String query = "INSERT INTO [SROMS].[dbo].[Event]"
-                + " (EventName,PreparationTime,HoldTime,Location,Cost,ExpectedNumber,Organization,Description, EndTime)"
-                + "VALUES (?,?,?,?,?,?,?,?,?)";
+        String query = "INSERT INTO [SROMS].[dbo].[Event]\n"
+                + "(EventName,PreparationTime,HoldTime,Location,Cost,ExpectedNumber,Organization,Description,Feedback, EndTime,CreateBy,ManagerProfileID,Approve)\n"
+                + "VALUES( ?,?,?,?,?,?,?,?,?,?,?,?,?);";
         ps = conn.prepareStatement(query);
-        ps.setString(1, event.getEventName());
-        ps.setTimestamp(2, event.getPreparationTime());
-        ps.setTimestamp(3, event.getHoldTime());
-        ps.setString(4, event.getLocation());
-        ps.setInt(5, event.getCost());
-        ps.setInt(6, event.getExpectedNumber());
-        ps.setString(7, event.getOrganization());
-        ps.setString(8, event.getDescription());
-        ps.setTimestamp(9, event.getEndTime());
+        ps.setString(1, eventName);
+        ps.setTimestamp(2, preTime);
+        ps.setTimestamp(3, holdTime);
+        ps.setString(4, location);
+        ps.setInt(5, cost);
+        ps.setInt(6, expectedNumber);
+        ps.setString(7, organization);
+        ps.setString(8, description);
+        ps.setString(9, feedback);
+        ps.setTimestamp(10, endTime);
+        ps.setString(11, createBy);
+        ps.setInt(12, managerProfileID);
+        ps.setString(13, "EC");
         ps.executeUpdate();
     }
 
@@ -210,19 +213,6 @@ public class EventDAO {
     }
 
     public static void main(String[] args) throws SQLException {
-//      Calendar calen = Calendar.getInstance();
-//        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH-mm-ss");
-//        Timestamp d =  new Timestamp(calen.getTimeInMillis());
-//        String s = format.format(d);
-//        System.out.println("Date: " + s);
-//EventManagerDAO dao = new EventDAO();
-//
-//
-//for(int i = 0; i < m.size(); i++) {
-//    System.out.println(m.get(i));
-//}
-//
-//    }
 
     }
 }
