@@ -42,7 +42,14 @@ public class StudentController extends HttpServlet {
                 int studentProfileID = studentProfile.getStudentProfileID();
 
                 List<Club> listC = clubDAO.listClub();
-                List<Club> myclub = clubDAO.getMyClubs(userP);
+                
+                List<Club> myClubs = clubDAO.getMyClubs(userP);
+                Map<Integer, String> semesterNames = new HashMap<>();
+                
+                for (Club club : myClubs) {
+                    String semesterName = clubDAO.getSemesterNameByClubID(club.getClubID());
+                    semesterNames.put(club.getClubID(), semesterName);
+                }
 
                 Map<Integer, String> eventCategoryNames = new HashMap<>();
 
@@ -55,7 +62,8 @@ public class StudentController extends HttpServlet {
                     session.setAttribute("listEvent", listE);
                     session.setAttribute("pertiList", pertiList);
                     session.setAttribute("listClub", listC);
-                    session.setAttribute("myclub", myclub);
+                    session.setAttribute("myClubs", myClubs);
+                    session.setAttribute("semesterNames", semesterNames);
                     session.setAttribute("userProfileID", userP);
                     session.setAttribute("StudentPorfile", studentProfile);
                     session.setAttribute("studentProfileID", studentProfileID);
@@ -71,7 +79,8 @@ public class StudentController extends HttpServlet {
                 } else if (path.startsWith("/student/clubs")) {
                     if (path.endsWith("/student/clubs/view")) {
                         session.setAttribute("listClub", listC);
-                        session.setAttribute("myclub", myclub);
+                        session.setAttribute("myClubs", myClubs);
+                        session.setAttribute("semesterNames", semesterNames);
                         session.setAttribute("userProfileID", userP);
                         session.setAttribute("StudentPorfile", studentProfile);
                         session.setAttribute("studentProfileID", studentProfileID);

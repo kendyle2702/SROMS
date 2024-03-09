@@ -34,7 +34,7 @@
                     <ul class="nav nav-pills navtab-bg nav-justified" role="tablist">
                         <li class="nav-item" role="presentation">
                             <a href="#listClub" data-bs-toggle="tab" aria-expanded="false"
-                               class="nav-link active" aria-selected="false" role="tab" tabindex="-1">
+                               class="nav-link active" aria-selected="false" role="tab">
                                 List Club
                             </a>
                         </li>
@@ -46,68 +46,74 @@
                         </li>
                     </ul>
                     <div class="tab-content">
+                        <!-- List Club Tab -->
                         <div class="tab-pane active show" id="listClub" role="tabpanel">
                             <div class="pt-3 pb-3">
-                                <!-- List Club Tab -->
-                                <div class="tab-pane active show" id="listClub" role="tabpanel">
-                                    <div class="table-responsive lesson">
-                                        <table class="table table-center">
-                                            <tbody>
-                                            <c:forEach items="${sessionScope.listClub}" var="club">
-                                                <tr>
-                                                    <td>
-                                                        <!-- Club Details -->
-                                                        <div class="date">
-                                                            <b>${club.clubName}</b>
-                                                            <p>${club.description}</p>
-                                                        </div>
-                                                    </td>
-                                                    <td>
-                                                        <div class="lesson-confirm">
-                                                            <a href="student/clubs/detail?clubID=${club.clubID}">Club Details</a>
-                                                        </div>
-                                                        <form action="registerClub" method="post">
-                                                            <input type="hidden" name="clubID" value="${club.clubID}">
-                                                            <button type="submit" class="btn btn-info">Register</button>
-                                                        </form>
-                                                    </td>
-                                                </tr>
-                                            </c:forEach>
-                                            </tbody>
-                                        </table>
-                                        <c:if test="${empty sessionScope.listClub}">
-                                            <p>No clubs found.</p>
-                                        </c:if>
-                                    </div>
+                                <div class="table-responsive lesson">
+                                    <table class="table table-center">
+                                        <tbody>
+                                        <c:forEach items="${sessionScope.listClub}" var="club">
+                                            <tr>
+                                                <td>
+                                                    <!-- Club Details -->
+                                                    <div class="date">
+                                                        <b>${club.clubName}</b>
+                                                        <p>${club.description}</p>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div class="lesson-confirm">
+                                                        <a href="student/clubs/detail?clubID=${club.clubID}">Club Details</a>
+                                                    </div>
+                                                    <form action="registerClub" method="post">
+                                                        <input type="hidden" name="clubID" value="${club.clubID}">
+                                                        <button type="submit" class="btn btn-info">Register</button>
+                                                    </form>
+                                                </td>
+                                            </tr>
+                                        </c:forEach>
+                                        </tbody>
+                                    </table>
+                                    <c:if test="${empty sessionScope.listClub}">
+                                        <p>No clubs found.</p>
+                                    </c:if>
                                 </div>
+                            </div>
+                        </div>
 
-                                <!-- My Club Tab -->
-                                <div class="tab-pane" id="myClub" role="tabpanel">
-                                    <div class="table-responsive lesson">
-                                        <table class="table table-center">
-                                            <tbody>
-                                            <c:forEach items="${sessionScope.myclub}" var="club">
-                                                <tr>
-                                                    <td>
-                                                        <!-- Club Details for My Club -->
-                                                        <div class="date">
-                                                            <b>${club.clubName}</b>
-                                                            <p>${club.description}</p>
-                                                        </div>
-                                                    </td>
-                                                    <td>
-                                                        <div class="lesson-confirm">
-                                                            <a href="student/clubs/detail?clubID=${club.clubID}">Club Details</a>
-                                                        </div>
-                                                    </td>
-                                                </tr>
-                                            </c:forEach>
-                                            </tbody>
-                                        </table>
-                                        <c:if test="${empty sessionScope.myclub}">
-                                            <p>You haven't joined any clubs yet.</p>
+                        <!-- My Club Tab -->
+                        <div class="tab-pane" id="myClub" role="tabpanel">
+                            <div class="pt-3 pb-3">
+                                <div class="table-responsive lesson">
+                                    <table class="table table-center">
+                                        <tbody>
+                                        <c:forEach items="${sessionScope.myClubs}" var="club">
+                                            <tr>
+                                                <td>
+                                                    <div class="date">
+                                                        <b>${sessionScope.semesterNames[club.clubID]}</b>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div class="card-text">
+                                                        <b>${club.clubName}</b>
+                                                        <p>${club.description}</p>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div class="lesson-confirm">
+                                                        <a href="student/clubs/detail?clubID=${club.clubID}">Club Details</a>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </c:forEach>
+                                        <c:if test="${empty sessionScope.myClubs}">
+                                            <tr>
+                                                <td colspan="3" class="text-center">You haven't joined any clubs yet.</td>
+                                            </tr>
                                         </c:if>
-                                    </div>
+                                        </tbody>
+                                    </table>
                                 </div>
                             </div>
                         </div>
