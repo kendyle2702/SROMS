@@ -51,13 +51,12 @@
                                     <div class="card-header">
                                         <div class="row align-items-center">
                                             <div class="col-10">
-                                                <h3 class="blog-title"><a href="/student/news/detail"><%= latestNews.getTitle()%></a></h3>
-                                                <p><%= latestNews.getContent()%></p>
+                                                <h3 class="blog-title"><%= latestNews.getTitle()%></h3>
                                             </div>
                                             <div class="col-2">
-                                                <div class="skip-group">
-                                                    <button type="submit" class="btn btn-info continue-btn">Next</button>
-                                                </div>
+                                                <a href="#" data-bs-toggle="modal" data-bs-target="#news_detail<%= latestNews.getNewsID()%>" class="btn btn-primary paid-cancel-btn">
+                                                    Read
+                                                </a>
                                             </div>
                                         </div>
                                     </div>
@@ -143,7 +142,7 @@
                                                     if (clubs != null && !clubs.isEmpty()) {
                                                         for (Models.Club club : clubs) {
                                                             String semesterName = clubDAO.getSemesterNameByClubID(club.getClubID()); // Move inside the loop to ensure it's updated for each club
-%>
+                                                %>
                                                 <tr>
                                                     <td>
                                                         <div class="date">
@@ -232,7 +231,25 @@
             </div>
 
         </div>
-
+        <div class="modal custom-modal fade" id="news_detail<%= latestNews.getNewsID()%>" aria-hidden="true" style="display: none;">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-body">
+                    <h3><%=latestNews.getTitle()%></h3>
+                        <div class="form-header">
+                            <p><%=latestNews.getContent()%></p>
+                        </div>
+                        <div class="modal-btn delete-action">
+                            <div class="row">
+                                <div class="text-center sorting">
+                                    <a href="javascript:void(0);" data-bs-dismiss="modal" class="btn btn-primary paid-cancel-btn">Cancel</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
 
     </div>
 

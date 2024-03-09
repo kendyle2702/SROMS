@@ -50,9 +50,8 @@
                                                 <div class="student-submit">
                                                     <input type="text" name="EventID" value="${event.eventID}">
                                                     <%
-                                                        
                                                         UserLoginDAO userLoginDAO = new UserLoginDAO();
-                                                        int studentProfileID = userLoginDAO.getStudentProfileIDByUserProfileID(profile.getUserProfileID());
+                                                        int studentProfileID = userLoginDAO.getStudentProfileIDByUserProfileID(userProfile.getUserProfileID());
                                                     %>  
                                                     <input type="text" name="studentProfileID" value="<%=studentProfileID%>">
                                                     <input type="submit" name="action" class="btn btn-primary" value="Register">
