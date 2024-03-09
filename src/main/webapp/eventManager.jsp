@@ -32,6 +32,5 @@
             </c:choose>
         </div>
     </body>
-
     <%@include file="./general/js.jsp" %>
 </html>

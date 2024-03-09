@@ -29,8 +29,30 @@ public class Event {
     private int managerProfileID;
     private int studentProfileID;
     private Timestamp endTime;
+    private int PrizeStructureID;
 
     public Event() {
+    }
+
+    public Event(int eventID, String eventName, Timestamp preparationTime, Timestamp holdTime, String location, int cost, int expectedNumber, String organization, String description, String feedback, String Approve, String createdBy, int eventCategoryID, int adminProfileID, int managerProfileID, int studentProfileID, Timestamp endTime, int PrizeStructureID) {
+        this.eventID = eventID;
+        this.eventName = eventName;
+        this.preparationTime = preparationTime;
+        this.holdTime = holdTime;
+        this.location = location;
+        this.cost = cost;
+        this.expectedNumber = expectedNumber;
+        this.organization = organization;
+        this.description = description;
+        this.feedback = feedback;
+        this.Approve = Approve;
+        this.createdBy = createdBy;
+        this.eventCategoryID = eventCategoryID;
+        this.adminProfileID = adminProfileID;
+        this.managerProfileID = managerProfileID;
+        this.studentProfileID = studentProfileID;
+        this.endTime = endTime;
+        this.PrizeStructureID = PrizeStructureID;
     }
 
     public Event(int eventID, String eventName, Timestamp preparationTime, Timestamp holdTime, String location, int cost, int expectedNumber, String organization, String description, String feedback, String Approve, String createdBy, int eventCategoryID, int adminProfileID, int managerProfileID, int studentProfileID, Timestamp endTime) {
@@ -51,6 +73,7 @@ public class Event {
         this.managerProfileID = managerProfileID;
         this.studentProfileID = studentProfileID;
         this.endTime = endTime;
+        
     }
 
     public Event(String eventName, Timestamp preparationTime, Timestamp holdTime, String location, int cost, int expectedNumber, String organization, String description, String createdBy, Timestamp endTime) {
@@ -243,4 +266,12 @@ public class Event {
         this.endTime = endTime;
     }
 
+    public int getPrizeStructureID() {
+        return PrizeStructureID;
+    }
+
+    public void setPrizeStructureID(int PrizeStructureID) {
+        this.PrizeStructureID = PrizeStructureID;
+    }
+    
 }

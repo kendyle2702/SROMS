@@ -15,8 +15,8 @@ public class DBConnection {
         String database = "SROMS";
         String user = "sa";
         String password = "111111";
-
         Connection conn = null;
+        
         try {
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
 

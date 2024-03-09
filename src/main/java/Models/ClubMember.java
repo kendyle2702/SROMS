@@ -9,16 +9,14 @@ public class ClubMember {
     private String clubRole;
     private int clubPoint;
     private String report;
-    private Boolean status;
 
-    public ClubMember(int studentProfileID, int clubID, int semesterID, String clubRole, Integer clubPoint, String report, Boolean status) {
+    public ClubMember(int studentProfileID, int clubID, int semesterID, String clubRole, int clubPoint, String report) {
         this.studentProfileID = studentProfileID;
         this.clubID = clubID;
         this.semesterID = semesterID;
         this.clubRole = clubRole;
         this.clubPoint = clubPoint;
         this.report = report;
-        this.status = status;
     }
 
     public int getStudentProfileID() {
@@ -69,12 +67,5 @@ public class ClubMember {
         this.report = report;
     }
 
-    public Boolean getStatus() {
-        return status;
-    }
-
-    public void setStatus(Boolean status) {
-        this.status = status;
-    }
-
+   
 }

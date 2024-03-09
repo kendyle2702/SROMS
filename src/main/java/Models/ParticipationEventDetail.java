@@ -9,6 +9,7 @@ public class ParticipationEventDetail {
     private String roleEvent;
     private Boolean isPresent;
     private String report;
+    private String result;
 
     public ParticipationEventDetail(int eventID, int studentProfileID, String roleEvent, Boolean isPresent, String report) {
         this.eventID = eventID;
@@ -16,6 +17,16 @@ public class ParticipationEventDetail {
         this.roleEvent = roleEvent;
         this.isPresent = isPresent;
         this.report = report;
+    }
+
+    
+    public ParticipationEventDetail(int eventID, int studentProfileID, String roleEvent, Boolean isPresent, String report, String result) {
+        this.eventID = eventID;
+        this.studentProfileID = studentProfileID;
+        this.roleEvent = roleEvent;
+        this.isPresent = isPresent;
+        this.report = report;
+        this.result = result;
     }
 
     public int getEventID() {
@@ -57,5 +68,15 @@ public class ParticipationEventDetail {
     public void setReport(String report) {
         this.report = report;
     }
+
+    public String getResult() {
+        return result;
+    }
+
+    public void setResult(String result) {
+        this.result = result;
+    }
+
+   
 
 }

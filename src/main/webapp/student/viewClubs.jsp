@@ -1,6 +1,6 @@
 <%@page import="Models.Club"%>
 <%@page import="java.util.List"%>
-<%@page import="DAOs.ClubsDAO"%>
+<%@page import="DAOs.ClubDAO"%>
 <div class="page-wrapper" style="min-height: 691px;">
     <div class="content container-fluid">
 
@@ -30,10 +30,10 @@
                     </div>
                 </div>
                 <%                            // Instantiate the ClubsDAO
-                    ClubsDAO clubsDAO = new ClubsDAO();
+                    ClubDAO clubDAO = new ClubDAO();
 
                     // Call the getAllClubs method to retrieve all clubs
-                    List<Club> clubsList = clubsDAO.getAllClubs();
+                    List<Club> clubsList = clubDAO.getAllClubs();
                 %>
                 <div class="card-body">
                     <ul class="nav nav-pills navtab-bg nav-justified" role="tablist">

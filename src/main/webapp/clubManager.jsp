@@ -17,5 +17,7 @@
                     <%@include file="./clubManager/clubDetail.jsp" %>
                 </c:when>
             </c:choose>
-        <%@include file="./general/js.jsp" %>
+            <%@include file="./general/js.jsp" %>
+        </div>
+    </body>   
 </html>

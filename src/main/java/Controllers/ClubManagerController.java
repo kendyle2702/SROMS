@@ -29,9 +29,11 @@ public class ClubManagerController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        String path = request.getRequestURI();
+        HttpSession session = request.getSession();
+        String role = (String) session.getAttribute("role");
+        if (role != null && role.equals("Club Manager")) {
         try {
-            String path = request.getRequestURI();
-            HttpSession session = request.getSession();
             ClubDAO clubDAO = new ClubDAO();
             List<Club> listClub = clubDAO.listClub();
             int totalClub = clubDAO.getTotalClub();
@@ -57,6 +59,9 @@ public class ClubManagerController extends HttpServlet {
 
         } catch (SQLException ex) {
             Logger.getLogger(ClubManagerController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        }else{
+            response.sendRedirect("/");
         }
     }
 

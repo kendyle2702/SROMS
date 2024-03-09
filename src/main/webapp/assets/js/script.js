@@ -192,16 +192,16 @@ Version      : 1.0
 	
     // Datatable
 
-	if ($('.datatable').length > 0) {
-        $('.datatable').DataTable({
-            "bFilter": false,
-        });
-    }
-    if ($('.datatables').length > 0) {
-        $('.datatables').DataTable({
-            "bFilter": true,
-        });
-    }
+//	if ($('.datatable').length > 0) {
+//        $('.datatable').DataTable({
+//            "bFilter": false,
+//        });
+//    }
+//    if ($('.datatables').length > 0) {
+//        $('.datatables').DataTable({
+//            "bFilter": true,
+//        });
+//    }
 	
 	// Zoom in
 	

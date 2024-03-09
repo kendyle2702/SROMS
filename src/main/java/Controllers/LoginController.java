@@ -8,10 +8,12 @@ import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import java.io.IOException;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import java.net.URLEncoder;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.fluent.Form;
 import org.apache.http.client.fluent.Request;
@@ -27,15 +29,19 @@ public class LoginController extends HttpServlet {
 
 //      System.out.println(userInfor.getEmail() + ":" +(String)session.getAttribute("role") );
         UserLoginDAO userLoginDAO = new UserLoginDAO();
-        String role = (String) session.getAttribute("role");
+        String roleLogin = (String) session.getAttribute("roleLogin");
         String username = userInfor.getEmail();
         UserProfile userProfile = userLoginDAO.getUserProfileByUsername(username);
         if (userProfile != null) {
-            boolean isLogin = userLoginDAO.loginWithGoogleByUsernameAndRole(username, role);
+            boolean isLogin = userLoginDAO.loginWithGoogleByUsernameAndRole(username, roleLogin);
             if (isLogin) {
                 session.setAttribute("user", userProfile);
+                session.setAttribute("role", roleLogin);
+                Cookie c = new Cookie("login", URLEncoder.encode(userProfile.getEmail() + "/" + roleLogin, "UTF-8"));
+                c.setMaxAge(24 * 60 * 60 * 3);
+                response.addCookie(c);
                 // Redirect to the corresponding Controller role
-                switch (role) {
+                switch (roleLogin) {
                     case "Admin":
                         response.sendRedirect("/admin");
                         break;
@@ -64,10 +70,29 @@ public class LoginController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        if (request.getParameter("code") != null) {
-            doGetLoginWithGoogle(request, response);
-        } else {
-            request.getRequestDispatcher("/login.jsp").forward(request, response);
+        HttpSession session = request.getSession();
+        String path = request.getRequestURI();
+        if (!path.endsWith("/logout")) {
+            if (request.getParameter("code") != null) {
+                doGetLoginWithGoogle(request, response);
+            } else if (session.getAttribute("user") != null) {
+                response.sendRedirect("/");
+            } else {
+                request.getRequestDispatcher("/login.jsp").forward(request, response);
+            }
+        }else{
+            Cookie[] cList = request.getCookies();
+            if (cList != null) {
+                for (Cookie c : cList) {
+                    c.setValue("");
+                    c.setPath("/");
+                    c.setMaxAge(0);
+                    response.addCookie(c);
+                }
+
+            }
+            session.invalidate();
+            response.sendRedirect("/");
         }
     }
 
@@ -80,19 +105,19 @@ public class LoginController extends HttpServlet {
         if (submitButton != null) {
             switch (role) {
                 case "0":
-                    session.setAttribute("role", "None");
+                    session.setAttribute("roleLogin", "None");
                     break;
                 case "1":
-                    session.setAttribute("role", "Admin");
+                    session.setAttribute("roleLogin", "Admin");
                     break;
                 case "2":
-                    session.setAttribute("role", "Event Manager");
+                    session.setAttribute("roleLogin", "Event Manager");
                     break;
                 case "3":
-                    session.setAttribute("role", "Club Manager");
+                    session.setAttribute("roleLogin", "Club Manager");
                     break;
                 case "4":
-                    session.setAttribute("role", "Student");
+                    session.setAttribute("roleLogin", "Student");
                     break;
             }
             response.sendRedirect("/login");

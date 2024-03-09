@@ -35,49 +35,56 @@ public class EventManagerController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        try {
-            // HttpSession is already an HttpSession, no need to cast
-            String path = request.getRequestURI();
-            HttpSession session = request.getSession();
-            EventDAO eventManagerDAO = new EventDAO();
-            List<Event> listE = eventManagerDAO.eventList();
-            List<ParticipationEventDetail> pertiList = eventManagerDAO.participateEventList();
-            int totalEventTook = eventManagerDAO.getTotalEventTook();
-            int totalEventTaking = eventManagerDAO.getTotalEventTaking();
-            long totalCost = eventManagerDAO.getTotalCost();
-            List<StudentProfile> studentList = eventManagerDAO.participateEventList();
-            Calendar calen = Calendar.getInstance();
-            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH-mm-ss");
-            List<Map<String, Integer>> numberParti = eventManagerDAO.getTotalIsPresent();
-            Timestamp d = new Timestamp(calen.getTimeInMillis());
-            if (path.equals("/eventmanager")) {
-                session.setAttribute("listEvent", listE);
-                session.setAttribute("pertiList", pertiList);
-                session.setAttribute("totalevent", totalEventTaking);
-                session.setAttribute("totalEventTook", totalEventTook);
-                session.setAttribute("totalcost", totalCost);
-                session.setAttribute("studentList", studentList);
-                String s = format.format(d);
-                session.setAttribute("numberParti", numberParti);
-                session.setAttribute("tabId", 1);
-                request.getRequestDispatcher("/eventManager.jsp").forward(request, response);
-            } else if (path.equals("/eventmanager/events/viewevent")) {
-                session.setAttribute("tabId", 3);
-                request.getRequestDispatcher("/eventManager.jsp").forward(request, response);
-            } else if (path.equals("/eventmanager/events/create")) {
-                session.setAttribute("tabId", 2);
-                request.getRequestDispatcher("/eventManager.jsp").forward(request, response);
-            } else if (path.startsWith("/eventmanager/events/detail/")) {
-                String[] idArray = path.split("/");
-                int id = Integer.parseInt(idArray[idArray.length - 1]);
-                Event event = eventManagerDAO.getEvent(id);
-                session.setAttribute("event", event);
-                session.setAttribute("tabId", 4);
-                request.getRequestDispatcher("/eventManager.jsp").forward(request, response);
+        String path = request.getRequestURI();
+        HttpSession session = request.getSession();
+        String role = (String) session.getAttribute("role");
+        if (role != null && role.equals("Event Manager")) {
+            try {
+                // HttpSession is already an HttpSession, no need to cast
+                EventDAO eventManagerDAO = new EventDAO();
+                List<Event> listE = eventManagerDAO.eventList();
+                List<ParticipationEventDetail> pertiList = eventManagerDAO.participateEventList();
+                int totalEventTook = eventManagerDAO.getTotalEventTook();
+                int totalEventTaking = eventManagerDAO.getTotalEventTaking();
+                long totalCost = eventManagerDAO.getTotalCost();
+                List<StudentProfile> studentList = eventManagerDAO.participateEventList();
+                Calendar calen = Calendar.getInstance();
+                SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH-mm-ss");
+                List<Map<String, Integer>> numberParti = eventManagerDAO.getTotalIsPresent();
+                Timestamp d = new Timestamp(calen.getTimeInMillis());
+                if (path.equals("/eventmanager")) {
+                    session.setAttribute("listEvent", listE);
+                    session.setAttribute("pertiList", pertiList);
+                    session.setAttribute("totalevent", totalEventTaking);
+                    session.setAttribute("totalEventTook", totalEventTook);
+                    session.setAttribute("totalcost", totalCost);
+                    session.setAttribute("studentList", studentList);
+                    String s = format.format(d);
+                    session.setAttribute("numberParti", numberParti);
+                    session.setAttribute("tabId", 1);
+                    request.getRequestDispatcher("/eventManager.jsp").forward(request, response);
+                } else if (path.equals("/eventmanager/events/viewevent")) {
+                    session.setAttribute("tabId", 3);
+                    request.getRequestDispatcher("/eventManager.jsp").forward(request, response);
+                } else if (path.equals("/eventmanager/events/create")) {
+                    session.setAttribute("tabId", 2);
+                    request.getRequestDispatcher("/eventManager.jsp").forward(request, response);
+                } else if (path.startsWith("/eventmanager/events/detail/")) {
+                    String[] idArray = path.split("/");
+                    int id = Integer.parseInt(idArray[idArray.length - 1]);
+                    Event event = eventManagerDAO.getEvent(id);
+                    session.setAttribute("event", event);
+                    session.setAttribute("tabId", 4);
+                    request.getRequestDispatcher("/eventManager.jsp").forward(request, response);
+                }
+            } catch (SQLException ex) {
+                Logger.getLogger(EventManagerController.class.getName()).log(Level.SEVERE, null, ex);
             }
-        } catch (SQLException ex) {
-            Logger.getLogger(EventManagerController.class.getName()).log(Level.SEVERE, null, ex);
         }
+        else{
+            response.sendRedirect("/");
+        }
+
     }
 
     /**
