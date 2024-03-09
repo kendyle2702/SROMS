@@ -85,31 +85,10 @@
 
                 <!-- Dropdown menu items -->
                 <%
-                    String role = (String)session.getAttribute("role");
-                    switch (role) {
-                            case "Student":
-                                %>
-                                <a class="dropdown-item" href="/student/profile">My Profile</a>
-                                <%
-                                break;
-                            case "Event Manager":
-                                %>
-                                <a class="dropdown-item" href="/eventmanager/profile">My Profile</a>
-                                <%
-                                break;
-                            case "Club Manager":
-                                %>
-                                <a class="dropdown-item" href="/clubmanager/profile">My Profile</a>
-                                <%
-                                break;
-                            case "Admin":
-                                %>
-                                <a class="dropdown-item" href="/admin/profile">My Profile</a>
-                                <%
-                                break;
-                            
-                        }
+                    String roleURL = (String)session.getAttribute("roleURL"); 
                 %>
+                <a class="dropdown-item" href="/<%=roleURL%>/profile">My Profile</a>
+               
                 <a class="dropdown-item" href="/logout">Logout</a> <!-- Link to logout functionality -->
             </div>
 

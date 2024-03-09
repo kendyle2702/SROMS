@@ -1,6 +1,6 @@
 // Function to validate
 function Validator(options) {
-    const formElement = document.querySelector(options.form);
+    const myFormElement = document.querySelector(options.form);
     const messageSelector = options.message;
     const invalidClass = options.invalid;
 
@@ -43,18 +43,19 @@ function Validator(options) {
         messageElement.innerText = "";
     }
 
-    if (formElement) {
+    if (myFormElement) {
         //Check submit
-        formElement.onsubmit = (e) => {
+        myFormElement.onsubmit = (e) => {
             e.preventDefault();
             let validForm = true;
             options.rules.forEach((rule) => {
-                let inputElement = formElement.querySelector(rule.selector);
+                let inputElement = myFormElement.querySelector(rule.selector);
                 if (showMessage(inputElement, rule))
                     validForm = false;
             });
             if (validForm) {
-                formElement.submit();
+                HTMLFormElement.prototype.submit.call(myFormElement);
+//                myFormElement.submit();
             }
         };
 
@@ -67,7 +68,7 @@ function Validator(options) {
                 selectorRules[rule.selector] = [rule];
             }
 
-            let inputElement = formElement.querySelector(rule.selector);
+            let inputElement = myFormElement.querySelector(rule.selector);
             if (inputElement) {
                 if (inputElement.type != "file") {
                     // Check on blur

@@ -30,6 +30,27 @@ public class UserProfile {
         this.phone = phone;
     }
 
+    public UserProfile(int userProfileID, String firstName, String lastName, String avatar, String gender, Date dateOfBirth, String address, String phone) {
+        this.userProfileID = userProfileID;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.avatar = avatar;
+        this.gender = gender;
+        this.dateOfBirth = dateOfBirth;
+        this.address = address;
+        this.phone = phone;
+    }
+
+    public UserProfile(int userProfileID, String lastName, String avatar, String gender, Date dateOfBirth, String address, String phone) {
+        this.userProfileID = userProfileID;
+        this.lastName = lastName;
+        this.avatar = avatar;
+        this.gender = gender;
+        this.dateOfBirth = dateOfBirth;
+        this.address = address;
+        this.phone = phone;
+    }
+
     public UserProfile(String firstName, String lastName) {
         this.firstName = firstName;
         this.lastName = lastName;

@@ -39,17 +39,21 @@ public class HomeController extends HttpServlet {
                         session.setAttribute("user", userProfile);
                         session.setAttribute("role", role);
                     }
-                    switch (role) {
+                    switch(role) {
                         case "Admin":
+                            session.setAttribute("roleURL", "admin");
                             response.sendRedirect("/admin");
                             break;
                         case "Event Manager":
+                            session.setAttribute("roleURL", "eventmanager");
                             response.sendRedirect("/eventmanager");
                             break;
                         case "Club Manager":
+                            session.setAttribute("roleURL", "clubmanager");
                             response.sendRedirect("/clubmanager");
                             break;
                         case "Student":
+                            session.setAttribute("roleURL", "student");
                             response.sendRedirect("/student");
                             break;
                     }

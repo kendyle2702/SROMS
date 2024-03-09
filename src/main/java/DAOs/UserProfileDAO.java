@@ -40,4 +40,25 @@ public class UserProfileDAO {
         }
         return userProfile;
     }
+    public UserProfile updateUserProfile(UserProfile user){
+        int count = 0;
+        try {
+            PreparedStatement ps = conn.prepareStatement(""
+                    + "update UserProfile set FirstName =?, LastName=?, Avatar=?, Gender=?, DateOfBirth=?,"
+                    + "Address=?,Phone=? where UserProfileID =?");
+
+            ps.setString(1, user.getFirstName());
+            ps.setString(2, user.getLastName());
+            ps.setString(3, user.getAvatar());
+            ps.setString(4, user.getGender());
+            ps.setDate(5, user.getDateOfBirth());
+            ps.setString(6, user.getAddress());
+            ps.setString(7, user.getPhone());
+            ps.setInt(8, user.getUserProfileID()); 
+            count = ps.executeUpdate();
+        } catch (SQLException ex) {
+            Logger.getLogger(UserProfileDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return (count == 0) ? null : user;
+    }
 }

@@ -1,5 +1,9 @@
 <%@page import="Models.UserProfile"%>
-
+<%
+    UserProfile userEdit = (UserProfile) session.getAttribute("user");
+    String roleE = (String) session.getAttribute("role");
+    String roleEdit = (String)session.getAttribute("roleURL");
+%>
 <div class="page-wrapper">
     <div class="content container-fluid">
 
@@ -10,7 +14,7 @@
                         <h3 class="page-title">Edit Profile</h3>
                         <ul class="breadcrumb">
                             <li class="breadcrumb-item"><a href="/">Home</a></li>
-                            <li class="breadcrumb-item"><a href="/">Profile</a></li>
+                            <li class="breadcrumb-item"><a href="/<%=roleEdit%>/profile">Profile</a></li>
                             <li class="breadcrumb-item active">Edit</li>
                         </ul>
                     </div>
@@ -22,28 +26,9 @@
             <div class="col-sm-12">
                 <div class="card comman-shadow">
                     <div class="card-body">
-                        <%
-                            UserProfile userEdit = (UserProfile) session.getAttribute("user");
-                            String roleEdit = (String) session.getAttribute("role");
-                            String urlSubmit = "";
 
-                            switch (roleEdit) {
-                                case "Student":
-                                    urlSubmit = "student";
-                                    break;
-                                case "Club Manager":
-                                    urlSubmit = "clubmanager";
-                                    break;
-                                case "Event Manager":
-                                    urlSubmit = "eventmanager";
-                                    break;
-                                case "Admin":
-                                    urlSubmit = "admin";
-                                    break;
-                            }
-                        %>
 
-                        <form id="formEditProfile" action="${pageContext.request.contextPath}/<%=urlSubmit%>" method="post" enctype="multipart/form-data">
+                        <form id="formEditProfile" action="${pageContext.request.contextPath}/upload/profile/edit" method="post" enctype="multipart/form-data">
                             <div class="row">
                                 <div class="col-12">
                                     <h5 class="form-title student-info">Student Information <span><a href="javascript:;"><i class="feather-more-vertical"></i></a></span></h5>
@@ -103,12 +88,12 @@
                                         <div class="upload">
                                             <label for="uploadAvatar">
                                             </label>
-                                            <input type="file" id="uploadAvatar" class="form-control form-control-sm">
+                                            <input name="avatar" type="file" id="uploadAvatar" class="form-control form-control-sm">
                                             <div class="message"></div>
                                         </div>
                                     </div>
                                 </div>
-                                        <input type="hidden" name="editProfile" value="editProfile">
+                                <input type="hidden" name="editProfile" value="editProfile">
                                 <div class="col-12">
                                     <div class="student-submit">
                                         <button name="submit" style="background: #ea7127" type="submit" class="btn btn-primary" value="editProfile">Submit</button>
