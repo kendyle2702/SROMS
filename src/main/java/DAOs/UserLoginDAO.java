@@ -1,6 +1,6 @@
-
 package DAOs;
 
+import Models.StudentProfile;
 import Models.UserProfile;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -8,7 +8,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
 
 public class UserLoginDAO {
 
@@ -21,6 +20,7 @@ public class UserLoginDAO {
             Logger.getLogger(UserLoginDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+
     public UserProfile getUserProfileByUsername(String username) {
         UserProfile userProfile = null;
         try {
@@ -52,5 +52,23 @@ public class UserLoginDAO {
             Logger.getLogger(UserLoginDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return false;
+    }
+
+    public int getStudentProfileIDByUserProfileID(int userProfileID) {
+        int studentProfileID = -1; // Initialize with a default value in case no result is found
+        try {
+            PreparedStatement ps = conn.prepareStatement("SELECT sp.StudentProfileID "
+                    + "FROM StudentProfile sp "
+                    + "INNER JOIN UserProfile up ON sp.UserProfileID = up.UserProfileID "
+                    + "WHERE up.UserProfileID = ?");
+            ps.setInt(1, userProfileID);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                studentProfileID = rs.getInt("StudentProfileID");
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(UserLoginDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return studentProfileID;
     }
 }

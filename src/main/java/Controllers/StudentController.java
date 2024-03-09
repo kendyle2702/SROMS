@@ -2,6 +2,7 @@ package Controllers;
 
 import DAOs.ClubDAO;
 import DAOs.EventDAO;
+import DAOs.UserLoginDAO;
 import Models.Club;
 import Models.Event;
 import Models.ParticipationEventDetail;
@@ -36,20 +37,7 @@ public class StudentController extends HttpServlet {
                 List<Event> listE = eventManagerDAO.eventList();
                 List<ParticipationEventDetail> pertiList = eventManagerDAO.participateEventList();
 
-                UserProfile userProfile = new UserProfile();
-                int userP = userProfile.getUserProfileID();
-                StudentProfile studentProfile = new StudentProfile();
-                int studentProfileID = studentProfile.getStudentProfileID();
-
                 List<Club> listC = clubDAO.listClub();
-                
-                List<Club> myClubs = clubDAO.getMyClubs(userP);
-                Map<Integer, String> semesterNames = new HashMap<>();
-                
-                for (Club club : myClubs) {
-                    String semesterName = clubDAO.getSemesterNameByClubID(club.getClubID());
-                    semesterNames.put(club.getClubID(), semesterName);
-                }
 
                 Map<Integer, String> eventCategoryNames = new HashMap<>();
 
@@ -62,11 +50,6 @@ public class StudentController extends HttpServlet {
                     session.setAttribute("listEvent", listE);
                     session.setAttribute("pertiList", pertiList);
                     session.setAttribute("listClub", listC);
-                    session.setAttribute("myClubs", myClubs);
-                    session.setAttribute("semesterNames", semesterNames);
-                    session.setAttribute("userProfileID", userP);
-                    session.setAttribute("StudentPorfile", studentProfile);
-                    session.setAttribute("studentProfileID", studentProfileID);
                     session.setAttribute("eventCategoryNames", eventCategoryNames);
                     session.setAttribute("tabId", 1);
                     request.getRequestDispatcher("/student.jsp").forward(request, response);
@@ -79,11 +62,6 @@ public class StudentController extends HttpServlet {
                 } else if (path.startsWith("/student/clubs")) {
                     if (path.endsWith("/student/clubs/view")) {
                         session.setAttribute("listClub", listC);
-                        session.setAttribute("myClubs", myClubs);
-                        session.setAttribute("semesterNames", semesterNames);
-                        session.setAttribute("userProfileID", userP);
-                        session.setAttribute("StudentPorfile", studentProfile);
-                        session.setAttribute("studentProfileID", studentProfileID);
                         session.setAttribute("tabId", 4);
                         request.getRequestDispatcher("/student.jsp").forward(request, response);
                     } else if (path.endsWith("/student/clubs/detail")) {
@@ -95,9 +73,6 @@ public class StudentController extends HttpServlet {
                     }
                 } else if (path.startsWith("/student/events")) {
                     if (path.endsWith("/student/events/view")) {
-                        session.setAttribute("userProfileID", userP);
-                        session.setAttribute("StudentPorfile", studentProfile);
-                        session.setAttribute("studentProfileID", studentProfileID);
                         session.setAttribute("eventCategoryNames", eventCategoryNames);
                         session.setAttribute("listEvent", listE);
                         session.setAttribute("pertiList", pertiList);
@@ -132,6 +107,34 @@ public class StudentController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        HttpSession session = request.getSession();
+        String action = request.getParameter("action");
+        EventDAO eventDAO = new EventDAO();
+        try {
+            if (action.equals("Register")) {
+                int eventID = Integer.parseInt(request.getParameter("EventID"));
+
+                System.out.println(eventID);
+                // Assuming you're storing the student's profile ID in the session when they log in or register
+                String studentProfileForm = request.getParameter("studentProfileID");
+                int studentProfileID = Integer.parseInt(studentProfileForm);
+                String roleEvent = "Menber";
+                boolean isPresent = Boolean.TRUE;
+                String report = null;
+                String result = "Khuy";
+                System.out.println("EventID:" + eventID);
+                System.out.println("studentProfileID:" + studentProfileID);
+
+                ParticipationEventDetail participationEventDetail = new ParticipationEventDetail(
+                        eventID, studentProfileID, roleEvent, isPresent, report, result
+                );
+                eventDAO.addStudentToParticipationEventDetail(participationEventDetail);
+                System.out.println("done");
+                response.sendRedirect("/student/events/view");
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(StudentController.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
 }

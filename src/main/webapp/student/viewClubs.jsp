@@ -1,3 +1,4 @@
+<%@page import="com.nimbusds.jose.crypto.impl.AAD"%>
 <%@page import="Models.Club"%>
 <%@page import="java.util.List"%>
 <%@page import="DAOs.ClubDAO"%>
@@ -87,31 +88,45 @@
                                 <div class="table-responsive lesson">
                                     <table class="table table-center">
                                         <tbody>
-                                        <c:forEach items="${sessionScope.myClubs}" var="club">
+                                            <%
+                                                ClubDAO clubDAO = new ClubDAO();
+                                                List<Models.Club> clubs = clubDAO.getMyClubs(userProfile.getUserProfileID()); // Assuming studentProfileID is available
+                                               
+                                                if (clubs != null && !clubs.isEmpty()) {
+                                                    for (Models.Club club : clubs) {
+                                                    String semesterName = clubDAO.getSemesterNameByClubID(club.getClubID()); // Move inside the loop to ensure it's updated for each club
+                                            %>
                                             <tr>
                                                 <td>
                                                     <div class="date">
-                                                        <b>${sessionScope.semesterNames[club.clubID]}</b>
+                                                        <b><%= semesterName%></b>
                                                     </div>
                                                 </td>
                                                 <td>
                                                     <div class="card-text">
-                                                        <b>${club.clubName}</b>
-                                                        <p>${club.description}</p>
+                                                        <b><%= club.getClubName()%></b>
+                                                        <p><%= club.getDescription()%></p> <!-- Assuming getClubRole method exists -->
                                                     </div>
                                                 </td>
                                                 <td>
                                                     <div class="lesson-confirm">
-                                                        <a href="student/clubs/detail?clubID=${club.clubID}">Club Details</a>
+                                                        <a href="student/clubs/detail?clubID=<%= club.getClubID()%>">Club Details</a> <!-- Assuming getClubID method exists -->
                                                     </div>
                                                 </td>
                                             </tr>
-                                        </c:forEach>
-                                        <c:if test="${empty sessionScope.myClubs}">
-                                            <tr>
-                                                <td colspan="3" class="text-center">You haven't joined any clubs yet.</td>
-                                            </tr>
-                                        </c:if>
+                                            <%
+                                                }
+                                            } else {
+                                            %>
+                                        <div class="row align-items-center">
+                                            <div class="col-6">
+                                                <h5 class="card-text">You haven't joined the club yet</h5>
+                                            </div>
+                                            <div class="col-6">
+                                                <span class="float-end view-link"><a href="/student/clubs/view"> See More</a></span>
+                                            </div>
+                                        </div> 
+                                        <% }%>
                                         </tbody>
                                     </table>
                                 </div>
