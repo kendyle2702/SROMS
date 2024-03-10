@@ -73,10 +73,10 @@ public class Event {
         this.managerProfileID = managerProfileID;
         this.studentProfileID = studentProfileID;
         this.endTime = endTime;
-        
+
     }
 
-    public Event(String eventName, Timestamp preparationTime, Timestamp holdTime, String location, int cost, int expectedNumber, String organization, String description, String createdBy, Timestamp endTime) {
+    public Event(String eventName, Timestamp preparationTime, Timestamp holdTime, String location, int cost, int expectedNumber, String organization, String description, String feedback, Timestamp endTime) {
         this.eventName = eventName;
         this.preparationTime = preparationTime;
         this.holdTime = holdTime;
@@ -85,7 +85,7 @@ public class Event {
         this.expectedNumber = expectedNumber;
         this.organization = organization;
         this.description = description;
-        this.createdBy = createdBy;
+        this.feedback = feedback;
         this.endTime = endTime;
     }
 
@@ -102,18 +102,6 @@ public class Event {
         this.feedback = feedback;
         this.Approve = Approve;
         this.createdBy = createdBy;
-        this.endTime = endTime;
-    }
-
-    public Event(String eventName, Timestamp preparationTime, Timestamp holdTime, String location, int cost, int expectedNumber, String organization, String description, Timestamp endTime) {
-        this.eventName = eventName;
-        this.preparationTime = preparationTime;
-        this.holdTime = holdTime;
-        this.location = location;
-        this.cost = cost;
-        this.expectedNumber = expectedNumber;
-        this.organization = organization;
-        this.description = description;
         this.endTime = endTime;
     }
 
@@ -264,5 +252,5 @@ public class Event {
     public void setPrizeStructureID(int PrizeStructureID) {
         this.PrizeStructureID = PrizeStructureID;
     }
-    
+
 }

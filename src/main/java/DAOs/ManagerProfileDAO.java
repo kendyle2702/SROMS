@@ -18,6 +18,7 @@ import java.util.logging.Logger;
  * @author QuocCu
  */
 public class ManagerProfileDAO {
+
     private Connection conn;
 
     public ManagerProfileDAO() {
@@ -27,6 +28,7 @@ public class ManagerProfileDAO {
             Logger.getLogger(ManagerProfileDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+
     public ManagerProfile getManagerProfileByEmail(String email) {
         ManagerProfile managerProfile = null;
         try {
@@ -41,5 +43,21 @@ public class ManagerProfileDAO {
             Logger.getLogger(ManagerProfileDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return managerProfile;
+    }
+
+    public int getManagerProfileIdByEmail(String email) {
+        int managerProfileID = 0;
+        try {
+            PreparedStatement ps = conn.prepareStatement("select * from ManagerProfile as s inner join UserProfile as u on s.UserProfileID = u.UserProfileID \n"
+                    + "  where LOWER(u.Email) = ?");
+            ps.setString(1, email.toLowerCase());
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                managerProfileID = rs.getInt("ManagerProfileID");
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(ManagerProfileDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return managerProfileID;
     }
 }

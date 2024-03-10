@@ -72,7 +72,6 @@ public class AdminController extends HttpServlet {
               
               StudentProfileDAO stProfileDAO = new StudentProfileDAO();
               
-              
               session.setAttribute("tabId", 10);
               request.getRequestDispatcher("/admin.jsp").forward(request, response);
            }

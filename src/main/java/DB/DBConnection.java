@@ -13,9 +13,11 @@ public class DBConnection {
         String port = "1433";
         String database = "SROMS";
         String user = "sa";
+
         String password = "123456";
+
         Connection conn = null;
-        
+
         try {
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
 
