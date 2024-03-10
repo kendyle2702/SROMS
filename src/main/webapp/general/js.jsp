@@ -25,38 +25,64 @@
     });
 </script>
 
-<!--Edit avatar-->
+<!--Edit avatar and edit profile-->
 <script>
     document.querySelector("#uploadAvatar").addEventListener('change', (e) => {
-                const selectedFile = e.target.files[0];
-                let isImg = false;
-                let endFile = selectedFile.name.split(".")[selectedFile.name.split(".").length - 1];
-                if (endFile == "jpeg" || endFile == "jpg" || endFile == "png" || endFile == "gif" || endFile == "webp") {
-                    isImg = true;
-                } else {
-                    isImg = false;
-                }
-                if (isImg) {
-                    const imageURL = URL.createObjectURL(selectedFile);
-                    document.querySelector('#avatarImg').src = imageURL;
-                    document.querySelector('#avatarImg').style.display = 'block';
-                } else {
-                    document.querySelector('#avatarImg').src = "";
-                    document.querySelector('#avatarImg').style.display = 'none';
-                }
-            });
+        const selectedFile = e.target.files[0];
+        let isImg = false;
+        let endFile = selectedFile.name.split(".")[selectedFile.name.split(".").length - 1];
+        if (endFile == "jpeg" || endFile == "jpg" || endFile == "png" || endFile == "gif" || endFile == "webp") {
+            isImg = true;
+        } else {
+            isImg = false;
+        }
+        if (isImg) {
+            const imageURL = URL.createObjectURL(selectedFile);
+            document.querySelector('#avatarImg').src = imageURL;
+            document.querySelector('#avatarImg').style.display = 'block';
+        } else {
+            document.querySelector('#avatarImg').src = "";
+            document.querySelector('#avatarImg').style.display = 'none';
+        }
+    });
     Validator({
-                form: "#formEditProfile",
-                message: ".message", // Selector class
-                invalid: "invalid", // Tên class message
-                rules: [
-                    Validator.isRequire("#firstname", "First Name is required"),
-                    Validator.isRequire("#lastname", "Last Name is required"),
-                    Validator.isRequire("#birthdate", "Birthdate is required"),
-                    Validator.isRequire("#address", "Address is required"),
-                    Validator.isRequire("#phone", "Phone is required"),
-                    Validator.isImage("#uploadAvatar", "Avatar must be image"),
-                ]
-            });
+        form: "#formEditProfile",
+        message: ".message", // Selector class
+        invalid: "invalid", // Tên class message
+        rules: [
+            Validator.isRequire("#firstname", "First Name is required"),
+            Validator.isRequire("#lastname", "Last Name is required"),
+            Validator.isRequire("#birthdate", "Birthdate is required"),
+            Validator.isRequire("#address", "Address is required"),
+            Validator.isRequire("#phone", "Phone is required"),
+            Validator.isImage("#uploadAvatar", "Avatar must be image"),
+        ]
+    });
+        <%
+         String statusEdit = (String) session.getAttribute("editStatus");
+         if (statusEdit != null) {
+             if (statusEdit.equals("success")) {
+                %>
+                    Swal.fire({
+                    position: "top-end",
+                    icon: "success",
+                    title: "Edited successfully!",
+                    showConfirmButton: false,
+                    timer: 1500
+                  });
+                <%
+             } else {
+                %>
+                    Swal.fire({
+                    position: "top-end",
+                    icon: "error",
+                    title: "Edit failed",
+                    showConfirmButton: false,
+                    timer: 1500
+                  });
+                <%
+             }
+         }
+        session.removeAttribute("editStatus");
+    %>
 </script>
-    

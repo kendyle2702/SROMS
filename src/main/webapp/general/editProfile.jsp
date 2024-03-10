@@ -1,5 +1,5 @@
 <%@page import="Models.UserProfile"%>
-<%
+<%  
     UserProfile userEdit = (UserProfile) session.getAttribute("user");
     String roleE = (String) session.getAttribute("role");
     String roleEdit = (String)session.getAttribute("roleURL");

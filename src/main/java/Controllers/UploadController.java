@@ -85,8 +85,10 @@ public class UploadController extends HttpServlet {
             UserProfile newUser = new UserProfile(userProfile.getUserProfileID(),firstName,lastName,avatar,gender,birthdate,address,userProfile.getEnrollmentDate(),userProfile.getEmail(),phone);
             UserProfile user = uProfileDAO.updateUserProfile(newUser);
             if (user == null) {
+                session.setAttribute("editStatus", "fail");
                 response.sendRedirect("/"+ urlRole +"/profile/edit");
             } else {
+                session.setAttribute("editStatus", "success");
                 session.setAttribute("user", user);
                 response.sendRedirect("/"+ urlRole +"/profile/edit");
             }

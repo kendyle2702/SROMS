@@ -62,7 +62,7 @@
         <li class="nav-item dropdown has-arrow new-user-menus">
             <a href="#" class="dropdown-toggle nav-link" data-bs-toggle="dropdown">
                 <div class="user-img">
-                    <img class="rounded-circle" src="${pageContext.request.contextPath}/assets/img/profiles/avatar-01.jpg" width="31" alt="Ryan Taylor">
+                    <img class="rounded-circle" src="${pageContext.request.contextPath}/assets/img/avatar/<%=userProfile.getAvatar() %>" width="30" height="50" alt="Ryan Taylor">
                     <div class="user-text">
                         <h6><%= userProfile.getLastName() + " " + userProfile.getFirstName()%></h6>
                         <p style="color: #ea7127" class="text-muted mb-0"><%=(String) session.getAttribute("role")%></p>
@@ -74,7 +74,7 @@
                 <div class="user-header">
                     <!-- User avatar -->
                     <div class="avatar avatar-sm">
-                        <img src="${pageContext.request.contextPath}/assets/img/profiles/avatar-01.jpg" alt="User Image" class="avatar-img rounded-circle">
+                        <img src="${pageContext.request.contextPath}/assets/img/avatar/<%=userProfile.getAvatar() %>" alt="User Image" class="avatar-img rounded-circle">
                     </div>
                     <!-- User information -->
                     <div class="user-text">
