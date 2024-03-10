@@ -23,7 +23,8 @@
                     <%@include file="./general/editProfile.jsp" %>
                 </c:when>
             </c:choose>
-            <%@include file="./general/js.jsp" %>
+            
         </div>
+    <%@include file="./general/js.jsp" %>
     </body>   
 </html>

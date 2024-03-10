@@ -189,5 +189,13 @@ Validator.isImage = (selector, invalidMessage) => {
         }
     };
 }
+Validator.isPhone = (selector, invalidMessage) => {
+    return {
+        selector: selector,
+        test: function (value) {
+            return /(84|0[3|5|7|8|9])+([0-9]{8})\b/g.test(value)? undefined : invalidMessage;
+        }
+    };
+};
 
 

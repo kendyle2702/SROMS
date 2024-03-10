@@ -1,6 +1,4 @@
-
 package Models;
-
 
 public class StudentProfile {
 
@@ -10,6 +8,14 @@ public class StudentProfile {
     private String major;
     private String mode;
     private int userProfileID;
+
+    public StudentProfile(String rollNumber, String memberCode, String major, String mode, int userProfileID) {
+        this.rollNumber = rollNumber;
+        this.memberCode = memberCode;
+        this.major = major;
+        this.mode = mode;
+        this.userProfileID = userProfileID;
+    }
 
     public StudentProfile(int studentProfileID, String rollNumber, String memberCode, String major, String mode, int userProfileID) {
         this.studentProfileID = studentProfileID;
@@ -73,5 +79,4 @@ public class StudentProfile {
         this.userProfileID = userProfileID;
     }
 
-    
 }

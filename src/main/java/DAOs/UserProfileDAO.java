@@ -17,6 +17,7 @@ import java.util.logging.Logger;
  * @author QuocCu
  */
 public class UserProfileDAO {
+
     private Connection conn;
 
     public UserProfileDAO() {
@@ -26,7 +27,8 @@ public class UserProfileDAO {
             Logger.getLogger(UserProfileDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    public UserProfile getUserProfileByEmail(String email){
+
+    public UserProfile getUserProfileByEmail(String email) {
         UserProfile userProfile = null;
         try {
             PreparedStatement ps = conn.prepareStatement("select * from UserProfile where LOWER(Email) = ?");
@@ -40,7 +42,8 @@ public class UserProfileDAO {
         }
         return userProfile;
     }
-    public UserProfile updateUserProfile(UserProfile user){
+
+    public UserProfile updateUserProfile(UserProfile user) {
         int count = 0;
         try {
             PreparedStatement ps = conn.prepareStatement(""
@@ -54,11 +57,50 @@ public class UserProfileDAO {
             ps.setDate(5, user.getDateOfBirth());
             ps.setString(6, user.getAddress());
             ps.setString(7, user.getPhone());
-            ps.setInt(8, user.getUserProfileID()); 
+            ps.setInt(8, user.getUserProfileID());
             count = ps.executeUpdate();
         } catch (SQLException ex) {
             Logger.getLogger(UserProfileDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return (count == 0) ? null : user;
     }
+
+    public UserProfile addUserProfile(UserProfile user) {
+        int count = 0;
+        try {
+            PreparedStatement ps = conn.prepareStatement("insert into [UserProfile] values(?,?,?,?,?,?,?,?,?)");
+            ps.setString(1, user.getFirstName());
+            ps.setString(2, user.getLastName());
+            ps.setString(3, user.getAvatar());
+            ps.setString(4, user.getGender());
+            ps.setDate(5, user.getDateOfBirth());
+            ps.setString(6, user.getAddress());
+            ps.setDate(7, user.getEnrollmentDate());
+            ps.setString(8,user.getEmail() );
+            ps.setString(9, user.getPhone());
+            count = ps.executeUpdate();
+
+        } catch (SQLException ex) {
+            Logger.getLogger(UserProfileDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        return (count == 0) ? null : user;
+    }
+    public int getUserProfileIDByEmail(String email){
+        int id = 0;
+        try {
+            PreparedStatement ps = conn.prepareStatement("select * from UserProfile where LOWER(Email) = ?");
+            ps.setString(1, email.toLowerCase());
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                id = rs.getInt("UserProfileID");
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(UserLoginDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return (id == 0) ? null : id;
+    }
+    
+    
+    
 }

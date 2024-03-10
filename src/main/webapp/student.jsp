@@ -36,6 +36,6 @@
                 </c:when>
             </c:choose>
         </div>
-        <%@include file="./general/js.jsp" %>
+     <%@include file="./general/js.jsp" %>
     </body>
 </html>

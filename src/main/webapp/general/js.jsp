@@ -23,9 +23,12 @@
     $(document).ready(function () {
         $("#viewClubs").DataTable();
     });
+    $(document).ready(function () {
+        $("#viewStudents").DataTable();
+    });
 </script>
 
-<!--Edit avatar and edit profile-->
+<!--Edit avatar and validate-->
 <script>
     document.querySelector("#uploadAvatar").addEventListener('change', (e) => {
         const selectedFile = e.target.files[0];
@@ -55,20 +58,24 @@
             Validator.isRequire("#birthdate", "Birthdate is required"),
             Validator.isRequire("#address", "Address is required"),
             Validator.isRequire("#phone", "Phone is required"),
+            Validator.isPhone("#phone", "Phone is not valid"),
             Validator.isImage("#uploadAvatar", "Avatar must be image"),
         ]
     });
-        <%
-         String statusEdit = (String) session.getAttribute("editStatus");
-         if (statusEdit != null) {
-             if (statusEdit.equals("success")) {
+</script>
+<!--Edit Profile alert-->
+<script>
+     <%
+         String editStatus = (String) session.getAttribute("editStatus");
+         if (editStatus != null) {
+             if (editStatus.equals("success")) {
                 %>
                     Swal.fire({
                     position: "top-end",
                     icon: "success",
-                    title: "Edited successfully!",
+                    title: "Edited Successfully!",
                     showConfirmButton: false,
-                    timer: 1500
+                    timer: 1000
                   });
                 <%
              } else {
@@ -76,13 +83,68 @@
                     Swal.fire({
                     position: "top-end",
                     icon: "error",
-                    title: "Edit failed",
+                    title: "Edit Failed",
                     showConfirmButton: false,
-                    timer: 1500
+                    timer: 1000
                   });
                 <%
              }
          }
         session.removeAttribute("editStatus");
+    %>
+</script>
+
+<!--Student Profile alert-->
+<script>
+    Validator({
+        form: "#formCreateStudent",
+        message: ".message", // Selector class
+        invalid: "invalid", // Tên class message
+        rules: [
+            Validator.isRequire("#firstname", "First Name is required"),
+            Validator.isRequire("#lastname", "Last Name is required"),  
+            Validator.isRequire("#birthdate", "Birthdate is required"),
+            Validator.isRequire("#enrolldate", "Enroll Date is required"),
+            Validator.isRequire("#email", "Email is required"),
+            Validator.isEmail("#email", "Email is not valid format"),
+            Validator.isRequire("#phone", "Phone is required"),
+            Validator.isPhone("#phone", "Phone is not valid format"),
+            Validator.isRequire("#rollnumber", "Roll Number is required"),
+            Validator.isRequire("#membercode", "Member Code is required"),
+            Validator.isRequire("#major", "Major is required"),
+            Validator.isRequire("#mode", "Mode is required"),
+            Validator.isRequire("#address", "Address is required"),
+            Validator.isRequire("#uploadAvatar", "Avatar must be require"),
+            Validator.isImage("#uploadAvatar", "Avatar must be image"),
+        ]
+    });
+</script>
+<script>
+    <%
+         String createStudent = (String) session.getAttribute("createStudent");
+         if (createStudent != null) {
+             if (createStudent.equals("success")) {
+                %>
+                    Swal.fire({
+                    position: "top-end",
+                    icon: "success",
+                    title: "Add Student Successfully!",
+                    showConfirmButton: false,
+                    timer: 1000
+                  });
+                <%
+             } else {
+                %>
+                    Swal.fire({
+                    position: "top-end",
+                    icon: "error",
+                    title: "Add Student Failed",
+                    showConfirmButton: false,
+                    timer: 1000
+                  });
+                <%
+             }
+         }
+        session.removeAttribute("createStudent");
     %>
 </script>

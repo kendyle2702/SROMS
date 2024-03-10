@@ -10,7 +10,7 @@
     String rolePro = (String) session.getAttribute("role");
     String urlEdit = (String) session.getAttribute("roleURL");
 %>
-<div class="page-wrapper" style="min-height: 229px;">
+<div id = "profile" class="page-wrapper" style="min-height: 229px;">
     <div class="content container-fluid">
 
         <div class="page-header">
@@ -53,7 +53,7 @@
                             <div class="about-text"><i style="margin-right: 10px" class="fa fa-envelope"></i><%=userPro.getEmail()%></div>
                         </div>
                         <div class="col-auto profile-btn">
-                            <a style="background:#ea7127;" href="/<%=urlEdit%>/profile/edit" class="btn btn-primary">
+                            <a style="background:#ea7127;border-color:#ea7127" href="/<%=urlEdit%>/profile/edit" class="btn btn-primary">
                                 Edit
                             </a>
                         </div>
@@ -70,7 +70,7 @@
                                     <div class="card-body">
                                         <h5 class="card-title d-flex justify-content-between">
                                             <span>General Information</span>
-                                            <a class="edit-link" data-bs-toggle="modal" href="/<%=urlEdit%>/profile/edit"><i class="far fa-edit me-1"></i>Edit</a>
+                                            <a class="edit-link" href="/<%=urlEdit%>/profile/edit"><i class="far fa-edit me-1"></i>Edit</a>
                                         </h5>
                                         <div class="row">
                                             <p class="col-sm-3 text-muted text-sm-end mb-0 mb-sm-3">Full Name</p>

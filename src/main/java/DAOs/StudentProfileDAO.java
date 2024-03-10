@@ -5,10 +5,12 @@
 package DAOs;
 
 import Models.StudentProfile;
+import Models.UserLogin;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -39,5 +41,33 @@ public class StudentProfileDAO {
             Logger.getLogger(StudentProfileDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return studentProfile;
+    }
+    
+    public ResultSet getAllStudents(){
+        ResultSet rs = null;
+        try {
+            Statement st = conn.createStatement();
+            rs = st.executeQuery("select * from UserProfile as u inner join StudentProfile as s on u.UserProfileID = s.UserProfileID inner join UserLogin as us on us.UserProfileID = u.UserProfileID");
+        } catch (SQLException ex) {
+            Logger.getLogger(StudentProfileDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return rs;
+    }
+    
+    public StudentProfile addStudentProfile(StudentProfile studentProfile) {
+        int count = 0;
+        try {
+            PreparedStatement ps = conn.prepareStatement("insert into [StudentProfile] values(?,?,?,?,?)");
+            ps.setString(1, studentProfile.getRollNumber());
+            ps.setString(2, studentProfile.getMemberCode());
+            ps.setString(3, studentProfile.getMajor());
+            ps.setString(4, studentProfile.getMode());
+            ps.setInt(5, studentProfile.getUserProfileID());
+            count = ps.executeUpdate();
+        } catch (SQLException ex) {
+            Logger.getLogger(StudentProfileDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        return (count == 0) ? null : studentProfile;
     }
 }

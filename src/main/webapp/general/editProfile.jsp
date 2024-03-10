@@ -51,7 +51,6 @@
                                     <div class=" form-group local-forms">
                                         <label>Gender <span class="login-danger">*</span></label>
                                         <select name="gender" class=" form-select form-control select">
-                                            <option value="Male">Select Gender</option>
                                             <option value="Female" <%=userEdit.getGender().equals("Female") ? "selected" : ""%>>Female</option>
                                             <option value="Male" <%=userEdit.getGender().equals("Male") ? "selected" : ""%>>Male</option>
                                         </select>
@@ -66,16 +65,15 @@
                                 </div>
                                 <div class="col-12 col-sm-4">
                                     <div class="form-group local-forms">
-                                        <label>Address </label>
-                                        <input id="address" name="address" class="form-control" type="text" value="<%=userEdit.getAddress()%>">
+                                        <label>Phone<span class="login-danger">*</span> </label>
+                                        <input id="phone" name="phone" class="form-control" type="text" value="<%=userEdit.getPhone()%>">
                                         <div class="message"></div>
                                     </div>
                                 </div>
-
                                 <div class="col-12 col-sm-4">
                                     <div class="form-group local-forms">
-                                        <label>Phone<span class="login-danger">*</span> </label>
-                                        <input id="phone" name="phone" class="form-control" type="text" value="<%=userEdit.getPhone()%>">
+                                        <label>Address </label>
+                                        <input id="address" name="address" class="form-control" type="text" value="<%=userEdit.getAddress()%>">
                                         <div class="message"></div>
                                     </div>
                                 </div>
@@ -86,8 +84,6 @@
                                             <img id="avatarImg" width="100" alt="User Image" src="${pageContext.request.contextPath}/assets/img/avatar/<%=userEdit.getAvatar()%>">
                                         </div>
                                         <div class="upload">
-                                            <label for="uploadAvatar">
-                                            </label>
                                             <input name="avatar" type="file" id="uploadAvatar" class="form-control form-control-sm">
                                             <div class="message"></div>
                                         </div>
@@ -96,7 +92,7 @@
                                 <input type="hidden" name="editProfile" value="editProfile">
                                 <div class="col-12">
                                     <div class="student-submit">
-                                        <button name="submit" style="background: #ea7127" type="submit" class="btn btn-primary" value="editProfile">Submit</button>
+                                        <button name="submit" style="background: #ea7127;border-color:#ea7127" type="submit" class="btn btn-primary" value="editProfile">Submit</button>
                                     </div>
                                 </div>
                             </div>

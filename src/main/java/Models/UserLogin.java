@@ -20,6 +20,13 @@ public class UserLogin {
         this.userProfileID = userProfileID;
     }
 
+    public UserLogin(String username, Timestamp createAt, Boolean isActive, int userProfileID) {
+        this.username = username;
+        this.createAt = createAt;
+        this.isActive = isActive;
+        this.userProfileID = userProfileID;
+    }
+
     public int getUserLoginID() {
         return userLoginID;
     }

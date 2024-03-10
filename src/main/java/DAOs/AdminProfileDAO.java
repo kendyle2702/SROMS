@@ -30,10 +30,10 @@ public class AdminProfileDAO {
     public AdminProfile getAdminProfileByEmail(String email) {
         AdminProfile adminProfile = null;
         try {
-            PreparedStatement ps = conn.prepareStatement(" ");
-            ps.setString(1, email.toLowerCase());
-            ResultSet rs = ps.executeQuery("select * from AdminProfile as s inner join UserProfile as u on s.UserProfileID = u.UserProfileID \n"
+            PreparedStatement ps = conn.prepareStatement("select * from AdminProfile as s inner join UserProfile as u on s.UserProfileID = u.UserProfileID \n"
                     + "  where LOWER(u.Email) = ?");
+            ps.setString(1, email.toLowerCase());
+            ResultSet rs = ps.executeQuery();
             if (rs.next()) {
                 adminProfile = new AdminProfile(rs.getInt("AdminProfileID"), rs.getString("StaffNumber"), rs.getString("AcademicLevel"), rs.getString("Degree"), rs.getString("Experience"), rs.getInt("UserProfileID"));
             }
