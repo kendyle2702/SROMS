@@ -5,6 +5,8 @@
 
 package Controllers;
 
+import DAOs.StudentProfileDAO;
+import Models.Event;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -63,7 +65,16 @@ public class AdminController extends HttpServlet {
            else if(path.endsWith("/admin/account/student/create")){
               session.setAttribute("tabId", 9);
               request.getRequestDispatcher("/admin.jsp").forward(request, response);
-               
+           }
+           else if(path.startsWith("/admin/account/student/detail/")){
+              String[] idArray = path.split("/");
+              int id = Integer.parseInt(idArray[idArray.length - 1]);
+              
+              StudentProfileDAO stProfileDAO = new StudentProfileDAO();
+              
+              
+              session.setAttribute("tabId", 10);
+              request.getRequestDispatcher("/admin.jsp").forward(request, response);
            }
        }
     } 
