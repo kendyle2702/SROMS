@@ -31,7 +31,6 @@
                                         <th class="text-center">Expected Number</th>
                                         <th class="text-center">Organization</th>
                                         <th class="text-center">Feedback</th>
-                                        <th class="text-center">Is Approve</th><!-- comment -->
                                         <th class="text-center">Created By</th>                                           
                                         <th class="text-center">Location</th>
                                         <th class="text-center">Status</th>       
@@ -52,15 +51,7 @@
                                             <td class="">${liste.getExpectedNumber()}</td>
                                             <td class="">${liste.getOrganization()}</td>
                                             <td class="">${liste.getFeedback()}</td>
-                                        <c:choose>
-                                            <c:when test="${liste.getApprove() eq 'AA'}">
-                                                <td class="text-center">Accept</td>
-                                            </c:when>                                            
-                                            <c:otherwise>
-                                                <td class="text-center">Waiting</td>
-                                            </c:otherwise>
-                                        </c:choose>
-                                        <td class="">${liste.getCreatedBy()}</td>                                                          
+                                            <td class="">${liste.getCreatedBy()}</td>                                                          
                                         <c:forEach items="${sessionScope.numberParti}" var="num">
                                             <c:choose>
                                                 <c:when test="${num.EventID == liste.getEventID() && num.TotalParticipants != 0}">

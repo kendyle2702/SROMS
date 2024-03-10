@@ -3,32 +3,14 @@
         <div class="page-header">
             <div class="row">
                 <div class="col">
-                    <h3 class="page-title">Home</h3>
+                    <h3 class="page-title">View Clubs</h3>
                     <ul class="breadcrumb">
-                        <li class="breadcrumb-item active">Home</li>
+                        <li class="breadcrumb-item active">View Clubs</li>
                     </ul>
                 </div>
             </div>
         </div>
-        <div class="row">
-
-            <div class="col-xl-4 col-sm-6 col-12 d-flex">
-            </div>
-            <div style="" class="col-xl-4 col-sm-6 col-12 d-flex ">
-                <div class="card bg-comman w-100">
-                    <div class="card-body">
-                        <div class="db-widgets d-flex justify-content-between align-items-center">
-                            <div class="db-info">
-                                <h6>Total Club</h6>
-                                <h3>${sessionScope.totalClub}</h3>
-                            </div>
-                            <div class="db-icon">
-                                <img src="${pageContext.request.contextPath}/assets/img/icons/teacher-icon-01.svg" alt="Dashboard Icon">
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+        <div class="row">        
             <div class="col-xl-4 col-sm-12 col-12 d-flex">
             </div>
             <div class="row">
@@ -93,8 +75,6 @@
             </div>
         </div>
     </div>
-
     <footer>
     </footer>
-
 </div>

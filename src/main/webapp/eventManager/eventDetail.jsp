@@ -21,7 +21,7 @@
             <div class="col-sm-12">
                 <div class="card">
                     <div class="card-body">
-                        <form action="/eventmanager" method="post">
+                        <form action="eventmanager" method="post">
                             <div class="row">
                                 <div class="col-12">
                                     <h5 class="form-title"><span>Event Information</span></h5>
@@ -139,7 +139,7 @@
                                     </div>
                                     <div class="col-12">
                                         <div class="student-submit">
-                                            <input class="btn btn-primary" name="event" id="submit" type="submit" value="Update">
+                                            <input class="btn btn-primary" name="updateEvent" id="submit" type="submit" value="Update">
                                         </div>
                                     </div>
                                 </c:if>
