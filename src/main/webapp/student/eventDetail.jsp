@@ -21,7 +21,7 @@
             <div class="col-sm-12">
                 <div class="card">
                     <div class="card-body">
-                        <form action="/eventmanager" method="post">
+                        <form action="/student" method="post">
                             <div class="row">
                                 <div class="col-12">
                                     <h5 class="form-title"><span>Event Information</span></h5>
@@ -30,62 +30,62 @@
                                     <div class="col-12 col-sm-4">
                                         <div class="form-group local-forms">
                                             <label>Id</label>
-                                            <input name="idupdate" type="text" class="form-control" value="${sessionScope.event.getEventID()}" readonly="">
+                                            <input name="idupdate" type="text" class="form-control" value="${sessionScope.event.eventID()}" readonly="">
                                         </div>
                                     </div>
 
                                     <div class="col-12 col-sm-4">
                                         <div class="form-group local-forms">
                                             <label>Name</label>
-                                            <input name="eventnameupdate" type="text" class="form-control" value="${sessionScope.event.getEventName()}">
+                                            <input name="eventnameupdate" type="text" class="form-control" value="${sessionScope.event.eventName()}">
                                         </div>
                                     </div>
                                     <div class="col-12 col-sm-4">
                                         <div class="form-group local-forms">
                                             <label>Preparation Time</label>
-                                            <input name="pretimeupdate" class="form-control" type="datetime-local" value="${sessionScope.event.getPreparationTime()}">
+                                            <input name="pretimeupdate" class="form-control" type="datetime-local" value="${sessionScope.event.preparationTime()}">
                                         </div>
                                     </div>
                                     <div class="col-12 col-sm-4">
                                         <div class="form-group local-forms">
                                             <label>Hold Time</label>
-                                            <input name="holetimeupdate" class="form-control" type="datetime-local" value="${sessionScope.event.getHoldTime()}">
+                                            <input name="holetimeupdate" class="form-control" type="datetime-local" value="${sessionScope.event.holdTime()}">
                                         </div>
                                     </div>
                                     <div class="col-12 col-sm-4">
                                         <div class="form-group local-forms">
                                             <label>Location</label>
-                                            <input name="locationeupdate"  type="text" class="form-control" value="${sessionScope.event.getLocation()}">
+                                            <input name="locationeupdate"  type="text" class="form-control" value="${sessionScope.event.location()}">
                                         </div>
                                     </div>
                                     <div class="col-12 col-sm-4">
                                         <div class="form-group local-forms">
                                             <label>Cost</label>
-                                            <input name="costupdate" type="number" class="form-control" value="${sessionScope.event.getCost()}">
+                                            <input name="costupdate" type="number" class="form-control" value="${sessionScope.event.cost()}">
                                         </div>
                                     </div>
                                     <div class="col-12 col-sm-4">
                                         <div class="form-group local-forms">
                                             <label>Expected Number</label>
-                                            <input name="exnumupdate" type="number" class="form-control" value="${sessionScope.event.getExpectedNumber()}">
+                                            <input name="exnumupdate" type="number" class="form-control" value="${sessionScope.event.expectedNumber()}">
                                         </div>
                                     </div>
                                     <div class="col-12 col-sm-4">
                                         <div class="form-group local-forms">
                                             <label>Organization</label>
-                                            <input name="organupdate" type="text" class="form-control" value="${sessionScope.event.getOrganization()}">
+                                            <input name="organupdate" type="text" class="form-control" value="${sessionScope.event.organization()}">
                                         </div>
                                     </div>
                                     <div class="col-12 col-sm-4">
                                         <div class="form-group local-forms">
                                             <label>Feedback</label>
-                                            <input name="feedbackupdate" type="text" class="form-control" value="${sessionScope.event.getFeedback()}" >
+                                            <input name="feedbackupdate" type="text" class="form-control" value="${sessionScope.event.feedback()}" >
                                         </div> 
                                     </div>
                                     <div class="col-12 col-sm-4">
                                         <div class="form-group local-forms">
                                             <label>Description</label>
-                                            <input name="descriptionupdate" type="text" class="form-control" value="${sessionScope.event.getDescription()}">
+                                            <input name="descriptionupdate" type="text" class="form-control" value="${sessionScope.event.description()}">
                                         </div>
                                     </div>
                                     <div class="col-12 col-sm-4">

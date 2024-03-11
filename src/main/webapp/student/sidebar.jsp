@@ -18,10 +18,6 @@
                 <li class="<%=(session.getAttribute("tabId").equals(4)) ? "active" : ""%>">
                     <a href="/student/clubs/view"><i class=""></i><span> View Clubs</span></a>
                 </li>
-                <li>
-                    <a href="#"><i class=""></i><span> Management Profile</span></a>
-                    <!--/student/profile/view-->
-                </li>
             </ul>
         </div>
     </div>

@@ -106,13 +106,14 @@ public class StudentController extends HttpServlet {
                         session.setAttribute("tabId", 3);
 
                         request.getRequestDispatcher("/student.jsp").forward(request, response);
-                    } else if (path.endsWith("/student/events/detail")) {
+                    } else if (path.startsWith("/student/events/detail")) {
                         String[] idArray = path.split("/");
                         int id = Integer.parseInt(idArray[idArray.length - 1]);
                         Event event = eventManagerDAO.getEvent(id);
                         session.setAttribute("event", event);
-                        session.setAttribute("tabId", 3);
-                        request.getRequestDispatcher("/eventManager.jsp").forward(request, response);
+                        session.setAttribute("tabId", 5);
+                        
+                        request.getRequestDispatcher("/student.jsp").forward(request, response);
                     } else if (path.endsWith("/student/events/register")) {
                         request.getRequestDispatcher("/event-register.jsp").forward(request, response);
                     }
