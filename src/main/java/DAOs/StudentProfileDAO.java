@@ -97,8 +97,9 @@ public class StudentProfileDAO {
             PreparedStatement ps = conn.prepareStatement("update StudentProfile set RollNumber =?, MemberCode=?, Major=?, Mode=? where UserProfileID =?");
             ps.setString(1, user.getRollNumber());
             ps.setString(2, user.getMemberCode());
-            ps.setString(3, user.getMode());
-            ps.setInt(4, userProfileID);
+            ps.setString(3, user.getMajor());
+            ps.setString(4, user.getMode());
+            ps.setInt(5, userProfileID);
             count = ps.executeUpdate();
         } catch (SQLException ex) {
             Logger.getLogger(StudentProfileDAO.class.getName()).log(Level.SEVERE, null, ex);

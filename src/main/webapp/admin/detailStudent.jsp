@@ -120,7 +120,7 @@
                                                 <img id="avatarImg" width="100" alt="User Image" src="${pageContext.request.contextPath}/assets/img/avatar/<%=rsStudent.getString("Avatar")%>">
                                             </div>
                                             <div class="upload">
-                                                <input name="avatar" type="file" class="form-control form-control-sm">
+                                                <input id="uploadAvatar" name="avatar" type="file" class="form-control form-control-sm">
                                                 <div class="message"></div>
                                             </div>
                                         </div>
