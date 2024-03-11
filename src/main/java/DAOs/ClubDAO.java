@@ -1,11 +1,13 @@
 package DAOs;
 
-import DB.DBConnection;
+import Models.ClubMember;
 import Models.Club;
+import Models.UserProfile;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -14,7 +16,7 @@ import java.util.logging.Logger;
 public class ClubDAO {
 
     private Connection conn;
-
+    private PreparedStatement ps = null;
     public ClubDAO() {
         try {
             conn = DB.DBConnection.connect();
@@ -31,13 +33,15 @@ public class ClubDAO {
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
                 club = new Club(
-                        rs.getInt("ClubID"),
-                        rs.getString("ClubName"),
-                        rs.getDate("EstablishDate"),
-                        rs.getString("Description"),
-                        rs.getBoolean("IsApprove"),
-                        rs.getBoolean("IsActive"),
-                        rs.getInt("ManagerProfileID")
+                        rs.getInt(1),
+                        rs.getString(2),
+                        rs.getString(3),
+                        rs.getDate(4),
+                        rs.getString(5),
+                        rs.getBoolean(6),
+                        rs.getBoolean(7),
+                        rs.getInt(8),
+                        rs.getInt(9)
                 );
             }
         } catch (SQLException ex) {
@@ -46,26 +50,25 @@ public class ClubDAO {
         return club;
     }
 
-    public List<Club> getAllClubs() {
+    public List<Club> getAllClubs() throws SQLException {
         List<Club> clubsList = new ArrayList<>();
-        try {
-            String sql = "SELECT * FROM Club";
-            PreparedStatement ps = conn.prepareStatement(sql);
-            ResultSet rs = ps.executeQuery();
-            while (rs.next()) {
-                Club club = new Club(
-                        rs.getInt("ClubID"),
-                        rs.getString("ClubName"),
-                        rs.getDate("EstablishDate"),
-                        rs.getString("Description"),
-                        rs.getBoolean("IsApprove"),
-                        rs.getBoolean("IsActive"),
-                        rs.getInt("ManagerProfileID")
-                );
-                clubsList.add(club);
-            }
-        } catch (SQLException ex) {
-            Logger.getLogger(ClubDAO.class.getName()).log(Level.SEVERE, null, ex);
+        Club club = null;
+        String sql = "SELECT * FROM Club";
+        PreparedStatement ps = conn.prepareStatement(sql);
+        ResultSet rs = ps.executeQuery();
+        while (rs.next()) {
+            club = new Club(
+                    rs.getInt(1),
+                    rs.getString(2),
+                    rs.getString(3),
+                    rs.getDate(4),
+                    rs.getString(5),
+                    rs.getBoolean(6),
+                    rs.getBoolean(7),
+                    rs.getInt(8),
+                    rs.getInt(9)
+            );
+            clubsList.add(club);
         }
         return clubsList;
     }
@@ -77,7 +80,16 @@ public class ClubDAO {
         PreparedStatement ps = conn.prepareStatement(ex);
         ResultSet rs = ps.executeQuery();
         while (rs.next()) {
-            club = new Club(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getDate(4), rs.getString(5), rs.getBoolean(6), rs.getBoolean(7), rs.getInt(8), rs.getInt(9));
+            club = new Club(
+                    rs.getInt(1),
+                    rs.getString(2),
+                    rs.getString(3),
+                    rs.getDate(4),
+                    rs.getString(5),
+                    rs.getBoolean(6),
+                    rs.getBoolean(7),
+                    rs.getInt(8),
+                    rs.getInt(9));
             listC.add(club);
         }
         return listC;
@@ -138,5 +150,87 @@ public class ClubDAO {
             listC.add(club);
         }
         return listC;
+    }
+    public String getSemesterNameByClubID(int clubID, int studentProfileID) {
+        String semesterName = null;
+        try {
+            String sql = "SELECT s.SemesterName\n"
+                    + "FROM ClubMember cm\n"
+                    + "JOIN Semester s ON cm.SemesterID = s.SemesterID\n"
+                    + "WHERE cm.ClubID = ? AND cm.StudentProfileID = ?";
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setInt(1, clubID);
+            ps.setInt(2, studentProfileID);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                semesterName = rs.getString("SemesterName"); // Đã sửa thành "SemesterName"
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(ClubDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return semesterName;
+    }
+
+    public List<ClubMember> getClubMemberByStudentProfileID(int studentProfileID) {
+        List<ClubMember> clubs = new ArrayList<>();
+        ClubMember club = null;
+        try {
+            String sql = "SELECT CM.*\n"
+                    + "FROM [SROMS].[dbo].[ClubMember] CM\n"
+                    + "JOIN [SROMS].[dbo].[Club] C ON CM.ClubID = C.ClubID\n"
+                    + "WHERE CM.StudentProfileID = ?";
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setInt(1, studentProfileID);
+            try ( ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    club = new ClubMember(
+                            rs.getInt("StudentProfileID"),
+                            rs.getInt("ClubID"),
+                            rs.getInt("SemesterID"),
+                            rs.getString("ClubRole"),
+                            rs.getInt("ClubPoint"),
+                            rs.getString("Report")
+                    );
+                    clubs.add(club);
+                }
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(ClubDAO.class.getName()).log(Level.SEVERE, null, ex);  // Or handle the exception as you prefer
+        }
+        return clubs;
+    }
+
+    public Club getClubByClubID(int clubID) throws SQLException {
+        Club club = null;
+        String sql = "SELECT * FROM [SROMS].[dbo].[Club] WHERE ClubID = ?";
+        PreparedStatement ps = conn.prepareStatement(sql);
+        ps.setInt(1, clubID);
+        ResultSet rs = ps.executeQuery();
+        while (rs.next()) {
+            club = new Club(
+                    rs.getInt(1),
+                    rs.getString(2),
+                    rs.getString(3),
+                    rs.getDate(4),
+                    rs.getString(5),
+                    rs.getBoolean(6),
+                    rs.getBoolean(7),
+                    rs.getInt(8),
+                    rs.getInt(9)
+            );
+        }
+        return club;
+    }
+
+    public void registerStudentToClub(ClubMember clubMember) throws SQLException {
+        String sql = "INSERT INTO [SROMS].[dbo].[ClubMember] (StudentProfileID, ClubID, SemesterID, ClubRole, ClubPoint, Report) VALUES (?, ?, ?, ?, ?, ?)";
+        ps = conn.prepareStatement(sql);
+        ps.setInt(1, clubMember.getStudentProfileID());
+        ps.setInt(2, clubMember.getClubID());
+        ps.setInt(3, clubMember.getSemesterID());
+        ps.setString(4, clubMember.getClubRole());
+        ps.setInt(5, clubMember.getClubPoint());
+        ps.setString(6, clubMember.getReport());
+        ps.executeUpdate();
     }
 }

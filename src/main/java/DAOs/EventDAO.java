@@ -70,31 +70,31 @@ public class EventDAO {
      *
      * @return @throws SQLException
      */
-    //    public List participateEventList() throws SQLException {
-    //        ArrayList partiList = new ArrayList<>();
-    //        ParticipationEventDetail parti = null;
-    //        StudentProfile student = null;
-    //        UserProfile profile = null;
-    //        Event event = null;
-    //        conn = DBConnection.connect();
-    //        String query = "SELECT* FROM [dbo].[ParticipationEventDetail]\n"
-    //                + "LEFT JOIN [dbo].[StudentProfile] ON ParticipationEventDetail.StudentProfileID = StudentProfile.StudentProfileID \n"
-    //                + "LEFT JOIN [dbo].[UserProfile] ON StudentProfile.UserProfileID = UserProfile.UserProfileID\n"
-    //                + "LEFT JOIN [dbo].[Event] ON ParticipationEventDetail.EventID = [dbo].[Event].EventID;";
-    //        ps = conn.prepareStatement(query);
-    //        rs = ps.executeQuery();
-    //        while (rs.next()) {
-    //            parti = new ParticipationEventDetail(rs.getInt(1), rs.getInt(2), rs.getString(3), rs.getBoolean(4), rs.getString(5));
-    //            profile = new UserProfile(rs.getString("FirstName"), rs.getString("LastName"));
-    //            student = new StudentProfile(rs.getString("RollNumber"), rs.getString("Major"));
-    //            event = new Event(rs.getString("EventName"));
-    //            partiList.add(parti);
-    //            partiList.add(profile);
-    //            partiList.add(student);
-    //            partiList.add(event);
-    //        }
-    //        return partiList;
-    //    }
+        public List participateEventList() throws SQLException {
+            ArrayList partiList = new ArrayList<>();
+            ParticipationEventDetail parti = null;
+            StudentProfile student = null;
+            UserProfile profile = null;
+            Event event = null;
+            conn = DBConnection.connect();
+            String query = "SELECT* FROM [dbo].[ParticipationEventDetail]\n"
+                    + "LEFT JOIN [dbo].[StudentProfile] ON ParticipationEventDetail.StudentProfileID = StudentProfile.StudentProfileID \n"
+                    + "LEFT JOIN [dbo].[UserProfile] ON StudentProfile.UserProfileID = UserProfile.UserProfileID\n"
+                    + "LEFT JOIN [dbo].[Event] ON ParticipationEventDetail.EventID = [dbo].[Event].EventID;";
+            ps = conn.prepareStatement(query);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                parti = new ParticipationEventDetail(rs.getInt(1), rs.getInt(2), rs.getString(3), rs.getBoolean(4), rs.getString(5));
+                profile = new UserProfile(rs.getString("FirstName"), rs.getString("LastName"));
+                student = new StudentProfile(rs.getString("RollNumber"), rs.getString("Major"));
+                event = new Event(rs.getString("EventName"));
+                partiList.add(parti);
+                partiList.add(profile);
+                partiList.add(student);
+                partiList.add(event);
+            }
+            return partiList;
+        }
     public int getTotalEventTaking() throws SQLException {
         int count = 0;
         String query = "SELECT COUNT(*) AS total_events FROM Event  WHERE EndTime >= CURRENT_TIMESTAMP AND Approve ='AA'";
@@ -144,7 +144,6 @@ public class EventDAO {
                     rs.getString(10), rs.getString(11), rs.getString(12), rs.getTimestamp(13));
         }
         return event;
-
     }
 
     public List<Map<String, Integer>> getTotalIsPresent() throws SQLException {
@@ -256,7 +255,54 @@ public class EventDAO {
         ps.executeUpdate();
     }
 
-    public static void main(String[] args) throws SQLException {
-
+    // Method to get EventCategoryName by EventCategoryID
+    public String getEventCategoryName(int eventCategoryID) {
+        String categoryName = null;
+        try {
+            String sql = "SELECT EventCategoryName FROM EventCategory WHERE EventCategoryID = ?";
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setInt(1, eventCategoryID);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                categoryName = rs.getString("EventCategoryName");
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(EventDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return categoryName;
     }
+
+    public boolean addStudentToParticipationEventDetail(ParticipationEventDetail participationEventDetail) throws SQLException {
+        conn = DBConnection.connect(); // Establish database connection
+
+        String checkQuery = "SELECT COUNT(*) FROM [SROMS].[dbo].[ParticipationEventDetail] WHERE [EventID] = ? AND [StudentProfileID] = ?";
+        PreparedStatement checkPs = conn.prepareStatement(checkQuery);
+        checkPs.setInt(1, participationEventDetail.getEventID());
+        checkPs.setInt(2, participationEventDetail.getStudentProfileID());
+
+        ResultSet rs = checkPs.executeQuery();
+        if (rs.next()) {
+            if (rs.getInt(1) > 0) {
+                // Sinh viên đã tồn tại trong sự kiện
+                return false; // Trả về false nếu sinh viên đã tham gia
+            }
+        }
+
+        // Insert sinh viên vào sự kiện
+        String query = "INSERT INTO [SROMS].[dbo].[ParticipationEventDetail] ([EventID], [StudentProfileID], [RoleEvent], [IsPresent], [Report], [Result])"
+                + " VALUES (?, ?, ?, ?, ?, ?)";
+        PreparedStatement ps = conn.prepareStatement(query);
+
+        // Set parameters and execute
+        ps.setInt(1, participationEventDetail.getEventID());
+        ps.setInt(2, participationEventDetail.getStudentProfileID());
+        ps.setString(3, participationEventDetail.getRoleEvent());
+        ps.setBoolean(4, participationEventDetail.getIsPresent());
+        ps.setString(5, participationEventDetail.getReport());
+        ps.setString(6, participationEventDetail.getResult());
+        ps.executeUpdate();
+
+        return true; // Trả về true khi thêm thành công
+    }
+
 }

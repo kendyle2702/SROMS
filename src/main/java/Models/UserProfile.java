@@ -68,6 +68,9 @@ public class UserProfile {
         this.lastName = lastName;
     }
 
+    public UserProfile() {
+    }
+
     public int getUserProfileID() {
         return userProfileID;
     }
