@@ -6,6 +6,7 @@
 package Controllers;
 
 import DAOs.StudentProfileDAO;
+import DAOs.UserLoginDAO;
 import Models.Event;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -78,6 +79,22 @@ public class AdminController extends HttpServlet {
               session.setAttribute("rsStudentID", id);
               session.setAttribute("tabId", 10);
               request.getRequestDispatcher("/admin.jsp").forward(request, response);
+           }
+           else if(path.startsWith("/admin/account/student/block/")){
+              String[] idArray = path.split("/");
+              int id = Integer.parseInt(idArray[idArray.length - 1]);
+              
+              UserLoginDAO userLogin = new UserLoginDAO();
+              int studentID = userLogin.getStudentProfileIDByUserProfileID(id);
+              userLogin.blockAccount(id);
+              response.sendRedirect("/admin/account/student/detail/"+studentID);
+           }else if(path.startsWith("/admin/account/student/unblock/")){
+              String[] idArray = path.split("/");
+              int id = Integer.parseInt(idArray[idArray.length - 1]);
+              UserLoginDAO userLogin = new UserLoginDAO();
+              int studentID = userLogin.getStudentProfileIDByUserProfileID(id);
+              userLogin.unblockAccount(id);
+              response.sendRedirect("/admin/account/student/detail/"+studentID);
            }
        }
     } 

@@ -33,10 +33,10 @@
                         <li><a href="/admin/account/clubmanager/create" class="<%=(session.getAttribute("tabId").equals(7)?"active subdrop":"")%>">Add Account</a></li>
                     </ul>
                 </li>
-                <li class="submenu <%=(session.getAttribute("tabId").equals(8))||(session.getAttribute("tabId").equals(9)) ? "active" : ""%>">
+                <li class="submenu <%=(session.getAttribute("tabId").equals(8))||(session.getAttribute("tabId").equals(9))||session.getAttribute("tabId").equals(10) ? "active" : ""%>">
                     <a href="#"><i class="feather-user"></i> <span class="title">Student</span> <span class="menu-arrow"></span></a>
                     <ul>
-                        <li><a href="/admin/account/student" class="<%=(session.getAttribute("tabId").equals(8)?"active subdrop":"")%>">View Accounts</a></li>
+                        <li><a href="/admin/account/student" class="<%=(session.getAttribute("tabId").equals(8)||session.getAttribute("tabId").equals(10)?"active subdrop":"")%>">View Accounts</a></li>
                         <li><a href="/admin/account/student/create" class="<%=(session.getAttribute("tabId").equals(9)?"active subdrop":"")%>">Add Account</a></li>
                     </ul>
                 </li>

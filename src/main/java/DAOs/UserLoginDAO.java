@@ -86,4 +86,39 @@ public class UserLoginDAO {
         }
         return studentProfileID;
     }
+    public UserLogin getUserLoginByUserProfileID(int id){
+        UserLogin user = null;
+        try {
+            PreparedStatement ps = conn.prepareStatement("select * from UserProfile as up inner join UserLogin as ul on up.UserProfileID = ul.UserProfileID where ul.UserProfileID = ?");
+            ps.setInt(1, id);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                user = new UserLogin(rs.getInt("UserLoginID"), rs.getString("Username"), rs.getTimestamp("CreateAt"), rs.getBoolean("IsActive"), rs.getInt("UserProfileID"));
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(UserLoginDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return user;
+    }
+    
+    public void blockAccount(int id){
+        try {
+            PreparedStatement ps = conn.prepareStatement("update UserLogin set IsActive = 0 where UserLoginID =?");
+            ps.setInt(1, id);
+            
+            ps.executeUpdate();
+        } catch (SQLException ex) {
+            Logger.getLogger(UserProfileDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    public void unblockAccount(int id){
+        try {
+            PreparedStatement ps = conn.prepareStatement("update UserLogin set IsActive = 1 where UserLoginID =?");
+            ps.setInt(1, id);
+            
+            ps.executeUpdate();
+        } catch (SQLException ex) {
+            Logger.getLogger(UserProfileDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
 }
