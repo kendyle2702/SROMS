@@ -102,5 +102,39 @@ public class UserProfileDAO {
     }
     
     
-    
+    public UserProfile updateUserProfileByUserProfileID(UserProfile user,int userProfileID){
+        int count = 0;
+        try {
+            PreparedStatement ps = conn.prepareStatement("update UserProfile set FirstName =?, LastName=?, Avatar=?, Gender=?, DateOfBirth=?,"
+                    + "Address=?,EnrollmentDate = ?, Email =?, Phone=? where UserProfileID =?");
+            ps.setString(1, user.getFirstName());
+            ps.setString(2, user.getLastName());
+            ps.setString(3, user.getAvatar());
+            ps.setString(4, user.getGender());
+            ps.setDate(5, user.getDateOfBirth());
+            ps.setString(6, user.getAddress());
+            ps.setDate(7, user.getEnrollmentDate());
+            ps.setString(8, user.getEmail());
+            ps.setString(9, user.getPhone());
+            ps.setInt(10, userProfileID);
+            count = ps.executeUpdate();
+        } catch (SQLException ex) {
+            Logger.getLogger(UserProfileDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return (count == 0) ? null : user;
+    }
+    public int getUserProfileIDByStudentProfileID(int studentID){
+        int id = 0;
+        try {
+            PreparedStatement ps = conn.prepareStatement("select * from StudentProfile where StudentProfileID = ?");
+            ps.setInt(1, studentID);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                id = rs.getInt("UserProfileID");
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(UserLoginDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return (id == 0) ? null : id;
+    }
 }

@@ -143,6 +143,56 @@ public class UploadController extends HttpServlet {
                 response.sendRedirect("/admin/account/student");
             }
         }
+        else if(request.getParameter("editStudent")!=null){
+            
+            int studentID = Integer.parseInt(request.getParameter("rsStudentID"));
+            String firstName = request.getParameter("firstname");
+            String lastName = request.getParameter("lastname");
+            String gender = request.getParameter("gender");
+            Date birthdate = Date.valueOf(request.getParameter("birthdate"));
+            Date enrollDate = Date.valueOf(request.getParameter("enrolldate"));
+            String address = request.getParameter("address");
+            String email = request.getParameter("email");
+            String phone = request.getParameter("phone");
+            String rollNumber = request.getParameter("rollnumber");
+            String memberCode = request.getParameter("membercode");
+            String major = request.getParameter("major");
+            String mode = request.getParameter("mode");
+            
+            String avatar = "";
+            Part part = request.getPart("avatar");
+            if (Paths.get(part.getSubmittedFileName()).toString().isEmpty()) {
+                avatar = userProfile.getAvatar();
+            } else {
+                try {
+                    String realPath = request.getServletContext().getRealPath("/assets/img/avatar");
+                    avatar = Paths.get(part.getSubmittedFileName()).toString();
+                    part.write(realPath + "/" + avatar);
+                } catch (Exception ex) {
+                    session.setAttribute("editStudent", "fail");
+                    response.sendRedirect("/admin/account/student/detail/"+studentID);
+                }
+            }
+            
+            UserProfileDAO uProfileDAO = new UserProfileDAO();
+            int userProfileID = uProfileDAO.getUserProfileIDByStudentProfileID(studentID);
+                    
+            UserProfile newUser = new UserProfile(firstName,lastName,avatar,gender,birthdate,address,enrollDate,email,phone);
+            
+            UserProfile user = uProfileDAO.updateUserProfileByUserProfileID(newUser,userProfileID);
+            
+            if (user == null) {
+                session.setAttribute("editStudent", "fail");
+                response.sendRedirect("/admin/account/student/detail/"+studentID);
+            } else {
+                StudentProfileDAO stDAO = new StudentProfileDAO();
+                StudentProfile newStudent = new StudentProfile(rollNumber,memberCode,major,mode,userProfileID);
+                StudentProfile student = stDAO.updateStudentProfileByUserProfileID(newStudent,userProfileID);
+                
+                session.setAttribute("editStudent", "success");
+                response.sendRedirect("/admin/account/student/detail/" + studentID);
+            }
+        }
     }
 
     private String getFileName(Part part) {

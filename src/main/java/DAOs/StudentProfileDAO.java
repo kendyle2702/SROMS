@@ -6,6 +6,7 @@ package DAOs;
 
 import Models.StudentProfile;
 import Models.UserLogin;
+import Models.UserProfile;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -89,5 +90,19 @@ public class StudentProfileDAO {
         }
 
         return (count == 0) ? null : studentProfile;
+    }
+    public StudentProfile updateStudentProfileByUserProfileID(StudentProfile user,int userProfileID){
+        int count = 0;
+        try {
+            PreparedStatement ps = conn.prepareStatement("update StudentProfile set RollNumber =?, MemberCode=?, Major=?, Mode=? where UserProfileID =?");
+            ps.setString(1, user.getRollNumber());
+            ps.setString(2, user.getMemberCode());
+            ps.setString(3, user.getMode());
+            ps.setInt(4, userProfileID);
+            count = ps.executeUpdate();
+        } catch (SQLException ex) {
+            Logger.getLogger(StudentProfileDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return (count == 0) ? null : user;
     }
 }

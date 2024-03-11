@@ -287,5 +287,56 @@
         } session.removeAttribute("registerClub");
     %>
 </script>
-        
+<!--Edit Student Profile by Admin-->
+<script>
+    <%
+         String editStudent = (String) session.getAttribute("editStudent");
+         if (editStudent != null) {
+             if (editStudent.equals("success")) {
+                %>
+                    Swal.fire({
+                    position: "top-end",
+                    icon: "success",
+                    title: "Edit Student Successfully!",
+                    showConfirmButton: false,
+                    timer: 1000
+                  });
+                <%
+             } else {
+                %>
+                    Swal.fire({
+                    position: "top-end",
+                    icon: "error",
+                    title: "Edit Student Failed",
+                    showConfirmButton: false,
+                    timer: 1000
+                  });
+                <%
+             }
+         }
+        session.removeAttribute("editStudent");
+    %>
+</script>
+<script>
+    Validator({
+        form: "#formEditStudent",
+        message: ".message", // Selector class
+        invalid: "invalid", // T�n class message
+        rules: [
+            Validator.isRequire("#firstname", "First Name is required"),
+            Validator.isRequire("#lastname", "Last Name is required"),  
+            Validator.isRequire("#birthdate", "Birthdate is required"),
+            Validator.isRequire("#enrolldate", "Enroll Date is required"),
+            Validator.isRequire("#email", "Email is required"),
+            Validator.isEmail("#email", "Email is not valid format"),
+            Validator.isRequire("#phone", "Phone is required"),
+            Validator.isPhone("#phone", "Phone is not valid format"),
+            Validator.isRequire("#rollnumber", "Roll Number is required"),
+            Validator.isRequire("#membercode", "Member Code is required"),
+            Validator.isRequire("#major", "Major is required"),
+            Validator.isRequire("#mode", "Mode is required"),
+            Validator.isRequire("#address", "Address is required"),
+        ]
+    });
+</script> 
 

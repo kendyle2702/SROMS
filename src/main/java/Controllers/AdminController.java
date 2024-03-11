@@ -14,6 +14,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import java.sql.ResultSet;
 
 /**
  *
@@ -71,7 +72,10 @@ public class AdminController extends HttpServlet {
               int id = Integer.parseInt(idArray[idArray.length - 1]);
               
               StudentProfileDAO stProfileDAO = new StudentProfileDAO();
+              ResultSet rsStudent = stProfileDAO.getStudentProfileMoreByID(id);
               
+              session.setAttribute("rsStudent", rsStudent);
+              session.setAttribute("rsStudentID", id);
               session.setAttribute("tabId", 10);
               request.getRequestDispatcher("/admin.jsp").forward(request, response);
            }
