@@ -94,91 +94,107 @@
                             </li>
                         </ul>
                         <div class="tab-content">
+
                             <!-- List Club Tab -->
                             <div class="tab-pane active show" id="listClub" role="tabpanel">
-                                <div class="pt-3 pb-3">
-                                    <div class="table-responsive lesson">
-                                        <table class="table table-center">
-                                            <tbody>
-                                            <c:forEach items="${sessionScope.listClub}" var="club">
-                                                <tr>
-                                                    <td>
-                                                        <!-- Club Details -->
-                                                        <div class="date">
-                                                            <b>${club.clubName}</b>
-                                                            <p>${club.description}</p>
-                                                        </div>
-                                                    </td>
-                                                    <td>
-                                                        <div class="lesson-confirm">
-                                                            <a href="student/clubs/detail?clubID=${club.clubID}">Club Details</a>
-                                                        </div>
-                                                        <form action="registerClub" method="post">
-                                                            <input type="hidden" name="clubID" value="${club.clubID}">
-                                                            <button type="submit" class="btn btn-info">Register</button>
-                                                        </form>
-                                                    </td>
-                                                </tr>
-                                            </c:forEach>
-                                            </tbody>
-                                        </table>
-                                        <c:if test="${empty sessionScope.listClub}">
-                                            <p>No clubs found.</p>
-                                        </c:if>
+                                <div class="row">
+                                    <div class="col-xl-12 d-flex">
+                                        <div class="card flex-fill student-space comman-shadow">
+                                            <div class="card-body">
+                                                <form action="/student" method="post">
+                                                    <div class="table-responsive">
+                                                        <table id="viewClubs" class="table table-hover table-striped table-bordered">
+                                                            <thead class="thead-light">
+                                                                <tr>
+                                                                    <th class="text-center">No</th>
+                                                                    <th class="text-center">Name</th>
+                                                                    <th class="text-center">Description</th>
+                                                                    <th class="text-center">Detail</th> 
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                            <c:forEach items="${sessionScope.listClub}" var="club" varStatus="count">
+                                                                <c:if test="${count.index < 3}">
+                                                                    <tr>
+                                                                        <td>${count.index + 1}</td>
+                                                                        <td>${club.clubName}</td>
+                                                                        <td>${club.description}</td>
+                                                                        <td class="text-center">
+                                                                            <div class="student-submit">
+                                                                                <input type="hidden" name="ClubID" value="${club.clubID}">
+                                                                                <input type="hidden" name="studentProfileID" value="${studentProfileID}">
+                                                                                <input type="submit" name="action" class="btn btn-primary" value="register">
+                                                                            </div>
+                                                                        </td>
+                                                                    </tr>
+                                                                </c:if>
+                                                            </c:forEach>
+                                                            <c:if test="${empty sessionScope.listClub}">
+                                                                <tr>
+                                                                    <td colspan="7" class="text-center">No clubs found..</td>
+                                                                </tr>
+                                                            </c:if>
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
 
                             <!-- My Club Tab -->
                             <div class="tab-pane" id="myClub" role="tabpanel">
-                                <div class="pt-3 pb-3">
-                                    <div class="table-responsive lesson">
-                                        <table class="table table-center">
-                                            <tbody>
-                                                <%
-                                                    ClubDAO clubDAO = new ClubDAO();
-                                                    List<Models.Club> clubs = clubDAO.getMyClubs(userProfile.getUserProfileID()); // Assuming studentProfileID is available
-
-                                                    if (clubs != null && !clubs.isEmpty()) {
-                                                        for (Models.Club club : clubs) {
-                                                            String semesterName = clubDAO.getSemesterNameByClubID(club.getClubID()); // Move inside the loop to ensure it's updated for each club
-                                                %>
-                                                <tr>
-                                                    <td>
-                                                        <div class="date">
-                                                            <b><%= semesterName%></b>
-                                                        </div>
-                                                    </td>
-                                                    <td>
-                                                        <div class="card-text">
-                                                            <b><%= club.getClubName()%></b>
-                                                            <p><%= club.getDescription()%></p> <!-- Assuming getClubRole method exists -->
-                                                        </div>
-                                                    </td>
-                                                    <td>
-                                                        <div class="lesson-confirm">
-                                                            <a href="student/clubs/detail?clubID=<%= club.getClubID()%>">Club Details</a> <!-- Assuming getClubID method exists -->
-                                                        </div>
-                                                    </td>
-                                                </tr>
-                                                <%
-                                                    }
-                                                } else {
-                                                %>
-                                            <div class="row align-items-center">
-                                                <div class="col-6">
-                                                    <h5 class="card-text">You haven't joined the club yet</h5>
-                                                </div>
-                                                <div class="col-6">
-                                                    <span class="float-end view-link"><a href="/student/clubs/view"> See More</a></span>
-                                                </div>
-                                            </div> 
-                                            <% }%>
-                                            </tbody>
-                                        </table>
+                                <div class="row">
+                                    <div class="col-xl-12 d-flex">
+                                        <div class="card flex-fill student-space comman-shadow">
+                                            <div class="card-body">
+                                                <form action="/student" method="post">
+                                                    <div class="table-responsive">
+                                                        <table id="viewMyClubs" class="table table-hover table-striped table-bordered">
+                                                            <thead class="thead-light">
+                                                                <tr>
+                                                                    <th class="text-center">No</th>
+                                                                    <th class="text-center">Name</th>
+                                                                    <th class="text-center">Description</th>
+                                                                    <th class="text-center">Role</th>
+                                                                    <th class="text-center">Semester</th>
+                                                                    <th class="text-center">Detail</th> 
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                            <c:forEach items="${sessionScope.clubMembers}" var="clubM" varStatus="count">
+                                                                <tr>
+                                                                    <td>${count.index + 1}</td>
+                                                                    <td>${clubM.clubID}</td>
+                                                                    <td>description</td>
+                                                                    <td>${clubM.clubRole}</td>
+                                                                    <td class="date">${semesterName}</td>
+                                                                    <td class="text-center">
+                                                                        <div class="student-submit">
+                                                                            <input type="hidden" name="myClubID" value="${clubM.clubID}">
+                                                                            <input type="hidden" name="studentProfileID" value="${studentProfileID}">
+                                                                            <input type="submit" name="action" class="btn btn-primary" value="Details">
+                                                                        </div>
+                                                                    </td>
+                                                                </tr>
+                                                            </c:forEach>
+                                                            <c:if test="${empty sessionScope.clubMembers}">
+                                                                <tr>
+                                                                    <td colspan="7" class="text-center">You haven't joined the club yet.</td>
+                                                                </tr>
+                                                            </c:if>
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
+
                         </div>
                     </div>
                 </div>
@@ -188,43 +204,45 @@
                 <div class="col-xl-12 d-flex">
                     <div class="card flex-fill student-space comman-shadow">
                         <div class="card-body">
-                            <div class="table-responsive">
-                                <table id="viewEvents" class="table table-hover table-striped table-bordered">
-                                    <thead class="thead-light">
-                                        <tr>
-                                            <th class="text-center">No</th>
-                                            <th class="text-center">Name</th>
-                                            <th class="text-center">Location</th>
-                                            <th class="text-center">Date</th>
-                                            <th class="text-center">Category</th>
-                                            <th class="text-center">Register</th> 
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                    <c:forEach items="${sessionScope.listEvent}" var="event" varStatus="count">
-                                        <tr>
-                                            <td>${count.index + 1}</td>
-                                            <td>${event.eventName}</td>
-                                            <td>${event.location}</td>
-                                            <td>${event.holdTime}</td>
-                                            <td>${sessionScope.eventCategoryNames[event.eventID]}</td>
-                                            <td class="text-center">
-                                                <form action="student" method="post">
-                                                    <input type="hidden" name="action" value="registerEvent">
-                                                    <input type="hidden" name="EventID" value="${event.eventID}">
-                                                    <button type="submit" class="btn btn-primary">Register</button>
-                                                </form>
-                                            </td>
-                                        </tr>
-                                    </c:forEach>
-                                    <c:if test="${empty sessionScope.listEvent}">
-                                        <tr>
-                                            <td colspan="7" class="text-center">No events found.</td>
-                                        </tr>
-                                    </c:if>
-                                    </tbody>
-                                </table>                                          
-                            </div>
+                            <form action="/student" method="post">
+                                <div class="table-responsive">
+                                    <table id="viewEvents" class="table table-hover table-striped table-bordered">
+                                        <thead class="thead-light">
+                                            <tr>
+                                                <th class="text-center">No</th>
+                                                <th class="text-center">Name</th>
+                                                <th class="text-center">Location</th>
+                                                <th class="text-center">Date</th>
+                                                <th class="text-center">Category</th>
+                                                <th class="text-center">Register</th> 
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                        <c:forEach items="${sessionScope.listEvent}" var="event" varStatus="count">
+                                            <tr>
+                                                <td>${count.index + 1}</td>
+                                                <td>${event.eventName}</td>
+                                                <td>${event.location}</td>
+                                                <td>${event.holdTime}</td>
+                                                <td>${sessionScope.eventCategoryNames[event.eventID]}</td>
+                                                <td class="text-center">
+                                                    <div class="student-submit">
+                                                        <input type="hidden" name="EventID" value="${event.eventID}">
+                                                        <input type="hidden" name="studentProfileID" value="${studentProfileID}">
+                                                        <input type="submit" name="action" class="btn btn-primary" value="join">
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </c:forEach>
+                                        <c:if test="${empty sessionScope.listEvent}">
+                                            <tr>
+                                                <td colspan="7" class="text-center">No events found.</td>
+                                            </tr>
+                                        </c:if>
+                                        </tbody>
+                                    </table>                                          
+                                </div>
+                            </form>
                         </div>
                     </div>
                 </div>
@@ -235,7 +253,7 @@
             <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content">
                     <div class="modal-body">
-                    <h3><%=latestNews.getTitle()%></h3>
+                        <h3><%=latestNews.getTitle()%></h3>
                         <div class="form-header">
                             <p><%=latestNews.getContent()%></p>
                         </div>

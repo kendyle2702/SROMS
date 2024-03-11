@@ -2,8 +2,8 @@ package Models;
 
 import java.sql.Date;
 
-
 public class Club {
+
     private int clubID;
     private String logo;
     private String clubName;
@@ -11,32 +11,11 @@ public class Club {
     private String description;
     private Boolean isApprove;
     private Boolean isActive;
-    
+
     private int managerProfileID;
-   private int studentProfileID;
+    private int studentProfileID;
 
     public Club() {
-    }
-
-    public Club(int clubID, String clubName, Date establishDate, String description, Boolean isApprove, Boolean isActive, int managerProfileID) {
-        this.clubID = clubID;
-        this.clubName = clubName;
-        this.establishDate = establishDate;
-        this.description = description;
-        this.isApprove = isApprove;
-        this.isActive = isActive;
-        this.managerProfileID = managerProfileID;
-    }
-
-    public Club(int clubID, String logo, String clubName, Date establishDate, String description, Boolean isApprove, Boolean isActive, int managerProfileID) {
-        this.clubID = clubID;
-        this.logo = logo;
-        this.clubName = clubName;
-        this.establishDate = establishDate;
-        this.description = description;
-        this.isApprove = isApprove;
-        this.isActive = isActive;
-        this.managerProfileID = managerProfileID;
     }
 
     public Club(int clubID, String logo, String clubName, Date establishDate, String description, Boolean isApprove, Boolean isActive, int managerProfileID, int studentProfileID) {
@@ -48,6 +27,17 @@ public class Club {
         this.isApprove = isApprove;
         this.isActive = isActive;
         this.managerProfileID = managerProfileID;
+        this.studentProfileID = studentProfileID;
+    }
+
+    public Club(int clubID, String logo, String clubName, Date establishDate, String description, Boolean isApprove, Boolean isActive, int studentProfileID) {
+        this.clubID = clubID;
+        this.logo = logo;
+        this.clubName = clubName;
+        this.establishDate = establishDate;
+        this.description = description;
+        this.isApprove = isApprove;
+        this.isActive = isActive;
         this.studentProfileID = studentProfileID;
     }
 
@@ -123,5 +113,4 @@ public class Club {
         this.studentProfileID = studentProfileID;
     }
 
-   
 }

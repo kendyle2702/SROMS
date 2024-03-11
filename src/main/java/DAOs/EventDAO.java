@@ -129,7 +129,6 @@ public class EventDAO {
                     rs.getString(10), rs.getString(11), rs.getString(12), rs.getTimestamp(13));
         }
         return event;
-
     }
 
     public List<Map<String, Integer>> getTotalIsPresent() throws SQLException {
@@ -227,21 +226,37 @@ public class EventDAO {
         return categoryName;
     }
 
-    public void addStudentToParticipationEventDetail(ParticipationEventDetail participationEventDetail) throws SQLException {
+    public boolean addStudentToParticipationEventDetail(ParticipationEventDetail participationEventDetail) throws SQLException {
         conn = DBConnection.connect(); // Establish database connection
 
-        // SQL command to insert a new record into ParticipationEventDetail
+        String checkQuery = "SELECT COUNT(*) FROM [SROMS].[dbo].[ParticipationEventDetail] WHERE [EventID] = ? AND [StudentProfileID] = ?";
+        PreparedStatement checkPs = conn.prepareStatement(checkQuery);
+        checkPs.setInt(1, participationEventDetail.getEventID());
+        checkPs.setInt(2, participationEventDetail.getStudentProfileID());
+
+        ResultSet rs = checkPs.executeQuery();
+        if (rs.next()) {
+            if (rs.getInt(1) > 0) {
+                // Sinh viên đã tồn tại trong sự kiện
+                return false; // Trả về false nếu sinh viên đã tham gia
+            }
+        }
+
+        // Insert sinh viên vào sự kiện
         String query = "INSERT INTO [SROMS].[dbo].[ParticipationEventDetail] ([EventID], [StudentProfileID], [RoleEvent], [IsPresent], [Report], [Result])"
                 + " VALUES (?, ?, ?, ?, ?, ?)";
-        ps = conn.prepareStatement(query);
+        PreparedStatement ps = conn.prepareStatement(query);
 
-        // Set parameters
+        // Set parameters and execute
         ps.setInt(1, participationEventDetail.getEventID());
         ps.setInt(2, participationEventDetail.getStudentProfileID());
         ps.setString(3, participationEventDetail.getRoleEvent());
         ps.setBoolean(4, participationEventDetail.getIsPresent());
         ps.setString(5, participationEventDetail.getReport());
         ps.setString(6, participationEventDetail.getResult());
-        ps.executeUpdate(); // Execute the insert operation
+        ps.executeUpdate();
+
+        return true; // Trả về true khi thêm thành công
     }
+
 }

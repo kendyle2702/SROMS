@@ -80,8 +80,7 @@ public class EventManagerController extends HttpServlet {
             } catch (SQLException ex) {
                 Logger.getLogger(EventManagerController.class.getName()).log(Level.SEVERE, null, ex);
             }
-        }
-        else{
+        } else {
             response.sendRedirect("/");
         }
 
@@ -101,6 +100,8 @@ public class EventManagerController extends HttpServlet {
         EventDAO eventManagerDAO = new EventDAO();
         HttpSession session = request.getSession();
         String action = request.getParameter("event");
+        int eventID = Integer.parseInt(request.getParameter("EventID"));
+        System.out.println(eventID);
         try {
             if (action.equals("Submit")) {
                 String eventName = request.getParameter("eventname");

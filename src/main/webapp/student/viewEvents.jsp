@@ -17,9 +17,6 @@
                 </div>
             </div>
         </div>
-        <%
-                        UserProfile profile = (UserProfile)session.getAttribute("user");
-         %>
 
         <div class="row">
             <div class="col-xl-12 d-flex">
@@ -35,6 +32,7 @@
                                             <th class="text-center">Location</th>
                                             <th class="text-center">Date</th>
                                             <th class="text-center">Category</th>
+                                            <th class="text-center"></th> 
                                             <th class="text-center">Register</th> 
                                         </tr>
                                     </thead>
@@ -47,14 +45,13 @@
                                             <td>${event.holdTime}</td>
                                             <td>${sessionScope.eventCategoryNames[event.eventID]}</td>
                                             <td class="text-center">
+                                                <a href="/student/events/detail/${event.eventID}" type="button" class="btn btn-primary">Detail</a>
+                                            </td>
+                                            <td class="text-center">
                                                 <div class="student-submit">
-                                                    <input type="text" name="EventID" value="${event.eventID}">
-                                                    <%
-                                                        UserLoginDAO userLoginDAO = new UserLoginDAO();
-                                                        int studentProfileID = userLoginDAO.getStudentProfileIDByUserProfileID(userProfile.getUserProfileID());
-                                                    %>  
-                                                    <input type="text" name="studentProfileID" value="<%=studentProfileID%>">
-                                                    <input type="submit" name="action" class="btn btn-primary" value="Register">
+                                                    <input type="hidden" name="EventID" value="${event.eventID}">
+                                                    <input type="hidden" name="studentProfileID" value="${studentProfileID}">
+                                                    <input type="submit" name="action" class="btn btn-primary" value="join">
                                                 </div>
                                             </td>
                                         </tr>
