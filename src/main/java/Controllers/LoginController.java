@@ -43,15 +43,19 @@ public class LoginController extends HttpServlet {
                 // Redirect to the corresponding Controller role
                 switch (roleLogin) {
                     case "Admin":
+                        session.setAttribute("roleURL", "admin");
                         response.sendRedirect("/admin");
                         break;
                     case "Event Manager":
+                        session.setAttribute("roleURL", "eventmanager");
                         response.sendRedirect("/eventmanager");
                         break;
                     case "Club Manager":
+                        session.setAttribute("roleURL", "clubmanager");
                         response.sendRedirect("/clubmanager");
                         break;
                     case "Student":
+                        session.setAttribute("roleURL", "student");
                         response.sendRedirect("/student");
                         break;
                 }

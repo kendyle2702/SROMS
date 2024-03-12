@@ -22,7 +22,7 @@
                                 <form id="myFormID" action="login" method="post">
                                     <div class="form-group local-forms" style="margin-bottom:30px">
                                         <label>Select Your Role</label>
-                                        <select id="selectRole" class="form-control select" name="userRoleLogin" onchange="chooseRole(event)">
+                                        <select id="selectRole" class="form-select form-control select" name="userRoleLogin" onchange="chooseRole(event)">
                                             <%
                                                 String role = (String) session.getAttribute("roleLogin");
                                                 if (role == null) {

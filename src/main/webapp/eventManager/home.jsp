@@ -84,7 +84,7 @@
                                             <th class="text-center">Name</th>
                                             <th class="text-center">Location</th>
                                             <th class="text-center">Date</th>
-                                            <th class="text-center">Is Approve</th>
+                                            <!--                                            <th class="text-center">Type Of Event</th>-->
                                             <th class="text-center">Status</th>       
                                             <th class="text-center"></th> 
                                         </tr>
@@ -98,37 +98,26 @@
                                                 <td class="">${liste.getEventName()}</td>
                                                 <td class="">${liste.getLocation()}</td>
                                                 <td class="">${liste.getHoldTime()}</td>
-
+                                                <%-- Scriptlets should be avoided, but for demonstration, I'm maintaining them --%>
+                                                <%-- Scriptlets should be avoided, but for demonstration, I'm maintaining them --%>
+                                                <%
+                                                    EventDAO dao = new EventDAO();
+                                                    List<Event> events = dao.eventList();
+                                                    Calendar calen = Calendar.getInstance();
+                                                    SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH-mm-ss");
+                                                    Timestamp currentDateTime = new Timestamp(calen.getTimeInMillis());
+                                                    String currentDateTimeString = format.format(currentDateTime);
+                                                    session.setAttribute("currentTime", currentDateTimeString);
+                                                %>
                                             <c:choose>
-                                                <c:when test="${liste.getApprove() eq 'none'}">
-                                                    <td class="">Waiting</td>
-                                                </c:when>
-                                                <c:when test="${liste.getApprove() eq 'true'}">
-                                                    <td class="">Accepted</td>
-                                                </c:when>
-                                                <c:otherwise>
-                                                    <td class="">Rejected</td>
-                                                </c:otherwise>
-                                            </c:choose>
-
-                                            <%-- Scriptlets should be avoided, but for demonstration, I'm maintaining them --%>
-                                            <%-- Scriptlets should be avoided, but for demonstration, I'm maintaining them --%>
-                                            <%
-                                                EventDAO dao = new EventDAO();
-                                                List<Event> events = dao.eventList();
-
-                                                Calendar calen = Calendar.getInstance();
-                                                SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH-mm-ss");
-                                                Timestamp currentDateTime = new Timestamp(calen.getTimeInMillis());
-                                                String currentDateTimeString = format.format(currentDateTime);
-                                                session.setAttribute("currentTime", currentDateTimeString);
-                                            %>
-                                            <c:choose>
-                                                <c:when test="${sessionScope.currentTime <= liste.getEndTime()}">
+                                                <c:when test="${sessionScope.currentTime <= liste.getEndTime() && liste.getApprove() eq 'AA'}">
                                                     <td class="">Happening</td>
                                                 </c:when>
-                                                <c:otherwise>
+                                                <c:when test="${sessionScope.currentTime > liste.getEndTime() && liste.getApprove() eq 'AA'}">
                                                     <td class="">Finished</td>
+                                                </c:when>
+                                                <c:otherwise>
+                                                    <td class="">Waiting Accept</td>
                                                 </c:otherwise>
                                             </c:choose>
                                             <td class="text-center">

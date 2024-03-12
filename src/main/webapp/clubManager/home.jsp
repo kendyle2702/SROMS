@@ -1,32 +1,18 @@
 <div class="page-wrapper">
     <div class="content container-fluid">
-        <!--                <div class="page-header">                               
-                            <div>
-                                <div class="page-sub-header">                          
-                                    <div>
-                                        <h3>News</h3>
-                                        <p>Contents</p>
-                                      
-                                    </div>
-                                </div>
-                            </div>                     
-                        </div>-->
+        <div class="page-header">
+            <div class="row">
+                <div class="col">
+                    <h3 class="page-title">Home</h3>
+                    <ul class="breadcrumb">
+                        <li class="breadcrumb-item active">Home</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
         <div class="row">
 
             <div class="col-xl-4 col-sm-6 col-12 d-flex">
-                <!--                        <div class="card bg-comman w-100">
-                                            <div class="card-body">
-                                                <div class="db-widgets d-flex justify-content-between align-items-center">
-                                                    <div class="db-info">                                       
-                                                        <h6>Total Event Took Place</h6>
-                                                        <h3>vd: 200</h3>
-                                                    </div>
-                                                    <div class="db-icon">
-                                                        <img src="assets/img/icons/dash-icon-01.svg" alt="Dashboard Icon">
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>-->
             </div>
             <div style="" class="col-xl-4 col-sm-6 col-12 d-flex ">
                 <div class="card bg-comman w-100">
@@ -44,19 +30,6 @@
                 </div>
             </div>
             <div class="col-xl-4 col-sm-12 col-12 d-flex">
-                <!--                        <div class="card bg-comman w-100">
-                                                                    <div class="card-body">
-                                                                        <div class="db-widgets d-flex justify-content-between align-items-center">
-                                                                            <div class="db-info">
-                                                                                <h6>Total Cost Of Events</h6>
-                                                                                <h3>vd: 1000000VND</h3>
-                                                                            </div>
-                                                                            <div class="db-icon">
-                                                                                <img src="assets/img/icons/teacher-icon-02.svg" alt="Dashboard Icon">
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>-->
             </div>
             <div class="row">
                 <div class="col-xl-12 d-flex">
@@ -75,8 +48,10 @@
                                             <th class="text-center">No.</th>
                                             <th class="text-center">Name</th>
                                             <th class="text-center">Establish Date</th>
-                                            <th class="text-center">Active</th>
+                                            <th class="text-center">Status</th>
                                             <th class="text-center">Detail</th>
+                                            <th></th>
+
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -88,14 +63,17 @@
                                                 <td class="text-center">${c.getEstablishDate()}</td>
                                             <c:choose>
                                                 <c:when test="${c.getIsActive() == true}">
-                                                    <td class="text-center">Accepted</td>
+                                                    <td class="text-center">Active</td>
                                                 </c:when>
                                                 <c:otherwise>
-                                                    <td class="text-center">Reject</td>
+                                                    <td class="text-center">In Active</td>
                                                 </c:otherwise>
                                             </c:choose>
-                                            <td class="text-center row">                                                                
+                                            <td class="text-center">                                                                
                                                 <a href="/clubmanager/viewdetail/${c.getClubID()}" class="btn btn-primary m-auto col-5">View Detail</a>
+
+                                            </td>
+                                            <td class="text-center">
                                                 <a href="/clubmanager/delete/${c.getClubID()}" class="btn btn-danger m-auto col-5">Delete</a>
                                             </td>
                                             </tr>

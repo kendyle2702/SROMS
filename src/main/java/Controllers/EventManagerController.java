@@ -3,9 +3,11 @@ package Controllers;
 import static Controllers.LoginController.getToken;
 import static Controllers.LoginController.getUserInfo;
 import DAOs.EventDAO;
+import DAOs.ManagerProfileDAO;
 import Models.Event;
 import Models.ParticipationEventDetail;
 import Models.StudentProfile;
+import Models.UserProfile;
 import Utils.GoogleInformation;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -23,6 +25,7 @@ import java.text.SimpleDateFormat;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.Calendar;
 import java.util.Map;
 
@@ -43,26 +46,34 @@ public class EventManagerController extends HttpServlet {
                 // HttpSession is already an HttpSession, no need to cast
                 EventDAO eventManagerDAO = new EventDAO();
                 List<Event> listE = eventManagerDAO.eventList();
-                List<ParticipationEventDetail> pertiList = eventManagerDAO.participateEventList();
+//                List<ParticipationEventDetail> pertiList = eventManagerDAO.participateEventList();
                 int totalEventTook = eventManagerDAO.getTotalEventTook();
                 int totalEventTaking = eventManagerDAO.getTotalEventTaking();
                 long totalCost = eventManagerDAO.getTotalCost();
-                List<StudentProfile> studentList = eventManagerDAO.participateEventList();
+                //    List<StudentProfile> studentList = eventManagerDAO.participateEventList();
                 Calendar calen = Calendar.getInstance();
                 SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH-mm-ss");
                 List<Map<String, Integer>> numberParti = eventManagerDAO.getTotalIsPresent();
                 Timestamp d = new Timestamp(calen.getTimeInMillis());
                 if (path.equals("/eventmanager")) {
                     session.setAttribute("listEvent", listE);
-                    session.setAttribute("pertiList", pertiList);
+                    //   session.setAttribute("pertiList", pertiList);
                     session.setAttribute("totalevent", totalEventTaking);
                     session.setAttribute("totalEventTook", totalEventTook);
                     session.setAttribute("totalcost", totalCost);
-                    session.setAttribute("studentList", studentList);
+                    //         session.setAttribute("studentList", studentList);
                     String s = format.format(d);
                     session.setAttribute("numberParti", numberParti);
                     session.setAttribute("tabId", 1);
                     request.getRequestDispatcher("/eventManager.jsp").forward(request, response);
+                } else if (path.startsWith("/eventmanager/profile")) {
+                    if (path.endsWith("/eventmanager/profile/edit")) {
+                        session.setAttribute("tabId", 6);
+                        request.getRequestDispatcher("/eventManager.jsp").forward(request, response);
+                    } else {
+                        session.setAttribute("tabId", 5);
+                        request.getRequestDispatcher("/eventManager.jsp").forward(request, response);
+                    }
                 } else if (path.equals("/eventmanager/events/viewevent")) {
                     session.setAttribute("tabId", 3);
                     request.getRequestDispatcher("/eventManager.jsp").forward(request, response);
@@ -99,27 +110,57 @@ public class EventManagerController extends HttpServlet {
             throws ServletException, IOException {
         EventDAO eventManagerDAO = new EventDAO();
         HttpSession session = request.getSession();
-        String action = request.getParameter("event");
-        int eventID = Integer.parseInt(request.getParameter("EventID"));
-        System.out.println(eventID);
         try {
-            if (action.equals("Submit")) {
+            String updateEvent = request.getParameter("updateEvent");
+            String createCompatition = request.getParameter("createCompatition");
+            String createEvent = request.getParameter("createEvent");
+            if (createEvent != null && createEvent.equals("Submit")) {
+                ManagerProfileDAO managerProfileDAO = new ManagerProfileDAO();
                 String eventName = request.getParameter("eventname");
-                Timestamp pretime = formatTime(LocalDateTime.parse(request.getParameter("pretime")));
+                Timestamp preTime = formatTime(LocalDateTime.parse(request.getParameter("pretime")));
                 Timestamp holeTime = formatTime(LocalDateTime.parse(request.getParameter("holetime")));
                 String location = request.getParameter("location");
                 int cost = Integer.parseInt(request.getParameter("cost"));
                 int exNum = Integer.parseInt(request.getParameter("exnum"));
                 String organization = request.getParameter("organization");
                 String description = request.getParameter("description");
-
+                String feedback = request.getParameter("feedback");
                 Timestamp endTime = formatTime(LocalDateTime.parse(request.getParameter("endtime")));
-                Event event = new Event(eventName, pretime, holeTime,
-                        location, cost, exNum, organization,
-                        description, endTime);
-                eventManagerDAO.addEvent(event);
+                UserProfile userProfile = (UserProfile) session.getAttribute("user");
+                String role = (String) session.getAttribute("role");
+                int id = managerProfileDAO.getManagerProfileIdByEmail(userProfile.getEmail());
+                String eventCatelogyName = request.getParameter("catelogyEvent");
+                int eventCatelogyID = 0;
+                if (eventCatelogyName.equalsIgnoreCase("Soft Skills")) {
+                    eventCatelogyID = 1;
+                } else {
+                    eventCatelogyID = 3;
+                }
+                eventManagerDAO.addEvent(eventName, preTime, holeTime, location, cost, exNum, organization, description, feedback, endTime, role, id, eventCatelogyID);
                 response.sendRedirect("/eventmanager");
-            } else if (action.equals("Update")) {
+            } else if (createCompatition != null && createCompatition.equals("Submit")) {
+                ManagerProfileDAO managerProfileDAO = new ManagerProfileDAO();
+                String eventName = request.getParameter("eventname");
+                Timestamp preTime = formatTime(LocalDateTime.parse(request.getParameter("pretime")));
+                Timestamp holeTime = formatTime(LocalDateTime.parse(request.getParameter("holetime")));
+                String location = request.getParameter("location");
+                int cost = Integer.parseInt(request.getParameter("cost"));
+                int exNum = Integer.parseInt(request.getParameter("exnum"));
+                String organization = request.getParameter("organization");
+                String description = request.getParameter("description");
+                String feedback = request.getParameter("feedback");
+                Timestamp endTime = formatTime(LocalDateTime.parse(request.getParameter("endtime")));
+                UserProfile userProfile = (UserProfile) session.getAttribute("user");
+                String role = (String) session.getAttribute("role");
+                int firtPrize = Integer.parseInt(request.getParameter("firtPrize"));
+                int secondPrize = Integer.parseInt(request.getParameter("secondPrize"));
+                int thirdPrize = Integer.parseInt(request.getParameter("thirdPrize"));
+                int id = managerProfileDAO.getManagerProfileIdByEmail(userProfile.getEmail());
+                eventManagerDAO.addEvent(eventName, preTime, holeTime, location, cost, exNum, organization, description, feedback, endTime, role, id, 2);
+                eventManagerDAO.addPrizeStructure(firtPrize, secondPrize, thirdPrize);
+                response.sendRedirect("/eventmanager");
+
+            } else if (updateEvent != null && updateEvent.equals("Update")) {
                 String nameUpdate = request.getParameter("eventnameupdate");
                 Timestamp preTimeUpdate = formatTime(LocalDateTime.parse(request.getParameter("pretimeupdate")));
                 Timestamp holeTimeUpdate = formatTime(LocalDateTime.parse(request.getParameter("holetimeupdate")));
@@ -132,12 +173,11 @@ public class EventManagerController extends HttpServlet {
                 int idUpdate = Integer.parseInt(request.getParameter("idupdate"));
                 String feedbackupdate = request.getParameter("feedbackupdate");
                 int check = eventManagerDAO.updateEvent(nameUpdate, preTimeUpdate, holeTimeUpdate, locationUpdate, costUpdate, exnumUpdate, organUpdate, descriptionUpdate, feedbackupdate, endTimeUpdate, idUpdate);
-                if (check != 0) {
-                    session.setAttribute("massage", "success");
+                if (check > 0) {
+                    session.setAttribute("checkUpdateEvent", "success");
                 } else {
-                    session.setAttribute("massage", "failed!");
+                    session.setAttribute("checkUpdateEvent", "failed");
                 }
-//                request.getRequestDispatcher("/eventDetail.jsp").forward(request, response);
                 response.sendRedirect("/eventmanager/events/detail/" + idUpdate);
             }
         } catch (SQLException ex) {

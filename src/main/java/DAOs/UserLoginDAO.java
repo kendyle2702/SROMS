@@ -1,5 +1,6 @@
 package DAOs;
 
+import Models.UserLogin;
 import Models.StudentProfile;
 import Models.UserProfile;
 import java.sql.Connection;
@@ -53,7 +54,21 @@ public class UserLoginDAO {
         }
         return false;
     }
+    public UserLogin addUserLogin(UserLogin user) {
+        int count = 0;
+        try {
+            PreparedStatement ps = conn.prepareStatement("insert into [UserLogin] values(?,?,?,?)");
+            ps.setString(1, user.getUsername());
+            ps.setTimestamp(2, user.getCreateAt());
+            ps.setInt(3, 1);
+            ps.setInt(4, user.getUserProfileID());
+            count = ps.executeUpdate();
+        } catch (SQLException ex) {
+            Logger.getLogger(UserLoginDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
 
+        return (count == 0) ? null : user;
+    }
     public int getStudentProfileIDByUserProfileID(int userProfileID) {
         int studentProfileID = -1; // Initialize with a default value in case no result is found
         try {

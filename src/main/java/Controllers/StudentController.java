@@ -2,6 +2,8 @@ package Controllers;
 
 import DAOs.ClubDAO;
 import DAOs.EventDAO;
+import DAOs.ManagerProfileDAO;
+import DAOs.StudentProfileDAO;
 import DAOs.UserLoginDAO;
 import Models.Club;
 import Models.ClubMember;
@@ -16,12 +18,14 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import static jdk.nashorn.internal.runtime.Debug.id;
 
 public class StudentController extends HttpServlet {
 
@@ -31,11 +35,13 @@ public class StudentController extends HttpServlet {
         HttpSession session = request.getSession();
         String role = (String) session.getAttribute("role");
         UserProfile userProfile = (UserProfile) session.getAttribute("user");
-        String path = request.getServletPath();
+        String path = request.getRequestURI();
 
         if (role != null && role.equals("Student")) {
             try {
-                //Student Profile ID                
+                StudentProfileDAO studentProfileDAO = new StudentProfileDAO();
+                ManagerProfileDAO managerProfileDAO = new ManagerProfileDAO();
+                
                 UserLoginDAO userLoginDAO = new UserLoginDAO();
                 int studentProfileID = userLoginDAO.getStudentProfileIDByUserProfileID(userProfile.getUserProfileID());
 
@@ -66,15 +72,15 @@ public class StudentController extends HttpServlet {
 
                     session.setAttribute("listClub", listC);
                     session.setAttribute("clubMembers", clubM);
-
                     session.setAttribute("tabId", 1);
-
                     request.getRequestDispatcher("/student.jsp").forward(request, response);
                 } else if (path.startsWith("/student/profile")) {
-                    if (path.endsWith("/student/profile/view")) {
-                        request.getRequestDispatcher("/profile.jsp").forward(request, response);
-                    } else if (path.endsWith("/student/profile/edit")) {
-                        request.getRequestDispatcher("/profile-edit.jsp").forward(request, response);
+                    if (path.endsWith("/student/profile/edit")) {
+                        session.setAttribute("tabId", 6);
+                        request.getRequestDispatcher("/student.jsp").forward(request, response);
+                    } else {
+                        session.setAttribute("tabId", 5);
+                        request.getRequestDispatcher("/student.jsp").forward(request, response);
                     }
                 } else if (path.startsWith("/student/clubs")) {
                     if (path.endsWith("/student/clubs/view")) {
@@ -108,11 +114,22 @@ public class StudentController extends HttpServlet {
                         request.getRequestDispatcher("/student.jsp").forward(request, response);
                     } else if (path.startsWith("/student/events/detail")) {
                         String[] idArray = path.split("/");
+
                         int id = Integer.parseInt(idArray[idArray.length - 1]);
+                        
+                        
+                        ResultSet rsManager = managerProfileDAO.getManagerProfileMoreByEventID(id);
+                        ResultSet rsStudent = studentProfileDAO.getStudentProfileMorebyEventID(id); 
+                        session.setAttribute("studentProfileID", studentProfileID);
+
+                        session.setAttribute("rsManager", rsManager);
+                        session.setAttribute("rsStudent", rsStudent);
+                        session.setAttribute("rsEventID", id);                        
+                        
                         Event event = eventManagerDAO.getEvent(id);
                         session.setAttribute("event", event);
-                        session.setAttribute("tabId", 5);
-                        
+
+                        session.setAttribute("tabId", 7);
                         request.getRequestDispatcher("/student.jsp").forward(request, response);
                     } else if (path.endsWith("/student/events/register")) {
                         request.getRequestDispatcher("/event-register.jsp").forward(request, response);
@@ -129,12 +146,12 @@ public class StudentController extends HttpServlet {
                     if (path.endsWith("/student/point/view")) {
                         request.getRequestDispatcher("/point.jsp").forward(request, response);
                     }
+                } else {
+                    response.sendRedirect("/");
                 }
             } catch (SQLException ex) {
                 Logger.getLogger(StudentController.class.getName()).log(Level.SEVERE, null, ex);
             }
-        } else {
-            response.sendRedirect("/");
         }
     }
 
@@ -145,7 +162,7 @@ public class StudentController extends HttpServlet {
         String action = request.getParameter("action");
         EventDAO eventDAO = new EventDAO();
         try {
-            if (action.equals("join")) {
+            if (action.equals("Join")) {
                 int eventID = Integer.parseInt(request.getParameter("EventID"));
 
                 // Assuming you're storing the student's profile ID in the session when they log in or register

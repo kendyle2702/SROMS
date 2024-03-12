@@ -116,6 +116,41 @@ public class ClubDAO {
         }
     }
 
+    public String getFullName(int clubID, int studentProfileID) throws SQLException {
+        String fullName = null;
+        ResultSet rs = null;
+        PreparedStatement ps = conn.prepareStatement("SELECT CONCAT(FirstName, ' ', LastName) AS FullName FROM [Club] LEFT JOIN StudentProfile ON Club.ClubID = StudentProfile.StudentProfileID \n"
+                + "LEFT JOIN UserProfile ON StudentProfile.UserProfileID = UserProfile.UserProfileID WHERE ClubID = ? AND StudentProfile.StudentProfileID = ?;");
+        ps.setInt(1, clubID);
+        ps.setInt(2, studentProfileID);
+        rs = ps.executeQuery();
+        if (rs.next()) {
+            fullName = rs.getString("FullName");
+        }
+        return fullName;
+    }
+
+    public int checkRequestCreate(int IsApprove, int clubID) throws SQLException {
+        int count = 0;
+        PreparedStatement ps = conn.prepareStatement("UPDATE [Club] SET IsApprove = ? where ClubID = ?;");
+        ps.setInt(1, IsApprove);
+        ps.setInt(2, clubID);
+        count = ps.executeUpdate();
+        return count;
+    }
+
+    public List<Club> listCheckRequest() throws SQLException {
+        List<Club> listC = new ArrayList<>();
+        Club club = null;
+        String ex = "SELECT * FROM [Club] WHERE IsApprove IS NULL;";
+        PreparedStatement ps = conn.prepareStatement(ex);
+        ResultSet rs = ps.executeQuery();
+        while (rs.next()) {
+            club = new Club(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getDate(4), rs.getString(5), rs.getBoolean(6), rs.getBoolean(7), rs.getInt(8), rs.getInt(9));
+            listC.add(club);
+        }
+        return listC;
+    }
     public String getSemesterNameByClubID(int clubID, int studentProfileID) {
         String semesterName = null;
         try {

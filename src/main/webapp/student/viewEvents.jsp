@@ -22,7 +22,6 @@
             <div class="col-xl-12 d-flex">
                 <div class="card flex-fill student-space comman-shadow">
                     <div class="card-body">
-                        <form action="/student" method="post">
                             <div class="table-responsive">
                                 <table id="viewEvents" class="table table-hover table-striped table-bordered">
                                     <thead class="thead-light">
@@ -33,7 +32,6 @@
                                             <th class="text-center">Date</th>
                                             <th class="text-center">Category</th>
                                             <th class="text-center"></th> 
-                                            <th class="text-center">Register</th> 
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -47,13 +45,6 @@
                                             <td class="text-center">
                                                 <a href="/student/events/detail/${event.eventID}" type="button" class="btn btn-primary">Detail</a>
                                             </td>
-                                            <td class="text-center">
-                                                <div class="student-submit">
-                                                    <input type="hidden" name="EventID" value="${event.eventID}">
-                                                    <input type="hidden" name="studentProfileID" value="${studentProfileID}">
-                                                    <input type="submit" name="action" class="btn btn-primary" value="join">
-                                                </div>
-                                            </td>
                                         </tr>
                                     </c:forEach>
                                     <c:if test="${empty sessionScope.listEvent}">
@@ -64,7 +55,6 @@
                                     </tbody>
                                 </table>                                          
                             </div>
-                        </form>
                     </div>
                 </div>
             </div>

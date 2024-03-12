@@ -29,10 +29,16 @@
                     <%@include file="./student/viewClubs.jsp" %>
                 </c:when>
                 <c:when test="${sessionScope.tabId == 5}">
+                    <%@include file="./general/profile.jsp" %>
+                </c:when>
+                <c:when test="${sessionScope.tabId == 6}">
+                    <%@include file="./general/editProfile.jsp" %>
+                </c:when>
+                <c:when test="${sessionScope.tabId == 7}">
                     <%@include file="./student/eventDetail.jsp" %>
                 </c:when>
             </c:choose>
         </div>
-        <%@include file="./general/js.jsp" %>
+     <%@include file="./general/js.jsp" %>
     </body>
 </html>

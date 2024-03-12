@@ -17,6 +17,18 @@ public class UserProfile {
     private String email;
     private String phone;
 
+    public UserProfile(String firstName, String lastName, String avatar, String gender, Date dateOfBirth, String address, Date enrollmentDate, String email, String phone) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.avatar = avatar;
+        this.gender = gender;
+        this.dateOfBirth = dateOfBirth;
+        this.address = address;
+        this.enrollmentDate = enrollmentDate;
+        this.email = email;
+        this.phone = phone;
+    }
+
     public UserProfile(int userProfileID, String firstName, String lastName, String avatar, String gender, Date dateOfBirth, String address, Date enrollmentDate, String email, String phone) {
         this.userProfileID = userProfileID;
         this.firstName = firstName;
@@ -27,6 +39,27 @@ public class UserProfile {
         this.address = address;
         this.enrollmentDate = enrollmentDate;
         this.email = email;
+        this.phone = phone;
+    }
+
+    public UserProfile(int userProfileID, String firstName, String lastName, String avatar, String gender, Date dateOfBirth, String address, String phone) {
+        this.userProfileID = userProfileID;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.avatar = avatar;
+        this.gender = gender;
+        this.dateOfBirth = dateOfBirth;
+        this.address = address;
+        this.phone = phone;
+    }
+
+    public UserProfile(int userProfileID, String lastName, String avatar, String gender, Date dateOfBirth, String address, String phone) {
+        this.userProfileID = userProfileID;
+        this.lastName = lastName;
+        this.avatar = avatar;
+        this.gender = gender;
+        this.dateOfBirth = dateOfBirth;
+        this.address = address;
         this.phone = phone;
     }
 

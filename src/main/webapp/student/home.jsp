@@ -214,7 +214,6 @@
                                                 <th class="text-center">Location</th>
                                                 <th class="text-center">Date</th>
                                                 <th class="text-center">Category</th>
-                                                <th class="text-center">Detail</th> 
                                                 <th class="text-center">Register</th> 
                                             </tr>
                                         </thead>
@@ -226,9 +225,6 @@
                                                 <td>${event.location}</td>
                                                 <td>${event.holdTime}</td>
                                                 <td>${sessionScope.eventCategoryNames[event.eventID]}</td>
-                                                <td class="text-center">
-                                                    <a href="/student/events/detail/${event.eventID}" type="button" class="btn btn-primary">Detail</a>
-                                                </td>
                                                 <td class="text-center">
                                                     <div class="student-submit">
                                                         <input type="hidden" name="EventID" value="${event.eventID}">
