@@ -314,7 +314,50 @@
     </c:when>
 </c:choose>
 
-
+<script>
+    Validator({
+        form: "#createEvent",
+        message: ".message", // Selector class
+        invalid: "invalid", // T�n class message
+        rules: [
+            Validator.isRequire("#eventname", "Event name is required"),
+            Validator.isRequire("#preparetime", "Preparation time is required"),
+            Validator.isRequire("#holdtime", "Hold time is required"),
+            Validator.isRequire("#location", "Location is required"),
+            Validator.isRequire("#cost", "Cost is required"),
+            Validator.isEmail("#exnum", "Expected number is required"),
+            Validator.isRequire("#organization", "Organization is required"),
+            Validator.isPhone("#feedback", "Feedback is not valid format"),
+            Validator.isRequire("#endtime", "End time is required"),
+            Validator.isRequire("#description", "Description is required"),
+            Validator.isRequire("#typeOfEvent", "Type Of Event is required"),
+            
+        ]
+    });
+</script>
+<script>
+    Validator({
+        form: "#createCompatition",
+        message: ".message", // Selector class
+        invalid: "invalid", // T�n class message
+        rules: [
+            Validator.isRequire("#eventname", "Event name is required"),
+            Validator.isRequire("#preparetime", "Preparation time is required"),
+            Validator.isRequire("#holdtime", "Hold time is required"),
+            Validator.isRequire("#location", "Location is required"),
+            Validator.isRequire("#cost", "Cost is required"),
+            Validator.isEmail("#exnum", "Expected number is required"),
+            Validator.isRequire("#organization", "Organization is required"),
+            Validator.isPhone("#feedback", "Feedback is not valid format"),
+            Validator.isRequire("#endtime", "End time is required"),
+            Validator.isRequire("#description", "Description is required"),
+            Validator.isRequire("#firtPrize", "Firt prize is required"),
+            Validator.isRequire("#secondPrize", "Second prize is required"),
+            Validator.isRequire("#thirdPrize", "Third prize is require"),
+            Validator.isImage("#encouragementPrize", "Encouragement prize is required")
+        ]
+    });
+</script>
 
 
 

@@ -1,4 +1,3 @@
-
 package Controllers;
 
 import java.io.IOException;
@@ -8,8 +7,6 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
-
-
 public class StudentController extends HttpServlet {
 
     @Override
@@ -18,7 +15,7 @@ public class StudentController extends HttpServlet {
         HttpSession session = request.getSession();
         String role = (String) session.getAttribute("role");
         String path = request.getRequestURI();
-        
+
         if (role != null && role.equals("Student")) {
             if (path.endsWith("/student")) {
                 session.setAttribute("tabId", 1);
@@ -27,8 +24,7 @@ public class StudentController extends HttpServlet {
                 if (path.endsWith("/student/profile/edit")) {
                     session.setAttribute("tabId", 6);
                     request.getRequestDispatcher("/student.jsp").forward(request, response);
-                }
-                else{
+                } else {
                     session.setAttribute("tabId", 5);
                     request.getRequestDispatcher("/student.jsp").forward(request, response);
                 }
@@ -60,6 +56,9 @@ public class StudentController extends HttpServlet {
                 if (path.endsWith("/student/new/detail")) {
                     request.getRequestDispatcher("/new-detail.jsp").forward(request, response);
                 }
+            } else if (path.startsWith("student/clubs/viewMemberClubs/")) {
+                String[] idArray = path.split("/");
+                int id = Integer.parseInt(idArray[idArray.length - 1]);
             }
         } else {
             response.sendRedirect("/");

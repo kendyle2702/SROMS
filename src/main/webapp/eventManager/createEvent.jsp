@@ -36,14 +36,15 @@
                                                 <span>Event Information</span>
 
                                             </h5>
-                                            <form action="eventmanager" method="post">
+                                            <form action="eventmanager" method="post" id="createEvent">
                                                 <div class="row">
 
                                                     <div class="col-12 col-sm-4">
                                                         <div class="form-group">
                                                             <label>Event Name<span class="login-danger">*</span></label>
                                                             <input id="eventname" name="eventname" type="text"
-                                                                   class="form-control" required>
+                                                                   class="form-control" >
+                                                            <div class="message"></div>
                                                         </div>
 
                                                     </div>
@@ -53,30 +54,33 @@
                                                                     class="login-danger">*</span></label>
                                                             <input id="preparetime" name="pretime" class="form-control"
                                                                    type="datetime-local" placeholder="YYYY-MM-DDTHH:MM"
-                                                                   required>
+                                                                   >
+                                                            <div class="message"></div>
                                                         </div>
                                                     </div>
                                                     <div class="col-12 col-sm-4">
                                                         <div class="form-group">
-                                                            <label>Hole Time <span class="login-danger">*</span></label>
-                                                            <input id="holetime" name="holetime" class="form-control"
+                                                            <label>Hold Time <span class="login-danger">*</span></label>
+                                                            <input id="holdtime" name="holetime" class="form-control"
                                                                    type="datetime-local" placeholder="YYYY-MM-DDTHH:MM"
-                                                                   required>
+                                                                   >
+                                                            <div class="message"></div>
                                                         </div>
                                                     </div>
                                                     <div class="col-12 col-sm-4">
                                                         <div class="form-group">
                                                             <label>Location <span class="login-danger">*</span></label>
                                                             <input id="location" name="location" type="text"
-                                                                   class="form-control" required>
+                                                                   class="form-control" >
+                                                            <div class="message"></div>
                                                         </div>
                                                     </div>
                                                     <div class="col-12 col-sm-4">
                                                         <div class="form-group">
                                                             <label>Cost<span class="login-danger">*</span></label>
                                                             <input id="cost" name="cost" type="number"
-                                                                   class="form-control" required>
-                                                            <p id="costerror" style="color: red"></p>
+                                                                   class="form-control" >
+                                                            <div class="message"></div>
                                                         </div>
                                                     </div>
                                                     <div class="col-12 col-sm-4">
@@ -84,8 +88,8 @@
                                                             <label>Expected Number <span
                                                                     class="login-danger">*</span></label>
                                                             <input id="exnum" name="exnum" type="number"
-                                                                   class="form-control" required>
-                                                            <p id="exnumerror" style="color: red"></p>
+                                                                   class="form-control" >
+                                                            <div class="message"></div>
                                                         </div>
                                                     </div>
                                                     <div class="col-12 col-sm-4">
@@ -93,7 +97,8 @@
                                                             <label>Organization<span
                                                                     class="login-danger">*</span></label>
                                                             <input id="organization" name="organization" type="text"
-                                                                   class="form-control" required>
+                                                                   class="form-control" >
+                                                            <div class="message"></div>
                                                         </div>
                                                     </div>
 
@@ -101,7 +106,8 @@
                                                         <div class="form-group ">
                                                             <label>Feedback<span class="login-danger">*</span></label>
                                                             <input id="feedback" name="feedback" type="text"
-                                                                   class="form-control" required>
+                                                                   class="form-control" >
+                                                            <div class="message"></div>
                                                         </div>
                                                     </div>
                                                     <div class="col-12 col-sm-4">
@@ -109,27 +115,29 @@
                                                             <label>End Time <span class="login-danger">*</span></label>
                                                             <input id="endtime" name="endtime" class="form-control"
                                                                    type="datetime-local" placeholder="YYYY-MM-DDTHH:MM"
-                                                                   required>
+                                                                   >
+                                                            <div class="message"></div>
                                                         </div>
                                                     </div>
                                                     <div class="col-12 col-sm-4">
                                                         <div class="form-group ">
-                                                            <label>Organization<span
+                                                            <label>Type Of Event<span
                                                                     class="login-danger">*</span></label>
                                                             <br>
-                                                            <select name="catelogyEvent" class="form-control">
+                                                            <select id="typeOfEvent" name="catelogyEvent" class="form-control">
                                                                 <option value="Soft Skills">Soft Skills</option>
                                                                 <option value="TalkShow">TalkShow</option>                                                            
                                                             </select>
                                                         </div>
                                                     </div>
 
-                                                    <div class="col-12 col-sm-4">
+                                                    <div class="col-12 col-sm-8">
                                                         <div class="form-group ">
                                                             <label>Description<span
                                                                     class="login-danger">*</span></label>
                                                             <textarea id="description" name="description" type="text"
-                                                                      class="form-control" required></textarea>
+                                                                      class="form-control" ></textarea>
+                                                            <div class="message"></div>
                                                         </div>
                                                     </div>
                                                     <div class="col-12">
@@ -155,14 +163,15 @@
                                     <h5 class="card-title">Creat Compatition</h5>
                                     <div class="row">
                                         <div class="col-lg-12">
-                                            <form action="eventmanager" method="post">
+                                            <form action="eventmanager" method="post"  id="createCompatition">
                                                 <div class="row">
 
                                                     <div class="col-12 col-sm-4">
                                                         <div class="form-group">
                                                             <label>Event Name<span class="login-danger">*</span></label>
                                                             <input  id="eventname" name="eventname" type="text"
-                                                                    class="form-control" placeholder="Enter event name" required>
+                                                                    class="form-control" placeholder="Enter event name">
+                                                            <div class="message"></div>
                                                         </div>
 
                                                     </div>
@@ -172,30 +181,33 @@
                                                                     class="login-danger">*</span></label>
                                                             <input id="preparetime" name="pretime" class="form-control"
                                                                    type="datetime-local" placeholder="YYYY-MM-DDTHH:MM"
-                                                                   required>
+                                                                   >
+                                                            <div class="message"></div>
                                                         </div>
                                                     </div>
                                                     <div class="col-12 col-sm-4">
                                                         <div class="form-group">
-                                                            <label>Hole Time <span class="login-danger">*</span></label>
-                                                            <input id="holetime" name="holetime" class="form-control"
+                                                            <label>Hold Time <span class="login-danger">*</span></label>
+                                                            <input id="holdtime" name="holetime" class="form-control"
                                                                    type="datetime-local" placeholder="YYYY-MM-DDTHH:MM"
-                                                                   required>
+                                                                   >
+                                                            <div class="message"></div>
                                                         </div>
                                                     </div>
                                                     <div class="col-12 col-sm-4">
                                                         <div class="form-group">
                                                             <label>Location <span class="login-danger">*</span></label>
                                                             <input id="location" name="location" type="text"
-                                                                   class="form-control" required>
+                                                                   class="form-control">
+                                                            <div class="message"></div>
                                                         </div>
                                                     </div>
                                                     <div class="col-12 col-sm-4">
                                                         <div class="form-group">
                                                             <label>Cost<span class="login-danger">*</span></label>
                                                             <input id="cost" name="cost" type="number"
-                                                                   class="form-control" placeholder="Enter cost" required>
-                                                            <p id="costerror" style="color: red"></p>
+                                                                   class="form-control" placeholder="Enter cost">
+                                                            <div class="message"></div>
                                                         </div>
                                                     </div>
                                                     <div class="col-12 col-sm-4">
@@ -203,8 +215,8 @@
                                                             <label>Expected Number <span
                                                                     class="login-danger">*</span></label>
                                                             <input id="exnum" name="exnum" type="number"
-                                                                   class="form-control" placeholder="Enter expected number join" required>
-                                                            <p id="exnumerror" style="color: red"></p>
+                                                                   class="form-control" placeholder="Enter expected number join">
+                                                            <div class="message"></div>
                                                         </div>
                                                     </div>
                                                     <div class="col-12 col-sm-4">
@@ -212,7 +224,8 @@
                                                             <label>Organization<span
                                                                     class="login-danger">*</span></label>
                                                             <input id="organization" name="organization" type="text"
-                                                                   class="form-control" placeholder="Enter organization" required>
+                                                                   class="form-control" placeholder="Enter organization">
+                                                            <div class="message"></div>
                                                         </div>
                                                     </div>
 
@@ -220,7 +233,8 @@
                                                         <div class="form-group ">
                                                             <label>Feedback<span class="login-danger">*</span></label>
                                                             <input id="feedback" name="feedback" type="text"
-                                                                   class="form-control" placeholder="Enter link feedback" required>
+                                                                   class="form-control" placeholder="Enter link feedback">
+                                                            <div class="message"></div>
                                                         </div>
                                                     </div>
                                                     <div class="col-12 col-sm-4">
@@ -228,42 +242,48 @@
                                                             <label>End Time <span class="login-danger">*</span></label>
                                                             <input id="endtime" name="endtime" class="form-control"
                                                                    type="datetime-local" placeholder="YYYY-MM-DDTHH:MM"
-                                                                   required>
+                                                                   >
+                                                            <div class="message"></div>
                                                         </div>
                                                     </div>
                                                     <div class="col-12 col-sm-4">
                                                         <div class="form-group ">
                                                             <label>Description<span
                                                                     class="login-danger">*</span></label>
-                                                            <textarea id="description" name="description" class="form-control" placeholder="Enter description" required rows="10"></textarea>
+                                                            <textarea id="description" name="description" class="form-control" placeholder="Enter description"  rows="10"></textarea>
+                                                            <div class="message"></div>
                                                         </div>
                                                     </div>
-                                                    <div style="border: solid 1px grey; border-radius: 5px;margin-top: 32px;" class="col-lg-8 col-sm-4">
+                                                    <div style="border: solid 1px grey; border-radius: 5px;margin-top: 32px;" class="col-lg-8 col-sm-8">
                                                         <label>Prize Structure<span
                                                                 class="login-danger">*</span></label>
                                                         <div class="row">
-                                                            <div class="col-lg-6 col-sm-4">
+                                                            <div class="col-lg-6 col-sm-6">
                                                                 <div class="form-group ">
                                                                     <label>First<span
                                                                             class="login-danger">*</span></label>
-                                                                    <input id="" name="firtPrize" type="number"
-                                                                           class="form-control" placeholder="Enter number first prize" required>
+                                                                    <input id="firtPrize" name="firtPrize" type="number"
+                                                                           class="form-control" placeholder="Enter number first prize">
+                                                                    <div class="message"></div>
                                                                     <label>Second<span
                                                                             class="login-danger">*</span></label>
-                                                                    <input id="" name="secondPrize" type="number"
-                                                                           class="form-control" placeholder="Enter number second prize" required><!-- comment -->
+                                                                    <input id="secondPrize" name="secondPrize" type="number"
+                                                                           class="form-control" placeholder="Enter number second prize" ><!-- comment -->
+                                                                    <div class="message"></div>
                                                                 </div>
                                                             </div>
-                                                            <div class="col-lg-6 col-sm-4">
+                                                            <div class="col-lg-6 col-sm-6">
                                                                 <div class="form-group ">
                                                                     <label>Third<span
                                                                             class="login-danger">*</span></label>
-                                                                    <input id="" name="thirdPrize" type="number"
-                                                                           class="form-control" placeholder="Enter number third prize" required>
+                                                                    <input id="thirdPrize" name="thirdPrize" type="number"
+                                                                           class="form-control" placeholder="Enter number third prize">
+                                                                    <div class="message"></div>
                                                                     <label>Encouragement<span
                                                                             class="login-danger">*</span></label>
-                                                                    <input id="" name="encouragementPrize" type="number"
-                                                                           class="form-control" placeholder="Enter number encouragement" required>
+                                                                    <input id="encouragementPrize" name="encouragementPrize" type="number"
+                                                                           class="form-control" placeholder="Enter number encouragement">
+                                                                    <div class="message"></div>
                                                                 </div>
                                                             </div>
                                                         </div>

@@ -38,13 +38,13 @@
                 <div class="card-body">
                     <ul class="nav nav-pills navtab-bg nav-justified" role="tablist">
                         <li class="nav-item" role="presentation">
-                            <a href="#listClub" data-bs-toggle="tab" aria-expanded="false"
+                            <a style="background: #ea7127;border-color:#ea7127;" href="#listClub" data-bs-toggle="tab" aria-expanded="false"
                                class="nav-link active" aria-selected="false" role="tab" tabindex="-1">
                                 List Club
                             </a>
                         </li>
                         <li class="nav-item" role="presentation">
-                            <a href="#myClub" data-bs-toggle="tab" aria-expanded="true" class="nav-link"
+                            <a style="background: #ea7127;border-color:#ea7127;" href="#myClub" data-bs-toggle="tab" aria-expanded="true" class="nav-link"
                                aria-selected="true" role="tab">
                                 My Club
                             </a>
@@ -73,11 +73,12 @@
                                                 </td>
                                                 <td>
                                                     <div class="lesson-confirm">
-                                                        <a href="student/clubs/detail?clubID=<%= club.getClubID()%>">Club Details</a>
+                                                        <a style="background: #ea7127;border-color:#ea7127;" href="student/clubs/detail?clubID=<%= club.getClubID()%>">Club Details</a>
                                                     </div>
+
                                                     <form action="registerClub" method="post">
-                                                        <input type="hidden" name="clubID" value="<%= club.getClubID()%>">
-                                                        <button type="submit" class="btn btn-info">Register</button>
+                                                        <input style="background: #ea7127;border-color:#ea7127;" type="hidden" name="clubID" value="<%= club.getClubID()%>">
+                                                        <button style="background: #ea7127;border-color:#ea7127;" type="submit" class="btn btn-info">Register</button>
                                                     </form>
                                                 </td>
                                             </tr>
@@ -104,15 +105,25 @@
                                             <tr>
                                                 <td>
                                                     <div class="date">
-                                                        <b> FCoderrrr</b>
-                                                        <p> You is menber </p>
+                                                        <b>FCoder</b>
+                                                        <p>You is member </p>
                                                     </div>
-                                                </td>
+                                                </td>                
+                                                <%
+                                                    int id = 0;
+                                                    // Iterate through the list of clubs
+                                                    for (Club club : clubsList) {
+                                                        id = club.getClubID();
+                                                    }
+                                                    //  session.setAttribute(name, value);
+                                                %>
                                                 <td>
                                                     <div class="lesson-confirm">
-                                                        <a href="student/clubs/detail"> Club Details</a>
+                                                        <a style="background: #ea7127;border-color:#ea7127;" href="student/clubs/viewMemberClubs/<%club.getClubID();%>" class="mb-2 mr-2 btn btn-outline-organ text-white">Club Details</a>
+                                                        <a style="background: #ea7127;border-color:#ea7127;" href="student/clubs/detail/<%club.getClubID();%>" class="mb-2 mr-2 btn btn-outline-organ text-white">View Members In Club</a>
                                                     </div>
                                                 </td>
+
                                             </tr>
                                         </tbody>
                                     </table>
@@ -121,16 +132,7 @@
                         </div>
                     </div>
                 </div>
-
-
             </div>
-
-
         </div>
-
-
-
     </div>
-
-
 </div>
