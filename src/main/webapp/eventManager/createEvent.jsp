@@ -15,11 +15,11 @@
                     <div class="profile-menu">
                         <ul class="nav nav-tabs nav-tabs-solid" role="tablist">
                             <li class="nav-item" role="presentation">
-                                <a class="nav-link active" data-bs-toggle="tab" href="#password_tab"
+                                <a style="background: #ea7127;border-color:#ea7127;" class="nav-link active" data-bs-toggle="tab" href="#password_tab"
                                    aria-selected="true" role="tab">Create Compatition</a>
                             </li>
                             <li class="nav-item" role="presentation">
-                                <a class="nav-link" data-bs-toggle="tab" href="#per_details_tab" aria-selected="false"
+                                <a style="background: #ea7127;border-color:#ea7127;" class="nav-link" data-bs-toggle="tab" href="#per_details_tab" aria-selected="false"
                                    role="tab" tabindex="-1">Create TalkShow And SoftSkill</a>
                             </li>
                         </ul>
@@ -134,7 +134,7 @@
                                                     </div>
                                                     <div class="col-12">
                                                         <div class="student-submit">
-                                                            <input name="createEvent" class="btn btn-primary" id="submit"
+                                                            <input style="background: #ea7127;border-color:#ea7127;" name="createEvent" class="btn btn-primary" id="submit"
                                                                    type="submit" value="Submit">
                                                         </div>
                                                     </div>
@@ -161,8 +161,8 @@
                                                     <div class="col-12 col-sm-4">
                                                         <div class="form-group">
                                                             <label>Event Name<span class="login-danger">*</span></label>
-                                                            <input id="eventname" name="eventname" type="text"
-                                                                   class="form-control" required>
+                                                            <input  id="eventname" name="eventname" type="text"
+                                                                    class="form-control" placeholder="Enter event name" required>
                                                         </div>
 
                                                     </div>
@@ -194,7 +194,7 @@
                                                         <div class="form-group">
                                                             <label>Cost<span class="login-danger">*</span></label>
                                                             <input id="cost" name="cost" type="number"
-                                                                   class="form-control" required>
+                                                                   class="form-control" placeholder="Enter cost" required>
                                                             <p id="costerror" style="color: red"></p>
                                                         </div>
                                                     </div>
@@ -203,7 +203,7 @@
                                                             <label>Expected Number <span
                                                                     class="login-danger">*</span></label>
                                                             <input id="exnum" name="exnum" type="number"
-                                                                   class="form-control" required>
+                                                                   class="form-control" placeholder="Enter expected number join" required>
                                                             <p id="exnumerror" style="color: red"></p>
                                                         </div>
                                                     </div>
@@ -212,7 +212,7 @@
                                                             <label>Organization<span
                                                                     class="login-danger">*</span></label>
                                                             <input id="organization" name="organization" type="text"
-                                                                   class="form-control" required>
+                                                                   class="form-control" placeholder="Enter organization" required>
                                                         </div>
                                                     </div>
 
@@ -220,7 +220,7 @@
                                                         <div class="form-group ">
                                                             <label>Feedback<span class="login-danger">*</span></label>
                                                             <input id="feedback" name="feedback" type="text"
-                                                                   class="form-control" required>
+                                                                   class="form-control" placeholder="Enter link feedback" required>
                                                         </div>
                                                     </div>
                                                     <div class="col-12 col-sm-4">
@@ -235,45 +235,57 @@
                                                         <div class="form-group ">
                                                             <label>Description<span
                                                                     class="login-danger">*</span></label>
-                                                            <textarea id="description" name="description" class="form-control" required rows="10"></textarea>
+                                                            <textarea id="description" name="description" class="form-control" placeholder="Enter description" required rows="10"></textarea>
                                                         </div>
                                                     </div>
-                                                    <div style="border: solid 1px grey; border-radius: 5px;margin-top: 32px;" class="col-12 col-sm-4">
-                                                        <label>PrizeStructure<span
+                                                    <div style="border: solid 1px grey; border-radius: 5px;margin-top: 32px;" class="col-lg-8 col-sm-4">
+                                                        <label>Prize Structure<span
                                                                 class="login-danger">*</span></label>
-                                                        <div class="form-group ">
-
-                                                            <label>Firt<span
-                                                                    class="login-danger">*</span></label>
-                                                            <input id="" name="firtPrize" type="number"
-                                                                   class="form-control" required>
-                                                            <label>Second<span
-                                                                    class="login-danger">*</span></label>
-                                                            <input id="" name="secondPrize" type="number"
-                                                                   class="form-control" required><!-- comment -->
-                                                            <label>Third<span
-                                                                    class="login-danger">*</span></label>
-                                                            <input id="" name="thirdPrize" type="number"
-                                                                   class="form-control" required>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-12">
-                                                        <div class="student-submit">
-                                                            <input name="createCompatition" class="btn btn-primary" id="submit"
-                                                                   type="submit" value="Submit">
+                                                        <div class="row">
+                                                            <div class="col-lg-6 col-sm-4">
+                                                                <div class="form-group ">
+                                                                    <label>First<span
+                                                                            class="login-danger">*</span></label>
+                                                                    <input id="" name="firtPrize" type="number"
+                                                                           class="form-control" placeholder="Enter number first prize" required>
+                                                                    <label>Second<span
+                                                                            class="login-danger">*</span></label>
+                                                                    <input id="" name="secondPrize" type="number"
+                                                                           class="form-control" placeholder="Enter number second prize" required><!-- comment -->
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-lg-6 col-sm-4">
+                                                                <div class="form-group ">
+                                                                    <label>Third<span
+                                                                            class="login-danger">*</span></label>
+                                                                    <input id="" name="thirdPrize" type="number"
+                                                                           class="form-control" placeholder="Enter number third prize" required>
+                                                                    <label>Encouragement<span
+                                                                            class="login-danger">*</span></label>
+                                                                    <input id="" name="encouragementPrize" type="number"
+                                                                           class="form-control" placeholder="Enter number encouragement" required>
+                                                                </div>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
-                                            </form>
+                                                <div class="col-12">
+                                                    <div class="student-submit">
+                                                        <input style="background: #ea7127;border-color:#ea7127;" name="createCompatition" class="btn btn-primary" id="submit"
+                                                               type="submit" value="Submit">
+                                                    </div>
+                                                </div>
                                         </div>
+                                        </form>
                                     </div>
                                 </div>
                             </div>
                         </div>
-
                     </div>
+
                 </div>
             </div>
         </div>
     </div>
+</div>
 </div>

@@ -27,6 +27,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.Calendar;
+import java.util.Enumeration;
 import java.util.Map;
 
 /**
@@ -57,13 +58,10 @@ public class EventManagerController extends HttpServlet {
                 Timestamp d = new Timestamp(calen.getTimeInMillis());
                 if (path.equals("/eventmanager")) {
                     session.setAttribute("listEvent", listE);
-                    //   session.setAttribute("pertiList", pertiList);
                     session.setAttribute("totalevent", totalEventTaking);
                     session.setAttribute("totalEventTook", totalEventTook);
                     session.setAttribute("totalcost", totalCost);
-                    //         session.setAttribute("studentList", studentList);
                     String s = format.format(d);
-                    session.setAttribute("numberParti", numberParti);
                     session.setAttribute("tabId", 1);
                     request.getRequestDispatcher("/eventManager.jsp").forward(request, response);
                 } else if (path.startsWith("/eventmanager/profile")) {
@@ -86,6 +84,26 @@ public class EventManagerController extends HttpServlet {
                     Event event = eventManagerDAO.getEvent(id);
                     session.setAttribute("event", event);
                     session.setAttribute("tabId", 4);
+                    request.getRequestDispatcher("/eventManager.jsp").forward(request, response);
+                } else if (path.startsWith("/eventmanager/events/checkAttandant")) {
+                    session.setAttribute("tabId", 7);
+                    request.getRequestDispatcher("/eventManager.jsp").forward(request, response);
+                } else if (path.startsWith("/eventmanager/events/checkAttendant/")) {
+                    String[] idArray = path.split("/");
+                    int id = Integer.parseInt(idArray[idArray.length - 1]);
+                    List<Map<String, String>> listAttendant = eventManagerDAO.getListAttendant(id);
+                    session.setAttribute("tabId", 8);
+                    session.setAttribute("listAttendant", listAttendant);
+                    request.getRequestDispatcher("/eventManager.jsp").forward(request, response);
+                } else if (path.equals("/eventmanager/events/evaluate")) {
+                    session.setAttribute("tabId", 9);
+                    request.getRequestDispatcher("/eventManager.jsp").forward(request, response);
+                } else if (path.startsWith("/eventmanager/events/evaluate/")) {
+                    String[] idArray = path.split("/");
+                    int id = Integer.parseInt(idArray[idArray.length - 1]);
+                    List<Map<String, String>> listAttendant = eventManagerDAO.getListAttendant(id);
+                    session.setAttribute("tabId", 10);
+                    session.setAttribute("listAttendant", listAttendant);
                     request.getRequestDispatcher("/eventManager.jsp").forward(request, response);
                 }
             } catch (SQLException ex) {
@@ -114,7 +132,10 @@ public class EventManagerController extends HttpServlet {
             String updateEvent = request.getParameter("updateEvent");
             String createCompatition = request.getParameter("createCompatition");
             String createEvent = request.getParameter("createEvent");
+            String checkAttendanceForm = request.getParameter("checkAttendanceForm");
+            String evaluateStudentForm = request.getParameter("evaluateStudentForm");
             if (createEvent != null && createEvent.equals("Submit")) {
+                int count = 0;
                 ManagerProfileDAO managerProfileDAO = new ManagerProfileDAO();
                 String eventName = request.getParameter("eventname");
                 Timestamp preTime = formatTime(LocalDateTime.parse(request.getParameter("pretime")));
@@ -136,9 +157,16 @@ public class EventManagerController extends HttpServlet {
                 } else {
                     eventCatelogyID = 3;
                 }
-                eventManagerDAO.addEvent(eventName, preTime, holeTime, location, cost, exNum, organization, description, feedback, endTime, role, id, eventCatelogyID);
+
+                count = eventManagerDAO.addEvent(eventName, preTime, holeTime, location, cost, exNum, organization, description, feedback, endTime, role, id, eventCatelogyID);
+                if (count > 0) {
+                    session.setAttribute("checkCreateEvent", "success");
+                } else {
+                    session.setAttribute("checkCreateEvent", "fail");
+                }
                 response.sendRedirect("/eventmanager");
             } else if (createCompatition != null && createCompatition.equals("Submit")) {
+                int count = 0;
                 ManagerProfileDAO managerProfileDAO = new ManagerProfileDAO();
                 String eventName = request.getParameter("eventname");
                 Timestamp preTime = formatTime(LocalDateTime.parse(request.getParameter("pretime")));
@@ -155,12 +183,19 @@ public class EventManagerController extends HttpServlet {
                 int firtPrize = Integer.parseInt(request.getParameter("firtPrize"));
                 int secondPrize = Integer.parseInt(request.getParameter("secondPrize"));
                 int thirdPrize = Integer.parseInt(request.getParameter("thirdPrize"));
+                int encouragementPrize = Integer.parseInt(request.getParameter("encouragementPrize"));
                 int id = managerProfileDAO.getManagerProfileIdByEmail(userProfile.getEmail());
                 eventManagerDAO.addEvent(eventName, preTime, holeTime, location, cost, exNum, organization, description, feedback, endTime, role, id, 2);
-                eventManagerDAO.addPrizeStructure(firtPrize, secondPrize, thirdPrize);
+                count = eventManagerDAO.addPrizeStructure(firtPrize, secondPrize, thirdPrize, encouragementPrize);
+                if (count > 0) {
+                    session.setAttribute("checkCreateEvent", "success");
+                } else {
+                    session.setAttribute("checkCreateEvent", "fail");
+                }
                 response.sendRedirect("/eventmanager");
 
             } else if (updateEvent != null && updateEvent.equals("Update")) {
+                int count = 0;
                 String nameUpdate = request.getParameter("eventnameupdate");
                 Timestamp preTimeUpdate = formatTime(LocalDateTime.parse(request.getParameter("pretimeupdate")));
                 Timestamp holeTimeUpdate = formatTime(LocalDateTime.parse(request.getParameter("holetimeupdate")));
@@ -178,8 +213,65 @@ public class EventManagerController extends HttpServlet {
                 } else {
                     session.setAttribute("checkUpdateEvent", "failed");
                 }
+
                 response.sendRedirect("/eventmanager/events/detail/" + idUpdate);
+            } else if (checkAttendanceForm != null && checkAttendanceForm.equals("Submit")) {
+                int count = 0;
+                Enumeration<String> parameterNames = request.getParameterNames();
+                while (parameterNames.hasMoreElements()) {
+                    String paramName = parameterNames.nextElement();
+                    // Kiểm tra xem tên tham số bắt đầu bằng "checkAttendance_"
+                    if (paramName.startsWith("checkAttendance/")) {
+                        // Trích xuất StudentProfileID và EventID từ tên tham số
+                        String[] ids = paramName.split("/");
+                        int studentProfileId = Integer.parseInt(ids[1]);
+                        int eventId = Integer.parseInt(ids[2]);
+                        // Lấy giá trị điểm danh
+                        String attendanceValue = request.getParameter(paramName);
+                        // Xử lý điểm danh ở đây...
+                        boolean check = "Present".equals(attendanceValue);
+                        int result = eventManagerDAO.checkAttendance(check, studentProfileId, eventId);
+                        if (result > 0) {
+                            count++;
+                        }
+                    }
+                }
+                if (count > 0) {
+                    session.setAttribute("checkAttendanceAlert", "success");
+                } else {
+                    session.setAttribute("checkAttendanceAlert", "fail");
+                }
+                response.sendRedirect("/eventmanager/events/checkAttandant");
+            } else if (evaluateStudentForm != null && evaluateStudentForm.equals("Submit")) {
+                int count = 0;
+                Enumeration<String> parameterNames = request.getParameterNames();
+                while (parameterNames.hasMoreElements()) {
+                    String paramName = parameterNames.nextElement();
+                    // Kiểm tra xem tên tham số bắt đầu bằng "checkAttendance_"
+                    if (paramName.startsWith("evaluateStudent/")) {
+                        // Trích xuất StudentProfileID và EventID từ tên tham số
+                        String[] ids = paramName.split("/");
+                        int studentProfileId = Integer.parseInt(ids[1]);
+                        int eventId = Integer.parseInt(ids[2]);
+                        // Lấy giá trị điểm danh
+                        String evaluate = request.getParameter(paramName);
+                        // Xử lý điểm danh ở đây...
+
+                        int result = eventManagerDAO.evaluateStudent(evaluate, studentProfileId, eventId);
+                        if (result > 0) {
+                            count++;
+                        }
+                    }
+                }
+                if (count > 0) {
+                    session.setAttribute("checkEvaluateStudent", "success");
+                } else {
+                    session.setAttribute("checkEvaluateStudent", "fail");
+                }
+
+                response.sendRedirect("/eventmanager/events/evaluate");
             }
+
         } catch (SQLException ex) {
             Logger.getLogger(EventManagerController.class.getName()).log(Level.SEVERE, null, ex);
         }

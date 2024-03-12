@@ -121,7 +121,8 @@
                                                 </c:otherwise>
                                             </c:choose>
                                             <td class="text-center">
-                                                <a href="/eventmanager/events/detail/${liste.getEventID()}" type="button" class="btn btn-primary">Detail</a>
+                                                <a href="/eventmanager/events/detail/${liste.getEventID()}" class="mb-2 mr-2 btn btn-outline-organ text-white" style="background-color: #ea7127; border-color: #ea7127;">
+                                                    <i class="feather-edit-3"></i>Detail</a>
                                             </td>
                                             </tr>
                                         </c:forEach>
@@ -137,15 +138,8 @@
                         </div>
                     </div>
                 </div>
-
             </div>
-        </div>
-
-        <footer>
-            <p></p>
-        </footer>
-
+        </div>     
     </div>
-
 </div>
 

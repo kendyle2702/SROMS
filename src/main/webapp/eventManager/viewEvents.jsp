@@ -84,7 +84,8 @@
                                                 <td class="">Waiting Accept</td>
                                             </c:otherwise>
                                         </c:choose>                               
-                                        <td><a href="/eventmanager/events/detail/${liste.getEventID()}" type="button" class="btn btn-primary">Detail</a></td>
+                                        <td><a style="background: #ea7127;border-color:#ea7127;" href="/eventmanager/events/detail/${liste.getEventID()}" type="button" class="mb-2 mr-2 btn btn-outline-organ text-white" style="background-color: #ea7127; border-color: #ea7127;">
+                                                <i class="feather-edit-3"></i>Detail</a></td>
                                         </tr>
                                     </c:forEach>
                                 </c:if>

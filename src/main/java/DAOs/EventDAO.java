@@ -66,35 +66,6 @@ public class EventDAO {
         return eventCatelogyName;
     }
 
-    /**
-     *
-     * @return @throws SQLException
-     */
-    //    public List participateEventList() throws SQLException {
-    //        ArrayList partiList = new ArrayList<>();
-    //        ParticipationEventDetail parti = null;
-    //        StudentProfile student = null;
-    //        UserProfile profile = null;
-    //        Event event = null;
-    //        conn = DBConnection.connect();
-    //        String query = "SELECT* FROM [dbo].[ParticipationEventDetail]\n"
-    //                + "LEFT JOIN [dbo].[StudentProfile] ON ParticipationEventDetail.StudentProfileID = StudentProfile.StudentProfileID \n"
-    //                + "LEFT JOIN [dbo].[UserProfile] ON StudentProfile.UserProfileID = UserProfile.UserProfileID\n"
-    //                + "LEFT JOIN [dbo].[Event] ON ParticipationEventDetail.EventID = [dbo].[Event].EventID;";
-    //        ps = conn.prepareStatement(query);
-    //        rs = ps.executeQuery();
-    //        while (rs.next()) {
-    //            parti = new ParticipationEventDetail(rs.getInt(1), rs.getInt(2), rs.getString(3), rs.getBoolean(4), rs.getString(5));
-    //            profile = new UserProfile(rs.getString("FirstName"), rs.getString("LastName"));
-    //            student = new StudentProfile(rs.getString("RollNumber"), rs.getString("Major"));
-    //            event = new Event(rs.getString("EventName"));
-    //            partiList.add(parti);
-    //            partiList.add(profile);
-    //            partiList.add(student);
-    //            partiList.add(event);
-    //        }
-    //        return partiList;
-    //    }
     public int getTotalEventTaking() throws SQLException {
         int count = 0;
         String query = "SELECT COUNT(*) AS total_events FROM Event  WHERE EndTime >= CURRENT_TIMESTAMP AND Approve ='AA'";
@@ -166,7 +137,8 @@ public class EventDAO {
         return totalIsPresent;
     }
 
-    public void addEvent(String eventName, Timestamp preTime, Timestamp holdTime, String location, int cost, int expectedNumber, String organization, String description, String feedback, Timestamp endTime, String createBy, int managerProfileID, int EventCategoryID) throws SQLException {
+    public int addEvent(String eventName, Timestamp preTime, Timestamp holdTime, String location, int cost, int expectedNumber, String organization, String description, String feedback, Timestamp endTime, String createBy, int managerProfileID, int EventCategoryID) throws SQLException {
+        int count = 0;
         String query = "INSERT INTO [SROMS].[dbo].[Event]\n"
                 + "(EventName,PreparationTime,HoldTime,Location,Cost,ExpectedNumber,Organization,Description,Feedback, EndTime,CreateBy,ManagerProfileID,Approve,EventCategoryID)\n"
                 + "VALUES( ?,?,?,?,?,?,?,?,?,?,?,?,?,?);";
@@ -185,10 +157,12 @@ public class EventDAO {
         ps.setInt(12, managerProfileID);
         ps.setString(13, "EC");
         ps.setInt(14, EventCategoryID);
-        ps.executeUpdate();
+        count = ps.executeUpdate();
+        return count;
     }
 
-    public void addCompatition(String eventName, Timestamp preTime, Timestamp holdTime, String location, int cost, int expectedNumber, String organization, String description, String feedback, Timestamp endTime, String createBy, int managerProfileID, int EventCategoryID) throws SQLException {
+    public int addCompatition(String eventName, Timestamp preTime, Timestamp holdTime, String location, int cost, int expectedNumber, String organization, String description, String feedback, Timestamp endTime, String createBy, int managerProfileID, int EventCategoryID) throws SQLException {
+        int count = 0;
         String query = "INSERT INTO [SROMS].[dbo].[Event]\n"
                 + "(EventName,PreparationTime,HoldTime,Location,Cost,ExpectedNumber,Organization,Description,Feedback, EndTime,CreateBy,ManagerProfileID,Approve,EventCategoryID)\n"
                 + "VALUES( ?,?,?,?,?,?,?,?,?,?,?,?,?,?);";
@@ -207,16 +181,20 @@ public class EventDAO {
         ps.setInt(12, managerProfileID);
         ps.setString(13, "EC");
         ps.setInt(14, EventCategoryID);
-        ps.executeUpdate();
+        count = ps.executeUpdate();
+        return count;
     }
 
-    public void addPrizeStructure(int firt, int second, int third) throws SQLException {
-        String query = "INSERT INTO PrizeStructure ([First],[Second],[Third]) VALUES (?,?,?);";
+    public int addPrizeStructure(int firt, int second, int third, int encouragement) throws SQLException {
+        int count = 0;
+        String query = "INSERT INTO PrizeStructure ([First],[Second],[Third],[Encouragement]) VALUES (?,?,?,?);";
         ps = conn.prepareStatement(query);
         ps.setInt(1, firt);
         ps.setInt(2, second);
         ps.setInt(3, third);
-        ps.executeUpdate();
+        ps.setInt(4, encouragement);
+        count = ps.executeUpdate();
+        return count;
     }
 
     public int updateEvent(String name, Timestamp preTime, Timestamp holeTime, String location, int cost, int exNum, String organization, String description, String feedback, Timestamp endTime, int id) throws SQLException {
@@ -254,6 +232,55 @@ public class EventDAO {
         ps = conn.prepareStatement(query);
         ps.setInt(1, eventID);
         ps.executeUpdate();
+    }
+
+    public List<Map<String, String>> getListAttendant(int eventID) throws SQLException {
+        List<Map<String, String>> listAttendant = new ArrayList<>();
+        String query = "SELECT Event.EventName, FirstName, LastName, Avatar, Major,Email,RollNumber,StudentProfile.StudentProfileID,Event.EventID,ParticipationEventDetail.IsPresent,ParticipationEventDetail.Report\n"
+                + "FROM [ParticipationEventDetail] LEFT JOIN Event ON ParticipationEventDetail.EventID = Event.EventID \n"
+                + "LEFT JOIN StudentProfile ON ParticipationEventDetail.StudentProfileID = StudentProfile.StudentProfileID\n"
+                + "LEFT JOIN UserProfile ON StudentProfile.UserProfileID = UserProfile.UserProfileID WHERE Event.EventID = ?;";
+        ps = conn.prepareStatement(query);
+        ps.setInt(1, eventID);
+        rs = ps.executeQuery();
+        while (rs.next()) {
+            Map<String, String> attendantDetails = new HashMap<>();
+            attendantDetails.put("EventName", rs.getString("EventName"));
+            attendantDetails.put("FirstName", rs.getString("FirstName"));
+            attendantDetails.put("LastName", rs.getString("LastName"));
+            attendantDetails.put("Avatar", rs.getString("Avatar"));
+            attendantDetails.put("Major", rs.getString("Major"));
+            attendantDetails.put("Email", rs.getString("Email"));
+            attendantDetails.put("RollNumber", rs.getString("RollNumber"));
+            attendantDetails.put("StudentProfileID", rs.getString("StudentProfileID"));
+            attendantDetails.put("EventID", rs.getString("EventID"));
+            attendantDetails.put("IsPresent", rs.getString("IsPresent"));
+            attendantDetails.put("Report", rs.getString("Report"));
+            listAttendant.add(attendantDetails);
+        }
+        return listAttendant;
+    }
+
+    public int checkAttendance(boolean check, int profileID, int eventID) throws SQLException {
+        int count = 0;
+        String query = "UPDATE [ParticipationEventDetail] SET IsPresent = ? WHERE StudentProfileID = ? AND EventID = ?;";
+        ps = conn.prepareStatement(query);
+        ps.setBoolean(1, check);
+        ps.setInt(2, profileID);
+        ps.setInt(3, eventID);
+        count = ps.executeUpdate();
+        return count;
+    }
+
+    public int evaluateStudent(String evaluate, int profileID, int eventID) throws SQLException {
+        int count = 0;
+        String query = "UPDATE [ParticipationEventDetail] SET Report = ? WHERE StudentProfileID = ? AND EventID = ?;";
+        ps = conn.prepareStatement(query);
+        ps.setString(1, evaluate);
+        ps.setInt(2, profileID);
+        ps.setInt(3, eventID);
+        count = ps.executeUpdate();
+        return count;
     }
 
     public static void main(String[] args) throws SQLException {
