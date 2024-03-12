@@ -68,16 +68,65 @@ public class NewsDAO {
         }
         return latestNews;
     }
+
     public ResultSet getAllNewsReturnResultSet() {
         ResultSet rs = null;
         try {
             String sql = "SELECT * FROM News";
             PreparedStatement ps = conn.prepareStatement(sql);
             rs = ps.executeQuery();
-           
+
         } catch (SQLException ex) {
             Logger.getLogger(NewsDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return rs;
+    }
+
+    public ResultSet getAllNewsMoreByID(int id) {
+        ResultSet rs = null;
+        try {
+            String sql = "  SELECT * FROM News as n \n"
+                    + "  inner join AdminProfile as a on n.AdminProfileID = a.AdminProfileID \n"
+                    + "  inner join UserProfile as u on u.UserProfileID = a.UserProfileID\n"
+                    + "  where n.NewsID = ?";
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setInt(1, id);
+            rs = ps.executeQuery();
+
+        } catch (SQLException ex) {
+            Logger.getLogger(NewsDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return rs;
+    }
+
+    public News addNews(News news) {
+        int count = 0;
+        try {
+            PreparedStatement ps = conn.prepareStatement("insert into [News] values(?,?,?,?)");
+            ps.setString(1, news.getTitle());
+            ps.setString(2, news.getContent());
+            ps.setDate(3, news.getCreateAt());
+            ps.setInt(4, news.getAdminProfileID());
+            count = ps.executeUpdate();
+        } catch (SQLException ex) {
+            Logger.getLogger(UserLoginDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        return (count == 0) ? null : news;
+    }
+    public News updateNews(News news) {
+        int count = 0;
+        try {
+            PreparedStatement ps = conn.prepareStatement(""
+                    + "update News set Title =?, Content=? where NewsID =?");
+
+            ps.setString(1, news.getTitle());
+            ps.setString(2, news.getContent());
+            ps.setInt(3, news.getNewsID());
+            count = ps.executeUpdate();
+        } catch (SQLException ex) {
+            Logger.getLogger(UserProfileDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return (count == 0) ? null : news;
     }
 }

@@ -32,7 +32,7 @@
                                 <div class="col-12">
                                     <h5 class="form-title student-info">Student Information<span><a href="javascript:;"><i class="feather-more-vertical"></i></a></span></h5>
                                 </div>
-                                <div class="col-12 col-sm-4">
+                                <div  style="margin-bottom: 20px;" class="col-12 col-sm-4">
                                     <div class="form-group students-up-files">
                                         <label>Upload Avatar</label>
                                         <div style="margin-bottom: 20px" class="profile-image">
@@ -44,11 +44,11 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div style="margin-bottom: 10px; text-align: left" class="col-12 col-sm-8">
+                                <div class="col-12 col-sm-8">
                                     <a id="banAccount" href="${pageContext.request.contextPath}/admin/account/student/block/<%=rsStudent.getString("UserProfileID")%>" style='display: none'><button class="mb-2 mr-2 btn-icon btn btn-danger"><i class="pe-7s-trash btn-icon-wrapper"></i>Lock Account</button></a> 
                                     <a id="unbanAccount" href="${pageContext.request.contextPath}/admin/account/student/unblock/<%=rsStudent.getString("UserProfileID")%>" style='display: none'><button class="mb-2 mr-2 btn-icon btn btn-primary"><i class="pe-7s-tools btn-icon-wrapper"> </i>Unlock Account</button></a> 
                                 </div>
-                                <div class="col-12 col-sm-4">
+                                <div style="margin-bottom: 20px" class="col-12 col-sm-4">
                                     <div class="form-group local-forms">
                                         <label>First Name<span class="login-danger">*</span></label>
                                         <input id="firstname" name="firstname" class="form-control" type="text" value="<%=rsStudent.getString("FirstName")%>">

@@ -40,8 +40,8 @@
                                 <thead class="student-thread">
                                     <tr>
                                         <th>No.</th>
-                                        <th>Titile</th>
-                                        <th>CreateAt</th>
+                                        <th>Title</th>
+                                        <th>Create At</th>
                                         <th class="text-end">Action</th>
                                     </tr>
                                 </thead>
@@ -53,9 +53,9 @@
                                         while (rs.next()) {%> 
                                         <tr>
                                             <td><%=count++%></td>
-                                            <td><%=rs.getString("Titile")%></td>
+                                            <td><%=rs.getString("Title")%></td>
                                             <td><%=rs.getDate("CreateAt")%></td>
-                                            <td><a href="/admin/account/student/detail/<%=rs.getInt("StudentProfileID")%>"><button class="mb-2 mr-2 btn-icon btn-pill btn btn-outline-primary"><i class="feather-edit-3"></i>Detail</button></a></td>
+                                            <td><a href="/admin/news/detail/<%=rs.getInt("NewsID")%>"><button class="mb-2 mr-2 btn-icon btn-pill btn btn-outline-primary"><i class="feather-edit-3"></i>Detail</button></a></td>
                                         </tr>
                                     <%}
                                     %>

@@ -41,13 +41,13 @@
                     </ul>
                 </li>
                 <li class="menu-title">
-                    <span>Event Management</span>
+                    <span>News Management</span>
                 </li>
-                <li class="submenu">
+                <li class="submenu <%=(session.getAttribute("tabId").equals(13))||(session.getAttribute("tabId").equals(14))||(session.getAttribute("tabId").equals(15)) ? "active" : ""%>">
                     <a href="#"><i class="feather-mail"></i> <span class="title">News</span> <span class="menu-arrow"></span></a>
                     <ul>
-                        <li><a href="/admin/news" class="">View News</a></li>
-                        <li><a href="/admin/news/create" class="">Add News</a></li>
+                        <li><a href="/admin/news" class="<%=(session.getAttribute("tabId").equals(13)||session.getAttribute("tabId").equals(15)?"active subdrop":"")%>">View News</a></li>
+                        <li><a href="/admin/news/create" class="<%=(session.getAttribute("tabId").equals(14)?"active subdrop":"")%>">Add News</a></li>
                     </ul>
                 </li>
             </ul>

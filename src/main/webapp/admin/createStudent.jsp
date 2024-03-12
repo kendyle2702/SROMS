@@ -24,6 +24,19 @@
                                 <div class="col-12">
                                     <h5 class="form-title student-info">Student Information</h5>
                                 </div>
+                                <div style="margin-bottom: 20px" class="col-12 col-sm-4">
+                                    <div class="form-group students-up-files">
+                                        <label>Upload Avatar</label>
+                                        <div style="margin-bottom: 20px" class="profile-image">
+                                            <img style="display: none" id="avatarImg" width="100" alt="User Image" src="">
+                                        </div>
+                                        <div class="upload">
+                                            <input id="uploadAvatar" name="avatar" type="file" class="form-control form-control-sm">
+                                            <div class="message"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-sm-8"></div>
                                 <div class="col-12 col-sm-4">
                                     <div class="form-group local-forms">
                                         <label>First Name <span class="login-danger">*</span></label>
@@ -106,22 +119,11 @@
                                 <div class="col-12 col-sm-4">
                                     <div class="form-group local-forms">
                                         <label>Address</label>
-                                        <textarea id="address" name="address" class="form-control" id="exampleFormControlTextarea1" rows="3" placeholder="Enter Address"></textarea>
+                                        <textarea id="address" name="address" class="form-control"  rows="3" placeholder="Enter Address"></textarea>
                                         <div class="message"></div>
                                     </div>
                                 </div>
-                                <div class="col-12 col-sm-4">
-                                    <div class="form-group students-up-files">
-                                        <label>Upload Avatar</label>
-                                        <div style="margin-bottom: 20px" class="profile-image">
-                                            <img style="display: none" id="avatarImg" width="100" alt="User Image" src="">
-                                        </div>
-                                        <div class="upload">
-                                            <input id="uploadAvatar" name="avatar" type="file" class="form-control form-control-sm">
-                                            <div class="message"></div>
-                                        </div>
-                                    </div>
-                                </div>
+                                
                                 <input type="hidden" name="createStudent" value="createStudent">
                                 <div class="col-12">
                                     <div class="student-submit">
