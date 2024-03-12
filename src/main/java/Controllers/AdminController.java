@@ -96,6 +96,18 @@ public class AdminController extends HttpServlet {
               userLogin.unblockAccount(id);
               response.sendRedirect("/admin/account/student/detail/"+studentID);
            }
+           else if(path.endsWith("/admin/news")){
+              session.setAttribute("tabId", 13);
+              request.getRequestDispatcher("/admin.jsp").forward(request, response);
+           }
+           else if(path.endsWith("/admin/news/create")){
+              session.setAttribute("tabId", 14);
+              request.getRequestDispatcher("/admin.jsp").forward(request, response);
+           }
+           else if(path.startsWith("/admin/news/detail/")){
+              session.setAttribute("tabId", 15);
+              request.getRequestDispatcher("/admin.jsp").forward(request, response);
+           }
        }
     } 
 

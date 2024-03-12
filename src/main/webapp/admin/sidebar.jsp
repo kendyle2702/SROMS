@@ -40,6 +40,16 @@
                         <li><a href="/admin/account/student/create" class="<%=(session.getAttribute("tabId").equals(9)?"active subdrop":"")%>">Add Account</a></li>
                     </ul>
                 </li>
+                <li class="menu-title">
+                    <span>Event Management</span>
+                </li>
+                <li class="submenu">
+                    <a href="#"><i class="feather-mail"></i> <span class="title">News</span> <span class="menu-arrow"></span></a>
+                    <ul>
+                        <li><a href="/admin/news" class="">View News</a></li>
+                        <li><a href="/admin/news/create" class="">Add News</a></li>
+                    </ul>
+                </li>
             </ul>
         </div>
     </div>

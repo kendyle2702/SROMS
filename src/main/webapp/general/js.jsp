@@ -121,6 +121,7 @@
         ]
     });
 </script>
+
 <script>
     <%
         String createStudent = (String) session.getAttribute("createStudent");

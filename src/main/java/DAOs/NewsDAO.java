@@ -29,7 +29,7 @@ public class NewsDAO {
     public List<News> getAllNews() {
         List<News> newsList = new ArrayList<>();
         try {
-            String sql = "SELECT * FROM news";
+            String sql = "SELECT * FROM News";
             PreparedStatement ps = conn.prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
@@ -67,5 +67,17 @@ public class NewsDAO {
             Logger.getLogger(NewsDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return latestNews;
+    }
+    public ResultSet getAllNewsReturnResultSet() {
+        ResultSet rs = null;
+        try {
+            String sql = "SELECT * FROM News";
+            PreparedStatement ps = conn.prepareStatement(sql);
+            rs = ps.executeQuery();
+           
+        } catch (SQLException ex) {
+            Logger.getLogger(NewsDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return rs;
     }
 }
