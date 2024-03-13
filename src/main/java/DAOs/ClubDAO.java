@@ -17,12 +17,27 @@ public class ClubDAO {
 
     private Connection conn;
     private PreparedStatement ps = null;
+    private ResultSet rs = null;
+
     public ClubDAO() {
         try {
             conn = DB.DBConnection.connect();
         } catch (SQLException ex) {
             Logger.getLogger(ClubDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+
+    public Club getClub(int id) throws SQLException {
+        Club club = null;
+        String query = "SELECT * \n"
+                + "FROM [SROMS].[dbo].[Club] WHERE ClubID = ?";
+        ps = conn.prepareStatement(query);
+        ps.setInt(1, id);
+        rs = ps.executeQuery();
+        if (rs.next()) {
+            club = new Club(rs.getInt("ClubID"), rs.getString("Logo"), rs.getString("ClubName"), rs.getDate("EstablishDate"), rs.getString("Description"), rs.getBoolean("IsApprove"), rs.getBoolean("IsActive"), rs.getInt("StudentProfileID"));
+        }
+        return club;
     }
 
     public Club getClubByLatestEstablishDate() {
@@ -151,6 +166,7 @@ public class ClubDAO {
         }
         return listC;
     }
+
     public String getSemesterNameByClubID(int clubID, int studentProfileID) {
         String semesterName = null;
         try {
@@ -184,12 +200,12 @@ public class ClubDAO {
             try ( ResultSet rs = ps.executeQuery()) {
                 while (rs.next()) {
                     club = new ClubMember(
-                            rs.getInt("StudentProfileID"),
                             rs.getInt("ClubID"),
                             rs.getInt("SemesterID"),
                             rs.getString("ClubRole"),
                             rs.getInt("ClubPoint"),
-                            rs.getString("Report")
+                            rs.getString("Report"),
+                            rs.getInt("StudentProfileID")
                     );
                     clubs.add(club);
                 }
@@ -222,15 +238,29 @@ public class ClubDAO {
         return club;
     }
 
-    public void registerStudentToClub(ClubMember clubMember) throws SQLException {
-        String sql = "INSERT INTO [SROMS].[dbo].[ClubMember] (StudentProfileID, ClubID, SemesterID, ClubRole, ClubPoint, Report) VALUES (?, ?, ?, ?, ?, ?)";
+    public boolean registerStudentToClub(ClubMember clubMember) throws SQLException {
+        String checkQuery = "SELECT COUNT(*) FROM [SROMS].[dbo].[ClubMember] WHERE [ClubID] = ? AND [StudentProfileID] = ?";
+        PreparedStatement checkPs = conn.prepareStatement(checkQuery);
+        checkPs.setInt(1, clubMember.getClubID());
+        checkPs.setInt(2, clubMember.getStudentProfileID());
+
+        rs = checkPs.executeQuery();
+        if (rs.next()) {
+            if (rs.getInt(1) > 0) {
+                // Sinh viên đã tồn tại trong sự kiện
+                return false; // Trả về false nếu sinh viên đã tham gia
+            }
+        }
+
+        String sql = "INSERT INTO [SROMS].[dbo].[ClubMember] (ClubID, SemesterID, ClubRole, ClubPoint, Report, StudentProfileID) VALUES (?, ?, ?, ?, ?, ?)";
         ps = conn.prepareStatement(sql);
-        ps.setInt(1, clubMember.getStudentProfileID());
-        ps.setInt(2, clubMember.getClubID());
-        ps.setInt(3, clubMember.getSemesterID());
-        ps.setString(4, clubMember.getClubRole());
-        ps.setInt(5, clubMember.getClubPoint());
-        ps.setString(6, clubMember.getReport());
+        ps.setInt(1, clubMember.getClubID());
+        ps.setInt(2, clubMember.getSemesterID());
+        ps.setString(3, clubMember.getClubRole());
+        ps.setInt(4, clubMember.getClubPoint());
+        ps.setString(5, clubMember.getReport());
+        ps.setInt(6, clubMember.getStudentProfileID());
         ps.executeUpdate();
+        return true;
     }
 }

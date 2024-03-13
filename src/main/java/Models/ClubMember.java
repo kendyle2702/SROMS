@@ -10,13 +10,13 @@ public class ClubMember {
     private int clubPoint;
     private String report;
 
-    public ClubMember(int studentProfileID, int clubID, int semesterID, String clubRole, int clubPoint, String report) {
-        this.studentProfileID = studentProfileID;
+    public ClubMember(int clubID, int semesterID, String clubRole, int clubPoint, String report, int studentProfileID) {
         this.clubID = clubID;
         this.semesterID = semesterID;
         this.clubRole = clubRole;
         this.clubPoint = clubPoint;
         this.report = report;
+        this.studentProfileID = studentProfileID;
     }
 
     public int getStudentProfileID() {

@@ -120,11 +120,7 @@
                                                                         <td>${club.clubName}</td>
                                                                         <td>${club.description}</td>
                                                                         <td class="text-center">
-                                                                            <div class="student-submit">
-                                                                                <input type="hidden" name="ClubID" value="${club.clubID}">
-                                                                                <input type="hidden" name="studentProfileID" value="${studentProfileID}">
-                                                                                <input type="submit" name="action" class="btn btn-primary" value="register">
-                                                                            </div>
+                                                                            <a href="/student/clubs/detail/${club.clubID}" type="button" class="btn btn-primary">Detail</a>
                                                                         </td>
                                                                     </tr>
                                                                 </c:if>
