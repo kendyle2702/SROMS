@@ -5,6 +5,7 @@
 package Controllers;
 
 import DAOs.AdminProfileDAO;
+import DAOs.EventDAO;
 import DAOs.NewsDAO;
 import DAOs.StudentProfileDAO;
 import DAOs.UserLoginDAO;
@@ -21,7 +22,11 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import java.sql.Date;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -107,6 +112,30 @@ public class AdminController extends HttpServlet {
                 session.setAttribute("tabId", 15);
                 request.getRequestDispatcher("/admin.jsp").forward(request, response);
             }
+            else if (path.endsWith("/admin/events")) {
+                EventDAO eventManagerDAO = new EventDAO();
+                try {
+                    List<Event> listE = eventManagerDAO.eventList();
+                    session.setAttribute("listEvent", listE);
+                } catch (SQLException ex) {
+                    Logger.getLogger(AdminController.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                session.setAttribute("tabId", 16);
+                request.getRequestDispatcher("/admin.jsp").forward(request, response);
+            }
+            else if (path.startsWith("/admin/events/detail/")) {
+                String[] idArray = path.split("/");
+                int id = Integer.parseInt(idArray[idArray.length - 1]);
+
+                StudentProfileDAO stProfileDAO = new StudentProfileDAO();
+                ResultSet rsStudent = stProfileDAO.getStudentProfileMoreByID(id);
+
+                session.setAttribute("rsStudent", rsStudent);
+                session.setAttribute("rsStudentID", id);
+                session.setAttribute("tabId", 10);
+                request.getRequestDispatcher("/admin.jsp").forward(request, response);
+            }
+            
         }
     }
 

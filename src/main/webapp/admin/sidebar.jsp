@@ -50,6 +50,12 @@
                         <li><a href="/admin/news/create" class="<%=(session.getAttribute("tabId").equals(14)?"active subdrop":"")%>">Add News</a></li>
                     </ul>
                 </li>
+                <li class="menu-title">
+                    <span>Events Management</span>
+                </li>
+                <li class="<%=(session.getAttribute("tabId").equals(16)) ? "active" : ""%>">
+                    <a href="/admin/events"><i class="fas fa-calendar-day"></i><span>Check Request Events</span></a>
+                </li>
             </ul>
         </div>
     </div>
