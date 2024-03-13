@@ -117,12 +117,8 @@
                                                     }
                                                     //  session.setAttribute(name, value);
                                                 %>
-                                                <td>
-                                                    <div class="lesson-confirm">
-                                                        <a style="background: #ea7127;border-color:#ea7127;" href="student/clubs/viewMemberClubs/<%club.getClubID();%>" class="mb-2 mr-2 btn btn-outline-organ text-white">Club Details</a>
-                                                        <a style="background: #ea7127;border-color:#ea7127;" href="student/clubs/detail/<%club.getClubID();%>" class="mb-2 mr-2 btn btn-outline-organ text-white">View Members In Club</a>
-                                                    </div>
-                                                </td>
+                                               
+                                                   
 
                                             </tr>
                                         </tbody>

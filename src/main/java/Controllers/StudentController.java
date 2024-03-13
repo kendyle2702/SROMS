@@ -1,5 +1,9 @@
 package Controllers;
 
+import DAOs.StudentProfileDAO;
+import DAOs.UserProfileDAO;
+import Models.StudentProfile;
+import Models.UserProfile;
 import java.io.IOException;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
@@ -15,7 +19,7 @@ public class StudentController extends HttpServlet {
         HttpSession session = request.getSession();
         String role = (String) session.getAttribute("role");
         String path = request.getRequestURI();
-
+        UserProfileDAO userprofileDAO = new UserProfileDAO();
         if (role != null && role.equals("Student")) {
             if (path.endsWith("/student")) {
                 session.setAttribute("tabId", 1);
@@ -59,6 +63,13 @@ public class StudentController extends HttpServlet {
             } else if (path.startsWith("student/clubs/viewMemberClubs/")) {
                 String[] idArray = path.split("/");
                 int id = Integer.parseInt(idArray[idArray.length - 1]);
+                UserProfile userPro = (UserProfile) session.getAttribute("user");
+                String rolePro = (String) session.getAttribute("role");
+                String urlEdit = (String) session.getAttribute("roleURL");
+                if (rolePro.equals("Student")) {
+                    StudentProfileDAO stDAO = new StudentProfileDAO();
+                    StudentProfile stPro = stDAO.getStudentProfileByEmail(userPro.getEmail());
+                }
             }
         } else {
             response.sendRedirect("/");
