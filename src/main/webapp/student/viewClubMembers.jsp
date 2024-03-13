@@ -1,5 +1,18 @@
 <div class="page-wrapper">
     <div class="content container-fluid">
+        <div class="page-header">
+            <div class="row align-items-center">
+                <div class="col-sm-12">
+                    <div class="page-sub-header">
+                        <h3 class="page-title">Members List</h3>
+                        <ul class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="/">View My Club</a></li>
+                            <li class="breadcrumb-item active">View Member Club</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
         <div class="row">
             <div class="col-xl-12 d-flex">
                 <div class="card flex-fill student-space comman-shadow">

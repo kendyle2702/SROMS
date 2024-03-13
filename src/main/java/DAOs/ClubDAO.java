@@ -238,7 +238,7 @@ public class ClubDAO {
                 + "LEFT JOIN [SROMS].[dbo].[Club] ON ClubMember.ClubID = Club.ClubID \n"
                 + "LEFT JOIN StudentProfile ON ClubMember.StudentProfileID = StudentProfile.StudentProfileID \n"
                 + "LEFT JOIN UserProfile ON StudentProfile.UserProfileID = UserProfile.UserProfileID \n"
-                + "WHERE Club.StudentProfileID = ? AND Club.ClubID = ?;";
+                + "WHERE Club.StudentProfileID = ? AND Club.ClubID = ? AND SemesterID = (SELECT MAX(SemesterID) FROM [SROMS].[dbo].[ClubMember])";
         PreparedStatement ps = conn.prepareStatement(sql);
         ps.setInt(1, studentProfileId);
         ps.setInt(2, clubId);
@@ -285,7 +285,7 @@ public class ClubDAO {
         checkPs.setInt(1, clubMember.getClubID());
         checkPs.setInt(2, clubMember.getStudentProfileID());
 
-       ResultSet rs = checkPs.executeQuery();
+        ResultSet rs = checkPs.executeQuery();
         if (rs.next()) {
             if (rs.getInt(1) > 0) {
                 // Sinh viên đã tồn tại trong sự kiện

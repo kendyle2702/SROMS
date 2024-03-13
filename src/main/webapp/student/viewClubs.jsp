@@ -71,9 +71,6 @@
                                                             <tr>
                                                                 <td>${count.index + 1}</td>
                                                                 <td>${club.clubName}</td>
-                                                                <td>${club.description}</td>
-
-                                                                =======
                                                                 <td style="white-space: break-spaces;">${club.description}</td>
                                                                 <td class="text-center">
                                                                     <div class="student-submit">
