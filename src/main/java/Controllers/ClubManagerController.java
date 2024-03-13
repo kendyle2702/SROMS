@@ -15,6 +15,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import java.sql.SQLException;
+import java.util.Enumeration;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -91,7 +92,6 @@ public class ClubManagerController extends HttpServlet {
                             session.setAttribute("checkRequestClub", "rejectFail");
                         }
                     }
-//                   
                     response.sendRedirect("/clubmanager/checkRequestClub");
                 }
             } catch (SQLException ex) {

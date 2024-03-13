@@ -20,6 +20,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -41,7 +42,7 @@ public class StudentController extends HttpServlet {
             try {
                 StudentProfileDAO studentProfileDAO = new StudentProfileDAO();
                 ManagerProfileDAO managerProfileDAO = new ManagerProfileDAO();
-                
+
                 UserLoginDAO userLoginDAO = new UserLoginDAO();
                 int studentProfileID = userLoginDAO.getStudentProfileIDByUserProfileID(userProfile.getUserProfileID());
 
@@ -57,6 +58,7 @@ public class StudentController extends HttpServlet {
                 List<Event> listE = eventManagerDAO.eventList();
                 List<ParticipationEventDetail> pertiList = eventManagerDAO.participateEventList();
                 Map<Integer, String> eventCategoryNames = new HashMap<>();
+                List<Club> listMyClub = clubDAO.getMyClub(studentProfileID);
                 for (Event event : listE) {
                     String eventC = eventManagerDAO.getEventCategoryName(event.getEventCategoryID());
                     eventCategoryNames.put(event.getEventID(), eventC);
@@ -65,13 +67,12 @@ public class StudentController extends HttpServlet {
                 if (path.endsWith("/student")) {
                     session.setAttribute("userProfile", userProfile);
                     session.setAttribute("studentProfileID", studentProfileID);
-
                     session.setAttribute("listEvent", listE);
                     session.setAttribute("pertiList", pertiList);
                     session.setAttribute("eventCategoryNames", eventCategoryNames);
-
                     session.setAttribute("listClub", listC);
                     session.setAttribute("clubMembers", clubM);
+                    session.setAttribute("listMyClub", listMyClub);
                     session.setAttribute("tabId", 1);
                     request.getRequestDispatcher("/student.jsp").forward(request, response);
                 } else if (path.startsWith("/student/profile")) {
@@ -90,7 +91,7 @@ public class StudentController extends HttpServlet {
 
                         session.setAttribute("listClub", listC);
                         session.setAttribute("clubMembers", clubM);
-
+                        session.setAttribute("listMyClub", listMyClub);
                         session.setAttribute("tabId", 4);
 
                         request.getRequestDispatcher("/student.jsp").forward(request, response);
@@ -100,6 +101,15 @@ public class StudentController extends HttpServlet {
                         request.getRequestDispatcher("/club-regsiter.jsp").forward(request, response);
                     } else if (path.startsWith("/student/clubs/myclub")) {
                         request.getRequestDispatcher("/myclub.jsp").forward(request, response);
+                    } else if (path.startsWith("/student/clubs/viewClubMember/")) {
+                        String[] isArray = path.split("/");
+                        int studentProfileId = Integer.parseInt(isArray[isArray.length - 1]);
+                        int clubId = Integer.parseInt(isArray[isArray.length - 2]);
+                        List<Map<String, String>> listClubMember = clubDAO.getAllMembersClub(studentProfileId, clubId);
+                        session.setAttribute("listClubMember", listClubMember);
+                        session.setAttribute("tabId", 8);
+                        request.getRequestDispatcher("/student.jsp").forward(request, response);
+
                     }
                 } else if (path.startsWith("/student/events")) {
                     if (path.endsWith("/student/events/view")) {
@@ -116,16 +126,15 @@ public class StudentController extends HttpServlet {
                         String[] idArray = path.split("/");
 
                         int id = Integer.parseInt(idArray[idArray.length - 1]);
-                        
-                        
+
                         ResultSet rsManager = managerProfileDAO.getManagerProfileMoreByEventID(id);
-                        ResultSet rsStudent = studentProfileDAO.getStudentProfileMorebyEventID(id); 
+                        ResultSet rsStudent = studentProfileDAO.getStudentProfileMorebyEventID(id);
                         session.setAttribute("studentProfileID", studentProfileID);
 
                         session.setAttribute("rsManager", rsManager);
                         session.setAttribute("rsStudent", rsStudent);
-                        session.setAttribute("rsEventID", id);                        
-                        
+                        session.setAttribute("rsEventID", id);
+
                         Event event = eventManagerDAO.getEvent(id);
                         session.setAttribute("event", event);
 

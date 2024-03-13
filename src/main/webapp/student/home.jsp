@@ -158,29 +158,29 @@
                                                                     <th class="text-center">No</th>
                                                                     <th class="text-center">Name</th>
                                                                     <th class="text-center">Description</th>
-                                                                    <th class="text-center">Role</th>
-                                                                    <th class="text-center">Semester</th>
+                                                                    <th class="text-center">Establish Date</th>
                                                                     <th class="text-center">Detail</th> 
+                                                                    <th></th>
                                                                 </tr>
                                                             </thead>
                                                             <tbody>
-                                                            <c:forEach items="${sessionScope.clubMembers}" var="clubM" varStatus="count">
+                                                            <c:forEach items="${sessionScope.listMyClub}" var="clubM" varStatus="count">
                                                                 <tr>
-                                                                    <td>${count.index + 1}</td>
-                                                                    <td>${clubM.clubID}</td>
-                                                                    <td>description</td>
-                                                                    <td>${clubM.clubRole}</td>
-                                                                    <td class="date">${semesterName}</td>
+                                                                    <td class="text-center">${count.index + 1}</td>
+                                                                    <td class="text-center">${clubM.getLogo()}  ${clubM.getClubName()}</td>
+                                                                    <td class="text-center">${clubM.getDescription()}</td>
+                                                                    <td class="text-center">${clubM.getEstablishDate()}</td>
                                                                     <td class="text-center">
                                                                         <div class="student-submit">
-                                                                            <input type="hidden" name="myClubID" value="${clubM.clubID}">
+    <!--                                                                        <input type="text" name="myClubID" value="${clubM.clubID}">-->
                                                                             <input type="hidden" name="studentProfileID" value="${studentProfileID}">
                                                                             <input type="submit" name="action" class="btn btn-primary" value="Details">
                                                                         </div>
+                                                                    <td><a href="/student/clubs/viewClubMember/${clubM.clubID}/${studentProfileID}" class="btn btn-primary">View Member Club</a></td>
                                                                     </td>
                                                                 </tr>
                                                             </c:forEach>
-                                                            <c:if test="${empty sessionScope.clubMembers}">
+                                                            <c:if test="${empty sessionScope.listMyClub}">
                                                                 <tr>
                                                                     <td colspan="7" class="text-center">You haven't joined the club yet.</td>
                                                                 </tr>
@@ -194,13 +194,12 @@
                                     </div>
                                 </div>
                             </div>
-
                         </div>
                     </div>
                 </div>
             </div>
 
-            <div class="row">
+<!--            <div class="row">
                 <div class="col-xl-12 d-flex">
                     <div class="card flex-fill student-space comman-shadow">
                         <div class="card-body">
@@ -240,7 +239,7 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </div>-->
 
         </div>
         <div class="modal custom-modal fade" id="news_detail<%= latestNews.getNewsID()%>" aria-hidden="true" style="display: none;">
@@ -262,11 +261,6 @@
                 </div>
             </div>
         </div>
-
     </div>
-
-    <footer>
-        <p></p>
-    </footer>
-
+   
 </div>

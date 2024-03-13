@@ -9,7 +9,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Date;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -17,6 +19,7 @@ public class ClubDAO {
 
     private Connection conn;
     private PreparedStatement ps = null;
+
     public ClubDAO() {
         try {
             conn = DB.DBConnection.connect();
@@ -151,6 +154,7 @@ public class ClubDAO {
         }
         return listC;
     }
+
     public String getSemesterNameByClubID(int clubID, int studentProfileID) {
         String semesterName = null;
         try {
@@ -198,6 +202,46 @@ public class ClubDAO {
             Logger.getLogger(ClubDAO.class.getName()).log(Level.SEVERE, null, ex);  // Or handle the exception as you prefer
         }
         return clubs;
+    }
+
+    public List<Club> getMyClub(int sudentProfileID) throws SQLException {
+        List<Club> listMyClub = new ArrayList<>();
+        Club myClub = null;
+        String sql = "SELECT* FROM [Club] WHERE StudentProfileID = ?;";
+        PreparedStatement ps = conn.prepareStatement(sql);
+        ps.setInt(1, sudentProfileID);
+        ResultSet rs = ps.executeQuery();
+        while (rs.next()) {
+            myClub = new Club(rs.getInt("ClubID"), rs.getString("Logo"), rs.getString("ClubName"), rs.getDate("EstablishDate"), rs.getString("Description"), rs.getBoolean("IsApprove"), rs.getBoolean("IsActive"), rs.getInt("ManagerProfileID"), rs.getInt("StudentProfileID"));
+            listMyClub.add(myClub);
+        }
+        return listMyClub;
+    }
+
+    public List<Map<String, String>> getAllMembersClub(int studentProfileId, int clubId) throws SQLException {
+        ResultSet rs = null;
+        List<Map<String, String>> getListMember = new ArrayList<>();
+        String sql = "SELECT ClubRole, RollNumber, Major, FirstName, LastName, Email, ClubRole FROM [SROMS].[dbo].[ClubMember] \n"
+                + "LEFT JOIN [SROMS].[dbo].[Club] ON ClubMember.ClubID = Club.ClubID \n"
+                + "LEFT JOIN StudentProfile ON ClubMember.StudentProfileID = StudentProfile.StudentProfileID \n"
+                + "LEFT JOIN UserProfile ON StudentProfile.UserProfileID = UserProfile.UserProfileID \n"
+                + "WHERE Club.StudentProfileID = ? AND Club.ClubID = ?;";
+        PreparedStatement ps = conn.prepareStatement(sql);
+        ps.setInt(1, studentProfileId);
+        ps.setInt(2, clubId);
+        rs = ps.executeQuery();
+        while (rs.next()) {
+            Map<String, String> getMember = new HashMap<>(); // Tạo một map mới cho mỗi hàng dữ liệu
+            getMember.put("ClubRole", rs.getString("ClubRole"));
+            getMember.put("RollNumber", rs.getString("RollNumber"));
+            getMember.put("Major", rs.getString("Major"));
+            getMember.put("FirstName", rs.getString("FirstName"));
+            getMember.put("LastName", rs.getString("LastName"));
+            getMember.put("Email", rs.getString("Email"));
+            getMember.put("ClubRole", rs.getString("ClubRole"));
+            getListMember.add(getMember);
+        }
+        return getListMember;
     }
 
     public Club getClubByClubID(int clubID) throws SQLException {
