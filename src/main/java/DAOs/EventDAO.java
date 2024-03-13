@@ -70,31 +70,32 @@ public class EventDAO {
      *
      * @return @throws SQLException
      */
-        public List participateEventList() throws SQLException {
-            ArrayList partiList = new ArrayList<>();
-            ParticipationEventDetail parti = null;
-            StudentProfile student = null;
-            UserProfile profile = null;
-            Event event = null;
-            conn = DBConnection.connect();
-            String query = "SELECT* FROM [dbo].[ParticipationEventDetail]\n"
-                    + "LEFT JOIN [dbo].[StudentProfile] ON ParticipationEventDetail.StudentProfileID = StudentProfile.StudentProfileID \n"
-                    + "LEFT JOIN [dbo].[UserProfile] ON StudentProfile.UserProfileID = UserProfile.UserProfileID\n"
-                    + "LEFT JOIN [dbo].[Event] ON ParticipationEventDetail.EventID = [dbo].[Event].EventID;";
-            ps = conn.prepareStatement(query);
-            rs = ps.executeQuery();
-            while (rs.next()) {
-                parti = new ParticipationEventDetail(rs.getInt(1), rs.getInt(2), rs.getString(3), rs.getBoolean(4), rs.getString(5));
-                profile = new UserProfile(rs.getString("FirstName"), rs.getString("LastName"));
-                student = new StudentProfile(rs.getString("RollNumber"), rs.getString("Major"));
-                event = new Event(rs.getString("EventName"));
-                partiList.add(parti);
-                partiList.add(profile);
-                partiList.add(student);
-                partiList.add(event);
-            }
-            return partiList;
+    public List participateEventList() throws SQLException {
+        ArrayList partiList = new ArrayList<>();
+        ParticipationEventDetail parti = null;
+        StudentProfile student = null;
+        UserProfile profile = null;
+        Event event = null;
+        conn = DBConnection.connect();
+        String query = "SELECT* FROM [dbo].[ParticipationEventDetail]\n"
+                + "LEFT JOIN [dbo].[StudentProfile] ON ParticipationEventDetail.StudentProfileID = StudentProfile.StudentProfileID \n"
+                + "LEFT JOIN [dbo].[UserProfile] ON StudentProfile.UserProfileID = UserProfile.UserProfileID\n"
+                + "LEFT JOIN [dbo].[Event] ON ParticipationEventDetail.EventID = [dbo].[Event].EventID;";
+        ps = conn.prepareStatement(query);
+        rs = ps.executeQuery();
+        while (rs.next()) {
+            parti = new ParticipationEventDetail(rs.getInt(1), rs.getInt(2), rs.getString(3), rs.getBoolean(4), rs.getString(5));
+            profile = new UserProfile(rs.getString("FirstName"), rs.getString("LastName"));
+            student = new StudentProfile(rs.getString("RollNumber"), rs.getString("Major"));
+            event = new Event(rs.getString("EventName"));
+            partiList.add(parti);
+            partiList.add(profile);
+            partiList.add(student);
+            partiList.add(event);
         }
+        return partiList;
+    }
+
     public int getTotalEventTaking() throws SQLException {
         int count = 0;
         String query = "SELECT COUNT(*) AS total_events FROM Event  WHERE EndTime >= CURRENT_TIMESTAMP AND Approve ='AA'";
@@ -305,4 +306,21 @@ public class EventDAO {
         return true; // Trả về true khi thêm thành công
     }
 
+    public boolean checkStudentParticipationEventDetail(int eventID, int studentProfileID) throws SQLException {
+        conn = DBConnection.connect(); // Establish database connection
+
+        String checkQuery = "SELECT COUNT(*) FROM [SROMS].[dbo].[ParticipationEventDetail] WHERE [EventID] = ? AND [StudentProfileID] = ?";
+        PreparedStatement checkPs = conn.prepareStatement(checkQuery);
+        checkPs.setInt(1, eventID);
+        checkPs.setInt(2, studentProfileID);
+
+        ResultSet rs = checkPs.executeQuery();
+        if (rs.next()) {
+            if (rs.getInt(1) > 0) {
+                // Sinh viên đã tồn tại trong sự kiện
+                return false; // Trả về false nếu sinh viên đã tham gia
+            }
+        }
+        return true;
+    }
 }

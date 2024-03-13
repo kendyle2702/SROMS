@@ -63,7 +63,7 @@
                                                                 <th class="text-center">No</th>
                                                                 <th class="text-center">Name</th>
                                                                 <th class="text-center">Description</th>
-                                                                <th class="text-center"></th> 
+                                                                <th class="text-center">Detail</th> 
                                                             </tr>
                                                         </thead>
                                                         <tbody>
@@ -73,6 +73,8 @@
                                                                 <td>${club.clubName}</td>
                                                                 <td>${club.description}</td>
 
+                                                                =======
+                                                                <td style="white-space: break-spaces;">${club.description}</td>
                                                                 <td class="text-center">
                                                                     <div class="student-submit">
                                                                         <input type="hidden" name="ClubID" value="${club.clubID}">
