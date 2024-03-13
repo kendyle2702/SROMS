@@ -54,6 +54,7 @@ public class UserLoginDAO {
         }
         return false;
     }
+
     public UserLogin addUserLogin(UserLogin user) {
         int count = 0;
         try {
@@ -69,6 +70,7 @@ public class UserLoginDAO {
 
         return (count == 0) ? null : user;
     }
+
     public int getStudentProfileIDByUserProfileID(int userProfileID) {
         int studentProfileID = -1; // Initialize with a default value in case no result is found
         try {
@@ -86,7 +88,8 @@ public class UserLoginDAO {
         }
         return studentProfileID;
     }
-    public UserLogin getUserLoginByUserProfileID(int id){
+
+    public UserLogin getUserLoginByUserProfileID(int id) {
         UserLogin user = null;
         try {
             PreparedStatement ps = conn.prepareStatement("select * from UserProfile as up inner join UserLogin as ul on up.UserProfileID = ul.UserProfileID where ul.UserProfileID = ?");
@@ -100,25 +103,44 @@ public class UserLoginDAO {
         }
         return user;
     }
-    
-    public void blockAccount(int id){
+
+    public void blockAccount(int id) {
         try {
             PreparedStatement ps = conn.prepareStatement("update UserLogin set IsActive = 0 where UserLoginID =?");
             ps.setInt(1, id);
-            
+
             ps.executeUpdate();
         } catch (SQLException ex) {
             Logger.getLogger(UserProfileDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    public void unblockAccount(int id){
+
+    public void unblockAccount(int id) {
         try {
             PreparedStatement ps = conn.prepareStatement("update UserLogin set IsActive = 1 where UserLoginID =?");
             ps.setInt(1, id);
-            
+
             ps.executeUpdate();
         } catch (SQLException ex) {
             Logger.getLogger(UserProfileDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+
+    public int getManageProfileIDByUserProfileID(int userProfileID) {
+        int managerProfileID = -1; // Initialize with a default value in case no result is found
+        try {
+            PreparedStatement ps = conn.prepareStatement("SELECT mp.ManagerProfileID \n"
+                    + "                    FROM ManagerProfile mp \n"
+                    + "                    INNER JOIN UserProfile up ON mp.UserProfileID = up.UserProfileID \n"
+                    + "                    WHERE up.UserProfileID = ?");
+            ps.setInt(1, userProfileID);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                managerProfileID = rs.getInt("ManagerProfileID");
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(UserLoginDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return managerProfileID;
     }
 }

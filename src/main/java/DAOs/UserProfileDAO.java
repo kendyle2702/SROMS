@@ -137,4 +137,18 @@ public class UserProfileDAO {
         }
         return (id == 0) ? null : id;
     }
+    public int getUserProfileIDByManagerProfileID(int managerID){
+        int id = 0;
+        try {
+            PreparedStatement ps = conn.prepareStatement("select * from ManagerProfile where ManagerProfileID = ?");
+            ps.setInt(1, managerID);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                id = rs.getInt("UserProfileID");
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(UserLoginDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return (id == 0) ? null : id;
+    }
 }

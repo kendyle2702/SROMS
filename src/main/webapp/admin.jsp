@@ -36,7 +36,7 @@
                    <%@include file="./admin/viewClubManagers.jsp" %>
                 </c:when>
                 <c:when test="${sessionScope.tabId == 7}">
-                   <%@include file="./admin/createEventManager.jsp" %>
+                   <%@include file="./admin/createClubManager.jsp" %>
                 </c:when>
                 <c:when test="${sessionScope.tabId == 8}">
                    <%@include file="./admin/viewStudents.jsp" %>

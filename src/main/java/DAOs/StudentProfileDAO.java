@@ -4,6 +4,7 @@
  */
 package DAOs;
 
+import Models.ManagerProfile;
 import Models.StudentProfile;
 import Models.UserLogin;
 import Models.UserProfile;
@@ -106,4 +107,5 @@ public class StudentProfileDAO {
         }
         return (count == 0) ? null : user;
     }
+   
 }
