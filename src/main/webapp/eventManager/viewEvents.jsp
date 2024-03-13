@@ -21,17 +21,10 @@
                             <table id="viewEvents" class="table table-hover table-striped table-bordered" >
                                 <thead class="thead-light">
                                     <tr>
-                                        <th class="text-center">No.</th>
-                                        <th class="text-center">ID</th>
-                                        <th class="text-center">Name</th>
-                                        <th class="text-center">Preparation Time</th>
+                                        <th class="text-center">No.</th>                                       
+                                        <th style="width: 50px;" class="text-center">Name</th>
                                         <th class="text-center">Hold Time</th>
-                                        <th class="text-center">End Time.</th>
-                                        <th class="text-center">Cost</th>
-                                        <th class="text-center">Expected Number</th>
-                                        <th class="text-center">Organization</th>
-                                        <th class="text-center">Feedback</th>
-                                        <th class="text-center">Created By</th>                                           
+                                        <th class="text-center">Organization</th>                                         
                                         <th class="text-center">Location</th>
                                         <th class="text-center">Status</th>       
                                         <th class="text-center"></th> 
@@ -42,37 +35,20 @@
                                     <c:forEach items="${sessionScope.listEvent}" var="liste" varStatus="count">
                                         <tr>
                                             <td class="">${count.index+1}</td>
-                                            <td class="">${liste.getEventID()}</td>
-                                            <td class="">${liste.getEventName()}</td>
-                                            <td class="">${liste.getPreparationTime()}</td>
+                                            <td style="width: 50px;" class="">${liste.getEventName()}</td>
                                             <td class="">${liste.getHoldTime()}</td><!-- comment -->
-                                            <td class="">${liste.getEndTime()}</td>
-                                            <td class="">${liste.getCost()}</td>
-                                            <td class="">${liste.getExpectedNumber()}</td>
-                                            <td class="">${liste.getOrganization()}</td>
-                                            <td class="">${liste.getFeedback()}</td>
-                                            <td class="">${liste.getCreatedBy()}</td>                                                          
-                                        <c:forEach items="${sessionScope.numberParti}" var="num">
-                                            <c:choose>
-                                                <c:when test="${num.EventID == liste.getEventID() && num.TotalParticipants != 0}">
-<!--                                                                        <td class="text-center">${num.TotalParticipants}</td>-->
-                                                </c:when>
-                                                <c:otherwise>
-                                                    <!--                                                                        <td class="text-center">0</td>-->
-                                                </c:otherwise>
-                                            </c:choose>
-                                        </c:forEach>
-                                        <td class="">${liste.getLocation()}</td>
-                                        <%
-                                            EventDAO dao = new EventDAO();
-                                            List<Event> events = dao.eventList();
+                                            <td class="">${liste.getOrganization()}</td>                                                         
+                                            <td class="">${liste.getLocation()}</td>
+                                            <%
+                                                EventDAO dao = new EventDAO();
+                                                List<Event> events = dao.eventList();
 
-                                            Calendar calen = Calendar.getInstance();
-                                            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH-mm-ss");
-                                            Timestamp currentDateTime = new Timestamp(calen.getTimeInMillis());
-                                            String currentDateTimeString = format.format(currentDateTime);
-                                            session.setAttribute("currentTime", currentDateTimeString);
-                                        %>
+                                                Calendar calen = Calendar.getInstance();
+                                                SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH-mm-ss");
+                                                Timestamp currentDateTime = new Timestamp(calen.getTimeInMillis());
+                                                String currentDateTimeString = format.format(currentDateTime);
+                                                session.setAttribute("currentTime", currentDateTimeString);
+                                            %>
                                         <c:choose>
                                             <c:when test="${sessionScope.currentTime <= liste.getEndTime() && liste.getApprove() eq 'AA'}">
                                                 <td class="">Happening</td>
@@ -100,14 +76,6 @@
                     </div>
                 </div>
             </div>
-
         </div>
-
-
-        <footer>
-            <p></p>
-        </footer>
-
     </div>
-
 </div>

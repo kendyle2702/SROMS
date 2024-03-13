@@ -50,41 +50,22 @@
                                                     <td class="">${liste.Email}</td>
                                                     <td class="">
                                                         <div class="row">
-                                                            <c:choose>
-                                                                <c:when test="${liste.IsPresent == 1}">
-                                                                    <div class="col-6">
-                                                                        <div class="form-check">
-                                                                            <input class="form-check-input" type="radio" id="presentRadio_${count.index}" name="checkAttendance/${liste.StudentProfileID}/${liste.EventID}" value="Present" checked>
-                                                                            <label class="form-check-label" for="presentRadio_${count.index}">Present</label>
-                                                                        </div>
+                                                            <div class="col-6">
+                                                                <div class="form-check">
+                                                                    <input class="form-check-input" type="radio" id="presentRadio_${count.index}" name="checkAttendance/${liste.StudentProfileID}/${liste.EventID}" value="Present" <c:out value="${(liste.IsPresent == 1) ? 'checked' : ''}" />>
+                                                                    <label class="form-check-label" for="presentRadio_${count.index}">Present</label><br>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-6">
+                                                                <div class="form-check">
+                                                                    <input class="form-check-input" type="radio" id="absentRadio_${count.index}" name="checkAttendance/${liste.StudentProfileID}/${liste.EventID}" value="Absent" <c:out value="${(liste.IsPresent == 0) ? 'checked' : ''}"/>>
+                                                                           <label class="form-check-label" for="absentRadio_${count.index}">Absent</label><br>                                                                    
                                                                     </div>
-                                                                    <div class="col-6">
-                                                                        <div class="form-check">
-                                                                            <input class="form-check-input" type="radio" id="absentRadio_${count.index}" name="checkAttendance/${liste.StudentProfileID}/${liste.EventID}" value="Absent">
-                                                                            <label class="form-check-label" for="absentRadio_${count.index}">Absent</label>
-                                                                        </div>
-                                                                    </div>
-                                                                </c:when>
-                                                                <c:otherwise>
-                                                                    <div class="col-6">
-                                                                        <div class="form-check">
-                                                                            <input class="form-check-input" type="radio" id="presentRadio_${count.index}" name="checkAttendance/${liste.StudentProfileID}/${liste.EventID}" value="Present">
-                                                                            <label class="form-check-label" for="presentRadio_${count.index}">Present</label><br>
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="col-6">
-                                                                        <div class="form-check">
-                                                                            <input class="form-check-input" type="radio" id="absentRadio_${count.index}" name="checkAttendance/${liste.StudentProfileID}/${liste.EventID}" value="Absent" checked>
-                                                                            <label class="form-check-label" for="absentRadio_${count.index}">Absent</label><br>                                                                    
-                                                                        </div>
-                                                                    </div>
-                                                                </c:otherwise>
-                                                            </c:choose>
-                                                        </div>
-                                                    </td>                                
-                                                </tr>
+                                                                </div>
+                                                            </div>
+                                                        </td>                                
+                                                    </tr>
                                             </c:forEach>
-
                                             <tr>
                                                 <td  colspan="6">
                                                     <input style="background: #ea7127;border-color:#ea7127; margin-left:1300px;width: 150px;height: 60px" class="btn btn-primary" name="checkAttendanceForm" type="submit" value="Submit">

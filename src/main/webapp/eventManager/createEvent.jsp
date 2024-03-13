@@ -260,30 +260,38 @@
                                                         <div class="row">
                                                             <div class="col-lg-6 col-sm-6">
                                                                 <div class="form-group ">
-                                                                    <label>First<span
-                                                                            class="login-danger">*</span></label>
-                                                                    <input id="firtPrize" name="firtPrize" type="number"
-                                                                           class="form-control" placeholder="Enter number first prize">
-                                                                    <div class="message"></div>
-                                                                    <label>Second<span
-                                                                            class="login-danger">*</span></label>
-                                                                    <input id="secondPrize" name="secondPrize" type="number"
-                                                                           class="form-control" placeholder="Enter number second prize" ><!-- comment -->
-                                                                    <div class="message"></div>
+                                                                    <div>
+                                                                        <label>First<span
+                                                                                class="login-danger">*</span></label>
+                                                                        <input id="firtPrize" name="firtPrize" type="number"
+                                                                               class="form-control" placeholder="Enter number first prize">
+                                                                        <div class="message"></div>
+                                                                    </div>
+                                                                    <div>
+                                                                        <label>Second<span
+                                                                                class="login-danger">*</span></label>
+                                                                        <input id="secondPrize" name="secondPrize" type="number"
+                                                                               class="form-control" placeholder="Enter number second prize" ><!-- comment -->
+                                                                        <div class="message"></div>
+                                                                    </div>
                                                                 </div>
                                                             </div>
                                                             <div class="col-lg-6 col-sm-6">
                                                                 <div class="form-group ">
-                                                                    <label>Third<span
-                                                                            class="login-danger">*</span></label>
-                                                                    <input id="thirdPrize" name="thirdPrize" type="number"
-                                                                           class="form-control" placeholder="Enter number third prize">
-                                                                    <div class="message"></div>
-                                                                    <label>Encouragement<span
-                                                                            class="login-danger">*</span></label>
-                                                                    <input id="encouragementPrize" name="encouragementPrize" type="number"
-                                                                           class="form-control" placeholder="Enter number encouragement">
-                                                                    <div class="message"></div>
+                                                                    <div>
+                                                                        <label>Third<span
+                                                                                class="login-danger">*</span></label>
+                                                                        <input id="thirdPrize" name="thirdPrize" type="number"
+                                                                               class="form-control" placeholder="Enter number third prize">
+                                                                        <div class="message"></div>
+                                                                    </div>
+                                                                    <div>
+                                                                        <label>Encouragement<span
+                                                                                class="login-danger">*</span></label>
+                                                                        <input id="encouragementPrize" name="encouragementPrize" type="number"
+                                                                               class="form-control" placeholder="Enter number encouragement">
+                                                                        <div class="message"></div> 
+                                                                    </div>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -307,5 +315,4 @@
             </div>
         </div>
     </div>
-</div>
 </div>

@@ -31,7 +31,7 @@
                     <div class="row align-items-center">
                         <div class="col-auto avatar-image">
                             <a href="#">
-                                <img class="" alt="User Image" src="${pageContext.request.contextPath}/assets   /img/avatar/<%=userPro.getAvatar()%>">
+                                <img class="" alt="User Image" src="${pageContext.request.contextPath}/assets/img/avatar/<%=userPro.getAvatar()%>">
                             </a>
                         </div>
                         <div class="col ms-md-n2 profile-user-info">

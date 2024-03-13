@@ -354,7 +354,7 @@
             Validator.isRequire("#firtPrize", "Firt prize is required"),
             Validator.isRequire("#secondPrize", "Second prize is required"),
             Validator.isRequire("#thirdPrize", "Third prize is require"),
-            Validator.isImage("#encouragementPrize", "Encouragement prize is required")
+            Validator.isRequire ("#encouragementPrize", "Encouragement prize is required")
         ]
     });
 </script>
