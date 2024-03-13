@@ -1,3 +1,8 @@
+<style>
+    a{
+        color:white;
+    }
+</style>
 <div class="page-wrapper">
     <div class="content container-fluid">
         <div class="page-header">
@@ -70,11 +75,11 @@
                                                 </c:otherwise>
                                             </c:choose>
                                             <td class="text-center">                                                                
-                                                <a href="/clubmanager/viewdetail/${c.getClubID()}" class="btn btn-primary m-auto col-5">View Detail</a>
+                                                <a href="/clubmanager/viewdetail/${c.getClubID()}"  class="btn btn-primary">View Detail</a>
 
                                             </td>
                                             <td class="text-center">
-                                                <a href="/clubmanager/delete/${c.getClubID()}" class="btn btn-danger m-auto col-5">Delete</a>
+                                                <a href="/clubmanager/delete/${c.getClubID()}" class="btn btn-danger">Delete</a>
                                             </td>
                                             </tr>
                                         </c:forEach>

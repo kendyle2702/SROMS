@@ -4,10 +4,12 @@
  */
 package Controllers;
 
+import DAOs.ManagerProfileDAO;
 import DAOs.StudentProfileDAO;
 import DAOs.UserLoginDAO;
 import DAOs.UserProfileDAO;
 import DAOs.UserRoleDAO;
+import Models.ManagerProfile;
 import Models.StudentProfile;
 import Models.UserLogin;
 import Models.UserProfile;
@@ -48,8 +50,8 @@ public class UploadController extends HttpServlet {
         HttpSession session = request.getSession();
         UserProfile userProfile = (UserProfile) session.getAttribute("user");
         String role = (String) session.getAttribute("role");
-        String roleURL = (String)session.getAttribute("roleURL");
-        
+        String roleURL = (String) session.getAttribute("roleURL");
+
         if (request.getParameter("editProfile") != null) {
             String firstName = request.getParameter("firstname");
             String lastName = request.getParameter("lastname");
@@ -69,24 +71,23 @@ public class UploadController extends HttpServlet {
                     part.write(realPath + "/" + avatar);
                 } catch (Exception ex) {
                     session.setAttribute("editStatus", "fail");
-                    response.sendRedirect("/"+ roleURL +"/profile/edit");
+                    response.sendRedirect("/" + roleURL + "/profile/edit");
                 }
             }
 
             UserProfileDAO uProfileDAO = new UserProfileDAO();
-            
-            UserProfile newUser = new UserProfile(userProfile.getUserProfileID(),firstName,lastName,avatar,gender,birthdate,address,userProfile.getEnrollmentDate(),userProfile.getEmail(),phone);
+
+            UserProfile newUser = new UserProfile(userProfile.getUserProfileID(), firstName, lastName, avatar, gender, birthdate, address, userProfile.getEnrollmentDate(), userProfile.getEmail(), phone);
             UserProfile user = uProfileDAO.updateUserProfile(newUser);
             if (user == null) {
                 session.setAttribute("editStatus", "fail");
-                response.sendRedirect("/"+ roleURL +"/profile/edit");
+                response.sendRedirect("/" + roleURL + "/profile/edit");
             } else {
                 session.setAttribute("editStatus", "success");
                 session.setAttribute("user", user);
-                response.sendRedirect("/"+ roleURL +"/profile");
+                response.sendRedirect("/" + roleURL + "/profile");
             }
-        }
-        else if(request.getParameter("createStudent") != null){
+        } else if (request.getParameter("createStudent") != null) {
             String firstName = request.getParameter("firstname");
             String lastName = request.getParameter("lastname");
             String gender = request.getParameter("gender");
@@ -99,10 +100,10 @@ public class UploadController extends HttpServlet {
             String memberCode = request.getParameter("membercode");
             String major = request.getParameter("major");
             String mode = request.getParameter("mode");
-            
+
             java.util.Date currentDate = new java.util.Date();
             Timestamp currentTime = new Timestamp(currentDate.getTime());
-            
+
             String avatar = "";
             Part part = request.getPart("avatar");
             if (Paths.get(part.getSubmittedFileName()).toString().isEmpty()) {
@@ -118,8 +119,8 @@ public class UploadController extends HttpServlet {
                 }
             }
             UserProfileDAO uProfileDAO = new UserProfileDAO();
-            UserProfile newUser = new UserProfile(firstName,lastName,avatar,gender,birthdate,address,enrollDate,email,phone);
-            
+            UserProfile newUser = new UserProfile(firstName, lastName, avatar, gender, birthdate, address, enrollDate, email, phone);
+
             UserProfile user = uProfileDAO.addUserProfile(newUser);
             if (user == null) {
                 session.setAttribute("createStudent", "fail");
@@ -127,24 +128,23 @@ public class UploadController extends HttpServlet {
             } else {
                 int id = uProfileDAO.getUserProfileIDByEmail(email);
                 StudentProfileDAO stDAO = new StudentProfileDAO();
-                StudentProfile newStudent = new StudentProfile(rollNumber,memberCode,major,mode,id);
+                StudentProfile newStudent = new StudentProfile(rollNumber, memberCode, major, mode, id);
                 StudentProfile student = stDAO.addStudentProfile(newStudent);
-                        
+
                 UserLoginDAO userLoginDAO = new UserLoginDAO();
-                UserLogin newUserLogin = new UserLogin(email,currentTime,true,id);
+                UserLogin newUserLogin = new UserLogin(email, currentTime, true, id);
                 UserLogin userLogin = userLoginDAO.addUserLogin(newUserLogin);
-                
+
                 UserRoleDAO userRoleDAO = new UserRoleDAO();
                 int studentRole = 4;
-                UserRole newUserRole = new UserRole(studentRole,id);
+                UserRole newUserRole = new UserRole(studentRole, id);
                 UserRole userRole = userRoleDAO.addUserRole(newUserRole);
-                
+
                 session.setAttribute("createStudent", "success");
                 response.sendRedirect("/admin/account/student");
             }
-        }
-        else if(request.getParameter("editStudent")!=null){
-            
+        } else if (request.getParameter("editStudent") != null) {
+
             int studentID = Integer.parseInt(request.getParameter("rsStudentID"));
             String firstName = request.getParameter("firstname");
             String lastName = request.getParameter("lastname");
@@ -158,7 +158,7 @@ public class UploadController extends HttpServlet {
             String memberCode = request.getParameter("membercode");
             String major = request.getParameter("major");
             String mode = request.getParameter("mode");
-            
+
             String avatar = "";
             Part part = request.getPart("avatar");
             if (Paths.get(part.getSubmittedFileName()).toString().isEmpty()) {
@@ -170,27 +170,237 @@ public class UploadController extends HttpServlet {
                     part.write(realPath + "/" + avatar);
                 } catch (Exception ex) {
                     session.setAttribute("editStudent", "fail");
-                    response.sendRedirect("/admin/account/student/detail/"+studentID);
+                    response.sendRedirect("/admin/account/student/detail/" + studentID);
                 }
             }
-            
+
             UserProfileDAO uProfileDAO = new UserProfileDAO();
             int userProfileID = uProfileDAO.getUserProfileIDByStudentProfileID(studentID);
-                    
-            UserProfile newUser = new UserProfile(firstName,lastName,avatar,gender,birthdate,address,enrollDate,email,phone);
-            
-            UserProfile user = uProfileDAO.updateUserProfileByUserProfileID(newUser,userProfileID);
-            
+
+            UserProfile newUser = new UserProfile(firstName, lastName, avatar, gender, birthdate, address, enrollDate, email, phone);
+
+            UserProfile user = uProfileDAO.updateUserProfileByUserProfileID(newUser, userProfileID);
+
             if (user == null) {
                 session.setAttribute("editStudent", "fail");
-                response.sendRedirect("/admin/account/student/detail/"+studentID);
+                response.sendRedirect("/admin/account/student/detail/" + studentID);
             } else {
                 StudentProfileDAO stDAO = new StudentProfileDAO();
-                StudentProfile newStudent = new StudentProfile(rollNumber,memberCode,major,mode,userProfileID);
-                StudentProfile student = stDAO.updateStudentProfileByUserProfileID(newStudent,userProfileID);
-                
+                StudentProfile newStudent = new StudentProfile(rollNumber, memberCode, major, mode, userProfileID);
+                StudentProfile student = stDAO.updateStudentProfileByUserProfileID(newStudent, userProfileID);
+
                 session.setAttribute("editStudent", "success");
                 response.sendRedirect("/admin/account/student/detail/" + studentID);
+            }
+        } else if (request.getParameter("createEventManager") != null) {
+            String firstName = request.getParameter("firstname");
+            String lastName = request.getParameter("lastname");
+            String gender = request.getParameter("gender");
+            Date birthdate = Date.valueOf(request.getParameter("birthdate"));
+            Date enrollDate = Date.valueOf(request.getParameter("enrollmentdate"));
+            String address = request.getParameter("address");
+            String email = request.getParameter("email");
+            String phone = request.getParameter("phone");
+            String staffnumber = request.getParameter("staffnumber");
+            String academiclevel = request.getParameter("academiclevel");
+            String degree = request.getParameter("degree");
+            String exprience = request.getParameter("exprience");
+
+            java.util.Date currentDate = new java.util.Date();
+            Timestamp currentTime = new Timestamp(currentDate.getTime());
+
+            String avatar = "";
+            Part part = request.getPart("avatar");
+            if (Paths.get(part.getSubmittedFileName()).toString().isEmpty()) {
+                avatar = userProfile.getAvatar();
+            } else {
+                try {
+                    String realPath = request.getServletContext().getRealPath("/assets/img/avatar");
+                    avatar = Paths.get(part.getSubmittedFileName()).toString();
+                    part.write(realPath + "/" + avatar);
+                } catch (Exception ex) {
+                    session.setAttribute("creatEventManager", "fail");
+                    response.sendRedirect("/admin/account/eventmanager");
+                }
+            }
+            UserProfileDAO uProfileDAO = new UserProfileDAO();
+            UserProfile newUser = new UserProfile(firstName, lastName, avatar, gender, birthdate, address, enrollDate, email, phone);
+
+            UserProfile user = uProfileDAO.addUserProfile(newUser);
+            if (user == null) {
+                session.setAttribute("createEventManager", "fail");
+                response.sendRedirect("/admin/account/eventmanager/create");
+            } else {
+                int id = uProfileDAO.getUserProfileIDByEmail(email);
+                ManagerProfileDAO eDAO = new ManagerProfileDAO();
+                ManagerProfile newEventM = new ManagerProfile(staffnumber, academiclevel, degree, exprience, id);
+                ManagerProfile eventmanager = eDAO.addManagerProfile(newEventM);
+
+                UserLoginDAO userLoginDAO = new UserLoginDAO();
+                UserLogin newUserLogin = new UserLogin(email, currentTime, true, id);
+                UserLogin userLogin = userLoginDAO.addUserLogin(newUserLogin);
+
+                UserRoleDAO userRoleDAO = new UserRoleDAO();
+                int eventManagerRole = 2;
+                UserRole newUserRole = new UserRole(eventManagerRole, id);
+                UserRole userRole = userRoleDAO.addUserRole(newUserRole);
+
+                session.setAttribute("createEventManager", "success");
+                response.sendRedirect("/admin/account/eventmanager");
+            }
+        } else if (request.getParameter("editEventManager") != null) {
+
+            int managerID = Integer.parseInt(request.getParameter("rsEventManagerID"));
+            String firstName = request.getParameter("firstname");
+            String lastName = request.getParameter("lastname");
+            String gender = request.getParameter("gender");
+            Date birthdate = Date.valueOf(request.getParameter("birthdate"));
+            Date enrollDate = Date.valueOf(request.getParameter("enrollmentdate"));
+            String address = request.getParameter("address");
+            String email = request.getParameter("email");
+            String phone = request.getParameter("phone");
+            String staffnumber = request.getParameter("staffnumber");
+            String academiclevel = request.getParameter("academiclevel");
+            String degree = request.getParameter("degree");
+            String experience = request.getParameter("experience");
+
+            String avatar = "";
+            Part part = request.getPart("avatar");
+            if (Paths.get(part.getSubmittedFileName()).toString().isEmpty()) {
+                avatar = userProfile.getAvatar();
+            } else {
+                try {
+                    String realPath = request.getServletContext().getRealPath("/assets/img/avatar");
+                    avatar = Paths.get(part.getSubmittedFileName()).toString();
+                    part.write(realPath + "/" + avatar);
+                } catch (Exception ex) {
+                    session.setAttribute("editEventManager", "fail");
+                    response.sendRedirect("/admin/account/eventmanager/detail/" + managerID);
+                }
+            }
+
+            UserProfileDAO uProfileDAO = new UserProfileDAO();
+            int userProfileID = uProfileDAO.getUserProfileIDByManagerProfileID(managerID);
+
+            UserProfile newUser = new UserProfile(firstName, lastName, avatar, gender, birthdate, address, enrollDate, email, phone);
+
+            UserProfile user = uProfileDAO.updateUserProfileByUserProfileID(newUser, userProfileID);
+
+            if (user == null) {
+                session.setAttribute("editEventManager", "fail");
+                response.sendRedirect("/admin/account/eventmanager/detail/" + managerID);
+            } else {
+                ManagerProfileDAO mDAO = new ManagerProfileDAO();
+                ManagerProfile newManager = new ManagerProfile(staffnumber, academiclevel, degree, experience, userProfileID);
+                ManagerProfile manager = mDAO.updateManagerProfileByUserProfileID(newManager, userProfileID);
+
+                session.setAttribute("editEventManager", "success");
+                response.sendRedirect("/admin/account/eventmanager/detail/" + managerID);
+            }
+        } else if (request.getParameter("createClubManager") != null) {
+            String firstName = request.getParameter("firstname");
+            String lastName = request.getParameter("lastname");
+            String gender = request.getParameter("gender");
+            Date birthdate = Date.valueOf(request.getParameter("birthdate"));
+            Date enrollDate = Date.valueOf(request.getParameter("enrollmentdate"));
+            String address = request.getParameter("address");
+            String email = request.getParameter("email");
+            String phone = request.getParameter("phone");
+            String staffnumber = request.getParameter("staffnumber");
+            String academiclevel = request.getParameter("academiclevel");
+            String degree = request.getParameter("degree");
+            String exprience = request.getParameter("exprience");
+
+            java.util.Date currentDate = new java.util.Date();
+            Timestamp currentTime = new Timestamp(currentDate.getTime());
+
+            String avatar = "";
+            Part part = request.getPart("avatar");
+            if (Paths.get(part.getSubmittedFileName()).toString().isEmpty()) {
+                avatar = userProfile.getAvatar();
+            } else {
+                try {
+                    String realPath = request.getServletContext().getRealPath("/assets/img/avatar");
+                    avatar = Paths.get(part.getSubmittedFileName()).toString();
+                    part.write(realPath + "/" + avatar);
+                } catch (Exception ex) {
+                    session.setAttribute("createClubManager", "fail");
+                    response.sendRedirect("/admin/account/clubmanager");
+                }
+            }
+            UserProfileDAO uProfileDAO = new UserProfileDAO();
+            UserProfile newUser = new UserProfile(firstName, lastName, avatar, gender, birthdate, address, enrollDate, email, phone);
+
+            UserProfile user = uProfileDAO.addUserProfile(newUser);
+            if (user == null) {
+                session.setAttribute("createClubManager", "fail");
+                response.sendRedirect("/admin/account/clubmanager/create");
+            } else {
+                int id = uProfileDAO.getUserProfileIDByEmail(email);
+                ManagerProfileDAO eDAO = new ManagerProfileDAO();
+                ManagerProfile newEventM = new ManagerProfile(staffnumber, academiclevel, degree, exprience, id);
+                ManagerProfile clubmanager = eDAO.addManagerProfile(newEventM);
+
+                UserLoginDAO userLoginDAO = new UserLoginDAO();
+                UserLogin newUserLogin = new UserLogin(email, currentTime, true, id);
+                UserLogin userLogin = userLoginDAO.addUserLogin(newUserLogin);
+
+                UserRoleDAO userRoleDAO = new UserRoleDAO();
+                int clubManagerRole = 3;
+                UserRole newUserRole = new UserRole(clubManagerRole, id);
+                UserRole userRole = userRoleDAO.addUserRole(newUserRole);
+
+                session.setAttribute("createClubManager", "success");
+                response.sendRedirect("/admin/account/clubmanager");
+            }
+        } else if (request.getParameter("editClubManager") != null) {
+
+            int managerID = Integer.parseInt(request.getParameter("rsClubManagerID"));
+            String firstName = request.getParameter("firstname");
+            String lastName = request.getParameter("lastname");
+            String gender = request.getParameter("gender");
+            Date birthdate = Date.valueOf(request.getParameter("birthdate"));
+            Date enrollDate = Date.valueOf(request.getParameter("enrollmentdate"));
+            String address = request.getParameter("address");
+            String email = request.getParameter("email");
+            String phone = request.getParameter("phone");
+            String staffnumber = request.getParameter("staffnumber");
+            String academiclevel = request.getParameter("academiclevel");
+            String degree = request.getParameter("degree");
+            String experience = request.getParameter("experience");
+
+            String avatar = "";
+            Part part = request.getPart("avatar");
+            if (Paths.get(part.getSubmittedFileName()).toString().isEmpty()) {
+                avatar = userProfile.getAvatar();
+            } else {
+                try {
+                    String realPath = request.getServletContext().getRealPath("/assets/img/avatar");
+                    avatar = Paths.get(part.getSubmittedFileName()).toString();
+                    part.write(realPath + "/" + avatar);
+                } catch (Exception ex) {
+                    session.setAttribute("editClubManager", "fail");
+                    response.sendRedirect("/admin/account/clubmanager/detail/" + managerID);
+                }
+            }
+
+            UserProfileDAO uProfileDAO = new UserProfileDAO();
+            int userProfileID = uProfileDAO.getUserProfileIDByManagerProfileID(managerID);
+
+            UserProfile newUser = new UserProfile(firstName, lastName, avatar, gender, birthdate, address, enrollDate, email, phone);
+
+            UserProfile user = uProfileDAO.updateUserProfileByUserProfileID(newUser, userProfileID);
+
+            if (user == null) {
+                session.setAttribute("editClubManager", "fail");
+                response.sendRedirect("/admin/account/clubmanager/detail/" + managerID);
+            } else {
+                ManagerProfileDAO mDAO = new ManagerProfileDAO();
+                ManagerProfile newManager = new ManagerProfile(staffnumber, academiclevel, degree, experience, userProfileID);
+                ManagerProfile manager = mDAO.updateManagerProfileByUserProfileID(newManager, userProfileID);
+
+                session.setAttribute("editClubManager", "success");
+                response.sendRedirect("/admin/account/clubmanager/detail/" + managerID);
             }
         }
     }

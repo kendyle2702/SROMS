@@ -5,6 +5,7 @@
 
 package Controllers;
 
+import DAOs.ManagerProfileDAO;
 import DAOs.StudentProfileDAO;
 import DAOs.UserLoginDAO;
 import Models.Event;
@@ -52,10 +53,12 @@ public class AdminController extends HttpServlet {
               session.setAttribute("tabId", 5);
               request.getRequestDispatcher("/admin.jsp").forward(request, response);
            }
+           
            else if(path.endsWith("/admin/account/clubmanager")){
               session.setAttribute("tabId", 6);
               request.getRequestDispatcher("/admin.jsp").forward(request, response);
            }
+           
            else if(path.endsWith("/admin/account/clubmanager/create")){
               session.setAttribute("tabId", 7);
               request.getRequestDispatcher("/admin.jsp").forward(request, response);
@@ -96,6 +99,63 @@ public class AdminController extends HttpServlet {
               userLogin.unblockAccount(id);
               response.sendRedirect("/admin/account/student/detail/"+studentID);
            }
+           else if(path.startsWith("/admin/account/eventmanager/detail/")){
+              String[] idArray = path.split("/");
+              int id = Integer.parseInt(idArray[idArray.length - 1]);
+              
+              ManagerProfileDAO mProfileDAO = new ManagerProfileDAO();
+              ResultSet rsEvent = mProfileDAO.getManagerProfileMoreByID(id);
+              
+              session.setAttribute("rsEventManager", rsEvent);
+              session.setAttribute("rsEventManagerID", id);
+              session.setAttribute("tabId", 11);
+              request.getRequestDispatcher("/admin.jsp").forward(request, response);
+           }
+           else if(path.startsWith("/admin/account/eventmanager/block/")){
+              String[] idArray = path.split("/");
+              int id = Integer.parseInt(idArray[idArray.length - 1]);
+              
+              UserLoginDAO userLogin = new UserLoginDAO();
+              int eventmanagerID = userLogin.getManageProfileIDByUserProfileID(id);
+              userLogin.blockAccount(id);
+              response.sendRedirect("/admin/account/eventmanager/detail/"+eventmanagerID);
+           }else if(path.startsWith("/admin/account/eventmanager/unblock/")){
+              String[] idArray = path.split("/");
+              int id = Integer.parseInt(idArray[idArray.length - 1]);
+              UserLoginDAO userLogin = new UserLoginDAO();
+              int eventmanagerID = userLogin.getManageProfileIDByUserProfileID(id);
+              userLogin.unblockAccount(id);
+              response.sendRedirect("/admin/account/eventmanager/detail/"+eventmanagerID);
+           }
+           else if(path.startsWith("/admin/account/clubmanager/detail/")){
+              String[] idArray = path.split("/");
+              int id = Integer.parseInt(idArray[idArray.length - 1]);
+              
+              ManagerProfileDAO mProfileDAO = new ManagerProfileDAO();
+              ResultSet rsEvent = mProfileDAO.getManagerProfileMoreByID(id);
+              
+              session.setAttribute("rsClubManager", rsEvent);
+              session.setAttribute("rsClubManagerID", id);
+              session.setAttribute("tabId", 12);
+              request.getRequestDispatcher("/admin.jsp").forward(request, response);
+           }
+            else if(path.startsWith("/admin/account/clubmanager/block/")){
+              String[] idArray = path.split("/");
+              int id = Integer.parseInt(idArray[idArray.length - 1]);
+              
+              UserLoginDAO userLogin = new UserLoginDAO();
+              int clubmanagerID = userLogin.getManageProfileIDByUserProfileID(id);
+              userLogin.blockAccount(id);
+              response.sendRedirect("/admin/account/clubmanager/detail/"+clubmanagerID);
+           }else if(path.startsWith("/admin/account/clubmanager/unblock/")){
+              String[] idArray = path.split("/");
+              int id = Integer.parseInt(idArray[idArray.length - 1]);
+              UserLoginDAO userLogin = new UserLoginDAO();
+              int clubmanagerID = userLogin.getManageProfileIDByUserProfileID(id);
+              userLogin.unblockAccount(id);
+              response.sendRedirect("/admin/account/clubmanager/detail/"+clubmanagerID);
+           }
+           
        }
     } 
 
