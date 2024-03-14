@@ -137,6 +137,7 @@
                                 
                                 <input type="hidden" name="editEventManager" value="editEventManager">
                                 <input type="hidden" name="rsEventManagerID" value="<%=session.getAttribute("rsEventManagerID")%>">
+                                <input type="hidden" name="avatar_old" value="<%=rsEvent.getString("Avatar")%>">
                                 <div class="col-12">
                                     <div class="student-submit">
                                         <button style="background: #ea7127;border-color:#ea7127" type="submit" class="btn btn-primary">Update</button>

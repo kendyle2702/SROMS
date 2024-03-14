@@ -137,6 +137,7 @@
                                 
                                 <input type="hidden" name="editStudent" value="editStudent">
                                 <input type="hidden" name="rsStudentID" value="<%=session.getAttribute("rsStudentID")%>">
+                                <input type="hidden" name="avatar_old" value="<%=rsStudent.getString("Avatar")%>">
                                 <div class="col-12">
                                     <div class="student-submit">
                                         <button style="background: #ea7127;border-color:#ea7127" type="submit" class="btn btn-primary">Update</button>

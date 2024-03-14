@@ -56,6 +56,16 @@
                 <li class="<%=(session.getAttribute("tabId").equals(16))||(session.getAttribute("tabId").equals(17)) ? "active" : ""%>">
                     <a href="/admin/events"><i class="fas fa-calendar-day"></i><span>Check Request Events</span></a>
                 </li>
+                <li class="menu-title">
+                    <span>Score Management</span>
+                </li>
+                <li class="submenu ">
+                    <a href="#"><i class="feather-clipboard"></i> <span class="title">Score Statistics</span> <span class="menu-arrow"></span></a>
+                    <ul>
+                        <li><a href="/admin/score/student" class="">Student</a></li>
+                        <li><a href="/admin/score/club" class="">Club</a></li>
+                    </ul>
+                </li>
             </ul>
         </div>
     </div>

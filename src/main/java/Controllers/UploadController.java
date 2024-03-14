@@ -59,11 +59,12 @@ public class UploadController extends HttpServlet {
             Date birthdate = Date.valueOf(request.getParameter("birthdate"));
             String address = request.getParameter("address");
             String phone = request.getParameter("phone");
+                
 
             String avatar = "";
             Part part = request.getPart("avatar");
             if (Paths.get(part.getSubmittedFileName()).toString().isEmpty()) {
-                avatar = userProfile.getAvatar();
+                avatar = userProfile.getAvatar();//
             } else {
                 try {
                     String realPath = request.getServletContext().getRealPath("/assets/img/avatar");
@@ -144,7 +145,6 @@ public class UploadController extends HttpServlet {
                 response.sendRedirect("/admin/account/student");
             }
         } else if (request.getParameter("editStudent") != null) {
-
             int studentID = Integer.parseInt(request.getParameter("rsStudentID"));
             String firstName = request.getParameter("firstname");
             String lastName = request.getParameter("lastname");
@@ -158,11 +158,12 @@ public class UploadController extends HttpServlet {
             String memberCode = request.getParameter("membercode");
             String major = request.getParameter("major");
             String mode = request.getParameter("mode");
+            String avatarOld = request.getParameter("avatar_old");
 
             String avatar = "";
             Part part = request.getPart("avatar");
             if (Paths.get(part.getSubmittedFileName()).toString().isEmpty()) {
-                avatar = userProfile.getAvatar();
+                avatar = avatarOld;
             } else {
                 try {
                     String realPath = request.getServletContext().getRealPath("/assets/img/avatar");
@@ -205,7 +206,8 @@ public class UploadController extends HttpServlet {
             String academiclevel = request.getParameter("academiclevel");
             String degree = request.getParameter("degree");
             String exprience = request.getParameter("exprience");
-
+            
+            
             java.util.Date currentDate = new java.util.Date();
             Timestamp currentTime = new Timestamp(currentDate.getTime());
 
@@ -263,11 +265,12 @@ public class UploadController extends HttpServlet {
             String academiclevel = request.getParameter("academiclevel");
             String degree = request.getParameter("degree");
             String experience = request.getParameter("experience");
-
+            String avatarOld = request.getParameter("avatar_old");
+            
             String avatar = "";
             Part part = request.getPart("avatar");
             if (Paths.get(part.getSubmittedFileName()).toString().isEmpty()) {
-                avatar = userProfile.getAvatar();
+                avatar = avatarOld;
             } else {
                 try {
                     String realPath = request.getServletContext().getRealPath("/assets/img/avatar");
@@ -368,11 +371,12 @@ public class UploadController extends HttpServlet {
             String academiclevel = request.getParameter("academiclevel");
             String degree = request.getParameter("degree");
             String experience = request.getParameter("experience");
-
+            String avatarOld = request.getParameter("avatar_old");
+            
             String avatar = "";
             Part part = request.getPart("avatar");
             if (Paths.get(part.getSubmittedFileName()).toString().isEmpty()) {
-                avatar = userProfile.getAvatar();
+                avatar = avatarOld;
             } else {
                 try {
                     String realPath = request.getServletContext().getRealPath("/assets/img/avatar");
