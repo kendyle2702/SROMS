@@ -125,16 +125,27 @@ public class AdminController extends HttpServlet {
                 request.getRequestDispatcher("/admin.jsp").forward(request, response);
             }
             else if (path.startsWith("/admin/events/detail/")) {
-                String[] idArray = path.split("/");
-                int id = Integer.parseInt(idArray[idArray.length - 1]);
-
-                StudentProfileDAO stProfileDAO = new StudentProfileDAO();
-                ResultSet rsStudent = stProfileDAO.getStudentProfileMoreByID(id);
-
-                session.setAttribute("rsStudent", rsStudent);
-                session.setAttribute("rsStudentID", id);
-                session.setAttribute("tabId", 10);
-                request.getRequestDispatcher("/admin.jsp").forward(request, response);
+                try {
+                    String[] idArray = path.split("/");
+                    int id = Integer.parseInt(idArray[idArray.length - 1]);
+                    EventDAO eventManagerDAO = new EventDAO();
+                    Event event = eventManagerDAO.getEvent(id);
+                    String idNumber = "";
+                    if(event.getCreatedBy().equals("Event Manager")){
+                        idNumber = eventManagerDAO.getNameManagerCreateEventByID(id);
+                    }
+                    else{
+                        idNumber = eventManagerDAO.getNameStudentCreateEventByID(id);
+                    }
+                    String eventCategoryName = eventManagerDAO.getEventCategoryByID(id);
+                    session.setAttribute("idNumber",idNumber);
+                    session.setAttribute("eventCategoryName",eventCategoryName);
+                    session.setAttribute("event", event);
+                    session.setAttribute("tabId", 17);
+                    request.getRequestDispatcher("/admin.jsp").forward(request, response);
+                } catch (SQLException ex) {
+                    Logger.getLogger(AdminController.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }else if(path.startsWith("/admin/account/eventmanager/detail/")){
               String[] idArray = path.split("/");
               int id = Integer.parseInt(idArray[idArray.length - 1]);
@@ -191,6 +202,22 @@ public class AdminController extends HttpServlet {
               userLogin.unblockAccount(id);
               response.sendRedirect("/admin/account/clubmanager/detail/"+clubmanagerID);
            }
+           else if(path.startsWith("/admin/events/accept/")){
+              String[] idArray = path.split("/");
+              int id = Integer.parseInt(idArray[idArray.length - 1]);
+              
+              EventDAO eventDAO = new EventDAO();
+              eventDAO.approveEventByAdmin(id);
+              response.sendRedirect("/admin/events/detail/"+id);
+           } 
+           else if(path.startsWith("/admin/events/decline/")){
+              String[] idArray = path.split("/");
+              int id = Integer.parseInt(idArray[idArray.length - 1]);
+              
+              EventDAO eventDAO = new EventDAO();
+              eventDAO.declineEventByAdmin(id);
+              response.sendRedirect("/admin/events/detail/"+id);
+           } 
             
         }
     }

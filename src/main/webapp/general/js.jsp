@@ -69,8 +69,7 @@
 </script>
 <!--Edit Profile alert-->
 <script>
-    <%
-        String editStatus = (String) session.getAttribute("editStatus");
+    <%        String editStatus = (String) session.getAttribute("editStatus");
         if (editStatus != null) {
             if (editStatus.equals("success")) {
     %>

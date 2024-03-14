@@ -7,11 +7,23 @@
 
 <div class="page-wrapper">
     <div class="content container-fluid">
+        <div class="page-header">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="page-sub-header">
+                        <h3 class="page-title">Events</h3>
+                        <ul class="breadcrumb">
+                            <li class="breadcrumb-item active">Check Request Events</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
         <div class="row">
             <div class="col-xl-12 d-flex">
                 <div class="card flex-fill student-space comman-shadow">
                     <div class="card-header d-flex align-items-center">
-                        <h5 class="card-title">Event List</h5>
+                        <h5 class="page-title">Event List</h5>
                         <ul class="chart-list-out student-ellips">
                             <li class="star-menus"><a href="javascript:;"><i class="fas fa-ellipsis-v"></i></a></li>
                         </ul>
@@ -23,44 +35,46 @@
                                     <tr>
                                         <th class="text-center">No.</th>                                       
                                         <th style="width: 50px;" class="text-center">Name</th>
-                                        <th class="text-center">Hold Time</th>
+                                        <th class="text-center">Start Time</th>
                                         <th class="text-center">Organization</th>                                         
-                                        <th class="text-center">Location</th>
                                         <th class="text-center">Status</th>       
-                                        <th class="text-center"></th> 
+                                        <th class="text-center">Action</th> 
                                     </tr>
                                 </thead>
                                 <tbody>
                                 <c:if test="${not empty sessionScope.listEvent}">
                                     <c:forEach items="${sessionScope.listEvent}" var="liste" varStatus="count">
+                                        <%
+                                            EventDAO dao = new EventDAO();
+                                            List<Event> events = dao.eventList();
+
+                                            Calendar calen = Calendar.getInstance();
+
+                                            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH-mm-ss");
+                                            Timestamp currentDateTime = new Timestamp(calen.getTimeInMillis());
+                                            String currentDateTimeString = format.format(currentDateTime);
+                                            session.setAttribute("currentTime", currentDateTimeString);
+                                        %>
                                         <tr>
                                             <td class="">${count.index+1}</td>
                                             <td style="width: 50px;" class="">${liste.getEventName()}</td>
-                                            <td class="">${liste.getHoldTime()}</td><!-- comment -->
-                                            <td class="">${liste.getOrganization()}</td>                                                         
-                                            <td class="">${liste.getLocation()}</td>
-                                            <%
-                                                EventDAO dao = new EventDAO();
-                                                List<Event> events = dao.eventList();
-
-                                                Calendar calen = Calendar.getInstance();
-                                                SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH-mm-ss");
-                                                Timestamp currentDateTime = new Timestamp(calen.getTimeInMillis());
-                                                String currentDateTimeString = format.format(currentDateTime);
-                                                session.setAttribute("currentTime", currentDateTimeString);
-                                            %>
+                                            <td class="">
+                                       
+                                        ${liste.getHoldTime()}
+                                        </td>
+                                        <td class="">${liste.getOrganization()}</td>                                                         
                                         <c:choose>
-                                            <c:when test="${sessionScope.currentTime <= liste.getEndTime() && liste.getApprove() eq 'AA'}">
-                                                <td class="">Happening</td>
+                                            <c:when test="${liste.getApprove() eq 'DL'}">
+                                                <td class=""><button class="btn btn-danger btn-sm btn-rounded">Decline</button></td>
                                             </c:when>
-                                            <c:when test="${sessionScope.currentTime > liste.getEndTime() && liste.getApprove() eq 'AA'}">
-                                                <td class="">Finished</td>
+                                            <c:when test="${liste.getApprove() eq 'AA'}">
+                                                <td class=""><button class="btn btn-primary btn-sm btn-rounded">Accept</button></td>
                                             </c:when>
                                             <c:otherwise>
-                                                <td class="">Waiting Accept</td>
+                                                <td class=""><button class="btn btn-success btn-sm btn-rounded">Waiting Accept</button></td>
                                             </c:otherwise>
                                         </c:choose>                               
-                                        <td><a style="background: #ea7127;border-color:#ea7127;" href="/admin/events/detail/${liste.getEventID()}" type="button" class="mb-2 mr-2 btn btn-outline-organ text-white" style="background-color: #ea7127; border-color: #ea7127;">
+                                        <td><a href="/admin/events/detail/${liste.getEventID()}" type="button" class="mb-2 mr-2 btn-icon btn-pill btn btn-outline-warning"  style="background:#ea7127 ;border-color: #ea7127;color:white;"">
                                                 <i class="feather-edit-3"></i>Detail</a></td>
                                         </tr>
                                     </c:forEach>

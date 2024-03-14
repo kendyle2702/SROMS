@@ -396,3 +396,40 @@
         session.removeAttribute("editClubManager");
     %>
 </script>
+
+<!--Check request Events-->
+<script>
+    document.querySelector("#acceptEventByAdmin").addEventListener("click", function (event) {
+        event.preventDefault();
+        Swal.fire({
+            title: "Are you sure?",
+            text: "Are you sure to accept the event?",
+            icon: "question",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Yes, accept it!"
+        }).then((result) => {
+            if (result.isConfirmed) {
+                window.location.href = document.querySelector("#acceptEventByAdmin").href;
+            }
+        });
+    });
+
+    document.querySelector("#declineEventByAdmin").addEventListener("click", function (event) {
+        event.preventDefault();
+        Swal.fire({
+            title: "Are you sure?",
+            text: "Do you want to decline the event?",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Yes, decline it!"
+        }).then((result) => {
+            if (result.isConfirmed) {
+                window.location.href = document.querySelector("#declineEventByAdmin").href;
+            }
+        });
+    });
+</script>

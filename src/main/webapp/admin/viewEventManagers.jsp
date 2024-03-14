@@ -62,7 +62,7 @@
                                         <td><%=rs.getString("Username")%></td>
                                         <td><%=rs.getString("AcademicLevel")%></td>
                                         <td><%=rs.getBoolean("IsActive") == true ? "<button class=\"btn btn-primary btn-sm btn-rounded\">Active</button>" : "<button class=\"btn btn-danger btn-sm btn-rounded\">Blocked</button>"%></td>
-                                        <td><a href="/admin/account/eventmanager/detail/<%=rs.getInt("ManagerProfileID")%>"><button class="mb-2 mr-2 btn-icon btn-pill btn btn-outline-primary"><i class="feather-edit-3"></i>Detail</button></a></td>
+                                        <td><a href="/admin/account/eventmanager/detail/<%=rs.getInt("ManagerProfileID")%>"><button  style="background:#ea7127 ;border-color: #ea7127;color:white;" class="mb-2 mr-2 btn-icon btn-pill btn btn-outline-primary"><i class="feather-edit-3"></i>Detail</button></a></td>
                                     </tr>
                                     <%}
                                     %>

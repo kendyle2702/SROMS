@@ -53,7 +53,7 @@
                 <li class="menu-title">
                     <span>Events Management</span>
                 </li>
-                <li class="<%=(session.getAttribute("tabId").equals(16)) ? "active" : ""%>">
+                <li class="<%=(session.getAttribute("tabId").equals(16))||(session.getAttribute("tabId").equals(17)) ? "active" : ""%>">
                     <a href="/admin/events"><i class="fas fa-calendar-day"></i><span>Check Request Events</span></a>
                 </li>
             </ul>
