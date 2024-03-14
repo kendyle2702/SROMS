@@ -59,11 +59,11 @@
                 <li class="menu-title">
                     <span>Score Management</span>
                 </li>
-                <li class="submenu ">
+                <li class="submenu <%=(session.getAttribute("tabId").equals(18))||(session.getAttribute("tabId").equals(19)) ? "active" : ""%>">
                     <a href="#"><i class="feather-clipboard"></i> <span class="title">Score Statistics</span> <span class="menu-arrow"></span></a>
                     <ul>
-                        <li><a href="/admin/score/student" class="">Student</a></li>
-                        <li><a href="/admin/score/club" class="">Club</a></li>
+                        <li><a href="/admin/score/student" class="<%=(session.getAttribute("tabId").equals(18)?"active subdrop":"")%>">Student</a></li>
+                        <li><a href="/admin/score/club" class="<%=(session.getAttribute("tabId").equals(19)?"active subdrop":"")%>">Club</a></li>
                     </ul>
                 </li>
             </ul>

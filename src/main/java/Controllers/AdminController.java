@@ -106,14 +106,13 @@ public class AdminController extends HttpServlet {
             } else if (path.startsWith("/admin/news/detail/")) {
                 String[] idArray = path.split("/");
                 int id = Integer.parseInt(idArray[idArray.length - 1]);
-                
+
                 NewsDAO newsDAO = new NewsDAO();
                 ResultSet rsNews = newsDAO.getAllNewsMoreByID(id);
                 session.setAttribute("rsNews", rsNews);
                 session.setAttribute("tabId", 15);
                 request.getRequestDispatcher("/admin.jsp").forward(request, response);
-            }
-            else if (path.endsWith("/admin/events")) {
+            } else if (path.endsWith("/admin/events")) {
                 EventDAO eventManagerDAO = new EventDAO();
                 try {
                     List<Event> listE = eventManagerDAO.eventList();
@@ -123,154 +122,151 @@ public class AdminController extends HttpServlet {
                 }
                 session.setAttribute("tabId", 16);
                 request.getRequestDispatcher("/admin.jsp").forward(request, response);
-            }
-            else if (path.startsWith("/admin/events/detail/")) {
+            } else if (path.startsWith("/admin/events/detail/")) {
                 try {
                     String[] idArray = path.split("/");
                     int id = Integer.parseInt(idArray[idArray.length - 1]);
                     EventDAO eventManagerDAO = new EventDAO();
                     Event event = eventManagerDAO.getEvent(id);
                     String idNumber = "";
-                    if(event.getCreatedBy().equals("Event Manager")){
+                    if (event.getCreatedBy().equals("Event Manager")) {
                         idNumber = eventManagerDAO.getNameManagerCreateEventByID(id);
-                    }
-                    else{
+                    } else {
                         idNumber = eventManagerDAO.getNameStudentCreateEventByID(id);
                     }
                     String eventCategoryName = eventManagerDAO.getEventCategoryByID(id);
-                    session.setAttribute("idNumber",idNumber);
-                    session.setAttribute("eventCategoryName",eventCategoryName);
+                    session.setAttribute("idNumber", idNumber);
+                    session.setAttribute("eventCategoryName", eventCategoryName);
                     session.setAttribute("event", event);
                     session.setAttribute("tabId", 17);
                     request.getRequestDispatcher("/admin.jsp").forward(request, response);
                 } catch (SQLException ex) {
                     Logger.getLogger(AdminController.class.getName()).log(Level.SEVERE, null, ex);
                 }
-            }else if(path.startsWith("/admin/account/eventmanager/detail/")){
-              String[] idArray = path.split("/");
-              int id = Integer.parseInt(idArray[idArray.length - 1]);
-              
-              ManagerProfileDAO mProfileDAO = new ManagerProfileDAO();
-              ResultSet rsEvent = mProfileDAO.getManagerProfileMoreByID(id);
-              
-              session.setAttribute("rsEventManager", rsEvent);
-              session.setAttribute("rsEventManagerID", id);
-              session.setAttribute("tabId", 11);
-              request.getRequestDispatcher("/admin.jsp").forward(request, response);
-           }
-           else if(path.startsWith("/admin/account/eventmanager/block/")){
-              String[] idArray = path.split("/");
-              int id = Integer.parseInt(idArray[idArray.length - 1]);
-              
-              UserLoginDAO userLogin = new UserLoginDAO();
-              int eventmanagerID = userLogin.getManageProfileIDByUserProfileID(id);
-              userLogin.blockAccount(id);
-              response.sendRedirect("/admin/account/eventmanager/detail/"+eventmanagerID);
-           }else if(path.startsWith("/admin/account/eventmanager/unblock/")){
-              String[] idArray = path.split("/");
-              int id = Integer.parseInt(idArray[idArray.length - 1]);
-              UserLoginDAO userLogin = new UserLoginDAO();
-              int eventmanagerID = userLogin.getManageProfileIDByUserProfileID(id);
-              userLogin.unblockAccount(id);
-              response.sendRedirect("/admin/account/eventmanager/detail/"+eventmanagerID);
-           }
-           else if(path.startsWith("/admin/account/clubmanager/detail/")){
-              String[] idArray = path.split("/");
-              int id = Integer.parseInt(idArray[idArray.length - 1]);
-              
-              ManagerProfileDAO mProfileDAO = new ManagerProfileDAO();
-              ResultSet rsEvent = mProfileDAO.getManagerProfileMoreByID(id);
-              
-              session.setAttribute("rsClubManager", rsEvent);
-              session.setAttribute("rsClubManagerID", id);
-              session.setAttribute("tabId", 12);
-              request.getRequestDispatcher("/admin.jsp").forward(request, response);
-           }
-            else if(path.startsWith("/admin/account/clubmanager/block/")){
-              String[] idArray = path.split("/");
-              int id = Integer.parseInt(idArray[idArray.length - 1]);
-              
-              UserLoginDAO userLogin = new UserLoginDAO();
-              int clubmanagerID = userLogin.getManageProfileIDByUserProfileID(id);
-              userLogin.blockAccount(id);
-              response.sendRedirect("/admin/account/clubmanager/detail/"+clubmanagerID);
-           }else if(path.startsWith("/admin/account/clubmanager/unblock/")){
-              String[] idArray = path.split("/");
-              int id = Integer.parseInt(idArray[idArray.length - 1]);
-              UserLoginDAO userLogin = new UserLoginDAO();
-              int clubmanagerID = userLogin.getManageProfileIDByUserProfileID(id);
-              userLogin.unblockAccount(id);
-              response.sendRedirect("/admin/account/clubmanager/detail/"+clubmanagerID);
-           }
-           else if(path.startsWith("/admin/events/accept/")){
-              String[] idArray = path.split("/");
-              int id = Integer.parseInt(idArray[idArray.length - 1]);
-              
-              EventDAO eventDAO = new EventDAO();
-              eventDAO.approveEventByAdmin(id);
-              response.sendRedirect("/admin/events/detail/"+id);
-           } 
-           else if(path.startsWith("/admin/events/decline/")){
-              String[] idArray = path.split("/");
-              int id = Integer.parseInt(idArray[idArray.length - 1]);
-              
-              EventDAO eventDAO = new EventDAO();
-              eventDAO.declineEventByAdmin(id);
-              response.sendRedirect("/admin/events/detail/"+id);
-           } 
-            else if (path.endsWith("/admin/news")) {
-                session.setAttribute("tabId", 13);
+            } else if (path.startsWith("/admin/account/eventmanager/detail/")) {
+                String[] idArray = path.split("/");
+                int id = Integer.parseInt(idArray[idArray.length - 1]);
+
+                ManagerProfileDAO mProfileDAO = new ManagerProfileDAO();
+                ResultSet rsEvent = mProfileDAO.getManagerProfileMoreByID(id);
+
+                session.setAttribute("rsEventManager", rsEvent);
+                session.setAttribute("rsEventManagerID", id);
+                session.setAttribute("tabId", 11);
+                request.getRequestDispatcher("/admin.jsp").forward(request, response);
+            } else if (path.startsWith("/admin/account/eventmanager/block/")) {
+                String[] idArray = path.split("/");
+                int id = Integer.parseInt(idArray[idArray.length - 1]);
+
+                UserLoginDAO userLogin = new UserLoginDAO();
+                int eventmanagerID = userLogin.getManageProfileIDByUserProfileID(id);
+                userLogin.blockAccount(id);
+                response.sendRedirect("/admin/account/eventmanager/detail/" + eventmanagerID);
+            } else if (path.startsWith("/admin/account/eventmanager/unblock/")) {
+                String[] idArray = path.split("/");
+                int id = Integer.parseInt(idArray[idArray.length - 1]);
+                UserLoginDAO userLogin = new UserLoginDAO();
+                int eventmanagerID = userLogin.getManageProfileIDByUserProfileID(id);
+                userLogin.unblockAccount(id);
+                response.sendRedirect("/admin/account/eventmanager/detail/" + eventmanagerID);
+            } else if (path.startsWith("/admin/account/clubmanager/detail/")) {
+                String[] idArray = path.split("/");
+                int id = Integer.parseInt(idArray[idArray.length - 1]);
+
+                ManagerProfileDAO mProfileDAO = new ManagerProfileDAO();
+                ResultSet rsEvent = mProfileDAO.getManagerProfileMoreByID(id);
+
+                session.setAttribute("rsClubManager", rsEvent);
+                session.setAttribute("rsClubManagerID", id);
+                session.setAttribute("tabId", 12);
+                request.getRequestDispatcher("/admin.jsp").forward(request, response);
+            } else if (path.startsWith("/admin/account/clubmanager/block/")) {
+                String[] idArray = path.split("/");
+                int id = Integer.parseInt(idArray[idArray.length - 1]);
+
+                UserLoginDAO userLogin = new UserLoginDAO();
+                int clubmanagerID = userLogin.getManageProfileIDByUserProfileID(id);
+                userLogin.blockAccount(id);
+                response.sendRedirect("/admin/account/clubmanager/detail/" + clubmanagerID);
+            } else if (path.startsWith("/admin/account/clubmanager/unblock/")) {
+                String[] idArray = path.split("/");
+                int id = Integer.parseInt(idArray[idArray.length - 1]);
+                UserLoginDAO userLogin = new UserLoginDAO();
+                int clubmanagerID = userLogin.getManageProfileIDByUserProfileID(id);
+                userLogin.unblockAccount(id);
+                response.sendRedirect("/admin/account/clubmanager/detail/" + clubmanagerID);
+            } else if (path.startsWith("/admin/events/accept/")) {
+                String[] idArray = path.split("/");
+                int id = Integer.parseInt(idArray[idArray.length - 1]);
+
+                EventDAO eventDAO = new EventDAO();
+                eventDAO.approveEventByAdmin(id);
+                response.sendRedirect("/admin/events/detail/" + id);
+            } else if (path.startsWith("/admin/events/decline/")) {
+                String[] idArray = path.split("/");
+                int id = Integer.parseInt(idArray[idArray.length - 1]);
+
+                EventDAO eventDAO = new EventDAO();
+                eventDAO.declineEventByAdmin(id);
+                response.sendRedirect("/admin/events/detail/" + id);
+            } 
+            else if (path.endsWith("/admin/score/student")) {
+                
+                
+                
+                session.setAttribute("tabId", 18);
+                request.getRequestDispatcher("/admin.jsp").forward(request, response);
+            }
+            else if (path.endsWith("/admin/score/club")) {
+                session.setAttribute("tabId", 19);
                 request.getRequestDispatcher("/admin.jsp").forward(request, response);
             }
         }
     }
-    
+
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         HttpSession session = request.getSession();
-        UserProfile user = (UserProfile)session.getAttribute("user");
+        UserProfile user = (UserProfile) session.getAttribute("user");
         String role = (String) session.getAttribute("role");
-        
-        if(request.getParameter("createNews")!=null){
+
+        if (request.getParameter("createNews") != null) {
             String title = request.getParameter("title");
             String content = request.getParameter("content");
-            
+
             java.util.Date currentDate = new java.util.Date();
             Date currentTime = new Date(currentDate.getTime());
-            
-            AdminProfileDAO adminProfileDAO  = new AdminProfileDAO();
+
+            AdminProfileDAO adminProfileDAO = new AdminProfileDAO();
             AdminProfile adminProfile = adminProfileDAO.getAdminProfileByEmail(user.getEmail());
-            
+
             NewsDAO newsDAO = new NewsDAO();
-            
-            News newNews = new News(0,title, content, currentTime, adminProfile.getAdminProfileID());
+
+            News newNews = new News(0, title, content, currentTime, adminProfile.getAdminProfileID());
             News news = newsDAO.addNews(newNews);
-            if(news==null){
+            if (news == null) {
                 session.setAttribute("createNews", "fail");
                 response.sendRedirect("/admin/news/create");
-            }
-            else{
+            } else {
                 session.setAttribute("createNews", "success");
                 response.sendRedirect("/admin/news");
             }
-        }
-        else if(request.getParameter("editNews")!=null){
+        } else if (request.getParameter("editNews") != null) {
             String title = request.getParameter("title");
             String content = request.getParameter("content");
             int newsID = Integer.parseInt(request.getParameter("newsID"));
-            
+
             NewsDAO newsDAO = new NewsDAO();
-            
-            News newNews = new News(newsID,title, content, null, 0);
+
+            News newNews = new News(newsID, title, content, null, 0);
             News news = newsDAO.updateNews(newNews);
-            if(news==null){
+            if (news == null) {
                 session.setAttribute("editNews", "fail");
-                response.sendRedirect("/admin/news/detail/"+newsID);
-            }
-            else{
+                response.sendRedirect("/admin/news/detail/" + newsID);
+            } else {
                 session.setAttribute("editNews", "success");
-                response.sendRedirect("/admin/news/detail/"+ newsID);
+                response.sendRedirect("/admin/news/detail/" + newsID);
             }
         }
     }

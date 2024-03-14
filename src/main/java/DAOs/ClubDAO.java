@@ -17,6 +17,7 @@ public class ClubDAO {
 
     private Connection conn;
     private PreparedStatement ps = null;
+
     public ClubDAO() {
         try {
             conn = DB.DBConnection.connect();
@@ -151,6 +152,7 @@ public class ClubDAO {
         }
         return listC;
     }
+
     public String getSemesterNameByClubID(int clubID, int studentProfileID) {
         String semesterName = null;
         try {
@@ -232,5 +234,39 @@ public class ClubDAO {
         ps.setInt(5, clubMember.getClubPoint());
         ps.setString(6, clubMember.getReport());
         ps.executeUpdate();
+    }
+
+    public int getClubsScoreByStudentIDAndSemesterID(int studentID, int semesterID) {
+        int score = 0;
+        try {
+            PreparedStatement ps = conn.prepareStatement("select StudentProfileID, sum(ClubPoint) as Total from ClubMember where SemesterID = ? group by StudentProfileID\n"
+                    + "  having StudentProfileID = ?");
+            ps.setInt(1, semesterID);
+            ps.setInt(2, studentID);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                score = rs.getInt("Total");
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(ClubDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return score;
+    }
+
+    public int countClubsByStudentIDAndSemesterID(int studentID, int semesterID) {
+        int count = 0;
+        try {
+            PreparedStatement ps = conn.prepareStatement("select StudentProfileID, count(ClubPoint) as Count from ClubMember where SemesterID = ? group by StudentProfileID\n"
+                    + "  having StudentProfileID = ?");
+            ps.setInt(1, semesterID);
+            ps.setInt(2, studentID);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                count = rs.getInt("Count");
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(ClubDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return count;
     }
 }

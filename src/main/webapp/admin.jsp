@@ -18,58 +18,64 @@
             <%@include file="./admin/sidebar.jsp"%>
             <c:choose>
                 <c:when test="${sessionScope.tabId == 1}">
-                   <%@include file="./general/profile.jsp" %>
+                    <%@include file="./general/profile.jsp" %>
                 </c:when>
                 <c:when test="${sessionScope.tabId == 2}">
-                   <%@include file="./general/editProfile.jsp" %>
+                    <%@include file="./general/editProfile.jsp" %>
                 </c:when>
                 <c:when test="${sessionScope.tabId == 3}">
-                   <%@include file="./admin/home.jsp" %>
+                    <%@include file="./admin/home.jsp" %>
                 </c:when>
                 <c:when test="${sessionScope.tabId == 4}">
-                   <%@include file="./admin/viewEventManagers.jsp" %>
+                    <%@include file="./admin/viewEventManagers.jsp" %>
                 </c:when>
                 <c:when test="${sessionScope.tabId == 5}">
-                   <%@include file="./admin/createEventManager.jsp" %>
+                    <%@include file="./admin/createEventManager.jsp" %>
                 </c:when>
                 <c:when test="${sessionScope.tabId == 6}">
-                   <%@include file="./admin/viewClubManagers.jsp" %>
+                    <%@include file="./admin/viewClubManagers.jsp" %>
                 </c:when>
                 <c:when test="${sessionScope.tabId == 7}">
-                   <%@include file="./admin/createClubManager.jsp" %>
+                    <%@include file="./admin/createClubManager.jsp" %>
                 </c:when>
                 <c:when test="${sessionScope.tabId == 8}">
-                   <%@include file="./admin/viewStudents.jsp" %>
+                    <%@include file="./admin/viewStudents.jsp" %>
                 </c:when>
                 <c:when test="${sessionScope.tabId == 9}">
-                   <%@include file="./admin/createStudent.jsp" %>
+                    <%@include file="./admin/createStudent.jsp" %>
                 </c:when>
                 <c:when test="${sessionScope.tabId == 10}">
-                   <%@include file="./admin/detailStudent.jsp" %>
+                    <%@include file="./admin/detailStudent.jsp" %>
                 </c:when>
                 <c:when test="${sessionScope.tabId == 11}">
-                   <%@include file="./admin/detailEventManager.jsp" %>
+                    <%@include file="./admin/detailEventManager.jsp" %>
                 </c:when>
                 <c:when test="${sessionScope.tabId == 12}">
-                   <%@include file="./admin/detailClubManager.jsp" %>
+                    <%@include file="./admin/detailClubManager.jsp" %>
                 </c:when>
                 <c:when test="${sessionScope.tabId == 13}">
-                   <%@include file="./admin/viewNews.jsp" %>
+                    <%@include file="./admin/viewNews.jsp" %>
                 </c:when>
                 <c:when test="${sessionScope.tabId == 14}">
-                   <%@include file="./admin/createNews.jsp" %>
+                    <%@include file="./admin/createNews.jsp" %>
                 </c:when>
                 <c:when test="${sessionScope.tabId == 15}">
-                   <%@include file="./admin/detailNews.jsp" %>
+                    <%@include file="./admin/detailNews.jsp" %>
                 </c:when>
                 <c:when test="${sessionScope.tabId == 16}">
-                   <%@include file="./admin/viewEvents.jsp" %>
+                    <%@include file="./admin/viewEvents.jsp" %>
                 </c:when>
                 <c:when test="${sessionScope.tabId == 17}">
                     <%@include file="./admin/detailEvent.jsp" %>
                 </c:when>
+                <c:when test="${sessionScope.tabId == 18}">
+                    <%@include file="./admin/studentScore.jsp" %>
+                </c:when>
+                <c:when test="${sessionScope.tabId == 19}">
+                    <%@include file="./admin/clubScore.jsp" %>
+                </c:when>
             </c:choose>
         </div>
-    <%@include file="./general/js.jsp" %>
+        <%@include file="./general/js.jsp" %>
     </body>
 </html>
