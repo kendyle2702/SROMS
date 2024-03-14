@@ -218,7 +218,10 @@ public class AdminController extends HttpServlet {
               eventDAO.declineEventByAdmin(id);
               response.sendRedirect("/admin/events/detail/"+id);
            } 
-            
+            else if (path.endsWith("/admin/news")) {
+                session.setAttribute("tabId", 13);
+                request.getRequestDispatcher("/admin.jsp").forward(request, response);
+            }
         }
     }
     
