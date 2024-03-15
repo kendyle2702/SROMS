@@ -173,10 +173,12 @@ public class UploadController extends HttpServlet {
             signUp = clubD.signUpClub(logo, clubName, establishDate, description, studentProfileID);
             if (signUp) {
                 session.setAttribute("signUpClub", "success");
+                response.sendRedirect("/student/clubs/view");
             } else {
                 session.setAttribute("signUpClub", "fail");
+                response.sendRedirect("/student/clubs/view");
             }
-            response.sendRedirect("/student/clubs/view");
+
         }
     }
 

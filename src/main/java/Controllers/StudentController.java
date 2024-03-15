@@ -114,7 +114,7 @@ public class StudentController extends HttpServlet {
                         request.getRequestDispatcher("/student.jsp").forward(request, response);
                     } else if (path.endsWith("/student/clubs/create")) {
                         session.setAttribute("studentProfileID", studentProfileID);
-                        
+
                         session.setAttribute("tabId", 10);
                         request.getRequestDispatcher("/student.jsp").forward(request, response);
                     } else if (path.startsWith("/student/clubs/viewClubMember/")) {
@@ -171,7 +171,7 @@ public class StudentController extends HttpServlet {
                         NewsDAO newsDAO = new NewsDAO();
                         News news = newsDAO.getNewsByID(id);
                         String name = newsDAO.getNameAuthor(id);
-                        
+
                         session.setAttribute("news", news);
                         session.setAttribute("name", name);
                         session.setAttribute("newsID", id);
@@ -218,10 +218,12 @@ public class StudentController extends HttpServlet {
 
                 if (isSuccess) {
                     session.setAttribute("joinEvent", "success");
+                    response.sendRedirect("/student/events/view");
                 } else {
                     session.setAttribute("joinEvent", "fail");
+                    response.sendRedirect("/student/events/view");
                 }
-                response.sendRedirect("/student/events/view");
+
             } else if (action.equals("Register")) {
                 int clubID = Integer.parseInt(request.getParameter("ClubID"));
 
@@ -245,10 +247,12 @@ public class StudentController extends HttpServlet {
                 boolean isRegister = clubDAO.registerStudentToClub(clubMember);
                 if (isRegister) {
                     session.setAttribute("registerClub", "success");
+                    response.sendRedirect("/student/clubs/view");
                 } else {
                     session.setAttribute("registerClub", "fail");
+                    response.sendRedirect("/student/clubs/view");
                 }
-                response.sendRedirect("/student/clubs/view");
+
             }
         } catch (SQLException ex) {
             Logger.getLogger(StudentController.class.getName()).log(Level.SEVERE, null, ex);
