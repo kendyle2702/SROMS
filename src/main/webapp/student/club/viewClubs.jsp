@@ -73,7 +73,7 @@
                                                                 <td>${club.clubName}</td>
                                                                 <td style="white-space: break-spaces;">${club.description}</td>
                                                                 <td class="text-center">
-                                                                    <a style="background: #ea7127;border-color:#ea7127" href="/student/clubs/detail/${club.clubID}" type="button" class="btn btn-primary">Detail</a>
+                                                                    <a style="background: #ea7127;border-color:#ea7127;" href="/student/clubs/detail/${club.clubID}" type="button" class="btn btn-primary">Detail</a>
                                                                 </td>
                                                             </tr>
                                                         </c:forEach>
@@ -107,8 +107,7 @@
                                                                 <th class="text-center">Name</th>
                                                                 <th class="text-center">Description</th>
                                                                 <th class="text-center">Establish Date</th>
-                                                                <th class="text-center">Detail</th> 
-                                                                <th></th>
+                                                                <th class="text-center">Detail</th>                                  
                                                             </tr>
                                                         </thead>
                                                         <tbody>
@@ -119,7 +118,7 @@
                                                                 <td style="white-space: break-spaces;">${clubM.getDescription()}</td>
                                                                 <td style="white-space: break-spaces;">${clubM.getEstablishDate()}</td>
                                                                 <td>
-                                                                    <a style="background: #ea7127;border-color:#ea7127" href="/student/clubs/viewClubMember/${clubM.clubID}/${studentProfileID}" class="btn btn-primary">View Member Club</a>
+                                                                    <a style="background: #ea7127;border-color:#ea7127;border-radius: 10px;" href="/student/clubs/viewClubMember/${clubM.clubID}" class="btn btn-primary">View Member Club</a>
                                                                 </td>
                                                             </tr>
                                                         </c:forEach>

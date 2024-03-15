@@ -37,7 +37,6 @@ public class StudentController extends HttpServlet {
         String role = (String) session.getAttribute("role");
         UserProfile userProfile = (UserProfile) session.getAttribute("user");
         String path = request.getRequestURI();
-
         if (role != null && role.equals("Student")) {
             try {
                 StudentProfileDAO studentProfileDAO = new StudentProfileDAO();
@@ -74,7 +73,6 @@ public class StudentController extends HttpServlet {
                     session.setAttribute("clubMembers", clubM);
                     session.setAttribute("listMyClub", listMyClub);
                     session.setAttribute("listEventStudent", listEventStudent);
-
                     session.setAttribute("tabId", 1);
                     request.getRequestDispatcher("/student.jsp").forward(request, response);
                 } else if (path.startsWith("/student/profile")) {
@@ -87,70 +85,71 @@ public class StudentController extends HttpServlet {
                     }
                 } else if (path.startsWith("/student/clubs")) {
                     if (path.endsWith("/student/clubs/view")) {
-
                         session.setAttribute("userProfile", userProfile);
                         session.setAttribute("studentProfileID", studentProfileID);
-
                         session.setAttribute("listClub", listC);
                         session.setAttribute("clubMembers", clubM);
                         session.setAttribute("listMyClub", listMyClub);
                         session.setAttribute("tabId", 4);
-
                         request.getRequestDispatcher("/student.jsp").forward(request, response);
                     } else if (path.startsWith("/student/clubs/detail")) {
                         String[] idArray = path.split("/");
-
                         int id = Integer.parseInt(idArray[idArray.length - 1]);
                         ResultSet rsStudent = studentProfileDAO.getStudentProfileMorebyEventID(id);
                         session.setAttribute("studentProfileID", studentProfileID);
                         session.setAttribute("rsStudent", rsStudent);
                         session.setAttribute("rsClubID", id);
-
                         Club club = clubDAO.getClub(id);
                         session.setAttribute("club", club);
                         session.setAttribute("tabId", 8);
                         request.getRequestDispatcher("/student.jsp").forward(request, response);
                     } else if (path.endsWith("/student/clubs/create")) {
-                        
                         session.setAttribute("tabId", 10);
                         request.getRequestDispatcher("/student.jsp").forward(request, response);
                     } else if (path.startsWith("/student/clubs/viewClubMember/")) {
                         String[] isArray = path.split("/");
-                        int studentProfileId = Integer.parseInt(isArray[isArray.length - 1]);
-                        int clubId = Integer.parseInt(isArray[isArray.length - 2]);
-                        List<Map<String, String>> listClubMember = clubDAO.getAllMembersClub(studentProfileId, clubId);
+                        int studentID = userLoginDAO.getStudentProfileIDByUserProfileID(userProfile.getUserProfileID());
+                        int clubId = Integer.parseInt(isArray[isArray.length - 1]);
+                        List<Map<String, String>> listClubMember = clubDAO.getAllMembersClub(studentID, clubId);
+                        Club club = clubDAO.getClub(clubId);
+                        String clubRole = clubDAO.getClubRoll(studentID);
+                        session.setAttribute("clubId", clubId);
+                        session.setAttribute("myClubInfo", club);
                         session.setAttribute("listClubMember", listClubMember);
+                        session.setAttribute("clubRole", clubRole);
                         session.setAttribute("tabId", 9);
                         request.getRequestDispatcher("/student.jsp").forward(request, response);
                     }
+                } else if (path.startsWith("/student/viewClubMember/detailMember/")) {
+                    String[] arrayStr = path.split("/");
+                    int studentId = Integer.parseInt(arrayStr[arrayStr.length - 1]);
+                    StudentProfileDAO stProfileDAO = new StudentProfileDAO();
+                    ResultSet rsStudent = stProfileDAO.getStudentProfileMoreByID(studentId);
+                    String clubRoleOfMember = clubDAO.getClubRoll(studentId);
+                    session.setAttribute("rsStudent", rsStudent);
+                    session.setAttribute("clubRoleOfMember", clubRoleOfMember);
+                    session.setAttribute("tabId", 11);
+                    request.getRequestDispatcher("/student.jsp").forward(request, response);
                 } else if (path.startsWith("/student/events")) {
                     if (path.endsWith("/student/events/view")) {
                         session.setAttribute("listEventStudent", listEventStudent);
-
                         session.setAttribute("userProfile", userProfile);
-
                         session.setAttribute("eventCategoryNames", eventCategoryNames);
                         session.setAttribute("listEvent", listE);
                         session.setAttribute("pertiList", pertiList);
-
                         session.setAttribute("tabId", 3);
                         request.getRequestDispatcher("/student.jsp").forward(request, response);
                     } else if (path.startsWith("/student/events/detail")) {
                         String[] idArray = path.split("/");
-
                         int id = Integer.parseInt(idArray[idArray.length - 1]);
-
                         ResultSet rsManager = managerProfileDAO.getManagerProfileMoreByEventID(id);
                         ResultSet rsStudent = studentProfileDAO.getStudentProfileMorebyEventID(id);
                         session.setAttribute("studentProfileID", studentProfileID);
-
                         session.setAttribute("rsManager", rsManager);
                         session.setAttribute("rsStudent", rsStudent);
                         session.setAttribute("rsEventID", id);
-
                         Event event = eventManagerDAO.getEvent(id);
                         session.setAttribute("event", event);
-
                         session.setAttribute("tabId", 7);
                         request.getRequestDispatcher("/student.jsp").forward(request, response);
                     } else if (path.endsWith("/student/events/register")) {
@@ -168,6 +167,23 @@ public class StudentController extends HttpServlet {
                     if (path.endsWith("/student/point/view")) {
                         request.getRequestDispatcher("/point.jsp").forward(request, response);
                     }
+                } else if (path.startsWith("/student/clubmember/deletemember/")) {
+                    String[] isArray = path.split("/");
+                    int clubId = Integer.parseInt(isArray[isArray.length - 1]);
+                    int studentId = Integer.parseInt(isArray[isArray.length - 2]);
+                    int count = clubDAO.deleteClubMember(studentId, clubId);
+                    if (count > 0) {
+                        session.setAttribute("checkDeleteMember", "success");
+                    } else {
+                        session.setAttribute("checkDeleteMember", "fail");
+                    }
+                    response.sendRedirect("/student/clubs/viewClubMember/" + clubId);
+                } else if (path.equals("/student/viewEventMyClub")) {
+                    int clubId = clubDAO.getMyClubId(studentProfileID);
+                    List<Map<String, String>> listEventMyClub = clubDAO.getListEventMyclub(clubId, studentProfileID);
+                    session.setAttribute("listEventMyClub", listEventMyClub);
+                    session.setAttribute("tabId", 12);
+                    request.getRequestDispatcher("/student.jsp").forward(request, response);
                 } else {
                     response.sendRedirect("/");
                 }
@@ -183,13 +199,13 @@ public class StudentController extends HttpServlet {
         HttpSession session = request.getSession();
         String action = request.getParameter("action");
         EventDAO eventDAO = new EventDAO();
+        String updateRoleMember = request.getParameter("updateRoleMember");
+        System.out.println("ABC");
         try {
-            if (action.equals("Join")) {
+            if (action != null && action.equals("Join")) {
                 int eventID = Integer.parseInt(request.getParameter("EventID"));
-
                 // Assuming you're storing the student's profile ID in the session when they log in or register
                 int studentProfileID = Integer.parseInt(request.getParameter("studentProfileID"));
-
                 String roleEvent = "Menber";
                 boolean isPresent = Boolean.TRUE;
                 String report = null;
@@ -207,8 +223,9 @@ public class StudentController extends HttpServlet {
                 } else {
                     session.setAttribute("joinEvent", "fail");
                 }
+
                 response.sendRedirect("/student/events/view");
-            } else if (action.equals("Register")) {
+            } else if (action != null && action.equals("Register")) {
                 int clubID = Integer.parseInt(request.getParameter("ClubID"));
 
                 int studentProfileID = Integer.parseInt(request.getParameter("studentProfileID"));
@@ -235,6 +252,24 @@ public class StudentController extends HttpServlet {
                     session.setAttribute("registerClub", "fail");
                 }
                 response.sendRedirect("/student/clubs/view");
+            } else if (updateRoleMember != null) {
+                String roleUpdate = request.getParameter("clubrole");
+                int studentProfileID = Integer.parseInt(request.getParameter("rsStudentID"));
+                ClubDAO clubDAO = new ClubDAO();
+                Club club = (Club) session.getAttribute("myClubInfo");
+                int clubID = club.getClubID();
+                int count = clubDAO.updateRoleMember(roleUpdate, studentProfileID, clubID);
+
+                if (count > 0) {
+                    session.setAttribute("updateRoleMemberClub", "success");
+                } else {
+                    session.setAttribute("updateRoleMemberClub", "fail");
+                }
+                UserLoginDAO userLoginDAO = new UserLoginDAO();
+                UserProfile userProfile = (UserProfile) session.getAttribute("user");
+                int studentID = userLoginDAO.getStudentProfileIDByUserProfileID(userProfile.getUserProfileID());
+                response.sendRedirect("/student/clubs/viewClubMember/" + clubID);
+
             }
         } catch (SQLException ex) {
             Logger.getLogger(StudentController.class.getName()).log(Level.SEVERE, null, ex);

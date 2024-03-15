@@ -20,6 +20,9 @@
                 <li class="<%=(session.getAttribute("tabId").equals(3)) ? "active" : ""%>">
                     <a href="/student/events/view" ><i class="feather-clipboard"></i> <span> View Event </span></a>
                 </li>
+                <li class="<%=(session.getAttribute("tabId").equals(12)) ? "active" : ""%>">
+                    <a href="/student/viewEventMyClub" ><i class="feather-clipboard"></i> <span>View Event My Club</span></a>
+                </li>
                 <li class="menu-title">
                     <span>Club</span>
                 </li>

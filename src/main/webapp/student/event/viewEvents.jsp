@@ -40,7 +40,6 @@
                         </li>
                     </ul>
                     <div class="tab-content">
-
                         <%
                             EventDAO dao = new EventDAO();
                             Calendar calen = Calendar.getInstance();

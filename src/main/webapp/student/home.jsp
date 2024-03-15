@@ -178,7 +178,7 @@
                                                                         </div>
                                                                     </td>
                                                                     <td>
-                                                                        <a href="/student/clubs/viewClubMember/${clubM.clubID}/${studentProfileID}" class="btn btn-primary">View Member Club</a>
+                                                                        <a style="background: #ea7127;border-color:#ea7127;border-radius: 10px;" href="/student/clubs/viewClubMember/${clubM.clubID}" class="btn btn-primary">View Member Club</a>
                                                                     </td>
                                                                 </tr>
                                                             </c:forEach>
@@ -260,7 +260,7 @@
                                                                 <td>${event.holdTime}</td>
                                                                 <td>${sessionScope.eventCategoryNames[event.eventID]}</td>
                                                                 <td class="text-center">
-                                                                    <a style="background: #ea7127;border-color:#ea7127" href="/student/events/detail/${event.eventID}" type="button" class="btn btn-primary">Detail</a>
+                                                                    <a style="background: #ea7127;border-color:#ea7127;border-radius: 10px;" href="/student/events/detail/${event.eventID}" type="button" class="btn btn-primary">Detail</a>
                                                                 </td>
                                                             </tr>
                                                         </c:if>
@@ -312,7 +312,7 @@
                                                                 <td>${event.holdTime}</td>
                                                                 <td>${sessionScope.eventCategoryNames[event.eventID]}</td>
                                                                 <td class="text-center">
-                                                                    <a style="background: #ea7127;border-color:#ea7127" href="/student/events/detail/${event.eventID}" type="button" class="btn btn-primary">Detail</a>
+                                                                    <a style="background: #ea7127;border-color:#ea7127;border-radius: 10px;" href="/student/events/detail/${event.eventID}" type="button" class="btn btn-primary">Detail</a>
                                                                 </td>
                                                             </tr>
                                                         </c:if>
