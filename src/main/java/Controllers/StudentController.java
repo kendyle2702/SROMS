@@ -53,7 +53,7 @@ public class StudentController extends HttpServlet {
                 List<Club> listC = clubDAO.listClub();
                 List<ClubMember> clubM = clubDAO.getClubMemberByStudentProfileID(studentProfileID);
 //                String semesterName = clubDAO.getSemesterNameByClubID( , studentProfileID);
-
+                List<Event> listEventStudent = eventManagerDAO.checkStudentParticipationEventDetail(studentProfileID);
                 //Event
                 List<Event> listE = eventManagerDAO.eventList();
                 List<ParticipationEventDetail> pertiList = eventManagerDAO.participateEventList();
@@ -73,6 +73,8 @@ public class StudentController extends HttpServlet {
                     session.setAttribute("listClub", listC);
                     session.setAttribute("clubMembers", clubM);
                     session.setAttribute("listMyClub", listMyClub);
+                    session.setAttribute("listEventStudent", listEventStudent);
+
                     session.setAttribute("tabId", 1);
                     request.getRequestDispatcher("/student.jsp").forward(request, response);
                 } else if (path.startsWith("/student/profile")) {
@@ -110,20 +112,19 @@ public class StudentController extends HttpServlet {
                         request.getRequestDispatcher("/student.jsp").forward(request, response);
                     } else if (path.endsWith("/student/clubs/register")) {
                         request.getRequestDispatcher("/club-regsiter.jsp").forward(request, response);
-                    } else if (path.startsWith("/student/clubs/myclub")) {
-                        request.getRequestDispatcher("/myclub.jsp").forward(request, response);
                     } else if (path.startsWith("/student/clubs/viewClubMember/")) {
                         String[] isArray = path.split("/");
                         int studentProfileId = Integer.parseInt(isArray[isArray.length - 1]);
                         int clubId = Integer.parseInt(isArray[isArray.length - 2]);
                         List<Map<String, String>> listClubMember = clubDAO.getAllMembersClub(studentProfileId, clubId);
                         session.setAttribute("listClubMember", listClubMember);
-                        session.setAttribute("tabId", 8);
+                        session.setAttribute("tabId", 9);
                         request.getRequestDispatcher("/student.jsp").forward(request, response);
-
                     }
                 } else if (path.startsWith("/student/events")) {
                     if (path.endsWith("/student/events/view")) {
+                        session.setAttribute("listEventStudent", listEventStudent);
+
                         session.setAttribute("userProfile", userProfile);
 
                         session.setAttribute("eventCategoryNames", eventCategoryNames);
@@ -131,7 +132,6 @@ public class StudentController extends HttpServlet {
                         session.setAttribute("pertiList", pertiList);
 
                         session.setAttribute("tabId", 3);
-
                         request.getRequestDispatcher("/student.jsp").forward(request, response);
                     } else if (path.startsWith("/student/events/detail")) {
                         String[] idArray = path.split("/");

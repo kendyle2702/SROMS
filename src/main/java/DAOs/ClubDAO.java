@@ -220,7 +220,7 @@ public class ClubDAO {
     public List<Club> getMyClub(int sudentProfileID) throws SQLException {
         List<Club> listMyClub = new ArrayList<>();
         Club myClub = null;
-        String sql = "SELECT* FROM [Club] WHERE StudentProfileID = ?;";
+        String sql = "  SELECT* FROM [SROMS].[dbo].[Club] as c inner join [SROMS].[dbo].[ClubMember] as cm  on c.ClubID = cm.ClubID WHERE cm.StudentProfileID = ?";
         PreparedStatement ps = conn.prepareStatement(sql);
         ps.setInt(1, sudentProfileID);
         ResultSet rs = ps.executeQuery();

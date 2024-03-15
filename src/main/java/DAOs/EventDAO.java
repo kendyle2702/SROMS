@@ -323,4 +323,27 @@ public class EventDAO {
         }
         return true;
     }
+
+    public List<Event> checkStudentParticipationEventDetail(int studentProfileID) throws SQLException {
+        ArrayList<Event> listE = new ArrayList<>();
+        Event event = null;
+
+        // Establish database connection
+        String query = "SELECT * FROM [SROMS].[dbo].[Event] e "
+                + "INNER JOIN [SROMS].[dbo].[ParticipationEventDetail] ped "
+                + "ON e.[EventID] = ped.[EventID] WHERE ped.[StudentProfileID] = ?"; // SQL query to retrieve events
+        ps = conn.prepareStatement(query); // Prepare SQL statement
+        ps.setInt(1, studentProfileID);
+        rs = ps.executeQuery(); // Execute query and obtain result set
+        while (rs.next()) { // Iterate over the result set
+            // Create Event object using data from the result set and add it to the list
+            event = new Event(
+                    rs.getInt(1), rs.getString(2), rs.getTimestamp(3), rs.getTimestamp(4), rs.getString(5),
+                    rs.getInt(6), rs.getInt(7), rs.getString(8), rs.getString(9), rs.getString(10), rs.getString(11),
+                    rs.getString(12), rs.getInt(13), rs.getInt(14), rs.getInt(15), rs.getInt(16), rs.getTimestamp(17)
+            );
+            listE.add(event);
+        }
+        return listE; // Return the list of events
+    }
 }

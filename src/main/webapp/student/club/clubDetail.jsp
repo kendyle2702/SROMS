@@ -44,8 +44,6 @@
                                                     <tr>
                                                         <th>Club Name</th>
                                                         <th>Description</th>
-                                                        <th>Create By</th>
-                                                        <th class="text-end">Is Approve</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
@@ -65,7 +63,7 @@
                             <div class="student-submit text-end">
                                 <input type="hidden" name="ClubID" value="${club.getClubID()}">
                                 <input type="hidden" name="studentProfileID" value="${studentProfileID}">
-                                <input type="submit" name="action" class="btn btn-primary" value="Register">
+                                <input style="background: #ea7127;border-color:#ea7127" type="submit" name="action" class="btn btn-primary" value="Register">
                             </div>
                         </div>
                     </div>

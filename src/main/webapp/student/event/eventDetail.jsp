@@ -25,11 +25,11 @@
                                 </div>
                             </div>
 
-                            <div style="padding: 0px;" class="invoice-issues-box" >
+                            <div style="background: #ea7127;border-color:#ea7127; padding:0px;" class="invoice-issues-box" >
                                 <div class="row">
                                     <div class="col-lg-4 col-md-4">
                                         <div class="invoice-issues-date">
-                                            <p>Preparation Time: ${event.getPreparationTime()}</p>
+                                            <p >Preparation Time: ${event.getPreparationTime()}</p>
                                         </div>
                                     </div>
                                     <div class="col-lg-4 col-md-4">
@@ -82,13 +82,13 @@
                                                             <c:when test="${sessionScope.currentTime <= event.getEndTime() && event.getApprove() eq 'AA'}">
                                                                 <td class="">Happening</td>
                                                                 <td>
-                                                                    <a href="/student/events/view" type="button" class="btn btn-primary">Back</a>
+                                                                    <a style="background: #ea7127;border-color:#ea7127" href="/student/events/view" type="button" class="btn btn-primary">Back</a>
                                                                 </td>
                                                             </c:when>
                                                             <c:when test="${sessionScope.currentTime > event.getEndTime() && event.getApprove() eq 'AA'}">
                                                                 <td class="">Finished</td>
                                                                 <td>
-                                                                    <a href="/student/events/view" type="button" class="btn btn-primary">Back</a>
+                                                                    <a style="background: #ea7127;border-color:#ea7127" href="/student/events/view" type="button" class="btn btn-primary">Back</a>
                                                                 </td>
                                                             </c:when>
                                                             <c:when test="${sessionScope.currentTime < event.getPreparationTime() && event.getApprove() eq 'AA'}">
@@ -97,14 +97,14 @@
                                                                     <div class="student-submit text-end">
                                                                         <input type="hidden" name="EventID" value="${event.getEventID()}">
                                                                         <input type="hidden" name="studentProfileID" value="${studentProfileID}">
-                                                                        <input type="submit" name="action" class="btn btn-primary" value="Join">
+                                                                        <input style="background: #ea7127;border-color:#ea7127" type="submit" name="action" class="btn btn-primary" value="Join">
                                                                     </div>
                                                                 </td>
                                                             </c:when>
                                                             <c:otherwise>
                                                                 <td class="">Waiting</td>
                                                                 <td>
-                                                                    <a href="/student/events/view" type="button" class="btn btn-primary">Back</a>
+                                                                    <a style="background: #ea7127;border-color:#ea7127" href="/student/events/view" type="button" class="btn btn-primary">Back</a>
                                                                 </td>
                                                             </c:otherwise>            
                                                         </c:choose>

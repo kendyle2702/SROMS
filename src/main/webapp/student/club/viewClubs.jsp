@@ -73,11 +73,7 @@
                                                                 <td>${club.clubName}</td>
                                                                 <td style="white-space: break-spaces;">${club.description}</td>
                                                                 <td class="text-center">
-                                                                    <div class="student-submit">
-                                                                        <input type="hidden" name="ClubID" value="${club.clubID}">
-                                                                        <input type="hidden" name="studentProfileID" value="${studentProfileID}">
-                                                                        <input type="submit" name="action" class="btn btn-primary" value="register">
-                                                                    </div>
+                                                                    <a style="background: #ea7127;border-color:#ea7127" href="/student/clubs/detail/${club.clubID}" type="button" class="btn btn-primary">Detail</a>
                                                                 </td>
                                                             </tr>
                                                         </c:forEach>
@@ -122,13 +118,8 @@
                                                                 <td class="text-center">${clubM.getLogo()}  ${clubM.getClubName()}</td>
                                                                 <td class="text-center">${clubM.getDescription()}</td>
                                                                 <td class="text-center">${clubM.getEstablishDate()}</td>
-                                                                <td class="text-center">
-                                                                    <div class="student-submit">
-<!--                                                                        <input type="text" name="myClubID" value="${clubM.clubID}">-->
-                                                                        <input type="hidden" name="studentProfileID" value="${studentProfileID}">
-                                                                        <input type="submit" name="action" class="btn btn-primary" value="Details">
-                                                                    </div>
-                                                                <td><a href="viewClubMember/${clubM.clubID}/${studentProfileID}" class="btn btn-primary">View Member Club</a></td>
+                                                                <td>
+                                                                    <a style="background: #ea7127;border-color:#ea7127" href="/student/clubs/viewClubMember/${clubM.clubID}/${studentProfileID}" class="btn btn-primary">View Member Club</a>
                                                                 </td>
                                                             </tr>
                                                         </c:forEach>

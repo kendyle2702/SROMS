@@ -1,3 +1,7 @@
+<%@page import="java.sql.Timestamp"%>
+<%@page import="java.text.SimpleDateFormat"%>
+<%@page import="java.util.Calendar"%>
+<%@page import="DAOs.EventDAO"%>
 <%@page import="DAOs.ClubDAO"%>
 <%@page import="java.util.List"%>
 <%@page import="Models.News"%>
@@ -54,7 +58,7 @@
                                                 <h3 class="blog-title"><%= latestNews.getTitle()%></h3>
                                             </div>
                                             <div class="col-2">
-                                                <a href="#" data-bs-toggle="modal" data-bs-target="#news_detail<%= latestNews.getNewsID()%>" class="btn btn-primary paid-cancel-btn">
+                                                <a style="background: #ea7127;border-color:#ea7127" href="#" data-bs-toggle="modal" data-bs-target="#news_detail<%= latestNews.getNewsID()%>" class="btn btn-primary paid-cancel-btn">
                                                     Read
                                                 </a>
                                             </div>
@@ -117,10 +121,10 @@
                                                                 <c:if test="${count.index < 3}">
                                                                     <tr>
                                                                         <td>${count.index + 1}</td>
-                                                                        <td>${club.clubName}</td>
-                                                                        <td>${club.description}</td>
+                                                                        <td >${club.clubName}</td>
+                                                                        <td style="white-space: break-spaces;">${club.description}</td>
                                                                         <td class="text-center">
-                                                                            <a href="/student/clubs/detail/${club.clubID}" type="button" class="btn btn-primary">Detail</a>
+                                                                            <a style="background: #ea7127;border-color:#ea7127" href="/student/clubs/detail/${club.clubID}" type="button" class="btn btn-primary">Detail</a>
                                                                         </td>
                                                                     </tr>
                                                                 </c:if>
@@ -163,16 +167,18 @@
                                                             <c:forEach items="${sessionScope.listMyClub}" var="clubM" varStatus="count">
                                                                 <tr>
                                                                     <td class="text-center">${count.index + 1}</td>
-                                                                    <td class="text-center">${clubM.getLogo()}  ${clubM.getClubName()}</td>
-                                                                    <td class="text-center">${clubM.getDescription()}</td>
+                                                                    <td  style="white-space: break-spaces;">${clubM.getLogo()}  ${clubM.getClubName()}</td>
+                                                                    <td style="white-space: break-spaces;">${clubM.getDescription()}</td>
                                                                     <td class="text-center">${clubM.getEstablishDate()}</td>
                                                                     <td class="text-center">
                                                                         <div class="student-submit">
     <!--                                                                        <input type="text" name="myClubID" value="${clubM.clubID}">-->
                                                                             <input type="hidden" name="studentProfileID" value="${studentProfileID}">
-                                                                            <input type="submit" name="action" class="btn btn-primary" value="Details">
+                                                                            <input style="background: #ea7127;border-color:#ea7127" type="submit" name="action" class="btn btn-primary" value="Details">
                                                                         </div>
-                                                                    <td><a href="/student/clubs/viewClubMember/${clubM.clubID}/${studentProfileID}" class="btn btn-primary">View Member Club</a></td>
+                                                                    </td>
+                                                                    <td>
+                                                                        <a href="/student/clubs/viewClubMember/${clubM.clubID}/${studentProfileID}" class="btn btn-primary">View Member Club</a>
                                                                     </td>
                                                                 </tr>
                                                             </c:forEach>
@@ -195,47 +201,138 @@
                 </div>
             </div>
 
-<!--            <div class="row">
-                <div class="col-xl-12 d-flex">
-                    <div class="card flex-fill student-space comman-shadow">
-                        <div class="card-body">
-                            <div class="table-responsive">
-                                <table id="viewEvents" class="table table-hover table-striped table-bordered">
-                                    <thead class="thead-light">
-                                        <tr>
-                                            <th class="text-center">No</th>
-                                            <th class="text-center">Name</th>
-                                            <th class="text-center">Location</th>
-                                            <th class="text-center">Date</th>
-                                            <th class="text-center">Category</th>
-                                            <th class="text-center"></th> 
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                    <c:forEach items="${sessionScope.listEvent}" var="event" varStatus="count">
-                                        <tr>
-                                            <td>${count.index + 1}</td>
-                                            <td>${event.eventName}</td>
-                                            <td>${event.location}</td>
-                                            <td>${event.holdTime}</td>
-                                            <td>${sessionScope.eventCategoryNames[event.eventID]}</td>
-                                            <td class="text-center">
-                                                <a href="/student/events/detail/${event.eventID}" type="button" class="btn btn-primary">Detail</a>
-                                            </td>
-                                        </tr>
-                                    </c:forEach>
-                                    <c:if test="${empty sessionScope.listEvent}">
-                                        <tr>
-                                            <td colspan="7" class="text-center">No events found.</td>
-                                        </tr>
-                                    </c:if>
-                                    </tbody>
-                                </table>                                          
+            <div class="card flex-fill comman-shadow">
+                <div class="card-body">
+                    <ul class="nav nav-pills navtab-bg nav-justified" role="tablist">
+                        <li class="nav-item" role="presentation">
+                            <a href="#listEvent" data-bs-toggle="tab" aria-expanded="false"
+                               class="nav-link active" aria-selected="false" role="tab">
+                                Upcoming Event
+                            </a>
+                        </li>
+                        <li class="nav-item" role="tablist  ">
+                            <a href="#participated" data-bs-toggle="tab" aria-expanded="true" class="nav-link"
+                               aria-selected="true" role="tab">
+                                User participated 
+                            </a>
+                        </li>
+                    </ul>
+                    <div class="tab-content">
+
+                        <%
+                            EventDAO dao = new EventDAO();
+                            Calendar calen = Calendar.getInstance();
+                            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH-mm-ss");
+                            Timestamp currentDateTime = new Timestamp(calen.getTimeInMillis());
+                            String currentDateTimeString = format.format(currentDateTime);
+                            session.setAttribute("currentTime", currentDateTimeString);
+                        %>
+
+                        <!-- List Event Tab -->
+                        <div class="tab-pane active show" id="listEvent" role="tabpanel">
+                            <div class="row">
+                                <div class="col-xl-12 d-flex">
+                                    <div class="card flex-fill student-space comman-shadow">
+
+                                        <!-- Event List -->
+                                        <div class="card-body">
+                                            <div class="table-responsive">
+                                                <table id="viewEvents" class="table table-hover table-striped table-bordered">
+                                                    <thead class="thead-light">
+                                                        <tr>
+                                                            <th class="text-center">No</th>
+                                                            <th class="text-center">Name</th>
+                                                            <th class="text-center">Location</th>
+                                                            <th class="text-center">Date</th>
+                                                            <th class="text-center">Category</th>
+                                                            <th class="text-center"></th> 
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                    <c:set var="eventCount" value="0" />
+                                                    <c:forEach items="${sessionScope.listEvent}"  var="event">
+                                                        <c:if test="${sessionScope.currentTime < event.getHoldTime() && event.getApprove() eq 'AA'}">
+                                                            <c:set var="eventCount" value="${eventCount + 1}" />
+                                                            <tr>    
+                                                                <td>${eventCount}</td>
+                                                                <td style="white-space: break-spaces;">${event.eventName}</td>
+                                                                <td style="white-space: break-spaces;">${event.location}</td>
+                                                                <td>${event.holdTime}</td>
+                                                                <td>${sessionScope.eventCategoryNames[event.eventID]}</td>
+                                                                <td class="text-center">
+                                                                    <a style="background: #ea7127;border-color:#ea7127" href="/student/events/detail/${event.eventID}" type="button" class="btn btn-primary">Detail</a>
+                                                                </td>
+                                                            </tr>
+                                                        </c:if>
+                                                    </c:forEach>
+                                                    <c:if test="${empty sessionScope.listEvent}">
+                                                        <tr>
+                                                            <td colspan="7" class="text-center">No events found.</td>
+                                                        </tr>
+                                                    </c:if>
+                                                    </tbody>
+                                                </table>  
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- User participated -->
+                        <div class="tab-pane" id="participated" role="tabpanel">
+                            <div class="row">
+                                <div class="col-xl-12 d-flex">
+                                    <div class="card flex-fill student-space comman-shadow">
+
+                                        <!-- Event List -->
+                                        <div class="card-body">
+                                            <div class="table-responsive">
+                                                <table id="viewEvents" class="table table-hover table-striped table-bordered">
+                                                    <thead class="thead-light">
+                                                        <tr>
+                                                            <th class="text-center">No</th>
+                                                            <th class="text-center">Name</th>
+                                                            <th class="text-center">Location</th>
+                                                            <th class="text-center">Date</th>
+                                                            <th class="text-center">Category</th>
+                                                            <th class="text-center"></th> 
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                    <c:set var="eventCount" value="0" />
+                                                    <c:forEach items="${sessionScope.listEventStudent}"  var="event">
+                                                        <c:if test="${sessionScope.currentTime > event.getEndTime() && event.getApprove() eq 'AA'}">
+                                                            <c:set var="eventCount" value="${eventCount + 1}" />
+                                                            <tr>    
+                                                                <td>${eventCount}</td>
+                                                                <td style="white-space: break-spaces;">${event.eventName}</td>
+                                                                <td style="white-space: break-spaces;">${event.location}</td>
+                                                                <td>${event.holdTime}</td>
+                                                                <td>${sessionScope.eventCategoryNames[event.eventID]}</td>
+                                                                <td class="text-center">
+                                                                    <a style="background: #ea7127;border-color:#ea7127" href="/student/events/detail/${event.eventID}" type="button" class="btn btn-primary">Detail</a>
+                                                                </td>
+                                                            </tr>
+                                                        </c:if>
+                                                    </c:forEach>
+                                                    <c:if test="${empty sessionScope.listEvent}">
+                                                        <tr>
+                                                            <td colspan="7" class="text-center">No events found.</td>
+                                                        </tr>
+                                                    </c:if>
+                                                    </tbody>
+                                                </table>  
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>-->
+            </div>  
 
         </div>
         <div class="modal custom-modal fade" id="news_detail<%= latestNews.getNewsID()%>" aria-hidden="true" style="display: none;">
@@ -258,5 +355,5 @@
             </div>
         </div>
     </div>
-   
+
 </div>

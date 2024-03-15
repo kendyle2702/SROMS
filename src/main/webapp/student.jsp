@@ -20,13 +20,13 @@
                     <%@include file="./student/home.jsp" %>
                 </c:when>
                 <c:when test="${sessionScope.tabId == 2}">
-                    <%@include file="./student/viewNews.jsp" %>
+                    <%@include file="./student/news/viewNews.jsp" %>
                 </c:when>
                 <c:when test="${sessionScope.tabId == 3}">
-                    <%@include file="./student/viewEvents.jsp" %>
+                    <%@include file="./student/event/viewEvents.jsp" %>
                 </c:when>
                 <c:when test="${sessionScope.tabId == 4}">
-                    <%@include file="./student/viewClubs.jsp" %>
+                    <%@include file="./student/club/viewClubs.jsp" %>
                 </c:when>
                 <c:when test="${sessionScope.tabId == 5}">
                     <%@include file="./general/profile.jsp" %>
@@ -35,13 +35,18 @@
                     <%@include file="./general/editProfile.jsp" %>
                 </c:when>
                 <c:when test="${sessionScope.tabId == 7}">
-                    <%@include file="./student/eventDetail.jsp" %>
+                    <%@include file="./student/event/eventDetail.jsp" %>
                 </c:when>
-                 <c:when test="${sessionScope.tabId == 8}">
-                     <%@include file="./student/viewClubMembers.jsp" %>
+
+                <c:when test="${sessionScope.tabId == 8}">
+                    <%@include file="./student/club/clubDetail.jsp" %>
+                </c:when>
+
+                <c:when test="${sessionScope.tabId == 9}">
+                    <%@include file="./student/club/viewClubMembers.jsp" %>
                 </c:when>
             </c:choose>
         </div>
-     <%@include file="./general/js.jsp" %>
+        <%@include file="./general/js.jsp" %>
     </body>
 </html>
