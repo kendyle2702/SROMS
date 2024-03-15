@@ -8,6 +8,7 @@ import DAOs.AdminProfileDAO;
 import DAOs.EventDAO;
 import DAOs.NewsDAO;
 import DAOs.ManagerProfileDAO;
+import DAOs.SemesterDAO;
 import DAOs.StudentProfileDAO;
 import DAOs.UserLoginDAO;
 import Models.AdminProfile;
@@ -209,15 +210,28 @@ public class AdminController extends HttpServlet {
                 EventDAO eventDAO = new EventDAO();
                 eventDAO.declineEventByAdmin(id);
                 response.sendRedirect("/admin/events/detail/" + id);
-            } 
-            else if (path.endsWith("/admin/score/student")) {
-                
-                
-                
+            } else if (path.endsWith("/admin/score/student")) {
+                String semesterIDString = (String)session.getAttribute("semesterIDStudentScore");
+                if (semesterIDString == null) {
+                    SemesterDAO semDAO = new SemesterDAO();
+                    String currentSemesterName = (String) session.getAttribute("semester");
+                    int semesterID = semDAO.getSemesterIDBySemesterName(currentSemesterName);
+                    session.setAttribute("semesterIDStudentScore", semesterID + "");
+                } else {
+                    session.setAttribute("semesterIDStudentScore",semesterIDString);
+                }
                 session.setAttribute("tabId", 18);
                 request.getRequestDispatcher("/admin.jsp").forward(request, response);
-            }
-            else if (path.endsWith("/admin/score/club")) {
+            } else if (path.endsWith("/admin/score/club")) {
+                String semesterIDString = (String)session.getAttribute("semesterIDClubScore");
+                if (semesterIDString == null) {
+                    SemesterDAO semDAO = new SemesterDAO();
+                    String currentSemesterName = (String) session.getAttribute("semester");
+                    int semesterID = semDAO.getSemesterIDBySemesterName(currentSemesterName);
+                    session.setAttribute("semesterIDClubScore", semesterID + "");
+                } else {
+                    session.setAttribute("semesterIDClubScore",semesterIDString);
+                }
                 session.setAttribute("tabId", 19);
                 request.getRequestDispatcher("/admin.jsp").forward(request, response);
             }
@@ -268,6 +282,15 @@ public class AdminController extends HttpServlet {
                 session.setAttribute("editNews", "success");
                 response.sendRedirect("/admin/news/detail/" + newsID);
             }
+        } else if (request.getParameter("selectStudentScoreSemester") != null) {
+            String semesterID = request.getParameter("semesterID");
+            session.setAttribute("semesterIDStudentScore", semesterID);
+            response.sendRedirect("/admin/score/student");
+        }
+        else if (request.getParameter("selectClubScoreSemester") != null) {
+            String semesterID = request.getParameter("semesterID");
+            session.setAttribute("semesterIDClubScore", semesterID);
+            response.sendRedirect("/admin/score/club");
         }
     }
 }

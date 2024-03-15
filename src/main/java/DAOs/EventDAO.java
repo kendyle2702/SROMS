@@ -384,13 +384,32 @@ public class EventDAO {
         try {
             PreparedStatement ps = conn.prepareStatement("select p.StudentProfileID, sum(Point) as Total from ParticipationEventDetail as p \n"
                     + "inner join Event as e on e.EventID = p.EventID\n"
-                    + "inner join EventCategory as ec on ec.EventCategoryID = e.EventCategoryID\n"
+                    + "inner join EventCategory as ec on ec.EventCategoryID = e.EventCategoryID where (Result = '' or Result is null) and p.IsPresent = 1"
                     + "group by p.StudentProfileID,e.SemesterID\n"
                     + "having e.SemesterID = ? and p.StudentProfileID = ?");
             ps.setInt(1, semesterID);
             ps.setInt(2, studentID);
             ResultSet rs = ps.executeQuery();
-            if (rs.next()) {
+            while (rs.next()) {
+                score = rs.getInt("Total");
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(EventDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return score;
+    }
+    public int getEventsScoreCompetitionByStudentIDAndSemesterID(int studentID, int semesterID) {
+        int score = 0;
+        try {
+            PreparedStatement ps = conn.prepareStatement("select p.StudentProfileID, sum(Point+2) as Total from ParticipationEventDetail as p \n"
+                    + "inner join Event as e on e.EventID = p.EventID\n"
+                    + "inner join EventCategory as ec on ec.EventCategoryID = e.EventCategoryID where p.Result != '' and p.Result is not null and p.IsPresent = 1"
+                    + "group by p.StudentProfileID,e.SemesterID\n"
+                    + "having e.SemesterID = ? and p.StudentProfileID = ?");
+            ps.setInt(1, semesterID);
+            ps.setInt(2, studentID);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
                 score = rs.getInt("Total");
             }
         } catch (SQLException ex) {
@@ -399,7 +418,7 @@ public class EventDAO {
         return score;
     }
 
-        public int countEventsByStudentIDAndSemesterID(int studentID, int semesterID) {
+    public int countEventsByStudentIDAndSemesterID(int studentID, int semesterID) {
         int count = 0;
         try {
             PreparedStatement ps = conn.prepareStatement("select p.StudentProfileID, count(Point) as Count from ParticipationEventDetail as p \n"
@@ -410,7 +429,7 @@ public class EventDAO {
             ps.setInt(1, semesterID);
             ps.setInt(2, studentID);
             ResultSet rs = ps.executeQuery();
-            if (rs.next()) {
+            while (rs.next()) {
                 count = rs.getInt("Count");
             }
         } catch (SQLException ex) {

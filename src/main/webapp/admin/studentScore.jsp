@@ -32,6 +32,28 @@
                                 <div class="col">
                                     <h3 class="page-title">Student Scores</h3>
                                 </div>
+                                <form id="selectSemester" action="/admin" method="post" style="margin-top: 20px">
+                                    <div class="row">
+                                        <div class="col-12 col-sm-4">
+                                            <div class="form-group local-forms">
+                                                <%String semesterIDString = (String)session.getAttribute("semesterIDStudentScore");%>
+                                                <label>Select Semester</label>
+                                                <select id="selectSemester" class="form-select form-control select" name="semesterID">
+                                                    <option value="10" <%=semesterIDString.equals("10")?"selected":"" %> >Spring 2024</option>
+                                                    <option value="9" <%=semesterIDString.equals("9")?"selected":"" %>>Fall 2023</option>
+                                                    <option value="8" <%=semesterIDString.equals("8")?"selected":"" %>>Summer 2023</option>
+                                                    <option value="7" <%=semesterIDString.equals("7")?"selected":"" %>>Spring 2023</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-12 col-sm-4">
+                                            <div class="form-group">
+                                                <input type="hidden" name="selectStudentScoreSemester" value="selectStudentScoreSemester">
+                                                <button type="submit" name="filterStudentScore" class="btn btn-primary"><i style="margin-right: 10px" class="fas fa-clipboard-list"></i>Select</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
                             </div>
                         </div>
 
@@ -52,10 +74,9 @@
                                 </thead>
                                 <tbody>
                                     <%
-                                        SemesterDAO semDAO = new SemesterDAO();
-                                        String currentSemesterName = (String)session.getAttribute("semester");
-                                        int semesterID = 9;
+                                       
                                         
+                                        int semesterID = Integer.parseInt(semesterIDString);
                                         StudentProfileDAO stDAO = new StudentProfileDAO();
                                         ClubDAO clubDAO = new ClubDAO();
                                         EventDAO eventDAO = new EventDAO();
@@ -67,17 +88,18 @@
                                             int countClubs = clubDAO.countClubsByStudentIDAndSemesterID(rs.getInt("StudentProfileID"), semesterID);
                                             int pointClubs = clubDAO.getClubsScoreByStudentIDAndSemesterID(rs.getInt("StudentProfileID"), semesterID);
                                             int countEvents = eventDAO.countEventsByStudentIDAndSemesterID(rs.getInt("StudentProfileID"), semesterID);
-                                            int pointEvens = eventDAO.getEventsScoreByStudentIDAndSemesterID(rs.getInt("StudentProfileID"), semesterID);
-                                            int total =pointClubs+pointEvens+60;
+                                            int pointEvensNormal = eventDAO.getEventsScoreByStudentIDAndSemesterID(rs.getInt("StudentProfileID"), semesterID);
+                                            int pointEvensCompetition = eventDAO.getEventsScoreCompetitionByStudentIDAndSemesterID(rs.getInt("StudentProfileID"), semesterID);
+                                            int total = pointClubs>=50?50:pointClubs + (pointEvensNormal+pointEvensCompetition)>=50?50:(pointEvensNormal+pointEvensCompetition) + 60;
                                         %>
                                         <td><%=count++%></td>
                                         <td><%=rs.getString("RollNumber")%></td>
                                         <td><a href="/admin/account/student/detail/<%=rs.getInt("StudentProfileID")%>" class="avatar avatar-sm me-2"><img class="avatar-img rounded-circle" src="${pageContext.request.contextPath}/assets/img/avatar/<%=rs.getString("Avatar")%>" alt="Avatar"></a><%=rs.getString("LastName") + " " + rs.getString("FirstName")%></td>
                                         <td>60</td>
                                         <td><%=countClubs%></td>
-                                        <td><%=pointClubs%></td>
+                                        <td><%=pointClubs>=50?50:pointClubs%></td>
                                         <td><%=countEvents%></td>
-                                        <td><%=pointEvens%></td>
+                                        <td><%=(pointEvensNormal+pointEvensCompetition)>=50?50:(pointEvensNormal+pointEvensCompetition)%></td>
                                         <td style="font-weight: bold"><%=total%></td>
                                     </tr>
                                     <%}
