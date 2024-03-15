@@ -4,16 +4,17 @@
  */
 package Controllers;
 
+import DAOs.ClubDAO;
 import DAOs.StudentProfileDAO;
 import DAOs.UserLoginDAO;
 import DAOs.UserProfileDAO;
 import DAOs.UserRoleDAO;
+import Models.Club;
 import Models.StudentProfile;
 import Models.UserLogin;
 import Models.UserProfile;
 import Models.UserRole;
 import java.io.IOException;
-import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.MultipartConfig;
 import jakarta.servlet.http.HttpServlet;
@@ -23,7 +24,10 @@ import jakarta.servlet.http.HttpSession;
 import jakarta.servlet.http.Part;
 import java.nio.file.Paths;
 import java.sql.Date;
+import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -48,8 +52,8 @@ public class UploadController extends HttpServlet {
         HttpSession session = request.getSession();
         UserProfile userProfile = (UserProfile) session.getAttribute("user");
         String role = (String) session.getAttribute("role");
-        String roleURL = (String)session.getAttribute("roleURL");
-        
+        String roleURL = (String) session.getAttribute("roleURL");
+
         if (request.getParameter("editProfile") != null) {
             String firstName = request.getParameter("firstname");
             String lastName = request.getParameter("lastname");
@@ -69,24 +73,23 @@ public class UploadController extends HttpServlet {
                     part.write(realPath + "/" + avatar);
                 } catch (Exception ex) {
                     session.setAttribute("editStatus", "fail");
-                    response.sendRedirect("/"+ roleURL +"/profile/edit");
+                    response.sendRedirect("/" + roleURL + "/profile/edit");
                 }
             }
 
             UserProfileDAO uProfileDAO = new UserProfileDAO();
-            
-            UserProfile newUser = new UserProfile(userProfile.getUserProfileID(),firstName,lastName,avatar,gender,birthdate,address,userProfile.getEnrollmentDate(),userProfile.getEmail(),phone);
+
+            UserProfile newUser = new UserProfile(userProfile.getUserProfileID(), firstName, lastName, avatar, gender, birthdate, address, userProfile.getEnrollmentDate(), userProfile.getEmail(), phone);
             UserProfile user = uProfileDAO.updateUserProfile(newUser);
             if (user == null) {
                 session.setAttribute("editStatus", "fail");
-                response.sendRedirect("/"+ roleURL +"/profile/edit");
+                response.sendRedirect("/" + roleURL + "/profile/edit");
             } else {
                 session.setAttribute("editStatus", "success");
                 session.setAttribute("user", user);
-                response.sendRedirect("/"+ roleURL +"/profile");
+                response.sendRedirect("/" + roleURL + "/profile");
             }
-        }
-        else if(request.getParameter("createStudent") != null){
+        } else if (request.getParameter("createStudent") != null) {
             String firstName = request.getParameter("firstname");
             String lastName = request.getParameter("lastname");
             String gender = request.getParameter("gender");
@@ -99,10 +102,10 @@ public class UploadController extends HttpServlet {
             String memberCode = request.getParameter("membercode");
             String major = request.getParameter("major");
             String mode = request.getParameter("mode");
-            
+
             java.util.Date currentDate = new java.util.Date();
             Timestamp currentTime = new Timestamp(currentDate.getTime());
-            
+
             String avatar = "";
             Part part = request.getPart("avatar");
             if (Paths.get(part.getSubmittedFileName()).toString().isEmpty()) {
@@ -118,8 +121,8 @@ public class UploadController extends HttpServlet {
                 }
             }
             UserProfileDAO uProfileDAO = new UserProfileDAO();
-            UserProfile newUser = new UserProfile(firstName,lastName,avatar,gender,birthdate,address,enrollDate,email,phone);
-            
+            UserProfile newUser = new UserProfile(firstName, lastName, avatar, gender, birthdate, address, enrollDate, email, phone);
+
             UserProfile user = uProfileDAO.addUserProfile(newUser);
             if (user == null) {
                 session.setAttribute("createStudent", "fail");
@@ -127,21 +130,57 @@ public class UploadController extends HttpServlet {
             } else {
                 int id = uProfileDAO.getUserProfileIDByEmail(email);
                 StudentProfileDAO stDAO = new StudentProfileDAO();
-                StudentProfile newStudent = new StudentProfile(rollNumber,memberCode,major,mode,id);
+                StudentProfile newStudent = new StudentProfile(rollNumber, memberCode, major, mode, id);
                 StudentProfile student = stDAO.addStudentProfile(newStudent);
-                        
+
                 UserLoginDAO userLoginDAO = new UserLoginDAO();
-                UserLogin newUserLogin = new UserLogin(email,currentTime,true,id);
+                UserLogin newUserLogin = new UserLogin(email, currentTime, true, id);
                 UserLogin userLogin = userLoginDAO.addUserLogin(newUserLogin);
-                
+
                 UserRoleDAO userRoleDAO = new UserRoleDAO();
                 int studentRole = 4;
-                UserRole newUserRole = new UserRole(studentRole,id);
+                UserRole newUserRole = new UserRole(studentRole, id);
                 UserRole userRole = userRoleDAO.addUserRole(newUserRole);
-                
+
                 session.setAttribute("createStudent", "success");
                 response.sendRedirect("/admin/account/student");
             }
+        } else if (request.getParameter("signUpClub") != null) {
+            ClubDAO clubDAO = new ClubDAO();
+            Club club = clubDAO.getClub();
+
+            String clubName = request.getParameter("clubname");
+            String description = request.getParameter("description");
+            int studentProfileID = Integer.parseInt(request.getParameter("studentProfileID"));
+            Date establishDate = null;
+
+            String logo = "";
+            Part part = request.getPart("logo");
+            if (Paths.get(part.getSubmittedFileName()).toString().isEmpty()) {
+                logo = club.getLogo();
+            } else {
+                try {
+                    String realPath = request.getServletContext().getRealPath("/assets/img/logo");
+                    logo = Paths.get(part.getSubmittedFileName()).toString();
+                    part.write(realPath + "/" + logo);
+                } catch (Exception ex) {
+                    session.setAttribute("signUpClub", "fail");
+                    response.sendRedirect("/student/clubs/view");
+                }
+            }
+            ClubDAO clubD = new ClubDAO();
+            boolean signUp;
+            try {
+                signUp = clubD.signUpClub(logo, clubName, establishDate, description, studentProfileID);
+                if (signUp) {
+                    session.setAttribute("signUpClub", "success");
+                } else {
+                    session.setAttribute("signUpClub", "fail");
+                }
+            } catch (SQLException ex) {
+                Logger.getLogger(UploadController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            response.sendRedirect("/student/clubs/view");
         }
     }
 

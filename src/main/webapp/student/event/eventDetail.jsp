@@ -29,17 +29,17 @@
                                 <div class="row">
                                     <div class="col-lg-4 col-md-4">
                                         <div class="invoice-issues-date">
-                                            <p >Preparation Time: ${event.getPreparationTime()}</p>
+                                            <p >Preparation: ${event.getPreparationTime()}</p>
                                         </div>
                                     </div>
                                     <div class="col-lg-4 col-md-4">
                                         <div class="invoice-issues-date">
-                                            <p> Hold Time : ${event.getHoldTime()}</p>
+                                            <p> Start: ${event.getHoldTime()}</p>
                                         </div>
                                     </div>
                                     <div class="col-lg-4 col-md-4">
                                         <div class="invoice-issues-date">
-                                            <p>End Time: ${event.getEndTime()}</p>
+                                            <p>End: ${event.getEndTime()}</p>
                                         </div>
                                     </div>
                                 </div>
@@ -79,7 +79,18 @@
                                                             pageContext.setAttribute("isRegister", isRegister);
                                                         %>
                                                         <c:choose>
-                                                            <c:when test="${sessionScope.currentTime <= event.getEndTime() && event.getApprove() eq 'AA'}">
+                                                            <c:when test="${sessionScope.currentTime < event.getHoldTime() && event.getApprove() eq 'AA' && event.getExpectedNumber() - event.getExpectedNumber() >=0}">
+                                                                <td class="">Upcoming</td>
+                                                                <td>
+                                                                    <div class="student-submit text-end">
+                                                                        <input type="hidden" name="EventID" value="${event.getEventID()}">
+                                                                        <input type="hidden" name="studentProfileID" value="${studentProfileID}">
+                                                                        <input style="background: #ea7127;border-color:#ea7127" type="submit" name="action" class="btn btn-primary" value="Join">
+                                                                    </div>
+                                                                </td>
+                                                            </c:when>
+
+                                                            <c:when test="${event.getHoldTime <= sessionScope.currentTime < event.getEndTime() && event.getApprove() eq 'AA'}">
                                                                 <td class="">Happening</td>
                                                                 <td>
                                                                     <a style="background: #ea7127;border-color:#ea7127" href="/student/events/view" type="button" class="btn btn-primary">Back</a>
@@ -91,22 +102,6 @@
                                                                     <a style="background: #ea7127;border-color:#ea7127" href="/student/events/view" type="button" class="btn btn-primary">Back</a>
                                                                 </td>
                                                             </c:when>
-                                                            <c:when test="${sessionScope.currentTime < event.getPreparationTime() && event.getApprove() eq 'AA'}">
-                                                                <td class="">Upcoming</td>
-                                                                <td>
-                                                                    <div class="student-submit text-end">
-                                                                        <input type="hidden" name="EventID" value="${event.getEventID()}">
-                                                                        <input type="hidden" name="studentProfileID" value="${studentProfileID}">
-                                                                        <input style="background: #ea7127;border-color:#ea7127" type="submit" name="action" class="btn btn-primary" value="Join">
-                                                                    </div>
-                                                                </td>
-                                                            </c:when>
-                                                            <c:otherwise>
-                                                                <td class="">Waiting</td>
-                                                                <td>
-                                                                    <a style="background: #ea7127;border-color:#ea7127" href="/student/events/view" type="button" class="btn btn-primary">Back</a>
-                                                                </td>
-                                                            </c:otherwise>            
                                                         </c:choose>
                                                     </tr>
                                                 </tbody>

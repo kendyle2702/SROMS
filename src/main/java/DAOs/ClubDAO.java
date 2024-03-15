@@ -111,6 +111,22 @@ public class ClubDAO {
         return listC;
     }
 
+    public Club getClub() {
+        String sql = "select * from Club";
+        Club club = null;
+        try {
+            ps = conn.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                club = new Club(rs.getInt("ClubID"), rs.getString("Logo"), rs.getString("ClubName"), rs.getDate("EstablishDate"),
+                        rs.getString("Description"), rs.getBoolean("IsApprove"), rs.getBoolean("IsAvitve"), rs.getInt("StudentProfileID"));
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(ClubDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return club;
+    }
+
     public int getTotalClub() throws SQLException {
         String ex = "select COUNT(*) as TotalClub from Club;";
         PreparedStatement ps = conn.prepareStatement(ex);
@@ -301,6 +317,31 @@ public class ClubDAO {
         ps.setInt(4, clubMember.getClubPoint());
         ps.setString(5, clubMember.getReport());
         ps.setInt(6, clubMember.getStudentProfileID());
+        ps.executeUpdate();
+        return true;
+    }
+
+    public boolean signUpClub(String logo, String clubName, Date establishDate, String description, int studentProfileID) throws SQLException {
+        String checkQuery = "SELECT COUNT(*) FROM [SROMS].[dbo].[Club] WHERE [] ClubName = ?";
+        PreparedStatement checkPs = conn.prepareStatement(checkQuery);
+        checkPs.setString(1, clubName);
+        ResultSet rs = checkPs.executeQuery();
+        if (rs.next()) {
+            int count = rs.getInt(1);
+            if (count > 0) {
+                return false;
+            }
+        }
+
+        String query = "INSERT INTO [SROMS].[dbo].[Club]\n"
+                + "(Lego, ClubName, EstablishDate, Description, StudentProfileID)\n"
+                + "VALUES(?, ?, ?, ?, ?);";
+        ps = conn.prepareStatement(query);
+        ps.setString(1, logo);
+        ps.setString(2, clubName);
+        ps.setDate(3, establishDate);
+        ps.setString(4, description);
+        ps.setInt(5, studentProfileID);
         ps.executeUpdate();
         return true;
     }

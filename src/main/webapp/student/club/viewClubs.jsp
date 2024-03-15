@@ -26,9 +26,9 @@
                         <div class="col-6">
                             <h5 class="card-title"> Club</h5>
                         </div>
-                        <div class="col-6">
-                            <span class="float-end view-link"><a href="/student/clubs/view"> View All</a></span>
-                        </div>
+                        <div class="col-6 text-end">
+                            <a style="background: #ea7127;border-color:#ea7127" href="/student/clubs/create" type="button" class="btn btn-primary">Create Club</a>
+                        </div>                    
                     </div>
                 </div>
 
@@ -114,10 +114,10 @@
                                                         <tbody>
                                                         <c:forEach items="${sessionScope.listMyClub}" var="clubM" varStatus="count">
                                                             <tr>
-                                                                <td class="text-center">${count.index + 1}</td>
-                                                                <td class="text-center">${clubM.getLogo()}  ${clubM.getClubName()}</td>
-                                                                <td class="text-center">${clubM.getDescription()}</td>
-                                                                <td class="text-center">${clubM.getEstablishDate()}</td>
+                                                                <td>${count.index + 1}</td>
+                                                                <td style="white-space: break-spaces;">${clubM.getClubName()}</td>
+                                                                <td style="white-space: break-spaces;">${clubM.getDescription()}</td>
+                                                                <td style="white-space: break-spaces;">${clubM.getEstablishDate()}</td>
                                                                 <td>
                                                                     <a style="background: #ea7127;border-color:#ea7127" href="/student/clubs/viewClubMember/${clubM.clubID}/${studentProfileID}" class="btn btn-primary">View Member Club</a>
                                                                 </td>

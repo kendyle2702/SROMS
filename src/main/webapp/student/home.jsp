@@ -167,7 +167,7 @@
                                                             <c:forEach items="${sessionScope.listMyClub}" var="clubM" varStatus="count">
                                                                 <tr>
                                                                     <td class="text-center">${count.index + 1}</td>
-                                                                    <td  style="white-space: break-spaces;">${clubM.getLogo()}  ${clubM.getClubName()}</td>
+                                                                    <td  style="white-space: break-spaces;">${clubM.getClubName()}</td>
                                                                     <td style="white-space: break-spaces;">${clubM.getDescription()}</td>
                                                                     <td class="text-center">${clubM.getEstablishDate()}</td>
                                                                     <td class="text-center">

@@ -110,8 +110,10 @@ public class StudentController extends HttpServlet {
                         session.setAttribute("club", club);
                         session.setAttribute("tabId", 8);
                         request.getRequestDispatcher("/student.jsp").forward(request, response);
-                    } else if (path.endsWith("/student/clubs/register")) {
-                        request.getRequestDispatcher("/club-regsiter.jsp").forward(request, response);
+                    } else if (path.endsWith("/student/clubs/create")) {
+                        
+                        session.setAttribute("tabId", 10);
+                        request.getRequestDispatcher("/student.jsp").forward(request, response);
                     } else if (path.startsWith("/student/clubs/viewClubMember/")) {
                         String[] isArray = path.split("/");
                         int studentProfileId = Integer.parseInt(isArray[isArray.length - 1]);
@@ -233,7 +235,6 @@ public class StudentController extends HttpServlet {
                     session.setAttribute("registerClub", "fail");
                 }
                 response.sendRedirect("/student/clubs/view");
-
             }
         } catch (SQLException ex) {
             Logger.getLogger(StudentController.class.getName()).log(Level.SEVERE, null, ex);
