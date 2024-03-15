@@ -21,8 +21,7 @@
 
                     <div class="card invoice-info-card"> 
                         <div class="card-body">
-                            <form id="formSignUpClub" action="${pageContext.request.contextPath}/upload/profile/create" method="post" enctype="multipart/form-data">
-                                <input  action="${pageContext.request.contextPath}/upload/profile/create" type="text"  class="box" value="${pageContext.request.contextPath}/upload/clubs/create" ></input>
+                            <form id="formSignUpClub" action="${pageContext.request.contextPath}/upload/signup/club" method="post" enctype="multipart/form-data">
                                 <div class="card-body">
                                     <div class="row">
                                         <div class="col-12">
@@ -55,6 +54,7 @@
                                             </div>
                                         </div>
                                         <input type="hidden" name="signUpClub" value="signUpClub">
+                                        <input type="hidden" name="studentProfileID" value="${studentProfileID}">
                                         <div class="col-12">
                                             <div class="student-submit text-end">
                                                 <button style="background: #ea7127;border-color:#ea7127" type="submit" class="btn btn-primary">Submit</button>

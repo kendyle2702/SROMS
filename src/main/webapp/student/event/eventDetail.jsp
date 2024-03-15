@@ -19,7 +19,6 @@
                                     <div class="col-md-12 text-center">
                                         <div class="invoice-head">
                                             <h2>${event.getEventName()}</h2>
-                                            <p class="text-end">Event ID: ${event.getEventID()}</p>
                                         </div>
                                     </div>
                                 </div>

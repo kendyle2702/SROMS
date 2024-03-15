@@ -3,11 +3,13 @@ package Controllers;
 import DAOs.ClubDAO;
 import DAOs.EventDAO;
 import DAOs.ManagerProfileDAO;
+import DAOs.NewsDAO;
 import DAOs.StudentProfileDAO;
 import DAOs.UserLoginDAO;
 import Models.Club;
 import Models.ClubMember;
 import Models.Event;
+import Models.News;
 import Models.ParticipationEventDetail;
 import Models.StudentProfile;
 import Models.UserLogin;
@@ -111,6 +113,7 @@ public class StudentController extends HttpServlet {
                         session.setAttribute("tabId", 8);
                         request.getRequestDispatcher("/student.jsp").forward(request, response);
                     } else if (path.endsWith("/student/clubs/create")) {
+                        session.setAttribute("studentProfileID", studentProfileID);
                         
                         session.setAttribute("tabId", 10);
                         request.getRequestDispatcher("/student.jsp").forward(request, response);
@@ -161,8 +164,19 @@ public class StudentController extends HttpServlet {
                         session.setAttribute("tabId", 2);
                         request.getRequestDispatcher("/student.jsp").forward(request, response);
                     }
-                    if (path.endsWith("/student/new/detail")) {
-                        request.getRequestDispatcher("/new-detail.jsp").forward(request, response);
+                    if (path.startsWith("/student/news/detail")) {
+                        String[] idArray = path.split("/");
+
+                        int id = Integer.parseInt(idArray[idArray.length - 1]);
+                        NewsDAO newsDAO = new NewsDAO();
+                        News news = newsDAO.getNewsByID(id);
+                        String name = newsDAO.getNameAuthor(id);
+                        
+                        session.setAttribute("news", news);
+                        session.setAttribute("name", name);
+                        session.setAttribute("newsID", id);
+                        session.setAttribute("tabId", 11);
+                        request.getRequestDispatcher("/student.jsp").forward(request, response);
                     }
                 } else if (path.startsWith("/student/point")) {
                     if (path.endsWith("/student/point/view")) {

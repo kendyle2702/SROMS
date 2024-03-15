@@ -316,7 +316,8 @@
         rules: [
             Validator.isRequire("#clubname", "Club Name is required"),
             Validator.isRequire("#description", "Description is required"),
-            Validator.isImage("#uploadlogo", "Logo must be image"),
+            Validator.isRequire("#uploadLogo", "Logo is required"),
+            Validator.isImage("#uploadLogo", "Logo must be image"),
         ]
     });
 </script>
