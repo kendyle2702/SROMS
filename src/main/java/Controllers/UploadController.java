@@ -160,27 +160,25 @@ public class UploadController extends HttpServlet {
                 logo = club.getLogo();
             } else {
                 try {
-                    String realPath = request.getServletContext().getRealPath("/assets/img/logo");
+                    String realPath = request.getServletContext().getRealPath("/assets/img/logo_club");
                     logo = Paths.get(part.getSubmittedFileName()).toString();
                     part.write(realPath + "/" + logo);
                 } catch (Exception ex) {
                     session.setAttribute("signUpClub", "fail");
-                    response.sendRedirect("/student/clubs/view");
+//                    response.sendRedirect("/student/clubs/view");
                 }
             }
             ClubDAO clubD = new ClubDAO();
             boolean signUp;
-            try {
-                signUp = clubD.signUpClub(logo, clubName, establishDate, description, studentProfileID);
-                if (signUp) {
-                    session.setAttribute("signUpClub", "success");
-                } else {
-                    session.setAttribute("signUpClub", "fail");
-                }
-            } catch (SQLException ex) {
-                Logger.getLogger(UploadController.class.getName()).log(Level.SEVERE, null, ex);
+            signUp = clubD.signUpClub(logo, clubName, establishDate, description, studentProfileID);
+            if (signUp) {
+                session.setAttribute("signUpClub", "success");
+                response.sendRedirect("/student/clubs/view");
+            } else {
+                session.setAttribute("signUpClub", "fail");
+                response.sendRedirect("/student/clubs/view");
             }
-            response.sendRedirect("/student/clubs/view");
+
         }
     }
 

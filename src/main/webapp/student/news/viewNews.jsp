@@ -28,36 +28,23 @@
                     for (News news : newsList) {
             %>
             <!-- Use the data from the 'news' object to display news information -->
-            <div class="col-md-6 col-xl-4 col-sm-12 d-flex">
+            <div class="col-md-12 col-xl-12 col-sm-12">
                 <div class="blog grid-blog flex-fill">
-                    <div class="blog-content">
-                        <h3 class="blog-title"><a href="#" data-bs-toggle="modal" data-bs-target="#news_detail<%= news.getNewsID()%>"><%= news.getTitle()%></a></h3>
-                        <p><%= news.getContent()%></p>
-                        <p>Create at: <%= news.getCreateAt()%></p>
-                        <p>Create by: <%= news.getAdminProfileID()%></p>
-                    </div>
-                </div>
-            </div>
-
-            <div class="modal custom-modal fade" id="news_detail<%= news.getNewsID()%>" aria-hidden="true" style="display: none;">
-                <div class="modal-dialog modal-dialog-centered">
-                    <div class="modal-content">
-                        <div class="modal-body">
-                            <h3><%=news.getTitle()%></h3>
-                            <div class="form-header">
-                                <p><%=news.getContent()%></p>
-                            </div>
-                            <div class="modal-btn delete-action">
-                                <div class="row">
-                                    <div class="text-center sorting">
-                                        <a href="javascript:void(0);" data-bs-dismiss="modal" class="btn btn-primary paid-cancel-btn">Cancel</a>
-                                    </div>
-                                </div>
-                            </div>
+                    <div class="row align-items-center">
+                        <div class="col-10">
+                            <h3  style="color: black"class="blog-title">
+                                <a href="/student/news/detail/<%=news.getNewsID()%>"<%=news.getNewsID()%>">
+                                    <%= news.getTitle()%> 
+                                </a>
+                            </h3>
+                        </div>
+                        <div class="col-2 text-end">
+                            <%= news.getCreateAt()%>
                         </div>
                     </div>
                 </div>
             </div>
+
             <%
                 }
             } else {

@@ -330,7 +330,22 @@ public class ClubDAO {
             int count = rs.getInt(1);
             if (count > 0) {
                 return false;
+
+    public boolean signUpClub(String logo, String clubName, Date establishDate, String description, int studentProfileID) {
+        try {
+            String checkQuery = "SELECT COUNT(*) FROM [SROMS].[dbo].[Club] WHERE ClubName = ?";
+            PreparedStatement checkPs = conn.prepareStatement(checkQuery);
+            checkPs.setString(1, clubName);
+            ResultSet rs = checkPs.executeQuery();
+            if (rs.next()) {
+                int count = rs.getInt(1);
+                if (count > 0) {
+                    return false;
+                }
             }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false; // Return false in case of any database error during checking
         }
         
         String query = "INSERT INTO [SROMS].[dbo].[Club]\n"

@@ -1,4 +1,5 @@
 
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page import="com.nimbusds.jose.crypto.impl.AAD"%>
 <%@page import="Models.Club"%>
 <%@page import="java.util.List"%>
@@ -67,6 +68,7 @@
                                                             </tr>
                                                         </thead>
                                                         <tbody>
+<<<<<<< HEAD
                                                         <c:forEach items="${sessionScope.listClub}" var="club" varStatus="count">
                                                             <tr>
                                                                 <td>${count.index + 1}</td>
@@ -82,6 +84,25 @@
                                                                 <td colspan="7" class="text-center">No clubs found..</td>
                                                             </tr>
                                                         </c:if>
+=======
+                                                            <c:forEach items="${sessionScope.listClub}" var="club" varStatus="count">
+                                                                <c:if test="${club.isApprove == true && club.isActive == true}">
+                                                                    <tr>
+                                                                        <td>${count.index + 1}</td>
+                                                                        <td>${club.clubName}</td>
+                                                                        <td style="white-space: break-spaces;">${club.description}</td>
+                                                                        <td class="text-center">
+                                                                            <a style="background: #ea7127;border-color:#ea7127" href="/student/clubs/detail/${club.clubID}" type="button" class="btn btn-primary">Detail</a>
+                                                                        </td>
+                                                                    </tr>
+                                                                </c:if>
+                                                            </c:forEach>
+                                                            <c:if test="${empty sessionScope.listClub}">
+                                                                <tr>
+                                                                    <td colspan="7" class="text-center">No clubs found..</td>
+                                                                </tr>
+                                                            </c:if>
+>>>>>>> 61830179145d446bc55aca6dac129408363ed174
                                                         </tbody>
                                                     </table>
                                                 </div>
@@ -111,6 +132,7 @@
                                                             </tr>
                                                         </thead>
                                                         <tbody>
+<<<<<<< HEAD
                                                         <c:forEach items="${sessionScope.listMyClub}" var="clubM" varStatus="count">
                                                             <tr>
                                                                 <td>${count.index + 1}</td>
@@ -127,6 +149,24 @@
                                                                 <td colspan="7" class="text-center">You haven't joined the club yet.</td>
                                                             </tr>
                                                         </c:if>
+=======
+                                                            <c:forEach items="${sessionScope.listMyClub}" var="clubM" varStatus="count">
+                                                                <tr>
+                                                                    <td>${count.index + 1}</td>
+                                                                    <td style="white-space: break-spaces;">${clubM.getClubName()}</td>
+                                                                    <td style="white-space: break-spaces;">${clubM.getDescription()}</td>
+                                                                    <td style="white-space: break-spaces;">${clubM.getEstablishDate()}</td>
+                                                                    <td>
+                                                                        <a style="background: #ea7127;border-color:#ea7127" href="/student/clubs/viewClubMember/${clubM.clubID}/${studentProfileID}" class="btn btn-primary">View Member Club</a>
+                                                                    </td>
+                                                                </tr>
+                                                            </c:forEach>
+                                                            <c:if test="${empty sessionScope.listMyClub}">
+                                                                <tr>
+                                                                    <td colspan="7" class="text-center">You haven't joined the club yet.</td>
+                                                                </tr>
+                                                            </c:if>
+>>>>>>> 61830179145d446bc55aca6dac129408363ed174
                                                         </tbody>
                                                     </table>
                                                 </div>
