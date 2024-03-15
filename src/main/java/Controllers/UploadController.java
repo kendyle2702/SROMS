@@ -165,7 +165,7 @@ public class UploadController extends HttpServlet {
                     part.write(realPath + "/" + logo);
                 } catch (Exception ex) {
                     session.setAttribute("signUpClub", "fail");
-                    response.sendRedirect("/student/clubs/view");
+//                    response.sendRedirect("/student/clubs/view");
                 }
             }
             ClubDAO clubD = new ClubDAO();
