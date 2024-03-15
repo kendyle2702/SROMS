@@ -47,7 +47,7 @@
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">
-                                <table id='viewClubs' class="table star-student table-hover table-center table-borderless table-striped">
+                                <table id='viewClubs' class="table table-hover table-striped table-bordered">
                                     <thead class="thead-light">
                                         <tr>
                                             <th class="text-center">No.</th>
@@ -55,7 +55,7 @@
                                             <th class="text-center">Establish Date</th>
                                             <th class="text-center">Status</th>
                                             <th class="text-center">Detail</th>
-                                            <th></th>
+                                            
 
                                         </tr>
                                     </thead>
@@ -68,19 +68,17 @@
                                                 <td class="text-center">${c.getEstablishDate()}</td>
                                             <c:choose>
                                                 <c:when test="${c.getIsActive() == true}">
-                                                    <td class="text-center">Active</td>
+                                                    <td class="text-center" ><button class="btn btn-outline-success active">Active</button></td>
                                                 </c:when>
                                                 <c:otherwise>
-                                                    <td class="text-center">In Active</td>
+                                                    <td class="text-center" ><button class="btn btn-outline-success active">Inactive</button></td>
                                                 </c:otherwise>
                                             </c:choose>
                                             <td class="text-center">                                                                
-                                                <a href="/clubmanager/viewdetail/${c.getClubID()}"  class="btn btn-primary">View Detail</a>
+                                                <a style="background-color: #ea7127; border: none" href="/clubmanager/clubdetail/${c.getClubID()}"  class="btn btn-primary">View Detail</a>
 
                                             </td>
-                                            <td class="text-center">
-                                                <a href="/clubmanager/delete/${c.getClubID()}" class="btn btn-danger">Delete</a>
-                                            </td>
+                                          
                                             </tr>
                                         </c:forEach>
                                     </c:if>

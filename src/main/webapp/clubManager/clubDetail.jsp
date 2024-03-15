@@ -1,149 +1,94 @@
+<%@page import="Models.Club"%>
+<%@page import="java.sql.ResultSet"%>
+<%@page import="DAOs.ClubDAO"%>
 <div class="page-wrapper">
     <div class="content container-fluid">
 
         <div class="page-header">
-            <div class="row align-items-center">
+            <div class="row">
                 <div class="col">
                     <h3 class="page-title">Club Detail</h3>
                     <ul class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="/clubmanager/viewclubs">View Club</a></li>
                         <li class="breadcrumb-item active">Club Detail</li>
                     </ul>
                 </div>
             </div>
         </div>
-        <div class="row">
-            <div class="col-sm-12">
-                <div class="card">
-                    <div class="card-body">
-                        <form action="/clubmanager" method="post">
-                            <div class="row">
-                                <div class="col-12">
-                                    <h5 class="form-title"><span>Club Information</span></h5>
-                                </div>
-                                <c:if test="${not empty sessionScope.event}"> 
-                                    <div class="col-12 col-sm-4">
-                                        <div class="form-group local-forms">
-                                            <label>Id</label>
-                                            <input name="idupdate" type="text" class="form-control" value="${sessionScope.event.getEventID()}" readonly="">
-                                        </div>
-                                    </div>
 
-                                    <div class="col-12 col-sm-4">
-                                        <div class="form-group local-forms">
-                                            <label>Name</label>
-                                            <input name="eventnameupdate" type="text" class="form-control" value="${sessionScope.event.getEventName()}">
-                                        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="profile-header">
+                    <div class="row align-items-center">
+                        <div class="col-auto profile-image">
+                            <a href="#">
+                                <img class="rounded-circle" alt="User Image" src="${sessionScope.clubDetail.getLogo()}">
+                            </a>
+                        </div>
+                        <div class="col ms-md-n2 profile-user-info">
+                            <h4 class="user-name mb-0">${sessionScope.clubDetail.getClubName()}</h4>
+                            <h6 style="color: green;" class="text-muted">Establish Date: ${sessionScope.clubDetail.getEstablishDate()}</h6>
+                            <div class="user-Location">${sessionScope.clubDetail.getDescription()}</div>
+
+                        </div>
+                        <div class="col-auto profile-btn">
+                            <% 
+                             Club club = (Club)session.getAttribute("clubDetail");
+                            %>
+                            <a id="banAccount" href="${pageContext.request.contextPath}/clubmanager/clubdetail/block/<%=session.getAttribute("rsClubCurrentID")%>" style='display: <%=club.getIsActive()== true ? "block":"none" %> '><button class="mb-2 mr-2 btn-icon btn btn-danger"><i class="pe-7s-trash btn-icon-wrapper"></i>Lock Club</button></a> 
+                            <a id="unbanAccount" href="${pageContext.request.contextPath}/clubmanager/clubdetail/unblock/<%=session.getAttribute("rsClubCurrentID")%>%>" style='display: <%=club.getIsActive()== false ? "block":"none" %>'><button class="mb-2 mr-2 btn-icon btn btn-primary"><i class="pe-7s-tools btn-icon-wrapper"> </i>Unlock Club</button></a> 
+
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-content profile-tab-cont">
+                    <div class="row">
+                        <div class="col-xl-12 d-flex">
+                            <div class="card flex-fill student-space comman-shadow">
+                                <div class="card-header d-flex align-items-center">
+                                    <h5 class="card-title">Member List</h5>
+                                    <ul class="chart-list-out student-ellips">
+                                        <li class="star-menus"><a href="javascript:;"><i class="fas fa-ellipsis-v"></i></a></li>
+                                    </ul>
+                                </div>
+                                <div class="card-body">
+                                    <div class="table-responsive">
+                                        <table id='viewClubs' class="table table-hover table-striped table-bordered">
+                                            <thead class="thead-light">
+                                                <tr>
+                                                    <th class="text-center">No.</th>
+                                                    <th class="text-center">Roll Number</th>
+                                                    <th class="text-center">Full Name</th>
+
+                                                    <th class="text-center">Phone</th>
+                                                    <th class="text-center">Club Role</th>
+
+
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <%
+                                                    ClubDAO cDAO = new ClubDAO();
+                                                    ResultSet rs = (ResultSet) session.getAttribute("rsClubCurrent");
+                                                    int count = 1;
+                                                    while (rs.next()) {%> 
+                                                <tr>
+                                                    <td class="text-center"><%=count++%></td>
+                                                    <td class="text-center"><%=rs.getString("RollNumber")%></td>
+
+                                                    <td class="text-center"><%=rs.getString("LastName") + " " + rs.getString("FirstName")%></td>
+                                                    <td class="text-center"><%=rs.getString("Phone")%></td>
+                                                    <td class="text-center"><%=rs.getString("ClubRole")%></td>
+
+                                                </tr>
+                                                <%}
+                                                %>
+                                            </tbody>
+                                        </table>
                                     </div>
-                                    <div class="col-12 col-sm-4">
-                                        <div class="form-group local-forms">
-                                            <label>Preparation Time</label>
-                                            <input name="pretimeupdate" class="form-control" type="datetime-local" value="${sessionScope.event.getPreparationTime()}">
-                                        </div>
-                                    </div>
-                                    <div class="col-12 col-sm-4">
-                                        <div class="form-group local-forms">
-                                            <label>Hold Time</label>
-                                            <input name="holetimeupdate" class="form-control" type="datetime-local" value="${sessionScope.event.getHoldTime()}">
-                                        </div>
-                                    </div>
-                                    <div class="col-12 col-sm-4">
-                                        <div class="form-group local-forms">
-                                            <label>Location</label>
-                                            <input name="locationeupdate"  type="text" class="form-control" value="${sessionScope.event.getLocation()}">
-                                        </div>
-                                    </div>
-                                    <div class="col-12 col-sm-4">
-                                        <div class="form-group local-forms">
-                                            <label>Cost</label>
-                                            <input name="costupdate" type="number" class="form-control" value="${sessionScope.event.getCost()}">
-                                        </div>
-                                    </div>
-                                    <div class="col-12 col-sm-4">
-                                        <div class="form-group local-forms">
-                                            <label>Expected Number</label>
-                                            <input name="exnumupdate" type="number" class="form-control" value="${sessionScope.event.getExpectedNumber()}">
-                                        </div>
-                                    </div>
-                                    <div class="col-12 col-sm-4">
-                                        <div class="form-group local-forms">
-                                            <label>Organization</label>
-                                            <input name="organupdate" type="text" class="form-control" value="${sessionScope.event.getOrganization()}">
-                                        </div>
-                                    </div>
-                                    <div class="col-12 col-sm-4">
-                                        <div class="form-group local-forms">
-                                            <label>Feedback</label>
-                                            <input name="feedbackupdate" type="text" class="form-control" value="${sessionScope.event.getFeedback()}" >
-                                        </div> 
-                                    </div>                                
-                                    <div class="col-12 col-sm-4">
-                                        <div class="form-group local-forms">
-                                            <label>Is Approve</label>
-                                            <c:choose>
-                                                <c:when test="${liste.getApprove() eq 'AA'}">
-                                                    <input type="text" class="form-control" value="Accept" readonly="">
-                                                </c:when>                                            
-                                                <c:otherwise>
-                                                    <input type="text" class="form-control" value="Waiting" readonly=""> 
-                                                </c:otherwise>
-                                            </c:choose>
-                                        </div>
-                                    </div>
-                                    <div class="col-12 col-sm-4">
-                                        <div class="form-group local-forms">
-                                            <label>Status</label>
-                                            <%
-                                                EventDAO dao = new EventDAO();
-                                                Calendar calen = Calendar.getInstance();
-                                                SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH-mm-ss");
-                                                Timestamp currentDateTime = new Timestamp(calen.getTimeInMillis());
-                                                String currentDateTimeString = format.format(currentDateTime);
-                                                session.setAttribute("currentTime", currentDateTimeString);
-                                            %>
-                                            <c:choose>
-                                                <c:when test="${sessionScope.currentTime <= liste.getEndTime() && liste.getApprove() eq 'AA'}">
-                                                    <input type="text" class="form-control" value="Happening" readonly="">
-                                                </c:when>
-                                                <c:when test="${sessionScope.currentTime > liste.getEndTime() && liste.getApprove() eq 'AA'}">
-                                                    <input type="text" class="form-control" value="Finished" readonly="">   
-                                                </c:when>
-                                                <c:otherwise>
-                                                    <input type="text" class="form-control" value="Waiting Accept" readonly="">  
-                                                </c:otherwise>
-                                            </c:choose>
-                                        </div>
-                                    </div>
-                                    <div class="col-12 col-sm-4">
-                                        <div class="form-group local-forms">
-                                            <label>Create By</label>
-                                            <input type="text" class="form-control" value="<%= (String) session.getAttribute("role")%>" readonly>
-                                        </div>
-                                    </div>
-                                    <div class="col-12 col-sm-4">
-                                        <div class="form-group local-forms">
-                                            <label>End Time</label>
-                                            <input name="endtimeupdate" class="form-control" type="datetime-local" value="${sessionScope.event.getEndTime()}">
-                                        </div>
-                                    </div>  
-                                    <div class="col-12 col-sm-4">
-                                        <div class="form-group local-forms">
-                                            <label>Description</label>
-                                            <textarea name="descriptionupdate" type="text" class="form-control" >${sessionScope.event.getDescription()}</textarea>
-                                        </div>
-                                    </div>
-                                    <div class="col-12">
-                                        <div class="student-submit">
-                                            <input class="btn btn-primary" name="event" id="submit" type="submit" value="Update">
-                                        </div>
-                                    </div>
-                                </c:if>
-                                <c:if test="${empty sessionScope.event}">
-                                    <tr>
-                                        <td colspan="7" class="text-center">No events found.</td>
-                                    </tr>
-                                </c:if>
+                                </div>
                             </div>
-                        </form>
+                        </div>
                     </div>
                 </div>
             </div>

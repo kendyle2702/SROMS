@@ -5,6 +5,7 @@
 package Controllers;
 
 import DAOs.ClubDAO;
+import DAOs.UserLoginDAO;
 import Models.Club;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -14,6 +15,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.logging.Level;
@@ -41,21 +43,42 @@ public class ClubManagerController extends HttpServlet {
                 if (path.endsWith("/clubmanager")) {
                     session.setAttribute("tabId", 1);
                     request.getRequestDispatcher("/clubManager.jsp").forward(request, response);
-                } else if (path.equals("/clubmanager/viewClubs")) {
+                } else if (path.equals("/clubmanager/profile")) {
+                    session.setAttribute("tabId", 2);
+                    request.getRequestDispatcher("/clubManager.jsp").forward(request, response);
+                } else if (path.equals("/clubmanager/profile/edit")) {
+                    session.setAttribute("tabId", 3);
+                    request.getRequestDispatcher("/clubManager.jsp").forward(request, response);
+                } else if (path.equals("/clubmanager/viewclubs")) {
                     session.setAttribute("tabId", 4);
                     request.getRequestDispatcher("/clubManager.jsp").forward(request, response);
-                } else if (path.startsWith("/clubmanager/delete")) {
-                    String[] parts = path.split("/");
-                    String p = parts[parts.length - 1];
-                    int id = Integer.parseInt(p);
-                    clubDAO.delete(id);
-                    listClub = clubDAO.listClub();
-                    totalClub = clubDAO.getTotalClub();
-                    session.setAttribute("Club", listClub);
-                    session.setAttribute("totalClub", totalClub);
+                } else if (path.startsWith("/clubmanager/clubdetail/block/")) {
+                    String[] idArray = path.split("/");
+                    int id = Integer.parseInt(idArray[idArray.length - 1]);
+                    ClubDAO club = new ClubDAO();
+                    club.blockClub(id);
+                    response.sendRedirect("/clubmanager/clubdetail/" + id);
+                } else if (path.startsWith("/clubmanager/clubdetail/unblock/")) {
+                    String[] idArray = path.split("/");
+                    int id = Integer.parseInt(idArray[idArray.length - 1]);
+                    ClubDAO club = new ClubDAO();
+                    club.unblockClub(id);
+                    response.sendRedirect("/clubmanager/clubdetail/" + id);
+                } else if (path.startsWith("/clubmanager/clubdetail/")) {
+                    String[] isArray = path.split("/");
+                    int id = Integer.parseInt(isArray[isArray.length - 1]);
+                    Club clubDetail = clubDAO.getClubByClubID(id);
+                    session.setAttribute("clubDetail", clubDetail);
+                    ClubDAO clubC = new ClubDAO();
+                    ResultSet clubCurrent = clubC.getCurrentClubDetail(id);
+                    session.setAttribute("rsClubCurrent", clubCurrent);
+                    session.setAttribute("rsClubCurrentID", id);
+
+                    session.setAttribute("tabId", 5);
                     request.getRequestDispatcher("/clubManager.jsp").forward(request, response);
-                } else if (path.equals("/clubmanager/checkRequestClub")) {
-                    session.setAttribute("tabId", 2);
+
+                } else if (path.equals("/clubmanager/checkrequestClub")) {
+                    session.setAttribute("tabId", 6);
                     int clubID = 0;
                     int studentProfileID = 0;
                     List<Club> listCheckRequestClub = clubDAO.listCheckRequest();
@@ -68,32 +91,32 @@ public class ClubManagerController extends HttpServlet {
                     session.setAttribute("fullNameCreateClub", fullName);
                     session.setAttribute("listCheckRequestClub", listCheckRequestClub);
                     request.getRequestDispatcher("/clubManager.jsp").forward(request, response);
-                } else if (path.startsWith("/clubmanager/check")) {
 
-                    if (path.startsWith("/clubmanager/check/accept")) {
+                } else if (path.startsWith("/clubmanager/check/")) {
+                    if (path.startsWith("/clubmanager/check/accept/")) {
                         String[] parts = path.split("/");
                         String p = parts[parts.length - 1];
                         int id = Integer.parseInt(p);
                         int checkAccept = clubDAO.checkRequestCreate(1, id);
                         if (checkAccept > 0) {
-                            session.setAttribute("checkRequestClub", "acceptSuccess");
+                            session.setAttribute("checkrequestClub", "acceptSuccess");
                         } else {
-                            session.setAttribute("checkRequestClub", "acceptFail");
+                            session.setAttribute("checkrequestClub", "acceptFail");
                         }
-                    } else if (path.startsWith("/clubmanager/check/reject")) {
+                    } else if (path.startsWith("/clubmanager/check/reject/")) {
                         String[] parts = path.split("/");
                         String p = parts[parts.length - 1];
                         int id = Integer.parseInt(p);
                         int checkReject = clubDAO.checkRequestCreate(0, id);
                         if (checkReject > 0) {
-                            session.setAttribute("checkRequestClub", "rejectSuccess");
+                            session.setAttribute("checkrequestClub", "rejectSuccess");
                         } else {
-                            session.setAttribute("checkRequestClub", "rejectFail");
+                            session.setAttribute("checkrequestClub", "rejectFail");
                         }
                     }
-//                   
-                    response.sendRedirect("/clubmanager/checkRequestClub");
+                    response.sendRedirect("/clubmanager/checkrequestClub");
                 }
+
             } catch (SQLException ex) {
                 Logger.getLogger(ClubManagerController.class.getName()).log(Level.SEVERE, null, ex);
             }
