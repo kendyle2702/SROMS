@@ -89,21 +89,7 @@ public class Event {
         this.endTime = endTime;
     }
 
-    public Event(int eventID, String eventName, Timestamp preparationTime, Timestamp holdTime, String location, int cost, int expectedNumber, String organization, String description, String feedback, String Approve, String createdBy, Timestamp endTime) {
-        this.eventID = eventID;
-        this.eventName = eventName;
-        this.preparationTime = preparationTime;
-        this.holdTime = holdTime;
-        this.location = location;
-        this.cost = cost;
-        this.expectedNumber = expectedNumber;
-        this.organization = organization;
-        this.description = description;
-        this.feedback = feedback;
-        this.Approve = Approve;
-        this.createdBy = createdBy;
-        this.endTime = endTime;
-    }
+
 
     public Event(String eventName) {
         this.eventName = eventName;

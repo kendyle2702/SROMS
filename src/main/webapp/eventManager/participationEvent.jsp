@@ -8,6 +8,21 @@
 <div class="page-wrapper">
     <div class="content container-fluid"> 
         <div class="row">
+            <div class="page-header">
+                <div class="row align-items-center">
+                    <div class="col-sm-12">
+                        <div class="page-sub-header">
+                            <h3 class="page-title">Check Attendance For Student</h3>
+                            <ul class="breadcrumb">
+                                <li class="breadcrumb-item"><a href="/">Home</a></li>
+                                <li class="breadcrumb-item"><a href="#">Participants Management</a></li>
+                                <li class="breadcrumb-item"><a href="/eventmanager/events/checkAttandant">Check Attendance</a></li>
+                                <li class="breadcrumb-item"><a href="#">Check Attendance Form</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <div class="col-xl-12 d-flex">
                 <div class="card flex-fill student-space comman-shadow">
                     <div class="card-header d-flex align-items-center">
@@ -59,12 +74,12 @@
                                                             <div class="col-6">
                                                                 <div class="form-check">
                                                                     <input class="form-check-input" type="radio" id="absentRadio_${count.index}" name="checkAttendance/${liste.StudentProfileID}/${liste.EventID}" value="Absent" <c:out value="${(liste.IsPresent == 0) ? 'checked' : ''}"/>>
-                                                                           <label class="form-check-label" for="absentRadio_${count.index}">Absent</label><br>                                                                    
-                                                                    </div>
+                                                                    <label class="form-check-label" for="absentRadio_${count.index}">Absent</label><br>                                                                    
                                                                 </div>
                                                             </div>
-                                                        </td>                                
-                                                    </tr>
+                                                        </div>
+                                                    </td>                                
+                                                </tr>
                                             </c:forEach>
                                             <tr>
                                                 <td  colspan="6">

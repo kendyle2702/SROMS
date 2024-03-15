@@ -12,11 +12,11 @@
             <div class="row align-items-center">
                 <div class="col-sm-12">
                     <div class="page-sub-header">
-                        <h3 class="page-title">View Event</h3>
+                        <h3 class="page-title">List Events Awaiting Approval</h3>
                         <ul class="breadcrumb">
                             <li class="breadcrumb-item"><a href="/">Home</a></li>
-                            <li class="breadcrumb-item active"><a href="#">Event Management</a></li>
-                            <li class="breadcrumb-item active"><a href="#">View Event</a></li>
+                            <li class="breadcrumb-item active"><a href="#">Manage Event Requests</a></li>
+                            <li class="breadcrumb-item active"><a href="#">List Events Awaiting Approval</a></li>
                         </ul>
                     </div>
                 </div>
@@ -27,7 +27,7 @@
                 <div class="col-xl-12 d-flex">
                     <div class="card flex-fill student-space comman-shadow">
                         <div class="card-header d-flex align-items-center">
-                            <h5 class="card-title">Event List</h5>
+                            <h5 class="card-title">List Events Awaiting Approval</h5>
                             <ul class="chart-list-out student-ellips">
                                 <li class="star-menus"><a href="javascript:;"><i class="fas fa-ellipsis-v"></i></a></li>
                             </ul>
@@ -40,9 +40,7 @@
                                         <tr>
                                             <th class="text-center">No.</th>                                       
                                             <th style="width: 50px;" class="text-center">Name</th>
-                                            <th class="text-center">Start Time</th>
-                                            <th class="text-center">Organization</th>                                         
-                                            <th class="text-center">Location</th>
+
                                             <th class="text-center">Status</th>       
                                             <th class="text-center"></th> 
                                         </tr>
@@ -50,13 +48,10 @@
                                     <tbody>
                                         <c:if test="${not empty sessionScope.listEvent}">
                                             <c:forEach items="${sessionScope.listEvent}" var="liste" varStatus="count">
-                                                <c:if test="${liste.getApprove() eq 'AA'}">
+                                                <c:if test="${liste.getApprove() eq 'EA' || liste.getApprove() eq 'EC'|| liste.getApprove() eq 'AA' || liste.getApprove() eq 'DL'}">
                                                     <tr>
                                                         <td class="">${count.index+1}</td>
                                                         <td style="width: 50px;" class="">${liste.getEventName()}</td>
-                                                        <td class="">${liste.getHoldTime()}</td><!-- comment -->
-                                                        <td class="">${liste.getOrganization()}</td>                                                         
-                                                        <td class="">${liste.getLocation()}</td>
                                                         <%
                                                             EventDAO dao = new EventDAO();
                                                             List<Event> events = dao.eventList();
@@ -68,17 +63,17 @@
                                                             session.setAttribute("currentTime", currentDateTimeString);
                                                         %>
                                                         <c:choose>
-                                                            <c:when test="${sessionScope.currentTime <= liste.getEndTime() && sessionScope.currentTime >= liste.getHoldTime() && liste.getApprove() eq 'AA'}">
-                                                                <td class=""><button type="button" class="btn btn-block btn-outline-success active">Happening</button></td>
+                                                            <c:when test="${liste.getApprove() eq 'AA'}">
+                                                                <td class="text-center"><a type="button" class=" mb-2 mr-2 btn btn-outline-organ btn-outline-success active">Accepted</a></td>
                                                             </c:when>
-                                                            <c:when test="${sessionScope.currentTime > liste.getEndTime() && liste.getApprove() eq 'AA'}">
-                                                                <td class=""><button type="button" class="btn btn-block btn-outline-primary active">Finished</button></td>
-                                                            </c:when>                            
-                                                            <c:when test="${sessionScope.currentTime < liste.getHoldTime() && sessionScope.currentTime < liste.getEndTime()  && liste.getApprove() eq 'AA'}">
-                                                                <td class=""><button type="button" class="btn btn-block btn-outline-secondary active">Not Started</button></td>
-                                                            </c:when>
+                                                            <c:when test="${liste.getApprove() eq 'DL'}">
+                                                                <td class="text-center"><a type="button" class=" mb-2 mr-2 btn btn-outline-organ btn-outline-danger active">Rejected</a></td>
+                                                            </c:when>     
+                                                            <c:otherwise>
+                                                                <td class="text-center"><a type="button" class="mb-2 mr-2 btn btn-outline-organ btn-outline-primary active">Waiting</a></td>
+                                                            </c:otherwise>
                                                         </c:choose>                                       
-                                                        <td><a style="background: #ea7127;border-color:#ea7127;" href="/eventmanager/events/detail/${liste.getEventID()}" type="button" class="mb-2 mr-2 btn btn-outline-organ text-white" style="background-color: #ea7127; border-color: #ea7127;">
+                                                        <td class="text-center"><a style="background: #ea7127;border-color:#ea7127;" href="/eventmanager/events/detail/${liste.getEventID()}" type="button" class="mb-2 mr-2 btn btn-outline-organ text-white" style="background-color: #ea7127; border-color: #ea7127;">
                                                                 <i class="feather-edit-3"></i>Detail</a></td>
                                                     </tr>
                                                 </c:if>

@@ -1684,8 +1684,8 @@ div.dataTables_wrapper div.dataTables_length select {
 .nav-tabs.nav-tabs-solid > li > a.active,
 .nav-tabs.nav-tabs-solid > li > a.active:hover,
 .nav-tabs.nav-tabs-solid > li > a.active:focus {
-    background-color: #3d5ee1;
-    border-color: #3d5ee1;
+    background-color: #ea7127;
+    border-color: #ea7127;
     color: #fff;
 }
 .nav-tabs.nav-tabs-solid.nav-tabs-rounded {

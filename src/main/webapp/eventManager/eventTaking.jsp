@@ -7,6 +7,20 @@
 <%@page import="DAOs.EventDAO"%>
 <div class="page-wrapper">
     <div class="content container-fluid"> 
+        <div class="page-header">
+            <div class="row align-items-center">
+                <div class="col-sm-12">
+                    <div class="page-sub-header">
+                        <h3 class="page-title">Check Attendance For Student</h3>
+                        <ul class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="/">Home</a></li>
+                            <li class="breadcrumb-item"><a href="#">Participants Management</a></li>
+                            <li class="breadcrumb-item active"><a href="#">Check Attendance</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
         <div class="row">
             <div class="col-xl-12 d-flex">
                 <div class="card flex-fill student-space comman-shadow">
@@ -45,10 +59,9 @@
                                                 session.setAttribute("currentTime", currentDateTimeString);
                                             %>
                                             <c:choose>
-                                                <c:when  test="${sessionScope.currentTime <= liste.getEndTime() && liste.getApprove() eq 'AA'}">
+                                                <c:when test="${sessionScope.currentTime <= liste.getEndTime() && sessionScope.currentTime >= liste.getHoldTime() && liste.getApprove() eq 'AA'}">
                                                     <tr>
-<!--                                                        <td class="">${count.index+1}</td>-->
-                                                        <td class="">${liste.getEventID()}</td>
+                                                        <td class="">${count.index+1}</td>
                                                         <td class="">${liste.getEventName()}</td>
                                                         <td class="">${liste.getLocation()}</td>
                                                         <td class="">${liste.getEndTime()}</td>
@@ -56,7 +69,7 @@
                                                             <a style="background: #ea7127;border-color:#ea7127;" href="/eventmanager/events/checkAttendant/${liste.getEventID()}" type="button" class="btn btn-primary">Check Attendant</a>
                                                         </td>
                                                     </tr>
-                                                </c:when>
+                                                </c:when>                                             
                                             </c:choose>
                                         </c:forEach>
                                     </c:if>                                              

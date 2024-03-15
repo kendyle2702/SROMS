@@ -15,7 +15,6 @@
     </head>
     <body>
         <div class="main-wrapper">
-
             <%@include file="./general/header.jsp" %>
             <%@include file="./eventManager/sidebar.jsp"%>
             <c:choose>
@@ -48,6 +47,12 @@
                 </c:when>
                 <c:when test="${sessionScope.tabId == 10}">
                     <%@include file="./eventManager/evaluateEvent.jsp" %>
+                </c:when>
+                <c:when test="${sessionScope.tabId == 11}">
+                    <%@include file="./eventManager/viewRequestCreateEvent.jsp" %>
+                </c:when>
+                <c:when test="${sessionScope.tabId == 12}">
+                    <%@include file="./eventManager/viewEventWaitingAminAccept.jsp" %>
                 </c:when>
             </c:choose>
         </div>
