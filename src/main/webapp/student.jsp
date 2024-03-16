@@ -45,27 +45,20 @@
                 <c:when test="${sessionScope.tabId == 9}">
                     <%@include file="./student/club/viewClubMembers.jsp" %>
                 </c:when>
-
+                
                 <c:when test="${sessionScope.tabId == 10}">
                     <%@include file="./student/club/signUpToClub.jsp" %>
                 </c:when>
+                
                 <c:when test="${sessionScope.tabId == 11}">
-                    <%@include file="./student/club/detailMember.jsp" %>
-                </c:when>
-                <c:when test="${sessionScope.tabId == 12}">
-                    <%@include file="./student/event/viewEventMyClub.jsp" %>
-                </c:when>
-                <c:when test="${sessionScope.tabId == 13}">
                     <%@include file="./student/news/newsDetail.jsp" %>
                 </c:when>
-                <c:when test="${sessionScope.tabId == 5}">
-                    <%@include file="./general/profile.jsp" %>
-                </c:when>
-                <c:when test="${sessionScope.tabId == 6}">
-                    <%@include file="./general/editProfile.jsp" %>
+                
+                <c:when test="${sessionScope.tabId == 12}">
+                    <%@include file="./student/activitiesPoint/activitiesPointDetail.jsp" %>
                 </c:when>
             </c:choose>
         </div>
-     <%@include file="./general/js.jsp" %>
+        <%@include file="./general/js.jsp" %>
     </body>
 </html>

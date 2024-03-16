@@ -340,21 +340,13 @@
     Swal.fire({
         position: "top-end",
         icon: "error",
-<<<<<<< HEAD
         title: "Sign up club failed",
-=======
-        title: "Edit Failed",
->>>>>>> origin/main
         showConfirmButton: false,
         timer: 1000
     });
     <%
             }
         }
-<<<<<<< HEAD
         session.removeAttribute("signUpClub");
-=======
-        session.removeAttribute("editStatus");
->>>>>>> origin/main
     %>
 </script>
