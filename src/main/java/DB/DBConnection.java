@@ -18,7 +18,6 @@ public class DBConnection {
         String password = "123456";
 
         Connection conn = null;
-
         try {
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
 

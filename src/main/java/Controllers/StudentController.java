@@ -9,6 +9,8 @@ import Models.Event;
 import Models.ParticipationEventDetail;
 import Models.StudentProfile;
 import Models.UserLogin;
+import DAOs.StudentProfileDAO;
+import DAOs.UserProfileDAO;
 import Models.UserProfile;
 import java.io.IOException;
 import jakarta.servlet.ServletException;
@@ -33,6 +35,7 @@ public class StudentController extends HttpServlet {
         UserProfile userProfile = (UserProfile) session.getAttribute("user");
         String path = request.getRequestURI();
 
+        UserProfileDAO userprofileDAO = new UserProfileDAO();
         if (role != null && role.equals("Student")) {
             try {
                 UserLoginDAO userLoginDAO = new UserLoginDAO();

@@ -6,14 +6,15 @@
 <%@page import="DAOs.EventDAO"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+
 <!DOCTYPE html>
 <html lang="en">
     <head>
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/style.css"/>
         <%@include file="./general/head_html.jsp" %>
     </head>
     <body>
         <div class="main-wrapper">
-
             <%@include file="./general/header.jsp" %>
             <%@include file="./eventManager/sidebar.jsp"%>
             <c:choose>
@@ -35,8 +36,26 @@
                 <c:when test="${sessionScope.tabId == 6}">
                     <%@include file="./general/editProfile.jsp" %>
                 </c:when>
+                <c:when test="${sessionScope.tabId == 7}">
+                    <%@include file="./eventManager/eventTaking.jsp" %>
+                </c:when>
+                <c:when test="${sessionScope.tabId == 8}">
+                    <%@include file="./eventManager/participationEvent.jsp" %>
+                </c:when>
+                <c:when test="${sessionScope.tabId == 9}">
+                    <%@include file="./eventManager/eventTakingEvaluate.jsp" %>
+                </c:when>
+                <c:when test="${sessionScope.tabId == 10}">
+                    <%@include file="./eventManager/evaluateEvent.jsp" %>
+                </c:when>
+                <c:when test="${sessionScope.tabId == 11}">
+                    <%@include file="./eventManager/viewRequestCreateEvent.jsp" %>
+                </c:when>
+                <c:when test="${sessionScope.tabId == 12}">
+                    <%@include file="./eventManager/viewEventWaitingAminAccept.jsp" %>
+                </c:when>
             </c:choose>
         </div>
-     <%@include file="./general/js.jsp" %>
+        <%@include file="./general/js.jsp" %>
     </body>
 </html>
