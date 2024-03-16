@@ -4,6 +4,7 @@
  */
 package Controllers;
 
+import DAOs.ClubDAO;
 import DAOs.ManagerProfileDAO;
 import DAOs.StudentProfileDAO;
 import DAOs.UserLoginDAO;

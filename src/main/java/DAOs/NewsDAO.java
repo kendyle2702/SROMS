@@ -109,6 +109,8 @@ public class NewsDAO {
             Logger.getLogger(NewsDAO.class.getName()).log(Level.SEVERE, null, e);
         }
         return news;
+    }
+
     public ResultSet getAllNewsReturnResultSet() {
         ResultSet rs = null;
         try {
@@ -154,6 +156,7 @@ public class NewsDAO {
 
         return (count == 0) ? null : news;
     }
+
     public News updateNews(News news) {
         int count = 0;
         try {

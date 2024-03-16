@@ -345,6 +345,8 @@ public class EventDAO {
             listE.add(event);
         }
         return listE; // Return the list of events
+    }
+
     public void approveEventByAdmin(int eventID) {
         try {
             PreparedStatement ps = conn.prepareStatement("Update Event set Approve = 'AA' where EventID = ?");
@@ -437,6 +439,7 @@ public class EventDAO {
         }
         return score;
     }
+
     public int getEventsScoreCompetitionByStudentIDAndSemesterID(int studentID, int semesterID) {
         int score = 0;
         try {
