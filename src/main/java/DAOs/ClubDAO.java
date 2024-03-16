@@ -473,4 +473,38 @@ public class ClubDAO {
         }
         return listStudent;
     }
+
+    public ResultSet getNameClubsByStudentIDAndSemesterID(int semesterID, int studentID) {
+        ResultSet rs = null;
+        try {
+            ps = conn.prepareStatement("SELECT *\n"
+                    + "FROM Club c\n"
+                    + "JOIN ClubMember cm ON c.ClubID = cm.ClubID\n"
+                    + "WHERE cm.SemesterID = ?\n"
+                    + "AND cm.StudentProfileID = ?");
+            ps.setInt(1, semesterID);
+            ps.setInt(2, studentID);
+            rs = ps.executeQuery();
+        } catch (SQLException ex) {
+            Logger.getLogger(ClubDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return rs;
+    }
+
+    public ResultSet getPointClubByStudentIDAndSemesterID(int semesterID, int studentID) {
+        ResultSet rs = null;
+        try {
+            ps = conn.prepareStatement("  select * from [SROMS].[dbo].[ClubMember] cm\n"
+                    + "  inner join [SROMS].[dbo].[Club] c on c.ClubID = cm.ClubID\n"
+                    + "  WHERE cm.SemesterID = ?\n"
+                    + "  AND cm.StudentProfileID = ?");
+            ps.setInt(1, semesterID);
+            ps.setInt(2, studentID);
+            rs = ps.executeQuery();
+        } catch (SQLException ex) {
+            Logger.getLogger(ClubDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return rs;
+    }
+
 }

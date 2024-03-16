@@ -771,4 +771,31 @@ public class EventDAO {
         }
         return semesterIdPresent;
     }
+
+    public ResultSet getNameEventByStudentIDAndSemesterID(int semesterID, int studentID) {
+        try {
+            ps = conn.prepareStatement("SELECT * FROM [SROMS].[dbo].[Event] e JOIN [SROMS].[dbo].[ParticipationEventDetail] pe ON e.EventID = pe.EventID WHERE e.SemesterID = ? AND pe.StudentProfileID = ?");
+            ps.setInt(1, semesterID);
+            ps.setInt(2, studentID);
+            rs = ps.executeQuery();
+        } catch (SQLException ex) {
+            Logger.getLogger(ClubDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return rs;
+    }
+
+    public ResultSet getPointEventByStudentIDAndSemesterID(int semesterID, int studentID) {
+        try {
+            ps = conn.prepareStatement("  select * from  [SROMS].[dbo].[EventCategory] ec\n"
+                    + "  inner join [SROMS].[dbo].[Event] e on ec.EventCategoryID = e.EventCategoryID\n"
+                    + "  inner join [SROMS].[dbo].[ParticipationEventDetail] pe ON e.EventID = pe.EventID\n"
+                    + "  where e.SemesterID = ? AND pe.StudentProfileID = ?");
+            ps.setInt(1, semesterID);
+            ps.setInt(2, studentID);
+            rs = ps.executeQuery();
+        } catch (SQLException ex) {
+            Logger.getLogger(ClubDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return rs;
+    }
 }
