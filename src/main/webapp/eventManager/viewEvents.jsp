@@ -48,11 +48,12 @@
                                         </tr>
                                     </thead>
                                     <tbody>
+                                        <%int count = 0;%>
                                         <c:if test="${not empty sessionScope.listEvent}">
-                                            <c:forEach items="${sessionScope.listEvent}" var="liste" varStatus="count">
+                                            <c:forEach items="${sessionScope.listEvent}" var="liste" >
                                                 <c:if test="${liste.getApprove() eq 'AA'}">
                                                     <tr>
-                                                        <td class="">${count.index+1}</td>
+                                                        <td class=""><%=++count%></td>
                                                         <td style="width: 50px;" class="">${liste.getEventName()}</td>
                                                         <td class="">${liste.getHoldTime()}</td><!-- comment -->
                                                         <td class="">${liste.getOrganization()}</td>                                                         
