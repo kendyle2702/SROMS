@@ -67,31 +67,31 @@
 </script>
 <!--Edit Profile alert-->
 <script>
-     <%
-         String editStatus = (String) session.getAttribute("editStatus");
-         if (editStatus != null) {
-             if (editStatus.equals("success")) {
-                %>
-                    Swal.fire({
-                    position: "top-end",
-                    icon: "success",
-                    title: "Edited Successfully!",
-                    showConfirmButton: false,
-                    timer: 1000
-                  });
-                <%
-             } else {
-                %>
-                    Swal.fire({
-                    position: "top-end",
-                    icon: "error",
-                    title: "Edit Failed",
-                    showConfirmButton: false,
-                    timer: 1000
-                  });
-                <%
-             }
-         }
+    <%
+        String editStatus = (String) session.getAttribute("editStatus");
+        if (editStatus != null) {
+            if (editStatus.equals("success")) {
+    %>
+    Swal.fire({
+        position: "top-end",
+        icon: "success",
+        title: "Edited Successfully!",
+        showConfirmButton: false,
+        timer: 1000
+    });
+    <%
+    } else {
+    %>
+    Swal.fire({
+        position: "top-end",
+        icon: "error",
+        title: "Edit Failed",
+        showConfirmButton: false,
+        timer: 1000
+    });
+    <%
+            }
+        }
         session.removeAttribute("editStatus");
     %>
 </script>
@@ -104,7 +104,7 @@
         invalid: "invalid", // T�n class message
         rules: [
             Validator.isRequire("#firstname", "First Name is required"),
-            Validator.isRequire("#lastname", "Last Name is required"),  
+            Validator.isRequire("#lastname", "Last Name is required"),
             Validator.isRequire("#birthdate", "Birthdate is required"),
             Validator.isRequire("#enrolldate", "Enroll Date is required"),
             Validator.isRequire("#email", "Email is required"),
@@ -123,30 +123,30 @@
 </script>
 <script>
     <%
-         String createStudent = (String) session.getAttribute("createStudent");
-         if (createStudent != null) {
-             if (createStudent.equals("success")) {
-                %>
-                    Swal.fire({
-                    position: "top-end",
-                    icon: "success",
-                    title: "Add Student Successfully!",
-                    showConfirmButton: false,
-                    timer: 1000
-                  });
-                <%
-             } else {
-                %>
-                    Swal.fire({
-                    position: "top-end",
-                    icon: "error",
-                    title: "Add Student Failed",
-                    showConfirmButton: false,
-                    timer: 1000
-                  });
-                <%
-             }
-         }
+        String createStudent = (String) session.getAttribute("createStudent");
+        if (createStudent != null) {
+            if (createStudent.equals("success")) {
+    %>
+    Swal.fire({
+        position: "top-end",
+        icon: "success",
+        title: "Add Student Successfully!",
+        showConfirmButton: false,
+        timer: 1000
+    });
+    <%
+    } else {
+    %>
+    Swal.fire({
+        position: "top-end",
+        icon: "error",
+        title: "Add Student Failed",
+        showConfirmButton: false,
+        timer: 1000
+    });
+    <%
+            }
+        }
         session.removeAttribute("createStudent");
     %>
 </script>
@@ -236,55 +236,57 @@
 <!--Status register and join for Student-->
 <script>
     <%
-    String statusJoinEvent = (String) session.getAttribute("joinEvent");
-    String statusRegisterClub = (String) session.getAttribute("registerClub");
-    if(statusJoinEvent!=null){
-        if (statusJoinEvent.equals("success")) {
-                %>
-                   Swal.fire({
-                   position: "top-end",
-                   icon: "success",
-                   title: "You have successfully participated in the event!",
-                   showConfirmButton: false,
-                   timer: 1500
-                 });
-               <%
-            } else if(statusJoinEvent.equals("fail")) {
-                %>
-                    Swal.fire({
-                    position: "top-end",
-                    icon: "error",
-                    title: "Registration failed. You have already participated in the event.",
-                    showConfirmButton: false,
-                    timer: 2000
-                  });
-                <%
+        String statusJoinEvent = (String) session.getAttribute("joinEvent");
+        String statusRegisterClub = (String) session.getAttribute("registerClub");
+        if (statusJoinEvent != null) {
+            if (statusJoinEvent.equals("success")) {
+    %>
+    Swal.fire({
+        position: "top-end",
+        icon: "success",
+        title: "You have successfully participated in the event!",
+        showConfirmButton: false,
+        timer: 1500
+    });
+    <%
+    } else if (statusJoinEvent.equals("fail")) {
+    %>
+    Swal.fire({
+        position: "top-end",
+        icon: "error",
+        title: "Registration failed. You have already participated in the event.",
+        showConfirmButton: false,
+        timer: 2000
+    });
+    <%
             }
-        } session.removeAttribute("joinEvent");
-    
-    if(statusRegisterClub!=null){
-        if (statusRegisterClub.equals("success")) {
-                %>
-                   Swal.fire({
-                   position: "top-end",
-                   icon: "success",
-                   title: "You successfully registered for the club!",
-                   showConfirmButton: false,
-                   timer: 1500
-                 });
-               <%
-            } else if(statusRegisterClub.equals("fail")) {
-                %>
-                    Swal.fire({
-                    position: "top-end",
-                    icon: "error",
-                    title: "Registration failed. Please try another club name.",
-                    showConfirmButton: false,
-                    timer: 1500
-                  });
-                <%
+        }
+        session.removeAttribute("joinEvent");
+
+        if (statusRegisterClub != null) {
+            if (statusRegisterClub.equals("success")) {
+    %>
+    Swal.fire({
+        position: "top-end",
+        icon: "success",
+        title: "You successfully registered for the club!",
+        showConfirmButton: false,
+        timer: 1500
+    });
+    <%
+    } else if (statusRegisterClub.equals("fail")) {
+    %>
+    Swal.fire({
+        position: "top-end",
+        icon: "error",
+        title: "Registration failed. Please try another club name.",
+        showConfirmButton: false,
+        timer: 1500
+    });
+    <%
             }
-        } session.removeAttribute("registerClub");
+        }
+        session.removeAttribute("registerClub");
     %>
 </script>
 
@@ -311,8 +313,8 @@
     });
     Validator({
         form: "#formSignUpClub",
-        message: ".message", 
-        invalid: "invalid", 
+        message: ".message",
+        invalid: "invalid",
         rules: [
             Validator.isRequire("#clubname", "Club Name is required"),
             Validator.isRequire("#description", "Description is required"),

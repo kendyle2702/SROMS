@@ -170,15 +170,20 @@ public class UploadController extends HttpServlet {
             }
             ClubDAO clubD = new ClubDAO();
             boolean signUp;
-            signUp = clubD.signUpClub(logo, clubName, establishDate, description, studentProfileID);
-            if (signUp) {
-                session.setAttribute("signUpClub", "success");
-                response.sendRedirect("/student/clubs/view");
-            } else {
-                session.setAttribute("signUpClub", "fail");
-                response.sendRedirect("/student/clubs/view");
-            }
+            try {
+                signUp = clubD.signUpClub(logo, clubName, establishDate, description, studentProfileID);
 
+                if (signUp) {
+                    session.setAttribute("signUpClub", "success");
+                    response.sendRedirect("/student/clubs/view");
+                } else {
+                    session.setAttribute("signUpClub", "fail");
+                    response.sendRedirect("/student/clubs/view");
+                }
+            } catch (SQLException ex) {
+                Logger.getLogger(UploadController.class.getName()).log(Level.SEVERE, null, ex);
+
+            }
         }
     }
 

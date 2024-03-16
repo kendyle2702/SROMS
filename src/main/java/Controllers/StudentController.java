@@ -22,6 +22,9 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -55,7 +58,9 @@ public class StudentController extends HttpServlet {
                 List<ClubMember> clubM = clubDAO.getClubMemberByStudentProfileID(studentProfileID);
 //                String semesterName = clubDAO.getSemesterNameByClubID( , studentProfileID);
                 List<Event> listEventStudent = eventManagerDAO.checkStudentParticipationEventDetail(studentProfileID);
-                //Event
+
+                String getClubRole = clubDAO.getClubRoll(studentProfileID);
+
                 List<Event> listE = eventManagerDAO.eventList();
                 List<ParticipationEventDetail> pertiList = eventManagerDAO.participateEventList();
                 Map<Integer, String> eventCategoryNames = new HashMap<>();
@@ -75,6 +80,7 @@ public class StudentController extends HttpServlet {
                     session.setAttribute("clubMembers", clubM);
                     session.setAttribute("listMyClub", listMyClub);
                     session.setAttribute("listEventStudent", listEventStudent);
+                    session.setAttribute("getClubRole", getClubRole);
                     session.setAttribute("tabId", 1);
                     request.getRequestDispatcher("/student.jsp").forward(request, response);
                 } else if (path.startsWith("/student/profile")) {
@@ -107,7 +113,6 @@ public class StudentController extends HttpServlet {
                         request.getRequestDispatcher("/student.jsp").forward(request, response);
                     } else if (path.endsWith("/student/clubs/create")) {
                         session.setAttribute("studentProfileID", studentProfileID);
-
                         session.setAttribute("tabId", 10);
                         request.getRequestDispatcher("/student.jsp").forward(request, response);
                     } else if (path.startsWith("/student/clubs/viewClubMember/")) {
@@ -175,7 +180,7 @@ public class StudentController extends HttpServlet {
                         session.setAttribute("news", news);
                         session.setAttribute("name", name);
                         session.setAttribute("newsID", id);
-                        session.setAttribute("tabId", 11);
+                        session.setAttribute("tabId", 13);
                         request.getRequestDispatcher("/student.jsp").forward(request, response);
                     }
                 } else if (path.startsWith("/student/point")) {
@@ -199,7 +204,12 @@ public class StudentController extends HttpServlet {
                     session.setAttribute("listEventMyClub", listEventMyClub);
                     session.setAttribute("tabId", 12);
                     request.getRequestDispatcher("/student.jsp").forward(request, response);
-                } else {
+                } else if (path.equals("/student/createEventMyClub")) {
+                    session.setAttribute("tabId", 14);
+                    request.getRequestDispatcher("/student.jsp").forward(request, response);
+                }
+
+                {
                     response.sendRedirect("/");
                 }
             } catch (SQLException ex) {
@@ -213,9 +223,11 @@ public class StudentController extends HttpServlet {
             throws ServletException, IOException {
         HttpSession session = request.getSession();
         String action = request.getParameter("action");
-        EventDAO eventDAO = new EventDAO();
+        EventDAO eventManagerDAO = new EventDAO();
         String updateRoleMember = request.getParameter("updateRoleMember");
-        System.out.println("ABC");
+        String createCompatition = request.getParameter("createCompatition");
+        String createEvent = request.getParameter("createEvent");
+        System.out.println("ADM");
         try {
             if (action != null && action.equals("Join")) {
                 int eventID = Integer.parseInt(request.getParameter("EventID"));
@@ -231,7 +243,7 @@ public class StudentController extends HttpServlet {
                 );
 
                 // Gọi phương thức và nhận kết quả
-                boolean isSuccess = eventDAO.addStudentToParticipationEventDetail(participationEventDetail);
+                boolean isSuccess = eventManagerDAO.addStudentToParticipationEventDetail(participationEventDetail);
 
                 if (isSuccess) {
                     session.setAttribute("joinEvent", "success");
@@ -289,9 +301,87 @@ public class StudentController extends HttpServlet {
                 int studentID = userLoginDAO.getStudentProfileIDByUserProfileID(userProfile.getUserProfileID());
                 response.sendRedirect("/student/clubs/viewClubMember/" + clubID);
 
+            } else if (createEvent != null && createEvent.equals("Submit")) {
+                int count = 0;
+                ManagerProfileDAO managerProfileDAO = new ManagerProfileDAO();
+                String eventName = request.getParameter("eventname");
+                Timestamp preTime = formatTime(LocalDateTime.parse(request.getParameter("pretime")));
+                Timestamp holeTime = formatTime(LocalDateTime.parse(request.getParameter("holetime")));
+                String location = request.getParameter("location");
+                int cost = Integer.parseInt(request.getParameter("cost"));
+                int exNum = Integer.parseInt(request.getParameter("exnum"));
+                String organization = request.getParameter("organization");
+                String description = request.getParameter("description");
+                String feedback = request.getParameter("feedback");
+                Timestamp endTime = formatTime(LocalDateTime.parse(request.getParameter("endtime")));
+                UserProfile userProfile = (UserProfile) session.getAttribute("user");
+                String role = (String) session.getAttribute("role");
+                UserLoginDAO userLoginDAO = new UserLoginDAO();
+                int studentProfileID = userLoginDAO.getStudentProfileIDByUserProfileID(userProfile.getUserProfileID());
+                String eventCatelogyName = request.getParameter("catelogyEvent");
+                int eventCatelogyID = 0;
+                if (eventCatelogyName.equalsIgnoreCase("Soft Skills")) {
+                    eventCatelogyID = 1;
+                } else {
+                    eventCatelogyID = 3;
+                }
+
+                count = eventManagerDAO.addEventForMyClub(eventName, preTime, holeTime, location, cost, exNum, organization, description, feedback, endTime, role, studentProfileID, eventCatelogyID);
+                if (count > 0) {
+                    session.setAttribute("checkCreateEvent", "success");
+                } else {
+                    session.setAttribute("checkCreateEvent", "fail");
+                }
+                response.sendRedirect("/student/viewEventMyClub");
+            } else if (createCompatition != null && createCompatition.equals("Submit")) {
+                int count = 0;
+                ManagerProfileDAO managerProfileDAO = new ManagerProfileDAO();
+                String eventName = request.getParameter("eventname");
+                Timestamp preTime = formatTime(LocalDateTime.parse(request.getParameter("pretime")));
+                Timestamp holeTime = formatTime(LocalDateTime.parse(request.getParameter("holetime")));
+                String location = request.getParameter("location");
+                int cost = Integer.parseInt(request.getParameter("cost"));
+                int exNum = Integer.parseInt(request.getParameter("exnum"));
+                String organization = request.getParameter("organization");
+                String description = request.getParameter("description");
+                String feedback = request.getParameter("feedback");
+                Timestamp endTime = formatTime(LocalDateTime.parse(request.getParameter("endtime")));
+                UserProfile userProfile = (UserProfile) session.getAttribute("user");
+                String role = (String) session.getAttribute("role");
+                UserLoginDAO userLoginDAO = new UserLoginDAO();
+                int studentProfileID = userLoginDAO.getStudentProfileIDByUserProfileID(userProfile.getUserProfileID());
+                int firtPrize = Integer.parseInt(request.getParameter("firtPrize"));
+                int secondPrize = Integer.parseInt(request.getParameter("secondPrize"));
+                int thirdPrize = Integer.parseInt(request.getParameter("thirdPrize"));
+                int encouragementPrize = Integer.parseInt(request.getParameter("encouragementPrize"));
+
+                int prizeStructureID = eventManagerDAO.getMaxPrizeStructureID();
+                count = eventManagerDAO.addPrizeStructure(firtPrize, secondPrize, thirdPrize, encouragementPrize);
+                eventManagerDAO.addCompatitionForMyCLub(eventName, preTime, holeTime, location, cost, exNum, organization, description, feedback, endTime, role, studentProfileID, 2, prizeStructureID);
+                if (count > 0) {
+                    session.setAttribute("checkCreateEvent", "success");
+                } else {
+                    session.setAttribute("checkCreateEvent", "fail");
+                }
+                response.sendRedirect("/student/viewEventMyClub");
             }
         } catch (SQLException ex) {
             Logger.getLogger(StudentController.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+
+    public Timestamp formatTime(LocalDateTime time) {
+        Timestamp formattedTime = null;
+        if (time != null) {
+            try {
+                // Convert LocalDateTime to Timestamp
+                formattedTime = Timestamp.valueOf(time.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSS")));
+            } catch (Exception e) {
+                e.printStackTrace(); // Handle parsing exception
+            }
+        } else {
+            // Handle case where time is missing or empty
+        }
+        return formattedTime;
     }
 }
