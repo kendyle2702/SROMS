@@ -21,7 +21,6 @@
                                         </div>
                                         <div class="invoice-head">
                                             <h2>Club Detail</h2>
-                                            <p>Club ID: ${club.getClubID()}</p>
                                         </div>
                                     </div>
                                     <div class="col-md-6">
@@ -44,14 +43,16 @@
                                                     <tr>
                                                         <th>Club Name</th>
                                                         <th>Description</th>
+                                                        <th></th>
+                                                        <th></th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
                                                     <tr>
                                                         <td>${club.getClubName()}</td>
                                                         <td style="white-space: break-spaces;">${club.getDescription()}</td>
-                                                        <td>${club.getStudentProfileID()}</td>
-                                                        <td class="text-end">${club.getIsApprove()}</td>
+                                                        <td></td>
+                                                        <td></td>
                                                     </tr>
                                                 </tbody>
                                             </table>
