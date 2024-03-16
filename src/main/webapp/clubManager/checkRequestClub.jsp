@@ -57,7 +57,14 @@
                                         </c:if>
                                         <c:if test="${empty sessionScope.listCheckRequestClub}">
                                             <tr>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
                                                 <td>Not found club</td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
                                             </tr>
                                         </c:if>
                                     </tbody>

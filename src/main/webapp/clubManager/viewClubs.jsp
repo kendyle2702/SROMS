@@ -5,7 +5,7 @@
                 <div class="col">
                     <h3 class="page-title">View Clubs</h3>
                     <ul class="breadcrumb">
-                        <li class="breadcrumb-item active">View Clubs</li>
+                        <li class="breadcrumb-item active">View Club</li>
                     </ul>
                 </div>
             </div>
@@ -24,15 +24,15 @@
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">
-                                <table id='viewClubs' class="table star-student table-hover table-center table-borderless table-striped">
+                                <table id='viewClubs' class="table table-hover table-striped table-bordered">
                                     <thead class="thead-light">
                                         <tr>
                                             <th class="text-center">No.</th>
                                             <th class="text-center">Name</th>
                                             <th class="text-center">Establish Date</th>
                                             <th class="text-center">Status</th>
-                                            <th class="text-center">Detail</th>
-                                            <th></th>
+                                            <th class="text-center">Action</th>
+
 
                                         </tr>
                                     </thead>
@@ -45,19 +45,16 @@
                                                 <td class="text-center">${c.getEstablishDate()}</td>
                                             <c:choose>
                                                 <c:when test="${c.getIsActive() == true}">
-                                                    <td class="text-center">Active</td>
+                                                    <td class="text-center" ><button class="btn btn-outline-success active">Active</button></td>
                                                 </c:when>
                                                 <c:otherwise>
-                                                    <td class="text-center">In Active</td>
+                                                    <td class="text-center" ><button class="btn btn-outline-success active">Inactive</button></td>
                                                 </c:otherwise>
                                             </c:choose>
-                                            <td class="text-center">                                                                
-                                                <a href="/clubmanager/viewdetail/${c.getClubID()}" class="btn btn-primary m-auto col-5">View Detail</a>
+                                            <td  class="text-center">                                                                
+                                                <button style="background-color: #ea7127; border: none;" class="btn btn-primary btn-sm"><a style="color: white" href="/clubmanager/clubdetail/${c.getClubID()}" >View Detail</a></button>
+                                            </td>
 
-                                            </td>
-                                            <td class="text-center">
-                                                <a href="/clubmanager/delete/${c.getClubID()}" class="btn btn-danger m-auto col-5">Delete</a>
-                                            </td>
                                             </tr>
                                         </c:forEach>
                                     </c:if>

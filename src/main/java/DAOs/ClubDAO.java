@@ -121,7 +121,7 @@ public class ClubDAO {
     public String getFullName(int clubID, int studentProfileID) throws SQLException {
         String fullName = null;
         ResultSet rs = null;
-        PreparedStatement ps = conn.prepareStatement("SELECT CONCAT(FirstName, ' ', LastName) AS FullName FROM [Club] LEFT JOIN StudentProfile ON Club.ClubID = StudentProfile.StudentProfileID \n"
+        PreparedStatement ps = conn.prepareStatement("SELECT CONCAT(FirstName, ' ', LastName) AS FullName FROM [Club] LEFT JOIN StudentProfile ON Club.StudentProfileID = StudentProfile.StudentProfileID \n"
                 + "LEFT JOIN UserProfile ON StudentProfile.UserProfileID = UserProfile.UserProfileID WHERE ClubID = ? AND StudentProfile.StudentProfileID = ?;");
         ps.setInt(1, clubID);
         ps.setInt(2, studentProfileID);
@@ -298,4 +298,43 @@ public class ClubDAO {
         }
         return listStudent;
     }
+    public ResultSet getCurrentClubDetail(int clubID) {
+        ResultSet rs = null;
+        try {
+            PreparedStatement ps = conn.prepareStatement("select *\n"
+                    + " from Club\n"
+                    + " left join ClubMember on Club.ClubID = ClubMember.ClubID\n"
+                    + " left join StudentProfile on ClubMember.StudentProfileID = StudentProfile.StudentProfileID\n"
+                    + " left join UserProfile on StudentProfile.UserProfileID = UserProfile.UserProfileID\n"
+                    + " where Club.ClubID = ? and SemesterID = 10");
+            ps.setInt(1, clubID);
+            rs = ps.executeQuery();
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(StudentProfileDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return rs;
+    }
+    public void blockClub(int id) {
+        try {
+            PreparedStatement ps = conn.prepareStatement("update Club set IsActive = 0 where ClubID =?");
+            ps.setInt(1, id);
+
+            ps.executeUpdate();
+        } catch (SQLException ex) {
+            Logger.getLogger(UserProfileDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    public void unblockClub(int id) {
+        try {
+            PreparedStatement ps = conn.prepareStatement("update Club set IsActive = 1 where ClubID =?");
+            ps.setInt(1, id);
+
+            ps.executeUpdate();
+        } catch (SQLException ex) {
+            Logger.getLogger(UserProfileDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
 }

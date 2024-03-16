@@ -14,20 +14,23 @@
                     <%@include file="./clubManager/home.jsp" %>
                 </c:when>
                 <c:when test="${sessionScope.tabId == 2}">
-                    <%@include file="./clubManager/checkRequestClub.jsp" %>
+                    <%@include file="./general/profile.jsp" %>
+                </c:when>
+                <c:when test="${sessionScope.tabId == 3}">
+                    <%@include file="./general/editProfile.jsp" %>
                 </c:when>
                 <c:when test="${sessionScope.tabId == 4}">
                     <%@include file="./clubManager/viewClubs.jsp" %>
                 </c:when>
-                <c:when test="${sessionScope.tabId == 3}">
-                    <%@include file="./general/profile.jsp" %>
+                <c:when test="${sessionScope.tabId == 5}">
+                    <%@include file="./clubManager/clubDetail.jsp" %>
                 </c:when>
-                <c:when test="${sessionScope.tabId == 4}">
-                    <%@include file="./general/editProfile.jsp" %>
+                <c:when test="${sessionScope.tabId == 6}">
+                    <%@include file="./clubManager/checkRequestClub.jsp" %>
                 </c:when>
             </c:choose>
-            
+
         </div>
-    <%@include file="./general/js.jsp" %>
+        <%@include file="./general/js.jsp" %>
     </body>   
 </html>
