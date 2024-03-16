@@ -14,6 +14,8 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import java.net.URLEncoder;
+import java.time.LocalDate;
+import java.time.Month;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.fluent.Form;
 import org.apache.http.client.fluent.Request;
@@ -37,6 +39,8 @@ public class LoginController extends HttpServlet {
             if (isLogin) {
                 session.setAttribute("user", userProfile);
                 session.setAttribute("role", roleLogin);
+                session.setAttribute("semester", getSemester());
+                System.out.println(getSemester());
                 Cookie c = new Cookie("login", URLEncoder.encode(userProfile.getEmail() + "/" + roleLogin, "UTF-8"));
                 c.setMaxAge(24 * 60 * 60 * 3);
                 response.addCookie(c);
@@ -145,5 +149,19 @@ public class LoginController extends HttpServlet {
         String response = Request.Get(link).execute().returnContent().asString();
         GoogleInformation googleinfo = new Gson().fromJson(response, GoogleInformation.class);
         return googleinfo;
+    }
+    
+    public static String getSemester() {
+        LocalDate currentDate = LocalDate.now();
+        int currentYear = currentDate.getYear();
+        Month currentMonth = currentDate.getMonth();
+
+        if (currentMonth.getValue() >= 1 && currentMonth.getValue() <= 4) {
+            return "Spring " + currentYear;
+        } else if (currentMonth.getValue() > 4 && currentMonth.getValue() <= 8) {
+            return "Summer " + currentYear;
+        } else {
+            return "Fall " + currentYear;
+        }
     }
 }

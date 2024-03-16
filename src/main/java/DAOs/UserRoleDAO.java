@@ -39,4 +39,5 @@ public class UserRoleDAO {
 
         return (count == 0) ? null : userrole;
     }
+    
 }

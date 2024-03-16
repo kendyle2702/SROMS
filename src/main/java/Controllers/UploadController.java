@@ -4,7 +4,7 @@
  */
 package Controllers;
 
-import DAOs.ClubDAO;
+import DAOs.ManagerProfileDAO;
 import DAOs.StudentProfileDAO;
 import DAOs.UserLoginDAO;
 import DAOs.UserProfileDAO;
@@ -61,6 +61,7 @@ public class UploadController extends HttpServlet {
             Date birthdate = Date.valueOf(request.getParameter("birthdate"));
             String address = request.getParameter("address");
             String phone = request.getParameter("phone");
+                
 
             String avatar = "";
             Part part = request.getPart("avatar");

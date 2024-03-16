@@ -1,5 +1,4 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <script src="${pageContext.request.contextPath}/assets/js/jquery-3.7.1.min.js" type="18ee449b9b2154c0cc5581ea-text/javascript"></script>
 <script src="${pageContext.request.contextPath}/assets/js/bootstrap.bundle.min.js" type="18ee449b9b2154c0cc5581ea-text/javascript"></script>
 <script src="${pageContext.request.contextPath}/assets/js/feather.min.js" type="18ee449b9b2154c0cc5581ea-text/javascript"></script>
@@ -341,13 +340,21 @@
     Swal.fire({
         position: "top-end",
         icon: "error",
+<<<<<<< HEAD
         title: "Sign up club failed",
+=======
+        title: "Edit Failed",
+>>>>>>> origin/main
         showConfirmButton: false,
         timer: 1000
     });
     <%
             }
         }
+<<<<<<< HEAD
         session.removeAttribute("signUpClub");
+=======
+        session.removeAttribute("editStatus");
+>>>>>>> origin/main
     %>
 </script>

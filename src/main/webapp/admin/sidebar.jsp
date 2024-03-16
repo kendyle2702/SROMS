@@ -33,11 +33,37 @@
                         <li><a href="/admin/account/clubmanager/create" class="<%=(session.getAttribute("tabId").equals(7)?"active subdrop":"")%>">Add Account</a></li>
                     </ul>
                 </li>
-                <li class="submenu <%=(session.getAttribute("tabId").equals(8))||(session.getAttribute("tabId").equals(9)) ? "active" : ""%>">
+                <li class="submenu <%=(session.getAttribute("tabId").equals(8))||(session.getAttribute("tabId").equals(9))||session.getAttribute("tabId").equals(10) ? "active" : ""%>">
                     <a href="#"><i class="feather-user"></i> <span class="title">Student</span> <span class="menu-arrow"></span></a>
                     <ul>
-                        <li><a href="/admin/account/student" class="<%=(session.getAttribute("tabId").equals(8)?"active subdrop":"")%>">View Accounts</a></li>
+                        <li><a href="/admin/account/student" class="<%=(session.getAttribute("tabId").equals(8)||session.getAttribute("tabId").equals(10)?"active subdrop":"")%>">View Accounts</a></li>
                         <li><a href="/admin/account/student/create" class="<%=(session.getAttribute("tabId").equals(9)?"active subdrop":"")%>">Add Account</a></li>
+                    </ul>
+                </li>
+                <li class="menu-title">
+                    <span>News Management</span>
+                </li>
+                <li class="submenu <%=(session.getAttribute("tabId").equals(13))||(session.getAttribute("tabId").equals(14))||(session.getAttribute("tabId").equals(15)) ? "active" : ""%>">
+                    <a href="#"><i class="feather-mail"></i> <span class="title">News</span> <span class="menu-arrow"></span></a>
+                    <ul>
+                        <li><a href="/admin/news" class="<%=(session.getAttribute("tabId").equals(13)||session.getAttribute("tabId").equals(15)?"active subdrop":"")%>">View News</a></li>
+                        <li><a href="/admin/news/create" class="<%=(session.getAttribute("tabId").equals(14)?"active subdrop":"")%>">Add News</a></li>
+                    </ul>
+                </li>
+                <li class="menu-title">
+                    <span>Events Management</span>
+                </li>
+                <li class="<%=(session.getAttribute("tabId").equals(16))||(session.getAttribute("tabId").equals(17)) ? "active" : ""%>">
+                    <a href="/admin/events"><i class="fas fa-calendar-day"></i><span>Check Request Events</span></a>
+                </li>
+                <li class="menu-title">
+                    <span>Score Management</span>
+                </li>
+                <li class="submenu <%=(session.getAttribute("tabId").equals(18))||(session.getAttribute("tabId").equals(19)) ? "active" : ""%>">
+                    <a href="#"><i class="feather-clipboard"></i> <span class="title">Score Statistics</span> <span class="menu-arrow"></span></a>
+                    <ul>
+                        <li><a href="/admin/score/student" class="<%=(session.getAttribute("tabId").equals(18)?"active subdrop":"")%>">Student</a></li>
+                        <li><a href="/admin/score/club" class="<%=(session.getAttribute("tabId").equals(19)?"active subdrop":"")%>">Club</a></li>
                     </ul>
                 </li>
             </ul>

@@ -15,6 +15,17 @@ public class ManagerProfile {
         
     }
 
+    public ManagerProfile(String staffNumber, String academicLevel, String degree, String experience, int userProfileID) {
+        this.staffNumber = staffNumber;
+        this.academicLevel = academicLevel;
+        this.degree = degree;
+        this.experience = experience;
+        this.userProfileID = userProfileID;
+    }
+
+  
+    
+
     public ManagerProfile(int managerProfileID, String staffNumber, String academicLevel, String degree, String experience, int userProfileID) {
         this.managerProfileID = managerProfileID;
         this.staffNumber = staffNumber;

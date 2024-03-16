@@ -57,11 +57,11 @@
                                     <tr>
                                         <td><%=count++%></td>
                                         <td><%=rs.getString("RollNumber")%></td>
-                                        <td><a href="/admin/account/student/detail/<%=rs.getInt("StudentProfileID")%>" class="avatar avatar-sm me-2"><img class="avatar-img rounded-circle" src="${pageContext.request.contextPath}/assets/img/avatar/<%=rs.getString("Avatar")%>" alt="Avatar"></a><%=rs.getString("FirstName") + " " + rs.getString("LastName")%></td>
+                                        <td><a href="/admin/account/student/detail/<%=rs.getInt("StudentProfileID")%>" class="avatar avatar-sm me-2"><img class="avatar-img rounded-circle" src="${pageContext.request.contextPath}/assets/img/avatar/<%=rs.getString("Avatar")%>" alt="Avatar"></a><%=rs.getString("LastName") + " " + rs.getString("FirstName")%></td>
                                         <td><%=rs.getString("Username")%></td>
                                         <td><%=rs.getString("Major")%></td>
-                                        <td><%=rs.getBoolean("IsActive") == true ? "<button class=\"btn btn-primary btn-sm btn-rounded\">Active</button>" : "<button class=\"btn btn-danger btn-sm btn-rounded\">Banned</button>"%></td>
-                                        <td><a href="/admin/account/student/detail/<%=rs.getInt("StudentProfileID")%>"><button class="mb-2 mr-2 btn-icon btn-pill btn btn-outline-primary"><i class="feather-edit-3"></i>Detail</button></a></td>
+                                        <td><%=rs.getBoolean("IsActive") == true ? "<button class=\"btn btn-primary btn-sm btn-rounded\">Active</button>" : "<button class=\"btn btn-danger btn-sm btn-rounded\">Blocked</button>"%></td>
+                                        <td><a href="/admin/account/student/detail/<%=rs.getInt("StudentProfileID")%>"><button style="background:#ea7127 ;border-color: #ea7127;color:white;" class="mb-2 mr-2 btn-icon btn-pill btn btn-warning"><i class="feather-edit-3"></i>Detail</button></a></td>
                                     </tr>
                                     <%}
                                     %>
