@@ -49,18 +49,14 @@
                 <c:when test="${sessionScope.tabId == 10}">
                     <%@include file="./student/club/signUpToClub.jsp" %>
                 </c:when>
-<<<<<<< HEAD
-
                 <c:when test="${sessionScope.tabId == 11}">
                     <%@include file="./student/club/detailMember.jsp" %>
                 </c:when>
                 <c:when test="${sessionScope.tabId == 12}">
                     <%@include file="./student/event/viewEventMyClub.jsp" %>
-=======
-                
-                <c:when test="${sessionScope.tabId == 11}">
+                </c:when>
+                <c:when test="${sessionScope.tabId == 13}">
                     <%@include file="./student/news/newsDetail.jsp" %>
->>>>>>> 61830179145d446bc55aca6dac129408363ed174
                 </c:when>
             </c:choose>
         </div>

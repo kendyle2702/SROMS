@@ -175,7 +175,7 @@ public class StudentController extends HttpServlet {
                         session.setAttribute("news", news);
                         session.setAttribute("name", name);
                         session.setAttribute("newsID", id);
-                        session.setAttribute("tabId", 11);
+                        session.setAttribute("tabId", 13);
                         request.getRequestDispatcher("/student.jsp").forward(request, response);
                     }
                 } else if (path.startsWith("/student/point")) {
