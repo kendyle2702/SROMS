@@ -194,7 +194,7 @@ public class StudentController extends HttpServlet {
                         } else {
                             session.setAttribute("semesterIDStudentScore", semesterIDString);
                         }
-                        session.setAttribute("tabId", 12);
+                        session.setAttribute("tabId", 15);
                         request.getRequestDispatcher("/student.jsp").forward(request, response);
                     }
                 } else if (path.startsWith("/student/clubmember/deletemember/")) {
@@ -218,7 +218,7 @@ public class StudentController extends HttpServlet {
                     session.setAttribute("tabId", 14);
                     request.getRequestDispatcher("/student.jsp").forward(request, response);
                 }
-
+                else
                 {
                     response.sendRedirect("/");
                 }
@@ -295,6 +295,7 @@ public class StudentController extends HttpServlet {
 
             } else if (createEvent != null && createEvent.equals("Submit")) {
                 int count = 0;
+                System.out.println("mmm");
                 ManagerProfileDAO managerProfileDAO = new ManagerProfileDAO();
                 String eventName = request.getParameter("eventname");
                 Timestamp preTime = formatTime(LocalDateTime.parse(request.getParameter("pretime")));

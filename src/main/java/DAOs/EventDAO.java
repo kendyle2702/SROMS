@@ -573,7 +573,7 @@ public class EventDAO {
         EventDAO eventDAO = new EventDAO();
         String query = "INSERT INTO [SROMS].[dbo].[Event]\n"
                 + "(EventName,PreparationTime,HoldTime,Location,Cost,ExpectedNumber,Organization,Description,Feedback, EndTime,CreateBy,StudentProfileID,Approve,EventCategoryID,SemesterID)\n"
-                + "VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?);";
+                + "VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);";
         ps = conn.prepareStatement(query);
         ps.setString(1, eventName);
         ps.setTimestamp(2, preTime);

@@ -19,15 +19,15 @@
                 </li>
 
 
-                <li >
+                <li class="<%=(session.getAttribute("tabId").equals(3)) ? "active" : ""%>">
                     <a href="/student/events/view" ><i class="feather-clipboard" class="<%=(session.getAttribute("tabId").equals(3)) ? "active subdrop" : ""%>"></i> <span> View Event </span></a>
                 </li>
-                <li >
+                <li class="<%=(session.getAttribute("tabId").equals(12)) ? "active" : ""%>">
                     <a href="/student/viewEventMyClub" ><i class="feather-clipboard" class="<%=(session.getAttribute("tabId").equals(12)) ? "active subdrop" : ""%>"></i> <span>View Event My Club</span></a>
                 </li>
                 <c:choose>
                     <c:when test="${sessionScope.getClubRole eq 'Leader Club'}">
-                        <li>
+                        <li class="<%=(session.getAttribute("tabId").equals(14)) ? "active" : ""%>">
                             <a href="/student/createEventMyClub" ><i class="feather-clipboard"  class="<%=(session.getAttribute("tabId").equals(14)) ? "active subdrop" : ""%>"></i> <span>Create Event For Club</span></a>
                         </li>
                     </c:when>
@@ -41,11 +41,11 @@
                 <li><a href="/student/clubs/view" class="<%= session.getAttribute("tabId").equals(4) ? "active subdrop" : ""%>">View Clubs</a></li>
                 <li><a href="/student/clubs/create" class="<%= session.getAttribute("tabId").equals(10) ? "active subdrop" : ""%>">Create Club</a></li>
 
-                </li>
+            </li>
                 <li class="menu-title">
                     <span>Activities Point</span>
                 </li>
-                <li class="<%=(session.getAttribute("tabId").equals(12)) ? "active" : ""%>">
+                <li class="<%=(session.getAttribute("tabId").equals(15)) ? "active" : ""%>">
                     <a href="/student/point/view"><i class="feather-bookmark"></i><span> View Activities Point</span></a>
                 </li>
             </ul>
