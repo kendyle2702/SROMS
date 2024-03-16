@@ -42,6 +42,12 @@
                 <li><a href="/student/clubs/create" class="<%= session.getAttribute("tabId").equals(10) ? "active subdrop" : ""%>">Create Club</a></li>
 
                 </li>
+                <li class="menu-title">
+                    <span>Activities Point</span>
+                </li>
+                <li class="<%=(session.getAttribute("tabId").equals(12)) ? "active" : ""%>">
+                    <a href="/student/point/view"><i class="feather-bookmark"></i><span> View Activities Point</span></a>
+                </li>
             </ul>
         </div>
     </div>

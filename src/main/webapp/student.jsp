@@ -1,5 +1,5 @@
-<%@page import="Models.UserProfile"%>
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@page import="Models.UserProfile" %>
+<%@page contentType="text/html" pageEncoding="UTF-8" %>
 <%@ page import="DAOs.NewsDAO" %>
 <%@ page import="Models.News" %>
 <%@ page import="DAOs.ClubDAO" %>
@@ -8,9 +8,11 @@
 
 <!DOCTYPE html>
 <html>
+
     <head>
         <%@include file="./general/head_html.jsp" %>
     </head>
+
     <body>
         <div class="main-wrapper">
             <%@include file="./general/header.jsp" %>
@@ -64,4 +66,5 @@
         </div>
         <%@include file="./general/js.jsp" %>
     </body>
+
 </html>

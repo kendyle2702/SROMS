@@ -29,7 +29,38 @@ public class Event {
     private int managerProfileID;
     private int studentProfileID;
     private Timestamp endTime;
-    private int PrizeStructureID;
+    private int prizeStructureID;
+    private int semesterID;
+
+    public int getSemesterID() {
+        return semesterID;
+    }
+
+    public void setSemesterID(int semesterID) {
+        this.semesterID = semesterID;
+    }
+
+    public Event(int eventID, String eventName, Timestamp preparationTime, Timestamp holdTime, String location, int cost, int expectedNumber, String organization, String description, String feedback, String Approve, String createdBy, int eventCategoryID, int adminProfileID, int managerProfileID, int studentProfileID, Timestamp endTime, int prizeStructureID, int semesterID) {
+        this.eventID = eventID;
+        this.eventName = eventName;
+        this.preparationTime = preparationTime;
+        this.holdTime = holdTime;
+        this.location = location;
+        this.cost = cost;
+        this.expectedNumber = expectedNumber;
+        this.organization = organization;
+        this.description = description;
+        this.feedback = feedback;
+        this.Approve = Approve;
+        this.createdBy = createdBy;
+        this.eventCategoryID = eventCategoryID;
+        this.adminProfileID = adminProfileID;
+        this.managerProfileID = managerProfileID;
+        this.studentProfileID = studentProfileID;
+        this.endTime = endTime;
+        this.prizeStructureID = prizeStructureID;
+        this.semesterID = semesterID;
+    }
 
     public Event() {
     }
@@ -52,7 +83,7 @@ public class Event {
         this.managerProfileID = managerProfileID;
         this.studentProfileID = studentProfileID;
         this.endTime = endTime;
-        this.PrizeStructureID = PrizeStructureID;
+        this.prizeStructureID = PrizeStructureID;
     }
 
     public Event(int eventID, String eventName, Timestamp preparationTime, Timestamp holdTime, String location, int cost, int expectedNumber, String organization, String description, String feedback, String Approve, String createdBy, int eventCategoryID, int adminProfileID, int managerProfileID, int studentProfileID, Timestamp endTime) {
@@ -255,11 +286,11 @@ public class Event {
     }
 
     public int getPrizeStructureID() {
-        return PrizeStructureID;
+        return prizeStructureID;
     }
 
     public void setPrizeStructureID(int PrizeStructureID) {
-        this.PrizeStructureID = PrizeStructureID;
+        this.prizeStructureID = prizeStructureID;
     }
 
 }

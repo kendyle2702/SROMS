@@ -34,23 +34,7 @@
                 <a class="dropdown-item" href="javascript:;"><i class="flag flag-cn me-2"></i>Turkce</a>
             </div>
         </li>
-        <li class="nav-item dropdown noti-dropdown me-2">
-            <a href="#" class="dropdown-toggle nav-link header-nav-list" data-bs-toggle="dropdown">
-                <img src="${pageContext.request.contextPath}/assets/img/icons/header-icon-05.svg" alt>
-            </a>
-            <div class="dropdown-menu notifications">
-                <div class="topnav-dropdown-header">
-                    <span class="notification-title">Notifications</span>
-                    <a href="javascript:void(0)" class="clear-noti"> Clear All </a>
-                </div>
-                <div class="noti-content">
-
-                </div>
-                <div class="topnav-dropdown-footer">
-                    <a href="#">View all Notifications</a>
-                </div>
-            </div>
-        </li>
+        
         <li class="nav-item zoom-screen me-2">
             <a href="#" class="nav-link header-nav-list">
                 <img src="${pageContext.request.contextPath}/assets/img/icons/header-icon-04.svg" alt>

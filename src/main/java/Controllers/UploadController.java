@@ -5,6 +5,7 @@
 package Controllers;
 
 import DAOs.ClubDAO;
+import DAOs.ManagerProfileDAO;
 import DAOs.StudentProfileDAO;
 import DAOs.UserLoginDAO;
 import DAOs.UserProfileDAO;
@@ -33,11 +34,7 @@ import java.util.logging.Logger;
  *
  * @author QuocCu
  */
-@MultipartConfig(
-        fileSizeThreshold = 1024 * 1024,
-        maxRequestSize = 1024 * 1024 * 2,
-        maxFileSize = 1024 * 1024 * 10
-)
+@MultipartConfig(fileSizeThreshold = 1024 * 1024, maxRequestSize = 1024 * 1024 * 2, maxFileSize = 1024 * 1024 * 10)
 public class UploadController extends HttpServlet {
 
     @Override
@@ -79,7 +76,8 @@ public class UploadController extends HttpServlet {
 
             UserProfileDAO uProfileDAO = new UserProfileDAO();
 
-            UserProfile newUser = new UserProfile(userProfile.getUserProfileID(), firstName, lastName, avatar, gender, birthdate, address, userProfile.getEnrollmentDate(), userProfile.getEmail(), phone);
+            UserProfile newUser = new UserProfile(userProfile.getUserProfileID(), firstName, lastName, avatar, gender,
+                    birthdate, address, userProfile.getEnrollmentDate(), userProfile.getEmail(), phone);
             UserProfile user = uProfileDAO.updateUserProfile(newUser);
             if (user == null) {
                 session.setAttribute("editStatus", "fail");
@@ -121,7 +119,8 @@ public class UploadController extends HttpServlet {
                 }
             }
             UserProfileDAO uProfileDAO = new UserProfileDAO();
-            UserProfile newUser = new UserProfile(firstName, lastName, avatar, gender, birthdate, address, enrollDate, email, phone);
+            UserProfile newUser = new UserProfile(firstName, lastName, avatar, gender, birthdate, address, enrollDate,
+                    email, phone);
 
             UserProfile user = uProfileDAO.addUserProfile(newUser);
             if (user == null) {
@@ -165,7 +164,7 @@ public class UploadController extends HttpServlet {
                     part.write(realPath + "/" + logo);
                 } catch (Exception ex) {
                     session.setAttribute("signUpClub", "fail");
-//                    response.sendRedirect("/student/clubs/view");
+                    // response.sendRedirect("/student/clubs/view");
                 }
             }
             ClubDAO clubD = new ClubDAO();

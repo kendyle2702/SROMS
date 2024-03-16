@@ -8,6 +8,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Date;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -35,7 +36,9 @@ public class ClubDAO {
         ps.setInt(1, id);
         ResultSet rs = ps.executeQuery();
         if (rs.next()) {
-            club = new Club(rs.getInt("ClubID"), rs.getString("Logo"), rs.getString("ClubName"), rs.getDate("EstablishDate"), rs.getString("Description"), rs.getBoolean("IsApprove"), rs.getBoolean("IsActive"), rs.getInt("StudentProfileID"));
+            club = new Club(rs.getInt("ClubID"), rs.getString("Logo"), rs.getString("ClubName"),
+                    rs.getDate("EstablishDate"), rs.getString("Description"), rs.getBoolean("IsApprove"),
+                    rs.getBoolean("IsActive"), rs.getInt("StudentProfileID"));
         }
         return club;
     }
@@ -56,8 +59,7 @@ public class ClubDAO {
                         rs.getBoolean(6),
                         rs.getBoolean(7),
                         rs.getInt(8),
-                        rs.getInt(9)
-                );
+                        rs.getInt(9));
             }
         } catch (SQLException ex) {
             Logger.getLogger(ClubDAO.class.getName()).log(Level.SEVERE, null, ex);
@@ -81,8 +83,7 @@ public class ClubDAO {
                     rs.getBoolean(6),
                     rs.getBoolean(7),
                     rs.getInt(8),
-                    rs.getInt(9)
-            );
+                    rs.getInt(9));
             clubsList.add(club);
         }
         return clubsList;
@@ -117,8 +118,10 @@ public class ClubDAO {
             ps = conn.prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
-                club = new Club(rs.getInt("ClubID"), rs.getString("Logo"), rs.getString("ClubName"), rs.getDate("EstablishDate"),
-                        rs.getString("Description"), rs.getBoolean("IsApprove"), rs.getBoolean("IsAvitve"), rs.getInt("StudentProfileID"));
+                club = new Club(rs.getInt("ClubID"), rs.getString("Logo"), rs.getString("ClubName"),
+                        rs.getDate("EstablishDate"),
+                        rs.getString("Description"), rs.getBoolean("IsApprove"), rs.getBoolean("IsAvitve"),
+                        rs.getInt("StudentProfileID"));
             }
         } catch (SQLException ex) {
             Logger.getLogger(ClubDAO.class.getName()).log(Level.SEVERE, null, ex);
@@ -150,7 +153,8 @@ public class ClubDAO {
     public String getFullName(int clubID, int studentProfileID) throws SQLException {
         String fullName = null;
         ResultSet rs = null;
-        PreparedStatement ps = conn.prepareStatement("SELECT CONCAT(FirstName, ' ', LastName) AS FullName FROM [Club] LEFT JOIN StudentProfile ON Club.ClubID = StudentProfile.StudentProfileID \n"
+        PreparedStatement ps = conn.prepareStatement(
+                "SELECT CONCAT(FirstName, ' ', LastName) AS FullName FROM [Club] LEFT JOIN StudentProfile ON Club.ClubID = StudentProfile.StudentProfileID \n"
                 + "LEFT JOIN UserProfile ON StudentProfile.UserProfileID = UserProfile.UserProfileID WHERE ClubID = ? AND StudentProfile.StudentProfileID = ?;");
         ps.setInt(1, clubID);
         ps.setInt(2, studentProfileID);
@@ -177,7 +181,8 @@ public class ClubDAO {
         PreparedStatement ps = conn.prepareStatement(ex);
         ResultSet rs = ps.executeQuery();
         while (rs.next()) {
-            club = new Club(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getDate(4), rs.getString(5), rs.getBoolean(6), rs.getBoolean(7), rs.getInt(8), rs.getInt(9));
+            club = new Club(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getDate(4), rs.getString(5),
+                    rs.getBoolean(6), rs.getBoolean(7), rs.getInt(8), rs.getInt(9));
             listC.add(club);
         }
         return listC;
@@ -221,13 +226,13 @@ public class ClubDAO {
                             rs.getString("ClubRole"),
                             rs.getInt("ClubPoint"),
                             rs.getString("Report"),
-                            rs.getInt("StudentProfileID")
-                    );
+                            rs.getInt("StudentProfileID"));
                     clubs.add(club);
                 }
             }
         } catch (SQLException ex) {
-            Logger.getLogger(ClubDAO.class.getName()).log(Level.SEVERE, null, ex);  // Or handle the exception as you prefer
+            Logger.getLogger(ClubDAO.class.getName()).log(Level.SEVERE, null, ex); // Or handle the exception as you
+            // prefer
         }
         return clubs;
     }
@@ -240,7 +245,9 @@ public class ClubDAO {
         ps.setInt(1, sudentProfileID);
         ResultSet rs = ps.executeQuery();
         while (rs.next()) {
-            myClub = new Club(rs.getInt("ClubID"), rs.getString("Logo"), rs.getString("ClubName"), rs.getDate("EstablishDate"), rs.getString("Description"), rs.getBoolean("IsApprove"), rs.getBoolean("IsActive"), rs.getInt("ManagerProfileID"), rs.getInt("StudentProfileID"));
+            myClub = new Club(rs.getInt("ClubID"), rs.getString("Logo"), rs.getString("ClubName"),
+                    rs.getDate("EstablishDate"), rs.getString("Description"), rs.getBoolean("IsApprove"),
+                    rs.getBoolean("IsActive"), rs.getInt("ManagerProfileID"), rs.getInt("StudentProfileID"));
             listMyClub.add(myClub);
         }
         return listMyClub;
@@ -289,8 +296,7 @@ public class ClubDAO {
                     rs.getBoolean(6),
                     rs.getBoolean(7),
                     rs.getInt(8),
-                    rs.getInt(9)
-            );
+                    rs.getInt(9));
         }
         return club;
     }
@@ -321,7 +327,8 @@ public class ClubDAO {
         return true;
     }
 
-    public boolean signUpClub(String logo, String clubName, Date establishDate, String description, int studentProfileID) throws SQLException {
+    public boolean signUpClub(String logo, String clubName, Date establishDate, String description,
+            int studentProfileID) throws SQLException {
         String query = "INSERT INTO [SROMS].[dbo].[Club]\n"
                 + "(Lego, ClubName, EstablishDate, Description, StudentProfileID)\n"
                 + "VALUES(?, ?, ?, ?, ?);";
@@ -350,7 +357,7 @@ public class ClubDAO {
     public List<Map<String, String>> getListEventMyclub(int clubID, int studentProfileID) throws SQLException {
         List<Map<String, String>> listEventMyClub = new ArrayList<>();
         String query = "SELECT EventName,Event.EventID,PreparationTime,HoldTime,Location,Organization,Event.Description,EndTime FROM Event LEFT JOIN ParticipationEventDetail ON Event.EventID = ParticipationEventDetail.EventID LEFT JOIN Club ON ParticipationEventDetail.StudentProfileID = Club.StudentProfileID\n"
-                + "LEFT JOIN ClubMember ON Club.ClubID = ClubMember.ClubID WHERE ClubMember.ClubID = ? AND ClubMember.StudentProfileID = ? AND SemesterID = (SELECT MAX(SemesterID) FROM [SROMS].[dbo].[ClubMember]);";
+                + "LEFT JOIN ClubMember ON Club.ClubID = ClubMember.ClubID WHERE ClubMember.ClubID = ? AND ClubMember.StudentProfileID = ? AND ClubMember.SemesterID = (SELECT MAX(SemesterID) FROM [SROMS].[dbo].[ClubMember]);";
         ps = conn.prepareStatement(query);
         ps.setInt(1, clubID);
         ps.setInt(2, studentProfileID);
@@ -400,5 +407,70 @@ public class ClubDAO {
         ps.setInt(2, clubID);
         check = ps.executeUpdate();
         return check;
+    }
+
+    public int getClubsScoreByStudentIDAndSemesterID(int studentID, int semesterID) {
+        int score = 0;
+        try {
+            PreparedStatement ps = conn.prepareStatement(
+                    "select StudentProfileID, sum(ClubPoint) as Total from ClubMember where SemesterID = ? group by StudentProfileID\n"
+                    + "  having StudentProfileID = ?");
+            ps.setInt(1, semesterID);
+            ps.setInt(2, studentID);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                score = rs.getInt("Total");
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(ClubDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return score;
+    }
+
+    public int countClubsByStudentIDAndSemesterID(int studentID, int semesterID) {
+        int count = 0;
+        try {
+            PreparedStatement ps = conn.prepareStatement(
+                    "select StudentProfileID, count(ClubPoint) as Count from ClubMember where SemesterID = ? group by StudentProfileID\n"
+                    + "  having StudentProfileID = ?");
+            ps.setInt(1, semesterID);
+            ps.setInt(2, studentID);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                count = rs.getInt("Count");
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(ClubDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return count;
+    }
+
+    public ResultSet getAllCLubReturnResultSet() {
+        ResultSet rs = null;
+        try {
+            Statement st = conn.createStatement();
+            rs = st.executeQuery("select * from Club");
+        } catch (SQLException ex) {
+            Logger.getLogger(ClubDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return rs;
+    }
+
+    public ArrayList<Integer> getAllStudentInClub(int clubID, int semesterID) {
+        ArrayList<Integer> listStudent = new ArrayList<>();
+        try {
+            PreparedStatement ps = conn
+                    .prepareStatement("select * from ClubMember where ClubID = ? and SemesterID = ?");
+            ps.setInt(1, clubID);
+            ps.setInt(2, semesterID);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                int studentID = rs.getInt("StudentProfileID");
+                listStudent.add(studentID);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(ClubDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return listStudent;
     }
 }

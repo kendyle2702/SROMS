@@ -1,5 +1,6 @@
 package Controllers;
 
+import static Controllers.LoginController.getSemester;
 import DAOs.UserLoginDAO;
 import Models.UserProfile;
 import java.io.IOException;
@@ -38,6 +39,7 @@ public class HomeController extends HttpServlet {
                     if (userProfile != null) {
                         session.setAttribute("user", userProfile);
                         session.setAttribute("role", role);
+                        session.setAttribute("semester", getSemester());
                     }
                     switch(role) {
                         case "Admin":
@@ -87,5 +89,4 @@ public class HomeController extends HttpServlet {
             throws ServletException, IOException {
 
     }
-
 }

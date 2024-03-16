@@ -142,7 +142,7 @@
                                                 </div>
                                                 <div class="col-12">
                                                     <div class="student-submit">
-                                                        <input style="background: #ea7127;border-color:#ea7127;" name="createEvent" class="btn btn-primary" id="submit"
+                                                        <input style="background: #ea7127;border-color:#ea7127;" name="createEventClub" class="btn btn-primary" id="submit"
                                                                type="submit" value="Submit">
                                                     </div>
                                                 </div>
@@ -294,7 +294,7 @@
                                             </div>
                                             <div class="col-12">
                                                 <div class="student-submit">
-                                                    <input style="background: #ea7127;border-color:#ea7127;" name="createCompatition" class="btn btn-primary" id="submit"
+                                                    <input style="background: #ea7127;border-color:#ea7127;" name="createCompatitionClub" class="btn btn-primary" id="submit"
                                                            type="submit" value="Submit">
                                                 </div>
                                             </div>
