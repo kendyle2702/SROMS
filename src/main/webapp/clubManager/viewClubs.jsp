@@ -5,7 +5,7 @@
                 <div class="col">
                     <h3 class="page-title">View Clubs</h3>
                     <ul class="breadcrumb">
-                        <li class="breadcrumb-item active">View Clubs</li>
+                        <li class="breadcrumb-item active">View Club</li>
                     </ul>
                 </div>
             </div>

@@ -121,7 +121,7 @@ public class ClubDAO {
     public String getFullName(int clubID, int studentProfileID) throws SQLException {
         String fullName = null;
         ResultSet rs = null;
-        PreparedStatement ps = conn.prepareStatement("SELECT CONCAT(FirstName, ' ', LastName) AS FullName FROM [Club] LEFT JOIN StudentProfile ON Club.ClubID = StudentProfile.StudentProfileID \n"
+        PreparedStatement ps = conn.prepareStatement("SELECT CONCAT(FirstName, ' ', LastName) AS FullName FROM [Club] LEFT JOIN StudentProfile ON Club.StudentProfileID = StudentProfile.StudentProfileID \n"
                 + "LEFT JOIN UserProfile ON StudentProfile.UserProfileID = UserProfile.UserProfileID WHERE ClubID = ? AND StudentProfile.StudentProfileID = ?;");
         ps.setInt(1, clubID);
         ps.setInt(2, studentProfileID);

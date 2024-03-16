@@ -91,7 +91,7 @@ public class ClubManagerController extends HttpServlet {
                     session.setAttribute("fullNameCreateClub", fullName);
                     session.setAttribute("listCheckRequestClub", listCheckRequestClub);
                     request.getRequestDispatcher("/clubManager.jsp").forward(request, response);
-
+                    
                 } else if (path.startsWith("/clubmanager/check/")) {
                     if (path.startsWith("/clubmanager/check/accept/")) {
                         String[] parts = path.split("/");

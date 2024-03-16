@@ -22,7 +22,7 @@
                     <div class="row align-items-center">
                         <div class="col-auto profile-image">
                             <a href="#">
-                                <img class="rounded-circle" alt="User Image" src="${sessionScope.clubDetail.getLogo()}">
+                                <img class="rounded-circle" alt="User Image" src="${pageContext.request.contextPath}/assets/img/logo_club/${sessionScope.clubDetail.getLogo()}">
                             </a>
                         </div>
                         <div class="col ms-md-n2 profile-user-info">
@@ -36,7 +36,7 @@
                              Club club = (Club)session.getAttribute("clubDetail");
                             %>
                             <a id="banAccount" href="${pageContext.request.contextPath}/clubmanager/clubdetail/block/<%=session.getAttribute("rsClubCurrentID")%>" style='display: <%=club.getIsActive()== true ? "block":"none" %> '><button class="mb-2 mr-2 btn-icon btn btn-danger"><i class="pe-7s-trash btn-icon-wrapper"></i>Lock Club</button></a> 
-                            <a id="unbanAccount" href="${pageContext.request.contextPath}/clubmanager/clubdetail/unblock/<%=session.getAttribute("rsClubCurrentID")%>%>" style='display: <%=club.getIsActive()== false ? "block":"none" %>'><button class="mb-2 mr-2 btn-icon btn btn-primary"><i class="pe-7s-tools btn-icon-wrapper"> </i>Unlock Club</button></a> 
+                            <a id="unbanAccount" href="${pageContext.request.contextPath}/clubmanager/clubdetail/unblock/<%=session.getAttribute("rsClubCurrentID")%>" style='display: <%=club.getIsActive()== false ? "block":"none" %>'><button class="mb-2 mr-2 btn-icon btn btn-primary"><i class="pe-7s-tools btn-icon-wrapper"> </i>Unlock Club</button></a> 
 
                         </div>
                     </div>
