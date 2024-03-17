@@ -90,7 +90,7 @@
                                             int countEvents = eventDAO.countEventsByStudentIDAndSemesterID(rs.getInt("StudentProfileID"), semesterID);
                                             int pointEvensNormal = eventDAO.getEventsScoreByStudentIDAndSemesterID(rs.getInt("StudentProfileID"), semesterID);
                                             int pointEvensCompetition = eventDAO.getEventsScoreCompetitionByStudentIDAndSemesterID(rs.getInt("StudentProfileID"), semesterID);
-                                            int total = pointClubs>=50?50:pointClubs + (pointEvensNormal+pointEvensCompetition)>=50?50:(pointEvensNormal+pointEvensCompetition) + 60;
+                                            int total = (pointClubs>=30?30:pointClubs) + ((pointEvensNormal+pointEvensCompetition)>=50?50:(pointEvensNormal+pointEvensCompetition)) + 60;
                                         %>
                                         <td><%=count++%></td>
                                         <td><%=rs.getString("RollNumber")%></td>
