@@ -92,6 +92,22 @@ public class StudentProfileDAO {
 
         return (count == 0) ? null : studentProfile;
     }
+
+    public ResultSet getStudentProfileMorebyEventID(int eventID) {
+        ResultSet rs = null;
+        try {
+            PreparedStatement ps = conn.prepareStatement("select * from StudentProfile as s "
+                    + "inner join UserProfile as u on s.UserProfileID = u.UserProfileID "
+                    + "inner join UserLogin as ul on u.UserProfileID = ul.UserProfileID "
+                    + "where s.StudentProfileID = (SELECT StudentProfileID FROM Event WHERE EventID = ?)");
+            ps.setInt(1, eventID);
+            rs = ps.executeQuery();
+        } catch (SQLException ex) {
+            Logger.getLogger(ManagerProfileDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return rs;
+    }
+
     public StudentProfile updateStudentProfileByUserProfileID(StudentProfile user,int userProfileID){
         int count = 0;
         try {

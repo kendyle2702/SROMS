@@ -4,18 +4,19 @@
  */
 package Controllers;
 
+import DAOs.ClubDAO;
 import DAOs.ManagerProfileDAO;
 import DAOs.StudentProfileDAO;
 import DAOs.UserLoginDAO;
 import DAOs.UserProfileDAO;
 import DAOs.UserRoleDAO;
+import Models.Club;
 import Models.ManagerProfile;
 import Models.StudentProfile;
 import Models.UserLogin;
 import Models.UserProfile;
 import Models.UserRole;
 import java.io.IOException;
-import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.MultipartConfig;
 import jakarta.servlet.http.HttpServlet;
@@ -25,17 +26,16 @@ import jakarta.servlet.http.HttpSession;
 import jakarta.servlet.http.Part;
 import java.nio.file.Paths;
 import java.sql.Date;
+import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
  * @author QuocCu
  */
-@MultipartConfig(
-        fileSizeThreshold = 1024 * 1024,
-        maxRequestSize = 1024 * 1024 * 2,
-        maxFileSize = 1024 * 1024 * 10
-)
+@MultipartConfig(fileSizeThreshold = 1024 * 1024, maxRequestSize = 1024 * 1024 * 2, maxFileSize = 1024 * 1024 * 10)
 public class UploadController extends HttpServlet {
 
     @Override
@@ -59,12 +59,11 @@ public class UploadController extends HttpServlet {
             Date birthdate = Date.valueOf(request.getParameter("birthdate"));
             String address = request.getParameter("address");
             String phone = request.getParameter("phone");
-                
 
             String avatar = "";
             Part part = request.getPart("avatar");
             if (Paths.get(part.getSubmittedFileName()).toString().isEmpty()) {
-                avatar = userProfile.getAvatar();//
+                avatar = userProfile.getAvatar();
             } else {
                 try {
                     String realPath = request.getServletContext().getRealPath("/assets/img/avatar");
@@ -78,7 +77,8 @@ public class UploadController extends HttpServlet {
 
             UserProfileDAO uProfileDAO = new UserProfileDAO();
 
-            UserProfile newUser = new UserProfile(userProfile.getUserProfileID(), firstName, lastName, avatar, gender, birthdate, address, userProfile.getEnrollmentDate(), userProfile.getEmail(), phone);
+            UserProfile newUser = new UserProfile(userProfile.getUserProfileID(), firstName, lastName, avatar, gender,
+                    birthdate, address, userProfile.getEnrollmentDate(), userProfile.getEmail(), phone);
             UserProfile user = uProfileDAO.updateUserProfile(newUser);
             if (user == null) {
                 session.setAttribute("editStatus", "fail");
@@ -120,7 +120,8 @@ public class UploadController extends HttpServlet {
                 }
             }
             UserProfileDAO uProfileDAO = new UserProfileDAO();
-            UserProfile newUser = new UserProfile(firstName, lastName, avatar, gender, birthdate, address, enrollDate, email, phone);
+            UserProfile newUser = new UserProfile(firstName, lastName, avatar, gender, birthdate, address, enrollDate,
+                    email, phone);
 
             UserProfile user = uProfileDAO.addUserProfile(newUser);
             if (user == null) {
@@ -206,8 +207,7 @@ public class UploadController extends HttpServlet {
             String academiclevel = request.getParameter("academiclevel");
             String degree = request.getParameter("degree");
             String exprience = request.getParameter("exprience");
-            
-            
+
             java.util.Date currentDate = new java.util.Date();
             Timestamp currentTime = new Timestamp(currentDate.getTime());
 
@@ -266,7 +266,7 @@ public class UploadController extends HttpServlet {
             String degree = request.getParameter("degree");
             String experience = request.getParameter("experience");
             String avatarOld = request.getParameter("avatar_old");
-            
+
             String avatar = "";
             Part part = request.getPart("avatar");
             if (Paths.get(part.getSubmittedFileName()).toString().isEmpty()) {
@@ -372,7 +372,7 @@ public class UploadController extends HttpServlet {
             String degree = request.getParameter("degree");
             String experience = request.getParameter("experience");
             String avatarOld = request.getParameter("avatar_old");
-            
+
             String avatar = "";
             Part part = request.getPart("avatar");
             if (Paths.get(part.getSubmittedFileName()).toString().isEmpty()) {
@@ -405,6 +405,45 @@ public class UploadController extends HttpServlet {
 
                 session.setAttribute("editClubManager", "success");
                 response.sendRedirect("/admin/account/clubmanager/detail/" + managerID);
+            }
+        } else if (request.getParameter("signUpClub") != null) {
+            ClubDAO clubDAO = new ClubDAO();
+            Club club = clubDAO.getClub();
+
+            String clubName = request.getParameter("clubname");
+            String description = request.getParameter("description");
+            int studentProfileID = Integer.parseInt(request.getParameter("studentProfileID"));
+            Date establishDate = null;
+
+            String logo = "";
+            Part part = request.getPart("logo");
+            if (Paths.get(part.getSubmittedFileName()).toString().isEmpty()) {
+                logo = club.getLogo();
+            } else {
+                try {
+                    String realPath = request.getServletContext().getRealPath("/assets/img/logo_club");
+                    logo = Paths.get(part.getSubmittedFileName()).toString();
+                    part.write(realPath + "/" + logo);
+                } catch (Exception ex) {
+                    session.setAttribute("signUpClub", "fail");
+                    // response.sendRedirect("/student/clubs/view");
+                }
+            }
+            ClubDAO clubD = new ClubDAO();
+            boolean signUp;
+            try {
+                signUp = clubD.signUpClub(logo, clubName, establishDate, description, studentProfileID);
+
+                if (signUp) {
+                    session.setAttribute("signUpClub", "success");
+                    response.sendRedirect("/student/clubs/view");
+                } else {
+                    session.setAttribute("signUpClub", "fail");
+                    response.sendRedirect("/student/clubs/view");
+                }
+            } catch (SQLException ex) {
+                Logger.getLogger(UploadController.class.getName()).log(Level.SEVERE, null, ex);
+
             }
         }
     }

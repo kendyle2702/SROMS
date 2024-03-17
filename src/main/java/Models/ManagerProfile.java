@@ -10,6 +10,10 @@ public class ManagerProfile {
     private String degree;
     private String experience;
     private int userProfileID;
+    
+    public ManagerProfile(){
+        
+    }
 
     public ManagerProfile(String staffNumber, String academicLevel, String degree, String experience, int userProfileID) {
         this.staffNumber = staffNumber;

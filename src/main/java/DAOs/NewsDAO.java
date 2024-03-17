@@ -29,7 +29,7 @@ public class NewsDAO {
     public List<News> getAllNews() {
         List<News> newsList = new ArrayList<>();
         try {
-            String sql = "SELECT * FROM News";
+            String sql = "SELECT * FROM News ORDER BY CreateAT DESC";
             PreparedStatement ps = conn.prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
@@ -67,6 +67,48 @@ public class NewsDAO {
             Logger.getLogger(NewsDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return latestNews;
+    }
+
+    public String getNameAuthor(int newsID) {
+        String name = null;
+        try {
+            String sql = "select CONCAT(LastName, ' ', FirstName) AS FullName\n"
+                    + "from UserProfile as u \n"
+                    + "join AdminProfile as a on u.UserProfileID = a.UserProfileID\n"
+                    + "join News as n on n.AdminProfileID = a.AdminProfileID \n"
+                    + "where n.NewsID = ?";
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setInt(1, newsID);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                name = rs.getString("FullName");
+            }
+        } catch (Exception e) {
+            Logger.getLogger(NewsDAO.class.getName()).log(Level.SEVERE, null, e);
+        }
+
+        return name;
+    }
+
+    public News getNewsByID(int newsID) {
+        News news = null;
+        try {
+            String sql = "select * from News where NewsID = ?";
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setInt(1, newsID);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                news = new News(rs.getInt("newsID"),
+                        rs.getString("title"),
+                        rs.getString("content"),
+                        rs.getDate("createAt"),
+                        rs.getInt("adminProfileID")
+                );
+            }
+        } catch (Exception e) {
+            Logger.getLogger(NewsDAO.class.getName()).log(Level.SEVERE, null, e);
+        }
+        return news;
     }
 
     public ResultSet getAllNewsReturnResultSet() {
@@ -114,6 +156,7 @@ public class NewsDAO {
 
         return (count == 0) ? null : news;
     }
+
     public News updateNews(News news) {
         int count = 0;
         try {

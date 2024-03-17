@@ -28,10 +28,8 @@
         $("#viewStudents").DataTable();
     });
 </script>
-<%@include file="./js/jsAdmin.jsp" %>
-<%@include file="./js/jsEventManger.jsp" %>
-<%@include file="./js/jsClubManager.jsp" %>
-<%@include file="./js/jsStudent.jsp" %>
+
+
 <!--Edit avatar and validate-->
 <script>
     document.querySelector("#uploadAvatar").addEventListener('change', (e) => {
@@ -69,7 +67,8 @@
 </script>
 <!--Edit Profile alert-->
 <script>
-    <%        String editStatus = (String) session.getAttribute("editStatus");
+    <%
+        String editStatus = (String) session.getAttribute("editStatus");
         if (editStatus != null) {
             if (editStatus.equals("success")) {
     %>
@@ -96,4 +95,13 @@
         session.removeAttribute("editStatus");
     %>
 </script>
+
+
+<%@include file="./js/jsAdmin.jsp" %>
+<%@include file="./js/jsEventManger.jsp" %>
+<%@include file="./js/jsClubManager.jsp" %>
+<%@include file="./js/jsStudent.jsp" %>
+
+
+
 

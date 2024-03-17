@@ -48,8 +48,7 @@ public class EventDAO {
             event = new Event(
                     rs.getInt(1), rs.getString(2), rs.getTimestamp(3), rs.getTimestamp(4), rs.getString(5),
                     rs.getInt(6), rs.getInt(7), rs.getString(8), rs.getString(9), rs.getString(10), rs.getString(11),
-                    rs.getString(12), rs.getInt(13), rs.getInt(14), rs.getInt(15), rs.getInt(16), rs.getTimestamp(17)
-            );
+                    rs.getString(12), rs.getInt(13), rs.getInt(14), rs.getInt(15), rs.getInt(16), rs.getTimestamp(17));
             listE.add(event);
         }
         return listE; // Return the list of events
@@ -58,7 +57,8 @@ public class EventDAO {
     public String eventCatelogyName(int eventCatelogyID) throws SQLException {
         // Establish database connection
         String eventCatelogyName = null;
-        String query = "SELECT EventCategoryName FROM [EventCategory]  WHERE EventCategoryID = ?"; // SQL query to retrieve events
+        String query = "SELECT EventCategoryName FROM [EventCategory]  WHERE EventCategoryID = ?"; // SQL query to
+        // retrieve events
         ps = conn.prepareStatement(query); // Prepare SQL statement
         rs = ps.executeQuery(); // Execute query and obtain result set
         if (rs.next()) {
@@ -85,7 +85,8 @@ public class EventDAO {
         ps = conn.prepareStatement(query);
         rs = ps.executeQuery();
         while (rs.next()) {
-            parti = new ParticipationEventDetail(rs.getInt(1), rs.getInt(2), rs.getString(3), rs.getBoolean(4), rs.getString(5));
+            parti = new ParticipationEventDetail(rs.getInt(1), rs.getInt(2), rs.getString(3), rs.getBoolean(4),
+                    rs.getString(5));
             profile = new UserProfile(rs.getString("FirstName"), rs.getString("LastName"));
             student = new StudentProfile(rs.getString("RollNumber"), rs.getString("Major"));
             event = new Event(rs.getString("EventName"));
@@ -396,7 +397,8 @@ public class EventDAO {
         return categoryName;
     }
 
-    public boolean addStudentToParticipationEventDetail(ParticipationEventDetail participationEventDetail) throws SQLException {
+    public boolean addStudentToParticipationEventDetail(ParticipationEventDetail participationEventDetail)
+            throws SQLException {
         conn = DBConnection.connect(); // Establish database connection
 
         String checkQuery = "SELECT COUNT(*) FROM [SROMS].[dbo].[ParticipationEventDetail] WHERE [EventID] = ? AND [StudentProfileID] = ?";
@@ -429,6 +431,103 @@ public class EventDAO {
         return true; // Trả về true khi thêm thành công
     }
 
+    public boolean checkStudentParticipationEventDetail(int eventID, int studentProfileID) throws SQLException {
+        conn = DBConnection.connect(); // Establish database connection
+
+        String checkQuery = "SELECT COUNT(*) FROM [SROMS].[dbo].[ParticipationEventDetail] WHERE [EventID] = ? AND [StudentProfileID] = ?";
+        PreparedStatement checkPs = conn.prepareStatement(checkQuery);
+        checkPs.setInt(1, eventID);
+        checkPs.setInt(2, studentProfileID);
+
+        ResultSet rs = checkPs.executeQuery();
+        if (rs.next()) {
+            if (rs.getInt(1) > 0) {
+                // Sinh viên đã tồn tại trong sự kiện
+                return false; // Trả về false nếu sinh viên đã tham gia
+            }
+        }
+        return true;
+    }
+
+    public List<Event> checkStudentParticipationEventDetail(int studentProfileID) throws SQLException {
+        ArrayList<Event> listE = new ArrayList<>();
+        Event event = null;
+
+        // Establish database connection
+        String query = "SELECT * FROM [SROMS].[dbo].[Event] e "
+                + "INNER JOIN [SROMS].[dbo].[ParticipationEventDetail] ped "
+                + "ON e.[EventID] = ped.[EventID] WHERE ped.[StudentProfileID] = ?"; // SQL query to retrieve events
+        ps = conn.prepareStatement(query); // Prepare SQL statement
+        ps.setInt(1, studentProfileID);
+        rs = ps.executeQuery(); // Execute query and obtain result set
+        while (rs.next()) { // Iterate over the result set
+            // Create Event object using data from the result set and add it to the list
+            event = new Event(
+                    rs.getInt(1), rs.getString(2), rs.getTimestamp(3), rs.getTimestamp(4), rs.getString(5),
+                    rs.getInt(6), rs.getInt(7), rs.getString(8), rs.getString(9), rs.getString(10), rs.getString(11),
+                    rs.getString(12), rs.getInt(13), rs.getInt(14), rs.getInt(15), rs.getInt(16), rs.getTimestamp(17));
+            listE.add(event);
+        }
+        return listE; // Return the list of events
+    }
+
+    public int addEventForMyClub(String eventName, Timestamp preTime, Timestamp holdTime, String location, int cost,
+            int expectedNumber, String organization, String description, String feedback, Timestamp endTime,
+            int studentProfileID, int EventCategoryID) throws SQLException {
+        int count = 0;
+        EventDAO eventDAO = new EventDAO();
+        String query = "INSERT INTO [SROMS].[dbo].[Event]\n"
+                + "(EventName,PreparationTime,HoldTime,Location,Cost,ExpectedNumber,Organization,Description,Feedback, EndTime,CreateBy,StudentProfileID,Approve,EventCategoryID,SemesterID)\n"
+                + "VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);";
+        ps = conn.prepareStatement(query);
+        ps.setString(1, eventName);
+        ps.setTimestamp(2, preTime);
+        ps.setTimestamp(3, holdTime);
+        ps.setString(4, location);
+        ps.setInt(5, cost);
+        ps.setInt(6, expectedNumber);
+        ps.setString(7, organization);
+        ps.setString(8, description);
+        ps.setString(9, feedback);
+        ps.setTimestamp(10, endTime);
+        ps.setString(11, "Leader Club");
+        ps.setInt(12, studentProfileID);
+        ps.setString(13, "SC");
+        ps.setInt(14, EventCategoryID);
+        ps.setInt(15, eventDAO.getSemesterPresent());
+        count = ps.executeUpdate();
+        return count;
+    }
+
+    public int addCompatitionForMyCLub(String eventName, Timestamp preTime, Timestamp holdTime, String location,
+            int cost, int expectedNumber, String organization, String description, String feedback, Timestamp endTime,
+            int studentProfileID, int EventCategoryID, int PrizeStructureID) throws SQLException {
+        int count = 0;
+        EventDAO eventDAO = new EventDAO();
+        String query = "INSERT INTO [SROMS].[dbo].[Event]\n"
+                + "(EventName,PreparationTime,HoldTime,Location,Cost,ExpectedNumber,Organization,Description,Feedback, EndTime,CreateBy,StudentProfileID,Approve,EventCategoryID, PrizeStructureID,SemesterID)\n"
+                + "VALUES( ?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);";
+        ps = conn.prepareStatement(query);
+        ps.setString(1, eventName);
+        ps.setTimestamp(2, preTime);
+        ps.setTimestamp(3, holdTime);
+        ps.setString(4, location);
+        ps.setInt(5, cost);
+        ps.setInt(6, expectedNumber);
+        ps.setString(7, organization);
+        ps.setString(8, description);
+        ps.setString(9, feedback);
+        ps.setTimestamp(10, endTime);
+        ps.setString(11, "Leader Club");
+        ps.setInt(12, studentProfileID);
+        ps.setString(13, "SC");
+        ps.setInt(14, EventCategoryID);
+        ps.setInt(15, PrizeStructureID);
+        ps.setInt(16, eventDAO.getSemesterPresent());
+        count = ps.executeUpdate();
+        return count;
+    }
+
     public void approveEventByAdmin(int eventID) {
         try {
             PreparedStatement ps = conn.prepareStatement("Update Event set Approve = 'AA' where EventID = ?");
@@ -454,7 +553,8 @@ public class EventDAO {
     public String getNameManagerCreateEventByID(int eventID) {
         String ms = null;
         try {
-            PreparedStatement ps = conn.prepareStatement("select * from Event as e inner join ManagerProfile as m on e.ManagerProfileID =m.ManagerProfileID \n"
+            PreparedStatement ps = conn.prepareStatement(
+                    "select * from Event as e inner join ManagerProfile as m on e.ManagerProfileID =m.ManagerProfileID \n"
                     + "  where e.EventID = ?");
             ps.setInt(1, eventID);
 
@@ -471,7 +571,8 @@ public class EventDAO {
     public String getNameStudentCreateEventByID(int eventID) {
         String ms = null;
         try {
-            PreparedStatement ps = conn.prepareStatement("select * from Event as e inner join StudentProfile as m on e.StudentProfileID =m.StudentProfileID \n"
+            PreparedStatement ps = conn.prepareStatement(
+                    "select * from Event as e inner join StudentProfile as m on e.StudentProfileID =m.StudentProfileID \n"
                     + "  where e.EventID = ?");
             ps.setInt(1, eventID);
 
@@ -488,7 +589,8 @@ public class EventDAO {
     public String getEventCategoryByID(int eventID) {
         String ms = null;
         try {
-            PreparedStatement ps = conn.prepareStatement("select * from [Event] as e inner join EventCategory as m on e.EventCategoryID =m.EventCategoryID \n"
+            PreparedStatement ps = conn.prepareStatement(
+                    "select * from [Event] as e inner join EventCategory as m on e.EventCategoryID =m.EventCategoryID \n"
                     + "  where e.EventID = ?");
             ps.setInt(1, eventID);
 
@@ -505,7 +607,8 @@ public class EventDAO {
     public int getEventsScoreByStudentIDAndSemesterID(int studentID, int semesterID) {
         int score = 0;
         try {
-            PreparedStatement ps = conn.prepareStatement("select p.StudentProfileID, sum(Point) as Total from ParticipationEventDetail as p \n"
+            PreparedStatement ps = conn.prepareStatement(
+                    "select p.StudentProfileID, sum(Point) as Total from ParticipationEventDetail as p \n"
                     + "inner join Event as e on e.EventID = p.EventID\n"
                     + "inner join EventCategory as ec on ec.EventCategoryID = e.EventCategoryID where (Result = '' or Result is null) and p.IsPresent = 1"
                     + "group by p.StudentProfileID,e.SemesterID\n"
@@ -521,10 +624,12 @@ public class EventDAO {
         }
         return score;
     }
+
     public int getEventsScoreCompetitionByStudentIDAndSemesterID(int studentID, int semesterID) {
         int score = 0;
         try {
-            PreparedStatement ps = conn.prepareStatement("select p.StudentProfileID, sum(Point+2) as Total from ParticipationEventDetail as p \n"
+            PreparedStatement ps = conn.prepareStatement(
+                    "select p.StudentProfileID, sum(Point+2) as Total from ParticipationEventDetail as p \n"
                     + "inner join Event as e on e.EventID = p.EventID\n"
                     + "inner join EventCategory as ec on ec.EventCategoryID = e.EventCategoryID where p.Result != '' and p.Result is not null and p.IsPresent = 1"
                     + "group by p.StudentProfileID,e.SemesterID\n"
@@ -544,7 +649,8 @@ public class EventDAO {
     public int countEventsByStudentIDAndSemesterID(int studentID, int semesterID) {
         int count = 0;
         try {
-            PreparedStatement ps = conn.prepareStatement("select p.StudentProfileID, count(Point) as Count from ParticipationEventDetail as p \n"
+            PreparedStatement ps = conn.prepareStatement(
+                    "select p.StudentProfileID, count(Point) as Count from ParticipationEventDetail as p \n"
                     + "inner join Event as e on e.EventID = p.EventID\n"
                     + "inner join EventCategory as ec on ec.EventCategoryID = e.EventCategoryID\n"
                     + "group by p.StudentProfileID, e.SemesterID\n"
@@ -560,6 +666,7 @@ public class EventDAO {
         }
         return count;
     }
+
     public Event getEvent(int id) throws SQLException {
         Event event = null;
         String query = "SELECT [EventID],[EventName],[PreparationTime],[HoldTime],[Location],[Cost],[ExpectedNumber]\n"
@@ -574,5 +681,42 @@ public class EventDAO {
                     rs.getString(10), rs.getString(11), rs.getString(12), rs.getTimestamp(13));
         }
         return event;
+    }
+
+    public int getSemesterPresent() throws SQLException {
+        int semesterIdPresent = 0;
+        PreparedStatement ps = conn.prepareStatement("SELECT MAX(SemesterID) AS SemesterIDPresent FROM [SROMS].[dbo].[ClubMember];");
+        ResultSet rs = ps.executeQuery();
+        if (rs.next()) {
+            semesterIdPresent = rs.getInt("SemesterIDPresent");
+        }
+        return semesterIdPresent;
+    }
+
+    public ResultSet getNameEventByStudentIDAndSemesterID(int semesterID, int studentID) {
+        try {
+            ps = conn.prepareStatement("SELECT * FROM [SROMS].[dbo].[Event] e JOIN [SROMS].[dbo].[ParticipationEventDetail] pe ON e.EventID = pe.EventID WHERE e.SemesterID = ? AND pe.StudentProfileID = ?");
+            ps.setInt(1, semesterID);
+            ps.setInt(2, studentID);
+            rs = ps.executeQuery();
+        } catch (SQLException ex) {
+            Logger.getLogger(ClubDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return rs;
+    }
+
+    public ResultSet getPointEventByStudentIDAndSemesterID(int semesterID, int studentID) {
+        try {
+            ps = conn.prepareStatement("  select * from  [SROMS].[dbo].[EventCategory] ec\n"
+                    + "  inner join [SROMS].[dbo].[Event] e on ec.EventCategoryID = e.EventCategoryID\n"
+                    + "  inner join [SROMS].[dbo].[ParticipationEventDetail] pe ON e.EventID = pe.EventID\n"
+                    + "  where e.SemesterID = ? AND pe.StudentProfileID = ?");
+            ps.setInt(1, semesterID);
+            ps.setInt(2, studentID);
+            rs = ps.executeQuery();
+        } catch (SQLException ex) {
+            Logger.getLogger(ClubDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return rs;
     }
 }

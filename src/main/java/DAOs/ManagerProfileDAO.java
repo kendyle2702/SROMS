@@ -6,6 +6,7 @@ package DAOs;
 
 import Models.ManagerProfile;
 import Models.StudentProfile;
+import Models.UserProfile;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -62,6 +63,20 @@ public class ManagerProfileDAO {
         return managerProfileID;
     }
 
+    public ResultSet getManagerProfileMoreByEventID(int eventID) {
+        ResultSet rs = null;
+        try {
+            PreparedStatement ps = conn.prepareStatement("SELECT * FROM ManagerProfile AS m "
+                    + "INNER JOIN UserProfile AS u ON m.UserProfileID = u.UserProfileID "
+                    + "INNER JOIN UserLogin AS ul ON u.UserProfileID = ul.UserProfileID "
+                    + "WHERE m.ManagerProfileID = (SELECT ManagerProfileID FROM Event WHERE EventID = ?)");
+            ps.setInt(1, eventID);
+            rs = ps.executeQuery();
+        } catch (SQLException ex) {
+            Logger.getLogger(ManagerProfileDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return rs;
+    }
     public ResultSet getManagerProfileMoreByID(int id) {
         ResultSet rs = null;
         try {
