@@ -15,26 +15,12 @@
         </a>
     </div>
     <div class="top-nav-search">
-        <form>
-            <input type="text" class="form-control" placeholder="Search here">
-            <button class="btn" type="submit"><i class="fas fa-search"></i></button>
-        </form>
+        
     </div>
     <a class="mobile_btn" id="mobile_btn">
         <i class="fas fa-bars"></i>
     </a>
     <ul class="nav user-menu">
-        <li class="nav-item dropdown language-drop me-2">
-            <a href="#" class="dropdown-toggle nav-link header-nav-list" data-bs-toggle="dropdown">
-                <img src="${pageContext.request.contextPath}/assets/img/icons/header-icon-01.svg" alt>
-            </a>
-            <div class="dropdown-menu">
-                <a class="dropdown-item" href="javascript:;"><i class="flag flag-lr me-2"></i>English</a>
-                <a class="dropdown-item" href="javascript:;"><i class="flag flag-bl me-2"></i>Francais</a>
-                <a class="dropdown-item" href="javascript:;"><i class="flag flag-cn me-2"></i>Turkce</a>
-            </div>
-        </li>
-        
         <li class="nav-item zoom-screen me-2">
             <a href="#" class="nav-link header-nav-list">
                 <img src="${pageContext.request.contextPath}/assets/img/icons/header-icon-04.svg" alt>
