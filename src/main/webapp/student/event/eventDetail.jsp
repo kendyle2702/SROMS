@@ -88,10 +88,6 @@
                                                                     </div>
                                                                 </td>
                                                             </c:when>
-                                                            
-                                                                
-                                                                
-
                                                             <c:when test="${event.getHoldTime() <= sessionScope.currentTime && sessionScope.currentTime < event.getEndTime() && event.getApprove() eq 'AA'}">
                                                                 <td class="">Happening</td>
                                                                 <td>
