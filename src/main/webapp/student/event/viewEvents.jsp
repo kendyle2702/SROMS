@@ -125,9 +125,9 @@
                                                         <tr>
                                                             <th class="text-center">No</th>
                                                             <th class="text-center">Name</th>
-                                                            <th class="text-center">Location</th>
                                                             <th class="text-center">Date</th>
                                                             <th class="text-center">Category</th>
+                                                            <th class="text-center">Status</th>
                                                             <th class="text-center"></th> 
                                                         </tr>
                                                     </thead>
@@ -139,12 +139,22 @@
                                                             <tr>    
                                                                 <td>${eventCount}</td>
                                                                 <td>${event.eventName}</td>
-                                                                <td>${event.location}</td>
                                                                 <td>${event.holdTime}</td>
                                                                 <td>${sessionScope.eventCategoryNames[event.eventID]}</td>
-                                                                <td class="text-center">
-                                                                    <a style="background: #ea7127;border-color:#ea7127" href="/student/events/detail/${event.eventID}" type="button" class="btn btn-primary">Detail</a>
-                                                                </td>
+                                                            <c:choose>
+                                                                <c:when test="${sessionScope.currentTime < event.getHoldTime() && event.getApprove() eq 'AA'}">
+                                                                    <td class=""><button class="btn btn-danger btn-sm btn-rounded">Upcoming</button></td>
+                                                                </c:when>
+                                                                <c:when test="${event.getHoldTime() <= sessionScope.currentTime && sessionScope.currentTime < event.getEndTime() && event.getApprove() eq 'AA'}">
+                                                                    <td class=""><button class="btn btn-primary btn-sm btn-rounded">Happening</button></td>
+                                                                </c:when>
+                                                                <c:when test="${sessionScope.currentTime >= event.getEndTime() && event.getApprove() eq 'AA'}" >
+                                                                    <td class=""><button class="btn btn-success btn-sm btn-rounded">Finished</button></td>
+                                                                </c:when>
+                                                            </c:choose>
+                                                            <td class="text-center">
+                                                                <a style="background: #ea7127;border-color:#ea7127" href="/student/events/detail/${event.eventID}" type="button" class="btn btn-primary">Detail</a>
+                                                            </td>
                                                             </tr>
                                                         </c:if>
                                                     </c:forEach>
