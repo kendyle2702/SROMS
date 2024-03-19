@@ -25,17 +25,17 @@
         <div class="row">
             <div class="card flex-fill comman-shadow">
                 <div class="card-body">
-                    <ul class="nav nav-pills navtab-bg nav-justified" role="tablist">
+                    <ul class="nav nav-tabs nav-tabs-solid" role="tablist">
                         <li class="nav-item" role="presentation">
                             <a href="#listEvent" data-bs-toggle="tab" aria-expanded="false"
                                class="nav-link active" aria-selected="false" role="tab">
-                                Upcoming Event
+                                Event
                             </a>
                         </li>
                         <li class="nav-item" role="tablist  ">
                             <a href="#participated" data-bs-toggle="tab" aria-expanded="true" class="nav-link"
                                aria-selected="true" role="tab">
-                                User participated 
+                                History
                             </a>
                         </li>
                     </ul>
@@ -63,26 +63,36 @@
                                                         <tr>
                                                             <th class="text-center">No</th>
                                                             <th class="text-center">Name</th>
-                                                            <th class="text-center">Location</th>
-                                                            <th class="text-center">Date</th>
+                                                            <th class="text-center">Start Time</th>
                                                             <th class="text-center">Category</th>
+                                                            <th class="text-center">Status</th>
                                                             <th class="text-center"></th> 
                                                         </tr>
                                                     </thead>
                                                     <tbody>
                                                     <c:set var="eventCount" value="0" />
                                                     <c:forEach items="${sessionScope.listEvent}"  var="event">
-                                                        <c:if test="${sessionScope.currentTime < event.getHoldTime() && event.getApprove() eq 'AA'}">
+                                                        <c:if test="${event.getApprove() eq 'AA'}">
                                                             <c:set var="eventCount" value="${eventCount + 1}" />
                                                             <tr>    
                                                                 <td>${eventCount}</td>
                                                                 <td  style="white-space: break-spaces;">${event.eventName}</td>
-                                                                <td>${event.location}</td>
                                                                 <td>${event.holdTime}</td>
                                                                 <td>${sessionScope.eventCategoryNames[event.eventID]}</td>
-                                                                <td class="text-center">
-                                                                    <a style="background: #ea7127;border-color:#ea7127" href="/student/events/detail/${event.eventID}" type="button" class="btn btn-primary">Detail</a>
-                                                                </td>
+                                                            <c:choose>
+                                                                <c:when test="${sessionScope.currentTime < event.getHoldTime() && event.getApprove() eq 'AA'}">
+                                                                    <td class=""><button class="btn btn-danger btn-sm btn-rounded">Upcoming</button></td>
+                                                                </c:when>
+                                                                <c:when test="${event.getHoldTime() <= sessionScope.currentTime && sessionScope.currentTime < event.getEndTime() && event.getApprove() eq 'AA'}">
+                                                                    <td class=""><button class="btn btn-primary btn-sm btn-rounded">Happening</button></td>
+                                                                </c:when>
+                                                                <c:when test="${sessionScope.currentTime >= event.getEndTime() && event.getApprove() eq 'AA'}" >
+                                                                    <td class=""><button class="btn btn-success btn-sm btn-rounded">Finished</button></td>
+                                                                </c:when>
+                                                            </c:choose>  
+                                                            <td class="text-center">
+                                                                <a style="background: #ea7127;border-color:#ea7127" href="/student/events/detail/${event.eventID}" type="button" class="btn btn-primary">Detail</a>
+                                                            </td>
                                                             </tr>
                                                         </c:if>
                                                     </c:forEach>
@@ -115,9 +125,9 @@
                                                         <tr>
                                                             <th class="text-center">No</th>
                                                             <th class="text-center">Name</th>
-                                                            <th class="text-center">Location</th>
                                                             <th class="text-center">Date</th>
                                                             <th class="text-center">Category</th>
+                                                            <th class="text-center">Status</th>
                                                             <th class="text-center"></th> 
                                                         </tr>
                                                     </thead>
@@ -129,12 +139,22 @@
                                                             <tr>    
                                                                 <td>${eventCount}</td>
                                                                 <td>${event.eventName}</td>
-                                                                <td>${event.location}</td>
                                                                 <td>${event.holdTime}</td>
                                                                 <td>${sessionScope.eventCategoryNames[event.eventID]}</td>
-                                                                <td class="text-center">
-                                                                    <a style="background: #ea7127;border-color:#ea7127" href="/student/events/detail/${event.eventID}" type="button" class="btn btn-primary">Detail</a>
-                                                                </td>
+                                                            <c:choose>
+                                                                <c:when test="${sessionScope.currentTime < event.getHoldTime() && event.getApprove() eq 'AA'}">
+                                                                    <td class=""><button class="btn btn-danger btn-sm btn-rounded">Upcoming</button></td>
+                                                                </c:when>
+                                                                <c:when test="${event.getHoldTime() <= sessionScope.currentTime && sessionScope.currentTime < event.getEndTime() && event.getApprove() eq 'AA'}">
+                                                                    <td class=""><button class="btn btn-primary btn-sm btn-rounded">Happening</button></td>
+                                                                </c:when>
+                                                                <c:when test="${sessionScope.currentTime >= event.getEndTime() && event.getApprove() eq 'AA'}" >
+                                                                    <td class=""><button class="btn btn-success btn-sm btn-rounded">Finished</button></td>
+                                                                </c:when>
+                                                            </c:choose>
+                                                            <td class="text-center">
+                                                                <a style="background: #ea7127;border-color:#ea7127" href="/student/events/detail/${event.eventID}" type="button" class="btn btn-primary">Detail</a>
+                                                            </td>
                                                             </tr>
                                                         </c:if>
                                                     </c:forEach>
