@@ -2,6 +2,7 @@ package DAOs;
 
 import Models.ClubMember;
 import Models.Club;
+import com.sun.javafx.scene.control.skin.VirtualFlow;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -405,7 +406,7 @@ public class ClubDAO {
 
     public int deleteClubMember(int studentProfileID, int clubID) throws SQLException {
         int check = 0;
-        String query = "DELETE [ClubMember] WHERE StudentProfileID = ? AND CluFbID= ? AND SemesterID = (SELECT MAX(SemesterID) FROM [SROMS].[dbo].[ClubMember]);";
+        String query = "DELETE [ClubMember] WHERE StudentProfileID = ? AND ClubID= ? AND SemesterID = (SELECT MAX(SemesterID) FROM [SROMS].[dbo].[ClubMember]);";
         ps = conn.prepareStatement(query);
         ps.setInt(1, studentProfileID);
         ps.setInt(2, clubID);
@@ -561,5 +562,40 @@ public class ClubDAO {
             clubRole = rs.getString("ClubRole");
         }
         return clubRole;
+    }
+
+    public List<Map<String, String>> getRequestJoinClub(int clubId) throws SQLException {
+        ResultSet rs = null;
+        List<Map<String, String>> listCheckRequestJoin = new ArrayList<>();
+        ps = conn.prepareStatement("SELECT Avatar, FirstName, LastName, RollNumber, Major, Gender, Email, DateOfBirth,ClubID,ClubMember.StudentProfileID FROM [ClubMember] LEFT JOIN StudentProfile ON ClubMember.StudentProfileID = StudentProfile.StudentProfileID \n"
+                + "RIGHT JOIN UserProfile ON StudentProfile.UserProfileID = UserProfile.UserProfileID WHERE ClubRole IS NULL AND ClubID = ?\n"
+                + "AND SemesterID = (SELECT MAX(SemesterID) FROM [ClubMember]);");
+        ps.setInt(1, clubId);
+        rs = ps.executeQuery();
+        while (rs.next()) {
+            Map<String, String> studentInfo = new HashMap<>();
+            studentInfo.put("Avatar", rs.getString("Avatar"));
+            studentInfo.put("FirstName", rs.getString("FirstName"));
+            studentInfo.put("LastName", rs.getString("LastName"));
+            studentInfo.put("RollNumber", rs.getString("RollNumber"));
+            studentInfo.put("Major", rs.getString("Major"));
+            studentInfo.put("Gender", rs.getString("Gender"));
+            studentInfo.put("Email", rs.getString("Email"));
+            studentInfo.put("DateOfBirth", rs.getString("DateOfBirth"));
+            studentInfo.put("ClubID", rs.getString("ClubID"));
+            studentInfo.put("StudentProfileID", rs.getString("StudentProfileID"));
+            listCheckRequestJoin.add(studentInfo);
+        }
+        return listCheckRequestJoin;
+
+    }
+
+    public int checkRequestJoinClub(String clubRole, int studentProfileId, int clubId) throws SQLException {
+        ps = conn.prepareStatement("UPDATE [ClubMember] SET ClubRole = ? WHERE ClubID =? AND StudentProfileID = ? AND SemesterID = (SELECT MAX(SemesterID) FROM ClubMember);");
+        ps.setString(1, clubRole);
+        ps.setInt(2, clubId);
+        ps.setInt(3, studentProfileId);
+        int check = ps.executeUpdate();
+        return check;
     }
 }

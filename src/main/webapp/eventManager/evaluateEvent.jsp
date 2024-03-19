@@ -60,24 +60,24 @@
                                                         <td class="">${liste.RollNumber}</td>
                                                         <td class="">${liste.Major}</td>
                                                         <td class="">${liste.Email}</td>
-                                                        <td class="">
-
-                                                            <textarea style="border-color:#ea7127;" id="" name="evaluateStudent/${liste.StudentProfileID}/${liste.EventID}" class="form-control" placeholder="Enter evaluate for ${liste.FirstName}">${liste.Report}</textarea>
-                                                        </td>                                
-                                                    </tr>
-                                                </c:forEach>
-
-                                                <tr>
-                                                    <td  colspan="6">
-                                                        <input style="background: #ea7127;border-color:#ea7127; margin-left:1300px;width: 150px;height: 60px" class="btn btn-primary" name="evaluateStudentForm" type="submit" value="Submit">
-                                                    </td>
+                                                        <td class="">${liste.DateOfBirth}</td>
+                                                        <td class="">${liste.Gender}</td>
+                                                <textarea style="border-color:#ea7127;" id="" name="evaluateStudent/${liste.StudentProfileID}/${liste.EventID}" class="form-control" placeholder="Enter evaluate for ${liste.FirstName}">${liste.Report}</textarea>
+                                                </td>                                
                                                 </tr>
-                                            </c:if>         
-                                            <c:if test="${empty sessionScope.listAttendant}">
-                                                <tr>
-                                                    <td colspan="7" class="text-center">No events found.</td>
-                                                </tr>
-                                            </c:if>
+                                            </c:forEach>
+
+                                            <tr>
+                                                <td  colspan="6">
+                                                    <input style="background: #ea7127;border-color:#ea7127; margin-left:1300px;width: 150px;height: 60px" class="btn btn-primary" name="evaluateStudentForm" type="submit" value="Submit">
+                                                </td>
+                                            </tr>
+                                        </c:if>         
+                                        <c:if test="${empty sessionScope.listAttendant}">
+                                            <tr>
+                                                <td colspan="7" class="text-center">No events found.</td>
+                                            </tr>
+                                        </c:if>
                                         </tbody>
                                     </table> 
                                 </form>

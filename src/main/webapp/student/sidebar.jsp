@@ -23,16 +23,6 @@
                     <a href="#"><i class="feather-clipboard"></i> <span class="title">Event</span> <span class="menu-arrow"></span></a>
                     <ul>
                         <li><a href="/student/events/view"  class="<%=(session.getAttribute("tabId").equals(3) ? "active subdrop" : "")%>"> View Event</a></li>
-                        <c:choose>
-                            <c:when test="${sessionScope.getClubRole eq 'Leader Club'}">
-                                <li>
-                                    <a class="<%=(session.getAttribute("tabId").equals(14)) ? "active subdrop" : ""%>" href="/student/createEventMyClub" ><span>Create Event For Club</span></a>
-                                </li>
-                            </c:when>
-                            <c:otherwise>
-
-                            </c:otherwise>
-                        </c:choose>
                     </ul>
                 </li>
 
@@ -46,7 +36,7 @@
                         <li><a href="/student/clubs/create" class="<%= session.getAttribute("tabId").equals(10) ? "active subdrop" : ""%>"> Create Club</a></li>
                     </ul>
                 </li>
-                
+
                 <li class="menu-title">
                     <span>Activities Point</span>
                 </li>
