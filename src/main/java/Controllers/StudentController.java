@@ -273,7 +273,7 @@ public class StudentController extends HttpServlet {
 
                 int studentProfileID = Integer.parseInt(request.getParameter("studentProfileID"));
                 int semesterID = 10;
-                String clubRole = "Member";
+                String clubRole = null;
                 int clubPoint = 0;
                 String report = null;
 

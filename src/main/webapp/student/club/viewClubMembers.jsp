@@ -20,7 +20,7 @@
                 <div class="row align-items-center">
                     <div class="col-auto profile-image">
                         <a href="#">
-                            <img class="rounded-circle" alt="User Image" src="${pageContext.request.contextPath}/assets/img/${sessionScope.club.getLogo()}">
+                            <img class="rounded-circle" alt="User Image" src="${pageContext.request.contextPath}/assets/img/logo_club/${sessionScope.club.getLogo()}">
                         </a>
                     </div>
                     <div class="col ms-md-n2 profile-user-info">
