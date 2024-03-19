@@ -17,11 +17,11 @@
         </div>
 
         <div class="row justify-content-center">
-            <div class="col-lg-10 col-xl-9">
-                <div class="blog-view">
+            <div class="col-lg-10 col-xl-9 card flex-fill comman-shadow">
+                <div class="blog-view card-body">
                     <div class="blog-single-post">
-                        <a href="/student/news/view" class="back-btn"><i class="feather-chevron-left"></i> Back</a>
-                        <h2 class="card-title text-center">${news.getTitle()}</h2>
+                        <a href="/student/news/view" class="back-btn btn btn-primary"><i class="feather-chevron-left"></i> Back</a>
+                        <h2 style="font-weight: bold;text-transform: uppercase;margin-bottom: 50px" class="card-title text-center">${news.getTitle()}</h2>
                         <div class="blog-info">
                             <div class="post-list">
                                 <ul>
