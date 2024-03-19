@@ -78,7 +78,7 @@
                                                             pageContext.setAttribute("isRegister", isRegister);
                                                         %>
                                                         <c:choose>
-                                                            <c:when test="${sessionScope.currentTime < event.getHoldTime() && event.getApprove() eq 'AA' && event.getExpectedNumber() - event.getExpectedNumber() >=0}">
+                                                            <c:when test="${sessionScope.currentTime < event.getHoldTime() && event.getApprove() eq 'AA'}">
                                                                 <td class="">Upcoming</td>
                                                                 <td>
                                                                     <div class="student-submit text-end">
@@ -88,14 +88,17 @@
                                                                     </div>
                                                                 </td>
                                                             </c:when>
+                                                            
+                                                                
+                                                                
 
-                                                            <c:when test="${event.getHoldTime <= sessionScope.currentTime < event.getEndTime() && event.getApprove() eq 'AA'}">
+                                                            <c:when test="${event.getHoldTime() <= sessionScope.currentTime && sessionScope.currentTime < event.getEndTime() && event.getApprove() eq 'AA'}">
                                                                 <td class="">Happening</td>
                                                                 <td>
                                                                     <a style="background: #ea7127;border-color:#ea7127" href="/student/events/view" type="button" class="btn btn-primary">Back</a>
                                                                 </td>
                                                             </c:when>
-                                                            <c:when test="${sessionScope.currentTime > event.getEndTime() && event.getApprove() eq 'AA'}">
+                                                            <c:when test="${sessionScope.currentTime >= event.getEndTime() && event.getApprove() eq 'AA'}">
                                                                 <td class="">Finished</td>
                                                                 <td>
                                                                     <a style="background: #ea7127;border-color:#ea7127" href="/student/events/view" type="button" class="btn btn-primary">Back</a>

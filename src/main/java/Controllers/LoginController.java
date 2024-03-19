@@ -15,6 +15,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import java.net.URLEncoder;
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.time.Month;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.fluent.Form;
@@ -153,6 +154,7 @@ public class LoginController extends HttpServlet {
     
     public static String getSemester() {
         LocalDate currentDate = LocalDate.now();
+        
         int currentYear = currentDate.getYear();
         Month currentMonth = currentDate.getMonth();
 
@@ -162,6 +164,21 @@ public class LoginController extends HttpServlet {
             return "Summer " + currentYear;
         } else {
             return "Fall " + currentYear;
+        }
+    }
+    public static String getTimePeriod() {
+        LocalTime currentTime = LocalTime.now();
+        if (currentTime.isBefore(LocalTime.of(11, 0))) {
+            return "Good Morning";
+        } else if (currentTime.isBefore(LocalTime.of(14, 0))) {
+            return "Good noon";
+        } else if (currentTime.isBefore(LocalTime.of(19, 0))) {
+            return "Good Afternoon";
+        } else if (currentTime.isBefore(LocalTime.of(22, 0))) {
+            return "Good Evening";
+        }
+        else {
+            return "Good Night";
         }
     }
 }

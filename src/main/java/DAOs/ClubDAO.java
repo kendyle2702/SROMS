@@ -119,7 +119,7 @@ public class ClubDAO {
             while (rs.next()) {
                 club = new Club(rs.getInt("ClubID"), rs.getString("Logo"), rs.getString("ClubName"),
                         rs.getDate("EstablishDate"),
-                        rs.getString("Description"), rs.getBoolean("IsApprove"), rs.getBoolean("IsAvitve"),
+                        rs.getString("Description"), rs.getBoolean("IsApprove"), rs.getBoolean("IsActive"),
                         rs.getInt("StudentProfileID"));
             }
         } catch (SQLException ex) {
@@ -334,14 +334,13 @@ public class ClubDAO {
     public boolean signUpClub(String logo, String clubName, Date establishDate, String description,
             int studentProfileID) throws SQLException {
         String query = "INSERT INTO [SROMS].[dbo].[Club]\n"
-                + "(Lego, ClubName, EstablishDate, Description, StudentProfileID)\n"
-                + "VALUES(?, ?, ?, ?, ?);";
+                + "(Logo, ClubName, Description, StudentProfileID)\n"
+                + "VALUES(?, ?, ?, ?);";
         ps = conn.prepareStatement(query);
         ps.setString(1, logo);
         ps.setString(2, clubName);
-        ps.setDate(3, establishDate);
-        ps.setString(4, description);
-        ps.setInt(5, studentProfileID);
+        ps.setString(3, description);
+        ps.setInt(4, studentProfileID);
         ps.executeUpdate();
         return true;
     }

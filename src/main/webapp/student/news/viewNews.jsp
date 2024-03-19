@@ -1,6 +1,15 @@
+<%@page import="javafx.scene.layout.Border"%>
 <%@page import="Models.News"%>
 <%@page import="java.util.List"%>
 <%@page import="DAOs.NewsDAO"%>
+
+<style>
+    .blog{
+        border-radius: 10px;
+        margin-bottom: 10px;
+    }
+</style>
+
 <div class="page-wrapper" style="min-height: 264px;">
     <div class="content container-fluid">
 
@@ -28,20 +37,20 @@
                     for (News news : newsList) {
             %>
             <!-- Use the data from the 'news' object to display news information -->
-            <div class="col-md-12 col-xl-12 col-sm-12">
+            <div class="col-md-8 col-xl-12 col-sm-8">
                 <div class="blog grid-blog flex-fill">
-                    <div class="row align-items-center">
-                        <div class="col-10">
-                            <h3  style="color: black"class="blog-title">
-                                <a href="/student/news/detail/<%=news.getNewsID()%>"<%=news.getNewsID()%>">
+                    <a href="/student/news/detail/<%=news.getNewsID()%>">
+                        <div class="row align-items-center">
+                            <div class="col-8">
+                                <h3  style="color: black" class="blog-title">
                                     <%= news.getTitle()%> 
-                                </a>
-                            </h3>
+                                </h3>
+                            </div>
+                            <div class="col-4 text-end">
+                                Create date: <%= news.getCreateAt()%>
+                            </div>
                         </div>
-                        <div class="col-2 text-end">
-                            <%= news.getCreateAt()%>
-                        </div>
-                    </div>
+                    </a>
                 </div>
             </div>
 
