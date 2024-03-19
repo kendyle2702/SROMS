@@ -40,7 +40,7 @@ public class EventDAO {
         Event event = null;
 
         // Establish database connection
-        String query = "SELECT * FROM Event"; // SQL query to retrieve events
+        String query = "SELECT * FROM Event ORDER BY PreparationTime DESC"; // SQL query to retrieve events
         ps = conn.prepareStatement(query); // Prepare SQL statement
         rs = ps.executeQuery(); // Execute query and obtain result set
         while (rs.next()) { // Iterate over the result set

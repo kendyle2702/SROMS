@@ -25,17 +25,17 @@
         <div class="row">
             <div class="card flex-fill comman-shadow">
                 <div class="card-body">
-                    <ul class="nav nav-pills navtab-bg nav-justified" role="tablist">
+                    <ul class="nav nav-tabs nav-tabs-solid" role="tablist">
                         <li class="nav-item" role="presentation">
                             <a href="#listEvent" data-bs-toggle="tab" aria-expanded="false"
-                               class="nav-link active" aria-selected="false" role="tab">
-                                Upcoming Event
+                                class="nav-link active" aria-selected="false" role="tab">
+                                Event
                             </a>
                         </li>
                         <li class="nav-item" role="tablist  ">
                             <a href="#participated" data-bs-toggle="tab" aria-expanded="true" class="nav-link"
                                aria-selected="true" role="tab">
-                                User participated 
+                                History
                             </a>
                         </li>
                     </ul>
@@ -63,16 +63,16 @@
                                                         <tr>
                                                             <th class="text-center">No</th>
                                                             <th class="text-center">Name</th>
-                                                            <th class="text-center">Location</th>
-                                                            <th class="text-center">Date</th>
+                                                            <th class="text-center">Start Time</th>
                                                             <th class="text-center">Category</th>
+                                                            <th class="text-center">Status</th>
                                                             <th class="text-center"></th> 
                                                         </tr>
                                                     </thead>
                                                     <tbody>
                                                     <c:set var="eventCount" value="0" />
                                                     <c:forEach items="${sessionScope.listEvent}"  var="event">
-                                                        <c:if test="${sessionScope.currentTime < event.getHoldTime() && event.getApprove() eq 'AA'}">
+                                                        <c:if test="${event.getApprove() eq 'AA'}">
                                                             <c:set var="eventCount" value="${eventCount + 1}" />
                                                             <tr>    
                                                                 <td>${eventCount}</td>
