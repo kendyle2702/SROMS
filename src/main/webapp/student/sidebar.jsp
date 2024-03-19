@@ -1,3 +1,5 @@
+
+
 <div class="sidebar" id="sidebar">
     <div class="sidebar-inner slimscroll">
         <div id="sidebar-menu" class="sidebar-menu">
@@ -20,11 +22,11 @@
                 <li class="submenu <%=(session.getAttribute("tabId").equals(3)) || (session.getAttribute("tabId").equals(14)) ? "active" : ""%>">
                     <a href="#"><i class="feather-clipboard"></i> <span class="title">Event</span> <span class="menu-arrow"></span></a>
                     <ul>
-                        <li><a href="/student/events/view" class="feather-eye" class="<%=(session.getAttribute("tabId").equals(3) ? "active subdrop" : "")%>"> View Event</a></li>
+                        <li><a href="/student/events/view"  class="<%=(session.getAttribute("tabId").equals(3) ? "active subdrop" : "")%>"> View Event</a></li>
                         <c:choose>
                             <c:when test="${sessionScope.getClubRole eq 'Leader Club'}">
                                 <li>
-                                    <a href="/student/createEventMyClub" ><i class="feather-file-plus"  class="<%=(session.getAttribute("tabId").equals(14)) ? "active subdrop" : ""%>"></i> <span>Create Event For Club</span></a>
+                                    <a class="<%=(session.getAttribute("tabId").equals(14)) ? "active subdrop" : ""%>" href="/student/createEventMyClub" ><span>Create Event For Club</span></a>
                                 </li>
                             </c:when>
                             <c:otherwise>
@@ -40,8 +42,8 @@
                 <li class="submenu <%=(session.getAttribute("tabId").equals(4)) || (session.getAttribute("tabId").equals(10)) ? "active" : ""%>">
                     <a href="#"><i class="feather-user-plus"></i> <span class="title">Club</span><span class="menu-arrow"></span></a>
                     <ul>
-                        <li><a href="/student/clubs/view" class="feather-eye" class="<%= session.getAttribute("tabId").equals(4) ? "active subdrop" : ""%>"> View Clubs</a></li>
-                        <li><a href="/student/clubs/create"  class="feather-file-plus" class="<%= session.getAttribute("tabId").equals(10) ? "active subdrop" : ""%>"> Create Club</a></li>
+                        <li><a href="/student/clubs/view" class="<%= session.getAttribute("tabId").equals(4) ? "active subdrop" : ""%>"> View Clubs</a></li>
+                        <li><a href="/student/clubs/create" class="<%= session.getAttribute("tabId").equals(10) ? "active subdrop" : ""%>"> Create Club</a></li>
                     </ul>
                 </li>
                 
