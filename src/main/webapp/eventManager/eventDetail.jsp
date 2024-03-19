@@ -424,12 +424,6 @@
                                                     </div>
                                                 </c:when>
                                                 <c:otherwise>
-                                                    <div class="col-12">
-                                                        <div class="student-submit">
-                                                            <input style="background: #ea7127;border-color:#ea7127;" class="btn btn-primary" name="" id="submit" type="" value="Update">
-                                                        </div>
-                                                    </div>
-
                                                 </c:otherwise>
                                             </c:choose>
                                         </c:if>

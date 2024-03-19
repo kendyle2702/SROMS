@@ -251,17 +251,22 @@ public class ClubDAO {
         return listMyClub;
     }
 
-    public List<Map<String, String>> getAllMembersClub(int studentProfileId, int clubId) throws SQLException {
+    public List<Map<String, String>> getAllMembersClub(int clubId) throws SQLException {
         ResultSet rs = null;
         List<Map<String, String>> getListMember = new ArrayList<>();
-        String sql = "SELECT ClubRole, RollNumber, Major, FirstName, LastName, Email, ClubRole, StudentProfile.StudentProfileID FROM [SROMS].[dbo].[ClubMember]\n"
-                + " LEFT JOIN [SROMS].[dbo].[Club] ON ClubMember.ClubID = Club.ClubID\n"
-                + " LEFT JOIN StudentProfile ON ClubMember.StudentProfileID = StudentProfile.StudentProfileID \n"
-                + " LEFT JOIN UserProfile ON StudentProfile.UserProfileID = UserProfile.UserProfileID \n"
-                + " WHERE Club.StudentProfileID = ? AND Club.ClubID = ? AND SemesterID = (SELECT MAX(SemesterID) FROM [SROMS].[dbo].[ClubMember]);";
+        String sql = "SELECT ClubRole, RollNumber, Major, FirstName, LastName, Email, ClubRole, StudentProfile.StudentProfileID,Club.ClubID FROM [SROMS].[dbo].[ClubMember]\n"
+                + "LEFT JOIN [SROMS].[dbo].[Club] ON ClubMember.ClubID = Club.ClubID\n"
+                + "LEFT JOIN StudentProfile ON ClubMember.StudentProfileID = StudentProfile.StudentProfileID \n"
+                + "LEFT JOIN UserProfile ON StudentProfile.UserProfileID = UserProfile.UserProfileID \n"
+                + "WHERE Club.ClubID = ? AND SemesterID = (SELECT MAX(SemesterID) FROM [SROMS].[dbo].[ClubMember]) ORDER BY \n"
+                + " CASE \n"
+                + "        WHEN LEFT(ClubRole, 1) = 'L' THEN 1\n"
+                + "        WHEN LEFT(ClubRole, 1) = 'B' THEN 2\n"
+                + "        WHEN LEFT(ClubRole, 1) = 'M' THEN 3\n"
+                + "        ELSE 4  \n"
+                + "END;";
         PreparedStatement ps = conn.prepareStatement(sql);
-        ps.setInt(1, studentProfileId);
-        ps.setInt(2, clubId);
+        ps.setInt(1, clubId);
         rs = ps.executeQuery();
         while (rs.next()) {
             Map<String, String> getMember = new HashMap<>(); // Tạo một map mới cho mỗi hàng dữ liệu
@@ -273,6 +278,7 @@ public class ClubDAO {
             getMember.put("Email", rs.getString("Email"));
             getMember.put("ClubRole", rs.getString("ClubRole"));
             getMember.put("StudentProfileID", rs.getString("StudentProfileID"));
+            getMember.put("ClubID", rs.getString("ClubID"));
             getListMember.add(getMember);
         }
         return getListMember;
@@ -280,7 +286,7 @@ public class ClubDAO {
 
     public Club getClubByClubID(int clubID) throws SQLException {
         Club club = null;
-        String sql = "SELECT * FROM [SROMS].[dbo].[Club] WHERE ClubID = ?";
+        String sql = "SELECT * FROM [SROMS].[dbo].[Club] WHERE ClubID = ?;";
         PreparedStatement ps = conn.prepareStatement(sql);
         ps.setInt(1, clubID);
         ResultSet rs = ps.executeQuery();
@@ -389,17 +395,18 @@ public class ClubDAO {
 
     public int updateRoleMember(String roleMember, int studdentProfileID, int clubID) throws SQLException {
         int check = 0;
-        String query = "DELETE [ClubMember] WHERE StudentProfileID = ? AND ClubID= ? AND SemesterID = (SELECT MAX(SemesterID) FROM [SROMS].[dbo].[ClubMember]);";
+        String query = "UPDATE [ClubMember] SET ClubRole = ? WHERE StudentProfileID = ? AND ClubID= ? AND SemesterID = (SELECT MAX(SemesterID) FROM [SROMS].[dbo].[ClubMember]);";
         ps = conn.prepareStatement(query);
-        ps.setInt(1, studdentProfileID);
-        ps.setInt(2, clubID);
+        ps.setString(1, roleMember);
+        ps.setInt(2, studdentProfileID);
+        ps.setInt(3, clubID);
         check = ps.executeUpdate();
         return check;
     }
 
     public int deleteClubMember(int studentProfileID, int clubID) throws SQLException {
         int check = 0;
-        String query = "UPDATE [ClubMember] SET ClubRole = null WHERE StudentProfileID = ? AND ClubID = ?;";
+        String query = "DELETE [ClubMember] WHERE StudentProfileID = ? AND CluFbID= ? AND SemesterID = (SELECT MAX(SemesterID) FROM [SROMS].[dbo].[ClubMember]);";
         ps = conn.prepareStatement(query);
         ps.setInt(1, studentProfileID);
         ps.setInt(2, clubID);
@@ -471,6 +478,7 @@ public class ClubDAO {
         }
         return listStudent;
     }
+
     public ResultSet getCurrentClubDetail(int clubID) {
         ResultSet rs = null;
         try {
@@ -482,12 +490,13 @@ public class ClubDAO {
                     + " where Club.ClubID = ? and SemesterID = 10");
             ps.setInt(1, clubID);
             rs = ps.executeQuery();
-            
+
         } catch (SQLException ex) {
             Logger.getLogger(StudentProfileDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return rs;
     }
+
     public void blockClub(int id) {
         try {
             PreparedStatement ps = conn.prepareStatement("update Club set IsActive = 0 where ClubID =?");
@@ -509,6 +518,7 @@ public class ClubDAO {
             Logger.getLogger(UserProfileDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+
     public ResultSet getNameClubsByStudentIDAndSemesterID(int semesterID, int studentID) {
         ResultSet rs = null;
         try {
@@ -542,4 +552,15 @@ public class ClubDAO {
         return rs;
     }
 
+    public String getClubRole(int studentProfileId) throws SQLException {
+        ResultSet rs = null;
+        String clubRole = null;
+        ps = conn.prepareStatement("Select ClubRole FROM ClubMember WHERE StudentProfileID = ? AND SemesterID = (SELECT MAX(SemesterID) FROM [SROMS].[dbo].[ClubMember])");
+        ps.setInt(1, studentProfileId);
+        rs = ps.executeQuery();
+        if (rs.next()) {
+            clubRole = rs.getString("ClubRole");
+        }
+        return clubRole;
+    }
 }

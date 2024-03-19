@@ -20,7 +20,7 @@
                 <div class="row align-items-center">
                     <div class="col-auto profile-image">
                         <a href="#">
-                            <img class="rounded-circle" alt="User Image" src="${pageContext.request.contextPath}/assets/img/${sessionScope.club.getLogo()}">
+                            <img class="rounded-circle" alt="User Image" src="${pageContext.request.contextPath}/assets/img/logo_club/${sessionScope.myClubInfo.getLogo()}">
                         </a>
                     </div>
                     <div class="col ms-md-n2 profile-user-info">
@@ -54,6 +54,7 @@
                                             <th class="">Email</th>
                                             <th class="">Major</th>
                                             <th class="">Club Roll</th>
+                                            <th></th>
                                                 <c:choose>
                                                     <c:when test="${sessionScope.clubRole eq 'Leader Club'}">
                                                     <th class="">Detail</th>
@@ -75,9 +76,9 @@
                                                         <td class="">${liste.Major}</td>    
                                                         <td class="">${liste.ClubRole}</td><!-- comment -->
                                                         <c:choose>
-                                                            <c:when test="${sessionScope.clubRole eq 'Leader Club'}">
+                                                            <c:when test="${sessionScope.getClubRole eq 'Leader Club'}">
                                                                 <td class="text-center">
-                                                                    <a style="background: #ea7127;border-color:#ea7127" href="/student/viewClubMember/detailMember/${liste.StudentProfileID}" class="btn btn-primary">Detail</a>
+                                                                    <a style="background: #ea7127;border-color:#ea7127" href="/student/viewClubMember/detailMember/${liste.StudentProfileID}/${liste.ClubID}" class="btn btn-primary">Detail</a>
                                                                 </td>
                                                             </c:when>
                                                             <c:otherwise>

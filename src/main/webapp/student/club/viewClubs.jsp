@@ -50,7 +50,7 @@
                     </ul>
                     <div class="tab-content">
 
-                        
+
                         <!-- List Club Tab -->
                         <div class="tab-pane active show" id="listClub" role="tabpanel">
                             <div class="row">
@@ -122,7 +122,7 @@
                                                                     <td style="white-space: break-spaces;">${clubM.getDescription()}</td>
                                                                     <td style="white-space: break-spaces;">${clubM.getEstablishDate()}</td>
                                                                     <td>
-                                                                        <a style="background: #ea7127;border-color:#ea7127" href="/student/clubs/viewClubMember/${clubM.clubID}/${studentProfileID}" class="btn btn-primary">View Member Club</a>
+                                                                        <a style="background: #ea7127;border-color:#ea7127" href="/student/clubs/viewClubMember/${clubM.clubID}" class="btn btn-primary">View Member Club</a>
                                                                     </td>
                                                                 </tr>
                                                             </c:forEach>

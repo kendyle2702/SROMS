@@ -20,11 +20,9 @@
         </div>
         <%
             ResultSet rsStudent = (ResultSet) session.getAttribute("rsStudent");
-            UserLoginDAO userloginDAO = new UserLoginDAO();
-            UserLogin userLogin = null;
             while (rsStudent.next()) {%>
         <div class="row">
-            <div class="col-sm-12"><%userLogin = userloginDAO.getUserLoginByUserProfileID(rsStudent.getInt("UserProfileID"));%>
+            <div class="col-sm-12">
                 <div class="card comman-shadow">
                     <div class="card-body">
                         <form action="/student" method="post">
@@ -128,7 +126,6 @@
                                     </div>
                                 </div>
                                 <div class="col-12 col-sm-4"></div>
-
                                 <div class="col-12 col-sm-4"> <!-- Add text-center class here -->
                                     <div class="form-group local-forms">
                                         Update Role:
@@ -141,12 +138,11 @@
                                     </div>
                                 </div>
                                 <div class="col-12 col-sm-4"></div>
-                                <input type="hidden" name="updateRoleMember" value="UpdateRole">
-                                <input type="hidden" name="rsStudentID" value="<%=rsStudent.getInt("StudentProfileID")%>">
-                                <input type="hidden" name="avatar_old" value="<%=rsStudent.getString("Avatar")%>">
                                 <div class="col-12 col-sm-4"></div>
                                 <div class="col-12 col-sm-2">
-                                    <input style="min-width: 160px;border-radius: 10px;" class="btn btn-primary" id="submit" type="submit" value="Update">
+                                    <input type="hidden" value="<%=rsStudent.getInt("StudentProfileID")%>" name="studentId"><!-- comment -->
+                                    <input type="hidden" value="${sessionScope.clubId}" name="clubId">
+                                    <input type="submit" name="updateRoleMember" style="min-width: 160px;border-radius: 10px;" class="btn btn-success" value="Update">
                                 </div>
                                 <div style="margin-left: 70px;" class="col-12 col-sm-2"> 
                                     <a href="/student/clubmember/deletemember/<%=rsStudent.getInt("StudentProfileID")%>/${sessionScope.clubId}" style="min-width: 160px;border-radius: 10px;" class="btn btn-danger" >Delete</a>
