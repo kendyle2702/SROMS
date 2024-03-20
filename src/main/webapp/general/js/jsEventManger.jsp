@@ -75,7 +75,7 @@
             Swal.fire({
                 position: "top-end",
                 icon: "warning",
-                title: "You have updated the the event as failure!",
+                title: "You have updated the event as failure!",
                 showConfirmButton: false,
                 timer: 1000
             });

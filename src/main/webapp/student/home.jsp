@@ -152,7 +152,7 @@
                                             <div class="card-body">
                                                 <form action="/student" method="post">
                                                     <div class="table-responsive">
-                                                        <table id="viewMyClubs" class="table table-hover table-striped table-bordered">
+                                                        <table id="viewMyClub" class="table table-hover table-striped table-bordered">
                                                             <thead class="thead-light">
                                                                 <tr>
                                                                     <th class="text-center">No</th>
@@ -171,13 +171,9 @@
                                                                     <td style="white-space: break-spaces;">${clubM.getDescription()}</td>
                                                                     <td class="text-center">${clubM.getEstablishDate()}</td>
                                                                     <td class="text-center">
-                                                                        <div class="student-submit">
-    <!--                                                                        <input type="text" name="myClubID" value="${clubM.clubID}">-->
-                                                                            <input type="hidden" name="studentProfileID" value="${studentProfileID}">
-                                                                            <input style="background: #ea7127;border-color:#ea7127" type="submit" name="action" class="btn btn-primary" value="Details">
-                                                                        </div>
+                                                                        <a style="background: #ea7127;border-color:#ea7127" href="/student/clubs/detail/${club.clubID}" type="button" class="btn btn-primary">Detail</a>
                                                                     </td>
-                                                                    <td>
+                                                                    <td class="text-center">
                                                                         <a style="background: #ea7127;border-color:#ea7127;border-radius: 10px;" href="/student/clubs/viewClubMember/${clubM.clubID}" class="btn btn-primary">View Member Club</a>
                                                                     </td>
                                                                 </tr>
