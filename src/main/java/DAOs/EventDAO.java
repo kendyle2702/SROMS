@@ -738,4 +738,38 @@ public class EventDAO {
         }
         return true;
     }
+
+    public boolean checkStudentJoinEventAttendance(int id, int studentProfileID) throws SQLException {
+        conn = DBConnection.connect(); // Establish database connection
+
+        String checkQuery = "SELECT [IsPresent]\n"
+                + "FROM [SROMS].[dbo].[ParticipationEventDetail] as p\n"
+                + "WHERE p.EventID = ? AND p.StudentProfileID = ?";
+        ps = conn.prepareStatement(checkQuery);
+        ps.setInt(1, id);
+        ps.setInt(2, studentProfileID);
+        rs = ps.executeQuery();
+        if (rs.next()) {
+            if (rs.getInt(1) > 0) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public int getNumberOfParticipants(int id) throws SQLException {
+        conn = DBConnection.connect();
+        int count = 1;
+        String checkQuery = "SELECT COUNT(PED.StudentProfileID) AS NumberOfParticipants\n"
+                + "FROM [SROMS].[dbo].[Event] AS E\n"
+                + "LEFT JOIN [SROMS].[dbo].[ParticipationEventDetail] AS PED ON E.EventID = PED.EventID\n"
+                + "WHERE E.EventID = ?";
+        ps = conn.prepareStatement(checkQuery);
+        ps.setInt(1, id);
+        rs = ps.executeQuery();
+        if (rs.next()) {
+            count = rs.getInt(1);
+        }
+        return count;
+    }
 }

@@ -22,6 +22,9 @@
                                         </div>
                                     </div>
                                 </div>
+                                <div class="row ">
+                                    <p class="text-end">Participant: ${sessionScope.numberOfParticipants}/${event.getExpectedNumber()}  <i class="feather-user-check"></i></p>
+                                </div>
                             </div>
 
                             <div style="background: #ea7127;border-color:#ea7127; padding:0px;" class="invoice-issues-box" >
@@ -44,6 +47,7 @@
                                 </div>
                             </div>
 
+
                             <div class="invoice-table table table-center mb-0">
                                 <div class="row">
                                     <div class="col-md-12">
@@ -51,21 +55,28 @@
                                             <table class="invoice-table table table-center">
                                                 <thead>
                                                     <tr>
-                                                        <th>Event Name</th>
-                                                        <th>Description</th>
+                                                        <th class="col-md-3">Event Name</th>
+                                                        <th class="col-md-5">Description</th>
                                                         <th>Organization</th>
                                                         <th>Location</th>
                                                         <th>Category</th>
-                                                        <th class="text-end">Status</th>
-                                                        <th></th>
+                                                        <th>Status</th>
+                                                            <c:choose>
+                                                                <c:when test="${sessionScope.currentTime < event.getHoldTime() && event.getApprove() eq 'AA' && checkParticipation == true}">
+                                                                <th></th>
+                                                                </c:when>
+                                                                <c:when test="${checkParticipation == false}">
+                                                                <th class="text-end">Attendance</th>
+                                                                </c:when>
+                                                            </c:choose>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
                                                     <tr>
                                                         <td style="white-space: break-spaces;">${event.getEventName()}</td>
                                                         <td style="white-space: break-spaces;">${event.getDescription()}</td>
-                                                        <td>${event.getOrganization()}</td>
-                                                        <td>${event.getLocation()}</td>
+                                                        <td style="white-space: break-spaces;">${event.getOrganization()}</td>
+                                                        <td style="white-space: break-spaces;">${event.getLocation()}</td>
                                                         <td>${sessionScope.eventCategoryNames[event.eventID]}</td>
                                                         <%
                                                             EventDAO dao = new EventDAO();
@@ -77,7 +88,7 @@
                                                         %>
                                                         <c:choose>
                                                             <c:when test="${sessionScope.currentTime < event.getHoldTime() && event.getApprove() eq 'AA'}">
-                                                                <td class="text-end">Upcoming</td>
+                                                                <td>Upcoming</td>
                                                                 <c:if test="${checkParticipation == true}">
                                                                     <td>
                                                                         <div class="student-submit text-end">
@@ -87,39 +98,33 @@
                                                                         </div>
                                                                     </td>                                                                    
                                                                 </c:if>
-                                                                <c:if test="${checkParticipation == false}">
-                                                                    <td>
-                                                                        <div id="danger-alert-modal" class="modal fade" tabindex="-1" style="display: none;" aria-hidden="true">
-                                                                            <div class="modal-dialog modal-sm">
-                                                                                <div class="modal-content modal-filled bg-danger">
-                                                                                    <div class="modal-body p-4">
-                                                                                        <div class="text-center">
-                                                                                            <i class="dripicons-wrong h1 text-white"></i>
-                                                                                            <h4 class="mt-2 text-white">Oh snap!</h4>
-                                                                                            <p  style="white-space: break-spaces;" class="mt-3 text-white" >Thank you for your interest, but it seems you've already participated in this event.</p>
-                                                                                            <button type="button" class="btn btn-light my-2" data-bs-dismiss="modal">Continue</button>
-                                                                                        </div>
-                                                                                    </div>
-                                                                                </div>
-                                                                            </div>
-                                                                        </div>
-                                                                        <button type="button" class="btn btn-danger mt-1" data-bs-toggle="modal" data-bs-target="#danger-alert-modal">Join</button>
-                                                                    </td>   
-                                                                </c:if>
                                                             </c:when>
                                                             <c:when test="${event.getHoldTime() <= sessionScope.currentTime && sessionScope.currentTime < event.getEndTime() && event.getApprove() eq 'AA'}">
-                                                                <td class="text-end">Happening</td>
+                                                                <td>Going on</td>
                                                             </c:when>
                                                             <c:when test="${sessionScope.currentTime >= event.getEndTime() && event.getApprove() eq 'AA'}">
-                                                                <td class="text-end">Finished</td>
+                                                                <td>Finished</td>
                                                             </c:when>
                                                         </c:choose>
+                                                        <c:if test="${checkParticipation == false}">
+                                                            <c:if test="${checkAttendance == false}">
+                                                                <td class=""><button class="btn btn-success btn-sm btn-rounded">Attended</button></td>
+                                                            </c:if>
+                                                            <c:if test="${checkAttendance == true}">
+                                                                <td class=""><button class="btn btn-danger btn-sm btn-rounded">Absent</button></td>
+                                                            </c:if>
+                                                        </c:if>
                                                     </tr>
                                                 </tbody>
                                             </table>
                                             <div class="text-end">
                                                 <a style="background: #ea7127;border-color:#ea7127" href="/student/events/view" type="button" class="btn btn-primary">Back</a>
                                             </div>
+                                            <c:if test="${sessionScope.currentTime < event.getHoldTime() && event.getApprove() eq 'AA' && checkParticipation == false}">
+                                                <div class="text-center">
+                                                    <p>Thank for your interest, but you've already participated in this event.</p>
+                                                </div>
+                                            </c:if>
                                         </div>
                                     </div>
                                 </div>

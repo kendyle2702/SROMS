@@ -154,10 +154,14 @@ public class StudentController extends HttpServlet {
                         session.setAttribute("eventCategoryNames", eventCategoryNames);
                         session.setAttribute("studentProfileID", studentProfileID);
                         session.setAttribute("rsEventID", id);
-
+                        
                         Event event = eventManagerDAO.getEvent(id);
+                        int numberOfParticipants = eventManagerDAO.getNumberOfParticipants(id);
                         boolean checkParticipation = eventManagerDAO.checkStudentJoinEvent(id, studentProfileID);
+                        boolean checkAttendance = eventManagerDAO.checkStudentJoinEventAttendance(id, studentProfileID);
+                        session.setAttribute("numberOfParticipants", numberOfParticipants);
                         session.setAttribute("checkParticipation", checkParticipation);
+                        session.setAttribute("checkAttendance", checkAttendance);
                         session.setAttribute("event", event);
 
                         session.setAttribute("tabId", 7);
@@ -282,7 +286,7 @@ public class StudentController extends HttpServlet {
                 int studentProfileID = Integer.parseInt(request.getParameter("studentProfileID"));
 
                 String roleEvent = "Menber";
-                boolean isPresent = Boolean.TRUE;
+                boolean isPresent = Boolean.FALSE;
                 String report = null;
                 String result = null;
 
