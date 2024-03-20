@@ -7,7 +7,9 @@ package DAOs;
 import Models.UserRole;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -39,5 +41,56 @@ public class UserRoleDAO {
 
         return (count == 0) ? null : userrole;
     }
-    
+    public int countStudent(){
+        int count = 0;
+        try {
+            Statement st = conn.createStatement();
+            ResultSet rs = st.executeQuery("select count(UserLoginID) as Count from UserRole where RoleID = 4");
+            while(rs.next()){
+              count = rs.getInt("Count");
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(StudentProfileDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return count;
+    }
+    public int countAdmin(){
+        int count = 0;
+        try {
+            Statement st = conn.createStatement();
+            ResultSet rs = st.executeQuery("select count(UserLoginID) as Count from UserRole where RoleID = 1");
+            while(rs.next()){
+              count = rs.getInt("Count");
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(StudentProfileDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return count;
+    }
+    public int countEventManager(){
+        int count = 0;
+        try {
+            Statement st = conn.createStatement();
+            ResultSet rs = st.executeQuery("select count(UserLoginID) as Count from UserRole where RoleID = 2");
+            while(rs.next()){
+              count = rs.getInt("Count");
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(StudentProfileDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return count;
+    }
+    public int countClubManager(){
+        int count = 0;
+        try {
+            Statement st = conn.createStatement();
+            ResultSet rs = st.executeQuery("select count(UserLoginID) as Count from UserRole where RoleID = 3");
+            while(rs.next()){
+              count = rs.getInt("Count");
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(StudentProfileDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return count;
+    }
 }

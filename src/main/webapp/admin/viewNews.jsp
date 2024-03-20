@@ -53,7 +53,7 @@
                                         while (rs.next()) {%> 
                                         <tr>
                                             <td><%=count++%></td>
-                                            <td><%=rs.getString("Title")%></td>
+                                            <td style="white-space: break-spaces;"><%=rs.getString("Title")%></td>
                                             <td><%=rs.getDate("CreateAt")%></td>
                                             <td><a href="/admin/news/detail/<%=rs.getInt("NewsID")%>"><button  style="background:#ea7127 ;border-color: #ea7127;color:white;" class="mb-2 mr-2 btn-icon btn-pill btn btn-outline-primary"><i class="feather-edit-3"></i>Detail</button></a></td>
                                         </tr>

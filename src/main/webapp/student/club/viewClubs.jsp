@@ -76,7 +76,7 @@
                                                                         <td>${club.clubName}</td>
                                                                         <td style="white-space: break-spaces;">${club.description}</td>
                                                                         <td class="text-center">
-                                                                            <a style="background: #ea7127;border-color:#ea7127" href="/student/clubs/detail/${club.clubID}" type="button" class="btn btn-primary">Detail</a>
+                                                                            <a style="background: #ea7127;border-color:#ea7127;" href="/student/clubs/detail/${club.clubID}" type="button" class="btn btn-primary">Detail</a>
                                                                         </td>
                                                                     </tr>
                                                                 </c:if>
