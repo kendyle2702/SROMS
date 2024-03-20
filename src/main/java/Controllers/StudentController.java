@@ -248,7 +248,7 @@ public class StudentController extends HttpServlet {
                         String[] isArray = path.split("/");
                         int clubId = Integer.parseInt(isArray[isArray.length - 2]);
                         int studentId = Integer.parseInt(isArray[isArray.length - 1]);
-                        int check = clubDAO.checkRequestJoinClub("", studentId, clubId);
+                        int check = clubDAO.checkRequestJoinClub("Decline", studentId, clubId);
                         if (check > 0) {
                             session.setAttribute("checkRequestJoin", "success");
                         } else {

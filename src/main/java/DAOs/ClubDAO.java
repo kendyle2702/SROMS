@@ -239,7 +239,10 @@ public class ClubDAO {
     public List<Club> getMyClub(int sudentProfileID) throws SQLException {
         List<Club> listMyClub = new ArrayList<>();
         Club myClub = null;
-        String sql = "SELECT* FROM [SROMS].[dbo].[Club] as c inner join [SROMS].[dbo].[ClubMember] as cm  on c.ClubID = cm.ClubID WHERE cm.StudentProfileID = ?";
+        String sql = "SELECT TOP 1 c.*, cm.* \n"
+                + "FROM [SROMS].[dbo].[Club] as c \n"
+                + "INNER JOIN [SROMS].[dbo].[ClubMember] as cm ON c.ClubID = cm.ClubID \n"
+                + "WHERE cm.StudentProfileID = ?;";
         PreparedStatement ps = conn.prepareStatement(sql);
         ps.setInt(1, sudentProfileID);
         ResultSet rs = ps.executeQuery();
@@ -567,9 +570,10 @@ public class ClubDAO {
     public List<Map<String, String>> getRequestJoinClub(int clubId) throws SQLException {
         ResultSet rs = null;
         List<Map<String, String>> listCheckRequestJoin = new ArrayList<>();
-        ps = conn.prepareStatement("SELECT Avatar, FirstName, LastName, RollNumber, Major, Gender, Email, DateOfBirth,ClubID,ClubMember.StudentProfileID FROM [ClubMember] LEFT JOIN StudentProfile ON ClubMember.StudentProfileID = StudentProfile.StudentProfileID \n"
-                + "RIGHT JOIN UserProfile ON StudentProfile.UserProfileID = UserProfile.UserProfileID WHERE ClubRole IS NULL AND ClubID = ?\n"
-                + "AND SemesterID = (SELECT MAX(SemesterID) FROM [ClubMember]);");
+        ps = conn.prepareStatement("SELECT Avatar, FirstName, LastName, RollNumber, Major, Gender, Email, DateOfBirth, ClubID, ClubMember.StudentProfileID, ClubRole \n"
+                + "FROM ClubMember LEFT JOIN StudentProfile ON ClubMember.StudentProfileID = StudentProfile.StudentProfileID\n"
+                + "RIGHT JOIN UserProfile ON StudentProfile.UserProfileID = UserProfile.UserProfileID \n"
+                + "WHERE (ClubRole IS NULL OR ClubRole = 'Decline') AND ClubID = ? AND SemesterID = (SELECT MAX(SemesterID) FROM [ClubMember]);");
         ps.setInt(1, clubId);
         rs = ps.executeQuery();
         while (rs.next()) {
@@ -584,6 +588,7 @@ public class ClubDAO {
             studentInfo.put("DateOfBirth", rs.getString("DateOfBirth"));
             studentInfo.put("ClubID", rs.getString("ClubID"));
             studentInfo.put("StudentProfileID", rs.getString("StudentProfileID"));
+            studentInfo.put("ClubRole", rs.getString("ClubRole"));
             listCheckRequestJoin.add(studentInfo);
         }
         return listCheckRequestJoin;

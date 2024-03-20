@@ -14,8 +14,7 @@
                     <div class="page-sub-header">
                         <h3 class="page-title">Check Request Create Event</h3>
                         <ul class="breadcrumb">
-                            <li class="breadcrumb-item"><a href="/">Home</a></li>
-                            <li class="breadcrumb-item active"><a href="#">Manage Event Requests</a></li>
+                            <li class="breadcrumb-item active"><a href="#">Check Requests</a></li>
                             <li class="breadcrumb-item active"><a href="#">Check Request Create Event</a></li>
                         </ul>
                     </div>
@@ -50,10 +49,11 @@
                                     </thead>
                                     <tbody>
                                         <c:if test="${not empty sessionScope.listEvent}">
-                                            <c:forEach items="${sessionScope.listEvent}" var="liste" varStatus="count">
+                                            <c:forEach items="${sessionScope.listEvent}" var="liste">
                                                 <c:if test="${liste.getApprove() eq 'SC'}">
+                                                     <c:set var="count" value="${count + 1}"/>
                                                     <tr>
-                                                        <td class="">${count.index+1}</td>
+                                                        <td class="">${count}</td>
                                                         <td style="width: 50px;" class="">${liste.getEventName()}</td>
                                                         <td class="">${liste.getHoldTime()}</td><!-- comment -->
                                                         <td class="">${liste.getEndTime()}</td>

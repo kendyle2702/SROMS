@@ -13,9 +13,8 @@
                 <div class="col-sm-12">
                     <div class="page-sub-header">
                         <h3 class="page-title">View Event</h3>
-                        <ul class="breadcrumb">
-                            <li class="breadcrumb-item"><a href="/">Home</a></li>
-                            <li class="breadcrumb-item active"><a href="#">Event Management</a></li>
+                        <ul class="breadcrumb">>
+                            <li class="breadcrumb-item active"><a href="#">Event</a></li>
                             <li class="breadcrumb-item active"><a href="#">View Event</a></li>
                         </ul>
                     </div>
@@ -48,12 +47,12 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <%int count = 0;%>
                                         <c:if test="${not empty sessionScope.listEvent}">
                                             <c:forEach items="${sessionScope.listEvent}" var="liste" >
                                                 <c:if test="${liste.getApprove() eq 'AA'}">
+                                                     <c:set var="count" value="${count + 1}"/>
                                                     <tr>
-                                                        <td class=""><%=++count%></td>
+                                                        <td class="">${count}</td>
                                                         <td style="width: 50px;" class="">${liste.getEventName()}</td>
                                                         <td class="">${liste.getHoldTime()}</td><!-- comment -->
                                                         <td class="">${liste.getOrganization()}</td>                                                         
