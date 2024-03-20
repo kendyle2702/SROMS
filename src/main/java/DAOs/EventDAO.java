@@ -719,4 +719,23 @@ public class EventDAO {
         }
         return rs;
     }
+
+    public boolean checkStudentJoinEvent(int id, int studentProfileID) throws SQLException {
+        conn = DBConnection.connect(); // Establish database connection
+
+        String checkQuery = "  select COUNT(*) from ParticipationEventDetail as p \n"
+                + "  INNER JOIN StudentProfile as s on s.StudentProfileID = p.StudentProfileID\n"
+                + "  where s.StudentProfileID = ? and p.EventID = ?";
+        ps = conn.prepareStatement(checkQuery);
+        ps.setInt(1, studentProfileID);
+        ps.setInt(2, id);
+        rs = ps.executeQuery();
+        if (rs.next()) {
+            if (rs.getInt(1) > 0) {
+                // Sinh viên đã tồn tại trong sự kiện
+                return false; // Trả về false nếu sinh viên đã tham gia
+            }
+        }
+        return true;
+    }
 }

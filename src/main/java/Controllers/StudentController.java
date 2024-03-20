@@ -149,16 +149,13 @@ public class StudentController extends HttpServlet {
                         String[] idArray = path.split("/");
 
                         int id = Integer.parseInt(idArray[idArray.length - 1]);
-
-                        ResultSet rsManager = managerProfileDAO.getManagerProfileMoreByEventID(id);
-                        ResultSet rsStudent = studentProfileDAO.getStudentProfileMorebyEventID(id);
+                        session.setAttribute("eventCategoryNames", eventCategoryNames);
                         session.setAttribute("studentProfileID", studentProfileID);
-
-                        session.setAttribute("rsManager", rsManager);
-                        session.setAttribute("rsStudent", rsStudent);
                         session.setAttribute("rsEventID", id);
 
                         Event event = eventManagerDAO.getEvent(id);
+                        boolean checkParticipation = eventManagerDAO.checkStudentJoinEvent(id, studentProfileID);
+                        session.setAttribute("checkParticipation", checkParticipation);
                         session.setAttribute("event", event);
 
                         session.setAttribute("tabId", 7);
