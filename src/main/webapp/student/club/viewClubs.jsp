@@ -27,22 +27,24 @@
                         <div class="col-6">
                             <h5 class="card-title"> Club</h5>
                         </div>
-                        <div class="col-6 text-end">
-                            <a style="background: #ea7127;border-color:#ea7127" href="/student/clubs/create" type="button" class="btn btn-primary">Create Club</a>
-                        </div>                    
+                        <c:if test="${checkClubRole != 'Leader Club'}">
+                            <div class="col-6 text-end">
+                                <a style="background: #ea7127;border-color:#ea7127" href="/student/clubs/create" type="button" class="btn btn-primary">Create Club</a>
+                            </div>                    
+                        </c:if>
                     </div>
                 </div>
 
                 <div class="card-body">
-                    <ul class="nav nav-pills navtab-bg nav-justified" role="tablist">
+                    <ul class="nav nav-tabs nav-tabs-solid" role="tablist">
                         <li class="nav-item" role="presentation">
-                            <a style="background: #ea7127;border-color:#ea7127;" href="#listClub" data-bs-toggle="tab" aria-expanded="false"
-                               class="nav-link active" aria-selected="false" role="tab" tabindex="-1">
+                            <a href="#listClub" data-bs-toggle="tab" aria-expanded="false"
+                               class="nav-link active" aria-selected="false" role="tab" >
                                 List Club
                             </a>
                         </li>
                         <li class="nav-item" role="presentation">
-                            <a style="background: #ea7127;border-color:#ea7127;" href="#myClub" data-bs-toggle="tab" aria-expanded="true" class="nav-link"
+                            <a href="#myClub" data-bs-toggle="tab" aria-expanded="true" class="nav-link"
                                aria-selected="true" role="tab">
                                 My Club
                             </a>

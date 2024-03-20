@@ -1,5 +1,6 @@
 package DAOs;
 
+import DB.DBConnection;
 import Models.ClubMember;
 import Models.Club;
 import com.sun.javafx.scene.control.skin.VirtualFlow;
@@ -239,7 +240,10 @@ public class ClubDAO {
     public List<Club> getMyClub(int sudentProfileID) throws SQLException {
         List<Club> listMyClub = new ArrayList<>();
         Club myClub = null;
-        String sql = "SELECT* FROM [SROMS].[dbo].[Club] as c inner join [SROMS].[dbo].[ClubMember] as cm  on c.ClubID = cm.ClubID WHERE cm.StudentProfileID = ?";
+        String sql = "SELECT TOP 1 c.*, cm.* \n"
+                + "FROM [SROMS].[dbo].[Club] as c \n"
+                + "INNER JOIN [SROMS].[dbo].[ClubMember] as cm ON c.ClubID = cm.ClubID \n"
+                + "WHERE cm.StudentProfileID = ?;";
         PreparedStatement ps = conn.prepareStatement(sql);
         ps.setInt(1, sudentProfileID);
         ResultSet rs = ps.executeQuery();
@@ -555,7 +559,8 @@ public class ClubDAO {
     public String getClubRole(int studentProfileId) throws SQLException {
         ResultSet rs = null;
         String clubRole = null;
-        ps = conn.prepareStatement("Select ClubRole FROM ClubMember WHERE StudentProfileID = ? AND SemesterID = (SELECT MAX(SemesterID) FROM [SROMS].[dbo].[ClubMember])");
+        ps = conn.prepareStatement("SELECT cm.ClubRole FROM [SROMS].[dbo].[ClubMember] as cm \n"
+                + "WHERE cm.StudentProfileID = ? and cm.SemesterID = 10");
         ps.setInt(1, studentProfileId);
         rs = ps.executeQuery();
         if (rs.next()) {
@@ -567,9 +572,10 @@ public class ClubDAO {
     public List<Map<String, String>> getRequestJoinClub(int clubId) throws SQLException {
         ResultSet rs = null;
         List<Map<String, String>> listCheckRequestJoin = new ArrayList<>();
-        ps = conn.prepareStatement("SELECT Avatar, FirstName, LastName, RollNumber, Major, Gender, Email, DateOfBirth,ClubID,ClubMember.StudentProfileID FROM [ClubMember] LEFT JOIN StudentProfile ON ClubMember.StudentProfileID = StudentProfile.StudentProfileID \n"
-                + "RIGHT JOIN UserProfile ON StudentProfile.UserProfileID = UserProfile.UserProfileID WHERE ClubRole IS NULL AND ClubID = ?\n"
-                + "AND SemesterID = (SELECT MAX(SemesterID) FROM [ClubMember]);");
+        ps = conn.prepareStatement("SELECT Avatar, FirstName, LastName, RollNumber, Major, Gender, Email, DateOfBirth, ClubID, ClubMember.StudentProfileID, ClubRole \n"
+                + "FROM ClubMember LEFT JOIN StudentProfile ON ClubMember.StudentProfileID = StudentProfile.StudentProfileID\n"
+                + "RIGHT JOIN UserProfile ON StudentProfile.UserProfileID = UserProfile.UserProfileID \n"
+                + "WHERE (ClubRole IS NULL OR ClubRole = 'Decline') AND ClubID = ? AND SemesterID = (SELECT MAX(SemesterID) FROM [ClubMember]);");
         ps.setInt(1, clubId);
         rs = ps.executeQuery();
         while (rs.next()) {
@@ -584,6 +590,7 @@ public class ClubDAO {
             studentInfo.put("DateOfBirth", rs.getString("DateOfBirth"));
             studentInfo.put("ClubID", rs.getString("ClubID"));
             studentInfo.put("StudentProfileID", rs.getString("StudentProfileID"));
+            studentInfo.put("ClubRole", rs.getString("ClubRole"));
             listCheckRequestJoin.add(studentInfo);
         }
         return listCheckRequestJoin;
@@ -615,4 +622,40 @@ public class ClubDAO {
         }
         return rs;
     }
+    public ClubMember getClubMemberByClubID(int clubID) throws SQLException {
+        ClubMember clubMember = null;
+        String sql = "SELECT * FROM [SROMS].[dbo].[ClubMember] WHERE ClubID = ?";
+        ps = conn.prepareStatement(sql);
+        ps.setInt(1, clubID);
+        ResultSet rs = ps.executeQuery();
+        while (rs.next()) {
+            clubMember = new ClubMember(
+                    rs.getInt(1),
+                    rs.getInt(2),
+                    rs.getString(3),
+                    rs.getInt(4),
+                    rs.getString(5),
+                    rs.getInt(6));
+        }
+        return clubMember;
+    }
+
+    public boolean checkStudentAsMemeberInClub(int clubID, int studentProfileID) throws SQLException {
+        conn = DBConnection.connect(); // Establish database connection
+
+        String checkQuery = "SELECT COUNT(*) FROM [SROMS].[dbo].[ClubMember] as cm \n"
+                + "inner join Club as c on c.ClubID = cm.ClubID\n"
+                + "WHERE c.ClubID = ? and cm.StudentProfileID = ? and cm.SemesterID = 10";
+        ps = conn.prepareStatement(checkQuery);
+        ps.setInt(1, clubID);
+        ps.setInt(2, studentProfileID);
+        ResultSet rs = ps.executeQuery();
+        if (rs.next()) {
+            if (rs.getInt(1) > 0) {
+                return false;
+            }
+        }
+        return true;
+    }
+
 }

@@ -134,6 +134,9 @@ public class EventManagerController extends HttpServlet {
                         session.setAttribute("checkRequestCreateEvent", "fail");
                     }
                     response.sendRedirect("/eventmanager/events/checkrequestcreateevent");
+                } else if (path.equals("/eventmanager/news/view")) {
+                    session.setAttribute("tabId", 13);
+                    request.getRequestDispatcher("/eventManager.jsp").forward(request, response);
                 }
             } catch (SQLException ex) {
                 Logger.getLogger(EventManagerController.class.getName()).log(Level.SEVERE, null, ex);

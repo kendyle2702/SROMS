@@ -101,6 +101,8 @@ public class StudentController extends HttpServlet {
 
                         session.setAttribute("userProfile", userProfile);
                         session.setAttribute("studentProfileID", studentProfileID);
+                        String checkClubRole = clubDAO.getClubRole(studentProfileID);
+                        session.setAttribute("checkClubRole", checkClubRole);
 
                         session.setAttribute("listClub", listC);
                         session.setAttribute("clubMembers", clubM);
@@ -111,11 +113,14 @@ public class StudentController extends HttpServlet {
                     } else if (path.startsWith("/student/clubs/detail")) {
                         String[] idArray = path.split("/");
                         int id = Integer.parseInt(idArray[idArray.length - 1]);
+
                         ResultSet rsStudent = studentProfileDAO.getStudentProfileMorebyEventID(id);
                         session.setAttribute("studentProfileID", studentProfileID);
                         session.setAttribute("rsStudent", rsStudent);
                         session.setAttribute("rsClubID", id);
                         Club club = clubDAO.getClub(id);
+                        boolean checkIsMember = clubDAO.checkStudentAsMemeberInClub(id, studentProfileID);
+                        session.setAttribute("checkIsMember", checkIsMember);
                         session.setAttribute("club", club);
                         session.setAttribute("tabId", 8);
                         request.getRequestDispatcher("/student.jsp").forward(request, response);
@@ -151,16 +156,17 @@ public class StudentController extends HttpServlet {
                         String[] idArray = path.split("/");
 
                         int id = Integer.parseInt(idArray[idArray.length - 1]);
-
-                        ResultSet rsManager = managerProfileDAO.getManagerProfileMoreByEventID(id);
-                        ResultSet rsStudent = studentProfileDAO.getStudentProfileMorebyEventID(id);
+                        session.setAttribute("eventCategoryNames", eventCategoryNames);
                         session.setAttribute("studentProfileID", studentProfileID);
-
-                        session.setAttribute("rsManager", rsManager);
-                        session.setAttribute("rsStudent", rsStudent);
                         session.setAttribute("rsEventID", id);
 
                         Event event = eventManagerDAO.getEvent(id);
+                        int numberOfParticipants = eventManagerDAO.getNumberOfParticipants(id);
+                        boolean checkParticipation = eventManagerDAO.checkStudentJoinEvent(id, studentProfileID);
+                        boolean checkAttendance = eventManagerDAO.checkStudentJoinEventAttendance(id, studentProfileID);
+                        session.setAttribute("numberOfParticipants", numberOfParticipants);
+                        session.setAttribute("checkParticipation", checkParticipation);
+                        session.setAttribute("checkAttendance", checkAttendance);
                         session.setAttribute("event", event);
 
                         session.setAttribute("tabId", 7);
@@ -248,7 +254,7 @@ public class StudentController extends HttpServlet {
                         String[] isArray = path.split("/");
                         int clubId = Integer.parseInt(isArray[isArray.length - 2]);
                         int studentId = Integer.parseInt(isArray[isArray.length - 1]);
-                        int check = clubDAO.checkRequestJoinClub("", studentId, clubId);
+                        int check = clubDAO.checkRequestJoinClub("Decline", studentId, clubId);
                         if (check > 0) {
                             session.setAttribute("checkRequestJoin", "success");
                         } else {
@@ -285,7 +291,7 @@ public class StudentController extends HttpServlet {
                 int studentProfileID = Integer.parseInt(request.getParameter("studentProfileID"));
 
                 String roleEvent = "Menber";
-                boolean isPresent = Boolean.TRUE;
+                boolean isPresent = Boolean.FALSE;
                 String report = null;
                 String result = null;
 
@@ -303,6 +309,10 @@ public class StudentController extends HttpServlet {
                     response.sendRedirect("/student/events/view");
                 }
 
+            }else if (request.getParameter("selectStudentScoreSemester") != null) {
+                    String semesterID = request.getParameter("semesterID");
+                    session.setAttribute("semesterIDStudentScore", semesterID);
+                    response.sendRedirect("/student/point/view");
             } else if (action != null && action.equals("Register")) {
                 int clubID = Integer.parseInt(request.getParameter("ClubID"));
 
@@ -406,7 +416,7 @@ public class StudentController extends HttpServlet {
                     session.setAttribute("checkUpdateRole", "fail");
                 }
                 response.sendRedirect("/student/clubs/viewClubMember/" + clubId);
-            }
+            } 
         } catch (SQLException ex) {
             Logger.getLogger(StudentController.class.getName()).log(Level.SEVERE, null, ex);
         }

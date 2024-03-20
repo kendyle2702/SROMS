@@ -44,7 +44,7 @@
                                                         <div class="form-group">
                                                             <label>Event Name<span class="login-danger">*</span></label>
                                                             <input id="eventname" name="eventname" type="text"
-                                                                   class="form-control" >
+                                                                   class="form-control" placeholder="Enter event name">
                                                             <div class="message"></div>
                                                         </div>
                                                     </div>
@@ -60,53 +60,10 @@
                                                     </div>
                                                     <div class="col-12 col-sm-4">
                                                         <div class="form-group">
-                                                            <label>Hold Time <span class="login-danger">*</span></label>
+                                                            <label>Start Time <span class="login-danger">*</span></label>
                                                             <input id="holdtime" name="holetime" class="form-control"
                                                                    type="datetime-local" placeholder="YYYY-MM-DDTHH:MM"
                                                                    >
-                                                            <div class="message"></div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-12 col-sm-4">
-                                                        <div class="form-group">
-                                                            <label>Location <span class="login-danger">*</span></label>
-                                                            <input id="location" name="location" type="text"
-                                                                   class="form-control" >
-                                                            <div class="message"></div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-12 col-sm-4">
-                                                        <div class="form-group">
-                                                            <label>Cost<span class="login-danger">*</span></label>
-                                                            <input id="cost" name="cost" type="number"
-                                                                   class="form-control" >
-                                                            <div class="message"></div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-12 col-sm-4">
-                                                        <div class="form-group">
-                                                            <label>Expected Number <span
-                                                                    class="login-danger">*</span></label>
-                                                            <input id="exnum" name="exnum" type="number"
-                                                                   class="form-control" >
-                                                            <div class="message"></div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-12 col-sm-4">
-                                                        <div class="form-group ">
-                                                            <label>Organization<span
-                                                                    class="login-danger">*</span></label>
-                                                            <input id="organization" name="organization" type="text"
-                                                                   class="form-control" >
-                                                            <div class="message"></div>
-                                                        </div>
-                                                    </div>
-
-                                                    <div class="col-12 col-sm-4">
-                                                        <div class="form-group ">
-                                                            <label>Feedback<span class="login-danger">*</span></label>
-                                                            <input id="feedback" name="feedback" type="text"
-                                                                   class="form-control" >
                                                             <div class="message"></div>
                                                         </div>
                                                     </div>
@@ -119,6 +76,49 @@
                                                             <div class="message"></div>
                                                         </div>
                                                     </div>
+                                                    <div class="col-12 col-sm-4">
+                                                        <div class="form-group">
+                                                            <label>Location <span class="login-danger">*</span></label>
+                                                            <input id="location" name="location" type="text"
+                                                                   class="form-control" placeholder="Enter location">
+                                                            <div class="message"></div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-12 col-sm-4">
+                                                        <div class="form-group">
+                                                            <label>Cost<span class="login-danger">*</span></label>
+                                                            <input id="cost" name="cost" type="number"
+                                                                   class="form-control" placeholder="Enter cost">
+                                                            <div class="message"></div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-12 col-sm-4">
+                                                        <div class="form-group">
+                                                            <label>Expected Number <span
+                                                                    class="login-danger">*</span></label>
+                                                            <input id="exnum" name="exnum" type="number"
+                                                                   class="form-control" placeholder="Enter expected number">
+                                                            <div class="message"></div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-12 col-sm-4">
+                                                        <div class="form-group ">
+                                                            <label>Organization<span
+                                                                    class="login-danger">*</span></label>
+                                                            <input id="organization" name="organization" type="text"
+                                                                   class="form-control" placeholder="Enter organization">
+                                                            <div class="message"></div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-12 col-sm-4">
+                                                        <div class="form-group ">
+                                                            <label>Feedback<span class="login-danger">*</span></label>
+                                                            <input id="feedback" name="feedback" type="text"
+                                                                   class="form-control" placeholder="Enter feedback">
+                                                            <div class="message"></div>
+                                                        </div>
+                                                    </div>                                                   
                                                     <div class="col-12 col-sm-4">
                                                         <div class="form-group ">
                                                             <label>Event Category<span
@@ -135,7 +135,7 @@
                                                             <label>Description<span
                                                                     class="login-danger">*</span></label>
                                                             <textarea id="description" name="description" type="text"
-                                                                      class="form-control" ></textarea>
+                                                                      class="form-control" placeholder="Enter description"></textarea>
                                                             <div class="message"></div>
                                                         </div>
                                                     </div>
@@ -182,7 +182,7 @@
                                                 </div>
                                                 <div class="col-12 col-sm-4">
                                                     <div class="form-group">
-                                                        <label>Hold Time <span class="login-danger">*</span></label>
+                                                        <label>Start Time <span class="login-danger">*</span></label>
                                                         <input id="holdtime" name="holetime" class="form-control"
                                                                type="datetime-local" placeholder="YYYY-MM-DDTHH:MM"
                                                                >
@@ -193,7 +193,7 @@
                                                     <div class="form-group">
                                                         <label>Location <span class="login-danger">*</span></label>
                                                         <input id="location" name="location" type="text"
-                                                               class="form-control">
+                                                               class="form-control" placeholder="Enter location">
                                                         <div class="message"></div>
                                                     </div>
                                                 </div>
