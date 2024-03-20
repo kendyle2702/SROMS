@@ -145,7 +145,7 @@
                                     <input type="submit" name="updateRoleMember" style="min-width: 160px;border-radius: 10px;" class="btn btn-success" value="Update">
                                 </div>
                                 <div style="margin-left: 70px;" class="col-12 col-sm-2"> 
-                                    <a href="/student/clubmember/deletemember/<%=rsStudent.getInt("StudentProfileID")%>/${sessionScope.clubId}" style="min-width: 160px;border-radius: 10px;" class="btn btn-danger" >Delete</a>
+                                    <a  id="deleteMemberClub" href="/student/clubmember/deletemember/<%=rsStudent.getInt("StudentProfileID")%>/${sessionScope.clubId}" style="min-width: 160px;border-radius: 10px;" class="btn btn-danger" >Delete</a>
                                 </div>
                                 <div class="col-12 col-sm-4"></div>
                             </div>

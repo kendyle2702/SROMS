@@ -119,4 +119,121 @@
 </script>
 
 
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        document.getElementById('deleteMemberClub').addEventListener('click', function (event) {
+            event.preventDefault(); // Prevent the default link behavior
 
+            // S? d?ng SweetAlert2 ?? xác nh?n hành ??ng xóa
+            Swal.fire({
+                title: "Are you sure?",
+                text: "You won't be able to revert this!",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#d33",
+                confirmButtonText: "Yes, delete it!"
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // N?u ng??i dùng xác nh?n xóa, chuy?n h??ng ??n URL ?ã xác nh?n xóa
+                    window.location.href = document.getElementById('deleteMemberClub').getAttribute('href');
+                }
+            });
+        });
+    });
+</script>
+
+
+<c:choose>
+    <c:when test="${sessionScope.checkUpdateRole == 'success'}">
+        <script>
+            Swal.fire({
+                position: "top-end",
+                icon: "success",
+                title: "You have updated the role of member as successfully!",
+                showConfirmButton: false,
+                timer: 1500
+            });
+            <%session.setAttribute("checkUpdateRole", "sdsdsfdsf");%>
+        </script> 
+    </c:when>
+    <c:when test="${sessionScope.checkUpdateRole == 'fail'}">
+        <script>
+            Swal.fire({
+                position: "top-end",
+                icon: "warning",
+                title: "You have updated the role of member as failure!",
+                showConfirmButton: false,
+                timer: 1500
+            });
+            <%session.setAttribute("checkUpdateRole", "sdsdsfdsf");%>
+        </script> 
+    </c:when>
+</c:choose>
+
+<!--Alert delete member-->
+<c:choose>
+    <c:when test="${sessionScope.checkDeleteMember == 'success'}">
+        <script>
+            Swal.fire({
+                position: "top-end",
+                icon: "success",
+                title: "You have deleted the member as successfully!",
+                showConfirmButton: false,
+                timer: 1500
+            });
+            <%session.setAttribute("checkDeleteMember", "sdsdsfdsf");%>
+        </script> 
+    </c:when>
+    <c:when test="${sessionScope.checkDeleteMember == 'fail'}">
+        <script>
+            Swal.fire({
+                position: "top-end",
+                icon: "warning",
+                title: "You have deleted the member as failure!",
+                showConfirmButton: false,
+                timer: 1500
+            });
+            <%session.setAttribute("checkDeleteMember", "sdsdsfdsf");%>
+        </script> 
+    </c:when>
+</c:choose>
+<!--Alert check request join club for student-->
+<c:choose>
+    <c:when test="${sessionScope.checkRequestJoin == 'success'}">
+        <script>
+            Swal.fire({
+                position: "top-end",
+                icon: "success",
+                title: "You have deleted the member as successfully!",
+                showConfirmButton: false,
+                timer: 1500
+            });
+            <%session.setAttribute("checkRequestJoin", "sdsdsfdsf");%>
+        </script> 
+    </c:when>
+    <c:when test="${sessionScope.checkRequestJoin == 'fail'}">
+        <script>
+            Swal.fire({
+                position: "top-end",
+                icon: "warning",
+                title: "You have deleted the member as failure!",
+                showConfirmButton: false,
+                timer: 1500
+            });
+            <%session.setAttribute("checkRequestJoin", "sdsdsfdsf");%>
+        </script> 
+    </c:when>
+</c:choose>
+
+
+<script>
+    $(document).ready(function () {
+        $('#viewMemberRequest').DataTable();
+    });
+</script>
+<script>
+    $(document).ready(function() {
+        $('#viewMyClub').DataTable();
+    });
+</script>

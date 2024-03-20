@@ -130,6 +130,8 @@ public class StudentController extends HttpServlet {
                         session.setAttribute("listClubMember", listClubMember);
                         Club myClubInfo = clubDAO.getClubByClubID(clubId);
                         session.setAttribute("myClubInfo", myClubInfo);
+                        List<Map<String, String>> listCheckRequestJoin = clubDAO.getRequestJoinClub(clubId);
+                        session.setAttribute("listCheckRequestJoin", listCheckRequestJoin);
                         session.setAttribute("tabId", 9);
                         request.getRequestDispatcher("/student.jsp").forward(request, response);
                     }
@@ -227,6 +229,31 @@ public class StudentController extends HttpServlet {
                     String clubRoleOfMember = clubDAO.getClubRole(studentId);
                     session.setAttribute("clubRoleOfMember", clubRoleOfMember);
                     request.getRequestDispatcher("/student.jsp").forward(request, response);
+                } else if (path.startsWith("/student/checkrequestjoinclub/")) {
+                    if (path.startsWith("/student/checkrequestjoinclub/accept/")) {
+                        String[] isArray = path.split("/");
+                        int clubId = Integer.parseInt(isArray[isArray.length - 2]);
+                        int studentId = Integer.parseInt(isArray[isArray.length - 1]);
+                        int check = clubDAO.checkRequestJoinClub("Member", studentId, clubId);
+                        if (check > 0) {
+                            session.setAttribute("checkRequestJoin", "success");
+                        } else {
+                            session.setAttribute("checkRequestJoin", "fail");
+                        }
+                        response.sendRedirect("/student/clubs/viewClubMember/" + clubId);
+                    } else if (path.startsWith("/student/checkrequestjoinclub/reject/")) {
+                        String[] isArray = path.split("/");
+                        int clubId = Integer.parseInt(isArray[isArray.length - 2]);
+                        int studentId = Integer.parseInt(isArray[isArray.length - 1]);
+                        int check = clubDAO.checkRequestJoinClub("", studentId, clubId);
+                        if (check > 0) {
+                            session.setAttribute("checkRequestJoin", "success");
+                        } else {
+                            session.setAttribute("checkRequestJoin", "fail");
+                        }
+                        response.sendRedirect("/student/clubs/viewClubMember/" + clubId);
+                    }
+
                 } else {
                     response.sendRedirect("/");
                 }
