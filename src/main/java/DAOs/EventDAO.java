@@ -719,4 +719,57 @@ public class EventDAO {
         }
         return rs;
     }
+
+    public boolean checkStudentJoinEvent(int id, int studentProfileID) throws SQLException {
+        conn = DBConnection.connect(); // Establish database connection
+
+        String checkQuery = "  select COUNT(*) from ParticipationEventDetail as p \n"
+                + "  INNER JOIN StudentProfile as s on s.StudentProfileID = p.StudentProfileID\n"
+                + "  where s.StudentProfileID = ? and p.EventID = ?";
+        ps = conn.prepareStatement(checkQuery);
+        ps.setInt(1, studentProfileID);
+        ps.setInt(2, id);
+        rs = ps.executeQuery();
+        if (rs.next()) {
+            if (rs.getInt(1) > 0) {
+                // Sinh viên đã tồn tại trong sự kiện
+                return false; // Trả về false nếu sinh viên đã tham gia
+            }
+        }
+        return true;
+    }
+
+    public boolean checkStudentJoinEventAttendance(int id, int studentProfileID) throws SQLException {
+        conn = DBConnection.connect(); // Establish database connection
+
+        String checkQuery = "SELECT [IsPresent]\n"
+                + "FROM [SROMS].[dbo].[ParticipationEventDetail] as p\n"
+                + "WHERE p.EventID = ? AND p.StudentProfileID = ?";
+        ps = conn.prepareStatement(checkQuery);
+        ps.setInt(1, id);
+        ps.setInt(2, studentProfileID);
+        rs = ps.executeQuery();
+        if (rs.next()) {
+            if (rs.getInt(1) > 0) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public int getNumberOfParticipants(int id) throws SQLException {
+        conn = DBConnection.connect();
+        int count = 1;
+        String checkQuery = "SELECT COUNT(PED.StudentProfileID) AS NumberOfParticipants\n"
+                + "FROM [SROMS].[dbo].[Event] AS E\n"
+                + "LEFT JOIN [SROMS].[dbo].[ParticipationEventDetail] AS PED ON E.EventID = PED.EventID\n"
+                + "WHERE E.EventID = ?";
+        ps = conn.prepareStatement(checkQuery);
+        ps.setInt(1, id);
+        rs = ps.executeQuery();
+        if (rs.next()) {
+            count = rs.getInt(1);
+        }
+        return count;
+    }
 }

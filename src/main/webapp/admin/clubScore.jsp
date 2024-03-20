@@ -88,13 +88,13 @@
                                                 totalEventNormal += eventDAO.getEventsScoreByStudentIDAndSemesterID(studentID, semesterID);
                                                 totalEventCompetition += eventDAO.getEventsScoreCompetitionByStudentIDAndSemesterID(studentID, semesterID);
                                             }
-                                            totalEventCompetition = totalEventNormal+totalEventCompetition;
+                                            totalScore = totalEventNormal+totalEventCompetition;
                                         %>
                                         <td><%=count++%></td>
                                         <td><a href="#" class="avatar avatar-xl me-2"><img class="avatar-img rounded-circle" src="${pageContext.request.contextPath}/assets/img/logo_club/<%=rs.getString("Logo")%>" alt="Logo"></a></td>
                                         <td><%=rs.getString("ClubName")%></td>
                                         <td><%=listIDStudent.size()%></td>
-                                        <td><%=totalEventCompetition%></td>
+                                        <td><%=totalScore%></td>
                                     </tr>
                                     <%}
                                     %>

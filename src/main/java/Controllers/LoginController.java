@@ -169,16 +169,16 @@ public class LoginController extends HttpServlet {
     public static String getTimePeriod() {
         LocalTime currentTime = LocalTime.now();
         if (currentTime.isBefore(LocalTime.of(11, 0))) {
-            return "Good Morning";
+            return "Good morning";
         } else if (currentTime.isBefore(LocalTime.of(14, 0))) {
             return "Good noon";
         } else if (currentTime.isBefore(LocalTime.of(19, 0))) {
-            return "Good Afternoon";
+            return "Good afternoon";
         } else if (currentTime.isBefore(LocalTime.of(22, 0))) {
-            return "Good Evening";
+            return "Good evening";
         }
         else {
-            return "Good Night";
+            return "Good night";
         }
     }
 }

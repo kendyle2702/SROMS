@@ -84,7 +84,7 @@
                                                                     <td class=""><button class="btn btn-danger btn-sm btn-rounded">Upcoming</button></td>
                                                                 </c:when>
                                                                 <c:when test="${event.getHoldTime() <= sessionScope.currentTime && sessionScope.currentTime < event.getEndTime() && event.getApprove() eq 'AA'}">
-                                                                    <td class=""><button class="btn btn-primary btn-sm btn-rounded">Happening</button></td>
+                                                                    <td class=""><button class="btn btn-primary btn-sm btn-rounded">Going on</button></td>
                                                                 </c:when>
                                                                 <c:when test="${sessionScope.currentTime >= event.getEndTime() && event.getApprove() eq 'AA'}" >
                                                                     <td class=""><button class="btn btn-success btn-sm btn-rounded">Finished</button></td>
@@ -146,7 +146,7 @@
                                                                     <td class=""><button class="btn btn-danger btn-sm btn-rounded">Upcoming</button></td>
                                                                 </c:when>
                                                                 <c:when test="${event.getHoldTime() <= sessionScope.currentTime && sessionScope.currentTime < event.getEndTime() && event.getApprove() eq 'AA'}">
-                                                                    <td class=""><button class="btn btn-primary btn-sm btn-rounded">Happening</button></td>
+                                                                    <td class=""><button class="btn btn-primary btn-sm btn-rounded">Going on</button></td>
                                                                 </c:when>
                                                                 <c:when test="${sessionScope.currentTime >= event.getEndTime() && event.getApprove() eq 'AA'}" >
                                                                     <td class=""><button class="btn btn-success btn-sm btn-rounded">Finished</button></td>
