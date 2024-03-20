@@ -143,4 +143,21 @@ public class UserLoginDAO {
         }
         return managerProfileID;
     }
+
+    public boolean checkAccountIsActive(UserProfile userProfile) {
+        boolean isActive = false;
+        try {
+            PreparedStatement ps = conn.prepareStatement("  select IsActive from UserProfile as u \n"
+                    + "  inner join UserLogin as ul on u.UserProfileID = ul.UserProfileID\n"
+                    + "  where u.UserProfileID = ?");
+            ps.setInt(1, userProfile.getUserProfileID());
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                isActive = rs.getBoolean("IsActive");
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(UserLoginDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return isActive;
+    }
 }
