@@ -111,11 +111,14 @@ public class StudentController extends HttpServlet {
                     } else if (path.startsWith("/student/clubs/detail")) {
                         String[] idArray = path.split("/");
                         int id = Integer.parseInt(idArray[idArray.length - 1]);
+
                         ResultSet rsStudent = studentProfileDAO.getStudentProfileMorebyEventID(id);
                         session.setAttribute("studentProfileID", studentProfileID);
                         session.setAttribute("rsStudent", rsStudent);
                         session.setAttribute("rsClubID", id);
                         Club club = clubDAO.getClub(id);
+                        boolean checkIsMember = clubDAO.checkStudentAsMemeberInClub(id, studentProfileID);
+                        session.setAttribute("checkIsMember", checkIsMember);
                         session.setAttribute("club", club);
                         session.setAttribute("tabId", 8);
                         request.getRequestDispatcher("/student.jsp").forward(request, response);
@@ -154,7 +157,7 @@ public class StudentController extends HttpServlet {
                         session.setAttribute("eventCategoryNames", eventCategoryNames);
                         session.setAttribute("studentProfileID", studentProfileID);
                         session.setAttribute("rsEventID", id);
-                        
+
                         Event event = eventManagerDAO.getEvent(id);
                         int numberOfParticipants = eventManagerDAO.getNumberOfParticipants(id);
                         boolean checkParticipation = eventManagerDAO.checkStudentJoinEvent(id, studentProfileID);
@@ -304,6 +307,10 @@ public class StudentController extends HttpServlet {
                     response.sendRedirect("/student/events/view");
                 }
 
+            }else if (request.getParameter("selectStudentScoreSemester") != null) {
+                    String semesterID = request.getParameter("semesterID");
+                    session.setAttribute("semesterIDStudentScore", semesterID);
+                    response.sendRedirect("/student/point/view");
             } else if (action != null && action.equals("Register")) {
                 int clubID = Integer.parseInt(request.getParameter("ClubID"));
 
@@ -407,7 +414,7 @@ public class StudentController extends HttpServlet {
                     session.setAttribute("checkUpdateRole", "fail");
                 }
                 response.sendRedirect("/student/clubs/viewClubMember/" + clubId);
-            }
+            } 
         } catch (SQLException ex) {
             Logger.getLogger(StudentController.class.getName()).log(Level.SEVERE, null, ex);
         }

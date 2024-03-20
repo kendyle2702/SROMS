@@ -1,5 +1,6 @@
 package DAOs;
 
+import DB.DBConnection;
 import Models.ClubMember;
 import Models.Club;
 import com.sun.javafx.scene.control.skin.VirtualFlow;
@@ -597,5 +598,41 @@ public class ClubDAO {
         ps.setInt(3, studentProfileId);
         int check = ps.executeUpdate();
         return check;
+    }
+
+    public ClubMember getClubMemberByClubID(int clubID) throws SQLException {
+        ClubMember clubMember = null;
+        String sql = "SELECT * FROM [SROMS].[dbo].[ClubMember] WHERE ClubID = ?";
+        ps = conn.prepareStatement(sql);
+        ps.setInt(1, clubID);
+        ResultSet rs = ps.executeQuery();
+        while (rs.next()) {
+            clubMember = new ClubMember(
+                    rs.getInt(1),
+                    rs.getInt(2),
+                    rs.getString(3),
+                    rs.getInt(4),
+                    rs.getString(5),
+                    rs.getInt(6));
+        }
+        return clubMember;
+    }
+
+    public boolean checkStudentAsMemeberInClub(int clubID, int studentProfileID) throws SQLException {
+        conn = DBConnection.connect(); // Establish database connection
+
+        String checkQuery = "SELECT COUNT(*) FROM [SROMS].[dbo].[ClubMember] as cm \n"
+                + "inner join Club as c on c.ClubID = cm.ClubID\n"
+                + "WHERE c.ClubID = ? and cm.StudentProfileID = ? and cm.SemesterID = 10";
+        ps = conn.prepareStatement(checkQuery);
+        ps.setInt(1, clubID);
+        ps.setInt(2, studentProfileID);
+        ResultSet rs = ps.executeQuery();
+        if (rs.next()) {
+            if (rs.getInt(1) > 0) {
+                return false;
+            }
+        }
+        return true;
     }
 }
