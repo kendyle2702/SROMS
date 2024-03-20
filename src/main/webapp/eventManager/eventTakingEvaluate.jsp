@@ -13,8 +13,7 @@
                     <div class="page-sub-header">
                         <h3 class="page-title">Evaluate Student</h3>
                         <ul class="breadcrumb">
-                            <li class="breadcrumb-item"><a href="/">Home</a></li>
-                            <li class="breadcrumb-item"><a href="#">Participants Management</a></li>
+                            <li class="breadcrumb-item"><a href="#">Attendance And Evaluate</a></li>
                             <li class="breadcrumb-item"><a href="#">Evaluate Student</a></li>
 
                         </ul>
@@ -38,7 +37,7 @@
                                     <thead class="thead-light">
                                         <tr>
                                             <!--                                        <th class="text-center">No.</th>-->
-                                            <th class="text-center">ID</th>
+                                            <th class="text-center">No</th>
                                             <th class="text-center">Name</th>
                                             <th class="text-center">Location</th>
                                             <th class="text-center">End Time</th>       
@@ -47,7 +46,8 @@
                                     </thead>
                                     <tbody>
                                         <c:if test="${not empty sessionScope.listEvent}">
-                                            <c:forEach items="${sessionScope.listEvent}" var="liste" varStatus="count">
+
+                                            <c:forEach items="${sessionScope.listEvent}" var="liste">
                                                 <%-- Scriptlets should be avoided, but for demonstration, I'm maintaining them --%>
                                                 <%-- Scriptlets should be avoided, but for demonstration, I'm maintaining them --%>
                                                 <%
@@ -58,11 +58,13 @@
                                                     Timestamp currentDateTime = new Timestamp(calen.getTimeInMillis());
                                                     String currentDateTimeString = format.format(currentDateTime);
                                                     session.setAttribute("currentTime", currentDateTimeString);
+
                                                 %>
                                                 <c:choose>
                                                     <c:when  test="${sessionScope.currentTime <= liste.getEndTime() && sessionScope.currentTime >= liste.getHoldTime() && liste.getApprove() eq 'AA'}">
+                                                        <c:set var="count" value="${count + 1}"/>
                                                         <tr>
-                                                            <td class="">${count.index+1}</td>
+                                                            <td class="">${count}</td>
                                                             <td class="">${liste.getEventName()}</td>
                                                             <td class="">${liste.getLocation()}</td>
                                                             <td class="">${liste.getEndTime()}</td>

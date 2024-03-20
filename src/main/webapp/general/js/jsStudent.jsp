@@ -205,7 +205,7 @@
             Swal.fire({
                 position: "top-end",
                 icon: "success",
-                title: "You have deleted the member as successfully!",
+                title: "You have accepted the member as successfully!",
                 showConfirmButton: false,
                 timer: 1500
             });
@@ -217,7 +217,7 @@
             Swal.fire({
                 position: "top-end",
                 icon: "warning",
-                title: "You have deleted the member as failure!",
+                title: "You have accepted the member as failure!",
                 showConfirmButton: false,
                 timer: 1500
             });
@@ -233,7 +233,7 @@
     });
 </script>
 <script>
-    $(document).ready(function() {
+    $(document).ready(function () {
         $('#viewMyClub').DataTable();
     });
 </script>

@@ -1,5 +1,9 @@
 
 
+<%@page import="DAOs.UserLoginDAO"%>
+<%@page import="Models.UserProfile"%>
+<%@page import="com.nimbusds.jose.crypto.impl.AAD"%>
+<%@page import="DAOs.ClubDAO"%>
 <div class="sidebar" id="sidebar">
     <div class="sidebar-inner slimscroll">
         <div id="sidebar-menu" class="sidebar-menu">
@@ -29,11 +33,10 @@
                 <li class="menu-title">
                     <span>Club</span>
                 </li>
-                <li class="submenu <%=(session.getAttribute("tabId").equals(4)) || (session.getAttribute("tabId").equals(10)) ? "active" : ""%>">
+                <li class="submenu <%=(session.getAttribute("tabId").equals(4)) ? "active" : ""%>">
                     <a href="#"><i class="feather-user-plus"></i> <span class="title">Club</span><span class="menu-arrow"></span></a>
                     <ul>
-                        <li><a href="/student/clubs/view" class="<%= session.getAttribute("tabId").equals(4) ? "active subdrop" : ""%>"> View Clubs</a></li>
-                        <li><a href="/student/clubs/create" class="<%= session.getAttribute("tabId").equals(10) ? "active subdrop" : ""%>"> Create Club</a></li>
+                        <li><a href="/student/clubs/view" class="<%= session.getAttribute("tabId").equals(4) ? "active subdrop" : ""%>"> View Clubs</a></li>                           
                     </ul>
                 </li>
 

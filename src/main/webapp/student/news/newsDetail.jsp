@@ -20,7 +20,7 @@
             <div class="col-lg-10 col-xl-9 card flex-fill comman-shadow">
                 <div class="blog-view card-body">
                     <div class="blog-single-post">
-                        <a href="/student/news/view" class="back-btn btn btn-primary"><i class="feather-chevron-left"></i> Back</a>
+                        <a href="/student/news/view" class="back-btn btn btn-primary"><i c-lass="feather-chevron-left"></i> Back</a>
                         <h2 style="font-weight: bold;text-transform: uppercase;margin-bottom: 50px" class="card-title text-center">${news.getTitle()}</h2>
                         <div class="blog-info">
                             <div class="post-list">
@@ -39,7 +39,5 @@
                 </div>
             </div>
         </div>
-
-
     </div>
 </div>

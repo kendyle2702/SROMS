@@ -13,9 +13,8 @@
                     <div class="page-sub-header">
                         <h3 class="page-title">Create Event</h3>
                         <ul class="breadcrumb">
-                            <li class="breadcrumb-item"><a href="/">Home</a></li>
-                            <li class="breadcrumb-item"><a href="#">Participants Management</a></li>
-                            <li class="breadcrumb-item"><a href="/eventmanager/events/evaluate">Evaluate Student</a></li>
+                            <li class="breadcrumb-item"><a href="/eventmanager/events/evaluate">Attendance And Evaluate</a></li>
+                            <li class="breadcrumb-item"><a href="#">Evaluate Form</a></li>
                             <li class="breadcrumb-item"><a href="#">Evaluate Student Form</a></li>
                         </ul>
                     </div>
@@ -43,7 +42,7 @@
                                                 <th class="">Roll Number</th>
                                                 <th class="">Major</th>       
                                                 <th class="">Email</th> 
-                                                <th class="text-center">Check Attendance</th> 
+                                                <th class="">Evaluate</th> 
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -60,24 +59,23 @@
                                                         <td class="">${liste.RollNumber}</td>
                                                         <td class="">${liste.Major}</td>
                                                         <td class="">${liste.Email}</td>
-                                                        <td class="">${liste.DateOfBirth}</td>
-                                                        <td class="">${liste.Gender}</td>
-                                                <textarea style="border-color:#ea7127;" id="" name="evaluateStudent/${liste.StudentProfileID}/${liste.EventID}" class="form-control" placeholder="Enter evaluate for ${liste.FirstName}">${liste.Report}</textarea>
-                                                </td>                                
-                                                </tr>
-                                            </c:forEach>
 
-                                            <tr>
-                                                <td  colspan="6">
-                                                    <input style="background: #ea7127;border-color:#ea7127; margin-left:1300px;width: 150px;height: 60px" class="btn btn-primary" name="evaluateStudentForm" type="submit" value="Submit">
-                                                </td>
-                                            </tr>
-                                        </c:if>         
-                                        <c:if test="${empty sessionScope.listAttendant}">
-                                            <tr>
-                                                <td colspan="7" class="text-center">No events found.</td>
-                                            </tr>
-                                        </c:if>
+                                                        <td>
+                                                            <textarea style="border-color:#ea7127;" id="" name="evaluateStudent/${liste.StudentProfileID}/${liste.EventID}" class="form-control" placeholder="Enter evaluate for ${liste.FirstName}">${liste.Report}</textarea>
+                                                        </td>                                
+                                                    </tr>
+                                                </c:forEach>
+                                                <tr>
+                                                    <td  colspan="6">
+                                                        <input style="background: #ea7127;border-color:#ea7127; margin-left:1300px;width: 150px;height: 60px" class="btn btn-primary" name="evaluateStudentForm" type="submit" value="Submit">
+                                                    </td>
+                                                </tr>
+                                            </c:if>         
+                                            <c:if test="${empty sessionScope.listAttendant}">
+                                                <tr>
+                                                    <td colspan="7" class="text-center">No events found.</td>
+                                                </tr>
+                                            </c:if>
                                         </tbody>
                                     </table> 
                                 </form>
