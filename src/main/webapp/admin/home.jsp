@@ -1,3 +1,8 @@
+<%@page import="DAOs.UserProfileDAO"%>
+<%@page import="DAOs.UserProfileDAO"%>
+<%@page import="java.util.Map"%>
+<%@page import="java.util.ArrayList"%>
+<%@page import="java.util.List"%>
 <%@page import="DAOs.UserRoleDAO"%>
 <%@page import="Models.UserProfile"%>
 <%@page import="Controllers.LoginController"%>
@@ -154,36 +159,136 @@
 
             </div>
         </div>
-<!--        <div class="row">
-            <div class="col-xl-6 d-flex">
-
-                <div class="card flex-fill student-space comman-shadow">
-                    <div class="card-header d-flex align-items-center">
-                        <h5 class="card-title"></h5>
+        <!--        <div class="row">
+                    <div class="col-xl-6 d-flex">
+        
+                        <div class="card flex-fill student-space comman-shadow">
+                            <div class="card-header d-flex align-items-center">
+                                <h5 class="card-title"></h5>
+                            </div>
+                            <div class="card-body">
+        
+                            </div>
+                        </div>
+        
                     </div>
-                    <div class="card-body">
-
+                    <div class="col-xl-6 d-flex">
+        
+                        <div class="card flex-fill comman-shadow">
+                            <div class="card-header d-flex align-items-center">
+                                <h5 class="card-title ">Chart </h5>
+                            </div>
+                            <div class="card-body">
+        
+                            </div>
+                        </div>
+        
                     </div>
-                </div>
-
-            </div>
-            <div class="col-xl-6 d-flex">
-
-                <div class="card flex-fill comman-shadow">
-                    <div class="card-header d-flex align-items-center">
-                        <h5 class="card-title ">Chart </h5>
-                    </div>
-                    <div class="card-body">
-
-                    </div>
-                </div>
-
-            </div>
-        </div>-->
+                </div>-->
 
     </div>
     <footer>
     </footer>
 
 </div>
+
+<%
+    String semesterIDStringChart = (String) session.getAttribute("semesterIDStudentChart");
+    int semesterID = Integer.parseInt(semesterIDStringChart);
+    UserProfileDAO userDAO = new UserProfileDAO();
+
+    List<Map.Entry<String, Integer>> clubMapList = userDAO.getTop5ClubBySemester(semesterID);
+
+    ArrayList<String> keyClubList = new ArrayList<>();
+    ArrayList<Integer> valueClubList = new ArrayList<>();
+
+    for (Map.Entry<String, Integer> entry : clubMapList) {
+        keyClubList.add(entry.getKey());
+        valueClubList.add(entry.getValue());
+    }
+
+%>
+<script>
+    var options = {
+        series: [{
+                name: "Point",
+                data: [{
+                        x: '<%=keyClubList.get(0)%>',
+                        y: <%=valueClubList.get(0)%>
+                    }, {
+                        x: '<%=keyClubList.get(1)%>',
+                        y: <%=valueClubList.get(1)%>
+                    }, {
+                        x: '<%=keyClubList.get(2)%>',
+                        y: <%=valueClubList.get(2)%>
+                    }, {
+                        x: '<%=keyClubList.get(3)%>',
+                        y: <%=valueClubList.get(3)%>
+                    }, {
+                        x: '<%=keyClubList.get(4)%>',
+                        y: <%=valueClubList.get(4)%>
+                    }]
+            }],
+        chart: {
+            type: 'bar',
+            height: 380
+        },
+        xaxis: {
+            type: 'category',
+        },
+        title: {
+            text: 'Club Name',
+        },
+    };
+
+    var chart = new ApexCharts(document.querySelector("#top5ClubChart"), options);
+    chart.render();
+</script>
+
+
+<%    List<Map.Entry<String, Integer>> studentMapList = userDAO.getTop5StudentBySemester(semesterID);
+    ArrayList<String> keyStudentList = new ArrayList<>();
+    ArrayList<Integer> valueStudentList = new ArrayList<>();
+
+    for (Map.Entry<String, Integer> entry : studentMapList) {
+        keyStudentList.add(entry.getKey());
+        valueStudentList.add(entry.getValue());
+    }
+%>
+<script>
+    var options = {
+        series: [{
+                name: "Point",
+                data: [{
+                        x: '<%=keyStudentList.get(0)%>',
+                        y: <%=valueStudentList.get(0)%>
+                    }, {
+                        x: '<%=keyStudentList.get(1)%>',
+                        y: <%=valueStudentList.get(1)%>
+                    }, {
+                        x: '<%=keyStudentList.get(2)%>',
+                        y: <%=valueStudentList.get(2)%>
+                    }, {
+                        x: '<%=keyStudentList.get(3)%>',
+                        y: <%=valueStudentList.get(3)%>
+                    }, {
+                        x: '<%=keyStudentList.get(4)%>',
+                        y: <%=valueStudentList.get(4)%>
+                    }]
+            }],
+        chart: {
+            type: 'bar',
+            height: 380
+        },
+        xaxis: {
+            type: 'category',
+        },
+        title: {
+            text: 'Student Member Code',
+        },
+    };
+
+    var chart = new ApexCharts(document.querySelector("#top5StudentChart"), options);
+    chart.render();
+</script>
 
