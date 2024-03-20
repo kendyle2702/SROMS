@@ -5,8 +5,10 @@
 package Controllers;
 
 import DAOs.ClubDAO;
+import DAOs.SemesterDAO;
 import DAOs.UserLoginDAO;
 import Models.Club;
+import Models.UserProfile;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -92,7 +94,7 @@ public class ClubManagerController extends HttpServlet {
                     session.setAttribute("fullNameCreateClub", fullName);
                     session.setAttribute("listCheckRequestClub", listCheckRequestClub);
                     request.getRequestDispatcher("/clubManager.jsp").forward(request, response);
-                    
+
                 } else if (path.startsWith("/clubmanager/check/")) {
                     if (path.startsWith("/clubmanager/check/accept/")) {
                         String[] parts = path.split("/");
@@ -116,6 +118,30 @@ public class ClubManagerController extends HttpServlet {
                         }
                     }
                     response.sendRedirect("/clubmanager/checkrequestClub");
+                } else if (path.endsWith("/clubmanager/viewclubpoint")) {
+                    String semesterIDString = (String) session.getAttribute("semesterIDClubScore");
+                    if (semesterIDString == null) {
+                        SemesterDAO semDAO = new SemesterDAO();
+                        String currentSemesterName = (String) session.getAttribute("semester");
+                        int semesterID = semDAO.getSemesterIDBySemesterName(currentSemesterName);
+                        session.setAttribute("semesterIDClubScore", semesterID + "");
+                    } else {
+                        session.setAttribute("semesterIDClubScore", semesterIDString);
+                    }
+                    session.setAttribute("tabId", 7);
+                    request.getRequestDispatcher("/clubManager.jsp").forward(request, response);
+                } else if (path.startsWith("/clubmanager/viewclubpoint/detail/")) {
+                    String[] parts = path.split("/");
+                    int id = Integer.parseInt(parts[parts.length - 1]);
+                    ClubDAO cDAO = new ClubDAO();
+                    Club clubDetail = clubDAO.getClubByClubID(id);
+                    session.setAttribute("clubDetail", clubDetail);
+                    String currentSemester = (String)session.getAttribute("semesterIDClubScore");
+                    int semesterID = Integer.parseInt(currentSemester);
+                    ResultSet clubCurrent = cDAO.getCurrentClubDetailBySemesterID(id,semesterID);
+                    session.setAttribute("memberCurrentClub", clubCurrent);
+                    session.setAttribute("tabId", 8);
+                    request.getRequestDispatcher("/clubManager.jsp").forward(request, response);
                 }
 
             } catch (SQLException ex) {
@@ -129,5 +155,14 @@ public class ClubManagerController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        HttpSession session = request.getSession();
+        UserProfile user = (UserProfile) session.getAttribute("user");
+        String role = (String) session.getAttribute("role");
+
+        if (request.getParameter("selectClubScoreSemester") != null) {
+            String semesterID = request.getParameter("semesterID");
+            session.setAttribute("semesterIDClubScore", semesterID);
+            response.sendRedirect("/clubmanager/viewclubpoint");
+        }
     }
 }

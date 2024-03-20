@@ -187,9 +187,8 @@
                                                                     </td>                                
                                                                 </tr>
                                                             </c:forEach>
-                                                        </c:if>         
+                                                        </c:if>
                                                     </tbody>
-
                                                 </table> 
                                             </div>
                                         </div>

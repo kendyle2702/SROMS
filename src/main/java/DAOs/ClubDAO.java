@@ -487,7 +487,7 @@ public class ClubDAO {
                     + " left join ClubMember on Club.ClubID = ClubMember.ClubID\n"
                     + " left join StudentProfile on ClubMember.StudentProfileID = StudentProfile.StudentProfileID\n"
                     + " left join UserProfile on StudentProfile.UserProfileID = UserProfile.UserProfileID\n"
-                    + " where Club.ClubID = ? and SemesterID = 10");
+                    + " where Club.ClubID = ? and SemesterID = (SELECT MAX(SemesterID) FROM [ClubMember])");
             ps.setInt(1, clubID);
             rs = ps.executeQuery();
 
@@ -597,5 +597,22 @@ public class ClubDAO {
         ps.setInt(3, studentProfileId);
         int check = ps.executeUpdate();
         return check;
+    }
+
+    public ResultSet getCurrentClubDetailBySemesterID(int clubID, int semesterID) {
+        ResultSet rs = null;
+        try {
+            PreparedStatement ps = conn.prepareStatement("select RollNumber, FirstName, LastName, ClubRole,StudentProfile.StudentProfileID as StudentProfileID from Club left join ClubMember on Club.ClubID = ClubMember.ClubID\n"
+                    + "                    left join StudentProfile on ClubMember.StudentProfileID = StudentProfile.StudentProfileID\n"
+                    + "                   left join UserProfile on StudentProfile.UserProfileID = UserProfile.UserProfileID\n"
+                    + "                    where Club.ClubID = ? and SemesterID = ?");
+            ps.setInt(1, clubID);
+            ps.setInt(2, semesterID);
+            rs = ps.executeQuery();
+
+        } catch (SQLException ex) {
+            Logger.getLogger(StudentProfileDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return rs;
     }
 }
