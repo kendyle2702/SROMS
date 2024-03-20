@@ -31,6 +31,7 @@
                                 <li class="lesson-view-all"><a href="/eventmanager/news/view">View All</a></li>
                             </ul>
                         </div>
+
                         <!-- box show 1 new on today -->
                         <div class="card flex-fill comman-shadow">
                             <div class="card-header">
@@ -201,6 +202,25 @@
                 </div>
             </div>
         </div>     
+        <div class="modal custom-modal fade" id="news_detail<%= latestNews.getNewsID()%>" aria-hidden="true" style="display: none;">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-body">
+                        <h3><%=latestNews.getTitle()%></h3>
+                        <div class="form-header">
+                            <p><%=latestNews.getContent()%></p>
+                        </div>
+                        <div class="modal-btn delete-action">
+                            <div class="row">
+                                <div class="text-center sorting">
+                                    <a href="javascript:void(0);" data-bs-dismiss="modal" class="btn btn-primary paid-cancel-btn">Cancel</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 

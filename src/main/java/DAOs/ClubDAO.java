@@ -9,6 +9,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Date;
 import java.sql.Statement;
+import java.sql.Types;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -258,17 +259,19 @@ public class ClubDAO {
     public List<Map<String, String>> getAllMembersClub(int clubId) throws SQLException {
         ResultSet rs = null;
         List<Map<String, String>> getListMember = new ArrayList<>();
-        String sql = "SELECT ClubRole, RollNumber, Major, FirstName, LastName, Email, ClubRole, StudentProfile.StudentProfileID,Club.ClubID FROM [SROMS].[dbo].[ClubMember]\n"
-                + "LEFT JOIN [SROMS].[dbo].[Club] ON ClubMember.ClubID = Club.ClubID\n"
+        String sql = "SELECT ClubRole, RollNumber, Major, FirstName, LastName, Email, ClubRole, StudentProfile.StudentProfileID,Club.ClubID \n"
+                + "FROM [SROMS].[dbo].[ClubMember] LEFT JOIN [SROMS].[dbo].[Club] ON ClubMember.ClubID = Club.ClubID\n"
                 + "LEFT JOIN StudentProfile ON ClubMember.StudentProfileID = StudentProfile.StudentProfileID \n"
                 + "LEFT JOIN UserProfile ON StudentProfile.UserProfileID = UserProfile.UserProfileID \n"
-                + "WHERE Club.ClubID = ? AND SemesterID = (SELECT MAX(SemesterID) FROM [SROMS].[dbo].[ClubMember]) ORDER BY \n"
-                + " CASE \n"
+                + "WHERE Club.ClubID = ? AND SemesterID = (SELECT MAX(SemesterID) FROM [SROMS].[dbo].[ClubMember]) \n"
+                + "AND ClubMember.ClubRole IS NOT NULL AND ClubMember.ClubRole != 'Decline' \n"
+                + "ORDER BY \n"
+                + "    CASE \n"
                 + "        WHEN LEFT(ClubRole, 1) = 'L' THEN 1\n"
                 + "        WHEN LEFT(ClubRole, 1) = 'B' THEN 2\n"
                 + "        WHEN LEFT(ClubRole, 1) = 'M' THEN 3\n"
                 + "        ELSE 4  \n"
-                + "END;";
+                + "    END;";
         PreparedStatement ps = conn.prepareStatement(sql);
         ps.setInt(1, clubId);
         rs = ps.executeQuery();
@@ -406,6 +409,17 @@ public class ClubDAO {
         check = ps.executeUpdate();
         return check;
     }
+
+//    public int updateRoleLeader(String roleMember, int studdentProfileID, int clubID) throws SQLException {
+//        int check = 0;
+//        String query = "UPDATE [ClubMember] SET ClubRole = ? WHERE StudentProfileID = ? AND ClubID= ? AND SemesterID = (SELECT MAX(SemesterID) FROM [SROMS].[dbo].[ClubMember]);";
+//        ps = conn.prepareStatement(query);
+//        ps.setString(1, roleMember);
+//        ps.setInt(2, studdentProfileID);
+//        ps.setInt(3, clubID);
+//        check = ps.executeUpdate();
+//        return check;
+//    }
 
     public int deleteClubMember(int studentProfileID, int clubID) throws SQLException {
         int check = 0;
@@ -596,10 +610,21 @@ public class ClubDAO {
     }
 
     public int checkRequestJoinClub(String clubRole, int studentProfileId, int clubId) throws SQLException {
-        ps = conn.prepareStatement("UPDATE [ClubMember] SET ClubRole = ? WHERE ClubID =? AND StudentProfileID = ? AND SemesterID = (SELECT MAX(SemesterID) FROM ClubMember);");
-        ps.setString(1, clubRole);
+        int check = 0;
+        String updateQuery = "UPDATE ClubMember SET ClubRole = ? WHERE ClubID = ? AND StudentProfileID = ? AND SemesterID = (SELECT MAX(SemesterID) FROM ClubMember)";
+        ps = conn.prepareStatement(updateQuery);
+        ps.setString(1, clubRole); // Set ClubRole to the provided value
         ps.setInt(2, clubId);
         ps.setInt(3, studentProfileId);
+        check = ps.executeUpdate();
+        return check;
+    }
+
+    public int removeRequest(int studentProfileId, int clubId) throws SQLException {
+        String updateQuery = "DELETE ClubMember WHERE ClubID = ? AND StudentProfileID = ? AND SemesterID = (SELECT MAX(SemesterID) FROM ClubMember);";
+        ps = conn.prepareStatement(updateQuery);
+        ps.setInt(1, clubId);
+        ps.setInt(2, studentProfileId);
         int check = ps.executeUpdate();
         return check;
     }

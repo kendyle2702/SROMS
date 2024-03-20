@@ -64,13 +64,13 @@
                                                         %>
                                                         <c:choose>
                                                             <c:when test="${liste.getApprove() eq 'AA'}">
-                                                                <td class="text-center"><a type="button" class=" mb-2 mr-2 btn btn-outline-organ btn-outline-success active">Accepted</a></td>
+                                                                <td class="text-center"><a type="button" class=" mb-2 mr-2 btn btn-outline-organ btn-outline-success btn-rounded active">Accepted</a></td>
                                                             </c:when>
                                                             <c:when test="${liste.getApprove() eq 'DL'}">
-                                                                <td class="text-center"><a type="button" class=" mb-2 mr-2 btn btn-outline-organ btn-outline-danger active">Rejected</a></td>
+                                                                <td class="text-center"><a type="button" class=" mb-2 mr-2 btn btn-outline-organ btn-outline-danger btn-rounded active">Rejected</a></td>
                                                             </c:when>     
                                                             <c:otherwise>
-                                                                <td class="text-center"><a type="button" class="mb-2 mr-2 btn btn-outline-organ btn-outline-primary active">Waiting</a></td>
+                                                                <td class="text-center"><a type="button" class="mb-2 mr-2 btn btn-outline-organ btn-outline-primary  btn-rounded active">Waiting</a></td>
                                                             </c:otherwise>
                                                         </c:choose>                                       
                                                         <td class="text-center"><a style="background: #ea7127;border-color:#ea7127;" href="/eventmanager/events/detail/${liste.getEventID()}" type="button" class="mb-2 mr-2 btn btn-outline-organ text-white" style="background-color: #ea7127; border-color: #ea7127;">

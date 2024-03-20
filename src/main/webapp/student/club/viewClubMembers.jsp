@@ -28,7 +28,6 @@
 
                     <h6 style="color: green;" class="text-muted">Establish Date:
                         ${sessionScope.myClubInfo.getEstablishDate()}</h6>
-
                     <div class="user-Location">${sessionScope.myClubInfo.getDescription()}</div>
                 </div>
             </div>
@@ -38,15 +37,28 @@
                 <div class="profile-menu">
                     <ul class="nav nav-tabs nav-tabs-solid" role="tablist">
                         <c:if test="${sessionScope.getClubRole eq 'Leader Club' || sessionScope.getClubRole eq 'Board Of Directing' }">
-                            <li class="nav-item" role="presentation">
-                                <a class="nav-link active" data-bs-toggle="tab" href="#password_tab" aria-selected="true" role="tab">Check Request Join Club</a>
-                            </li>
-                            <li class="nav-item" role="presentation">
-                                <a class="nav-link" data-bs-toggle="tab" href="#per_details_tab" aria-selected="false" role="tab" tabindex="-1">View Club Member</a>
-                            </li>
-                            <li class="nav-item ms-auto"> <!-- 'ms-auto' class to push to the right -->
-                                <a style="background-color: #ea7127; color: white;" class="btn btn-primary" href="/student/createEventMyClub"><span>Create Event For Club</span></a>
-                            </li>
+                            <c:choose>
+                                <c:when test="${sessionScope.getClubRole eq 'Leader Club'}">
+                                    <li class="nav-item" role="presentation">
+                                        <a class="nav-link active" data-bs-toggle="tab" href="#password_tab" aria-selected="true" role="tab">Check Request Join Club</a>
+                                    </li>
+                                    <li class="nav-item" role="presentation">
+                                        <a class="nav-link" data-bs-toggle="tab" href="#per_details_tab" aria-selected="false" role="tab" tabindex="-1">View Club Member</a>
+                                    </li>
+                                    <li class="nav-item ms-auto"> <!-- 'ms-auto' class to push to the right -->
+                                        <a style="background-color: #ea7127; color: white;" class="btn btn-primary" href="/student/createEventMyClub"><span>Create Event For Club</span></a>
+                                    </li>
+                                </c:when>
+                                <c:otherwise>
+                                    <li class="nav-item" role="presentation">
+                                        <a class="nav-link active" data-bs-toggle="tab" href="#password_tab" aria-selected="true" role="tab">Check Request Join Club</a>
+                                    </li>
+                                    <li class="nav-item" role="presentation">
+                                        <a class="nav-link" data-bs-toggle="tab" href="#per_details_tab" aria-selected="false" role="tab" tabindex="-1">View Club Member</a>
+                                    </li>
+                                </c:otherwise>
+                            </c:choose>
+
                         </c:if>        
                         <c:if test="${sessionScope.getClubRole eq 'Member'}">
                             <li class="nav-item" role="presentation">
@@ -105,7 +117,7 @@
                                                                                     <td class="">${liste.ClubRole}</td><!-- comment -->
                                                                                     <c:choose>
                                                                                         <c:when
-                                                                                            test="${sessionScope.getClubRole eq 'Leader Club'}">
+                                                                                            test="${sessionScope.getClubRole eq 'Leader Club' || sessionScope.getClubRole eq 'Board Of Directing' }">
                                                                                             <td class="text-center">
                                                                                                 <a style="background: #ea7127;border-color:#ea7127"
                                                                                                    href="/student/viewClubMember/detailMember/${liste.StudentProfileID}/${liste.ClubID}"
@@ -160,54 +172,45 @@
                                                                 <th class="">Email</th>
                                                                 <th class="">Gender</th> 
                                                                 <th class="">Date Of Birthday</th> 
-                                                                <th class="">Check Request</th>
-                                                                <th class="">Delete</th>
+                                                                <th class="">Action</th>
                                                             </tr>
                                                         </thead>
                                                         <tbody>
                                                             <c:if test="${not empty sessionScope.listCheckRequestJoin}">
                                                                 <c:forEach items="${sessionScope.listCheckRequestJoin}" var="liste" >
-                                                                    <c:set var="count" value="${count + 1}"/>
-                                                                    <tr>
-                                                                        <td class="">${count}</td>
-                                                                        <td style="padding-right: 50px;">
-                                                                            <a  href="#" class="avatar avatar-lg me-2">
-                                                                                <img class="avatar-img rounded-circle" src="${pageContext.request.contextPath}/assets/img/avatar/${liste.Avatar}" alt="Avatar">
-                                                                            </a>
-                                                                            ${liste.LastName} ${liste.FirstName}
-                                                                        </td>
-                                                                        <td class="">${liste.RollNumber}</td>
-                                                                        <td class="">${liste.Major}</td>
-                                                                        <td class="">${liste.Email}</td>
-                                                                        <td class="">${liste.Gender}</td>
-                                                                        <td class="">${liste.DateOfBirth}</td>
-                                                                        <c:choose>                                                                                                                                             
-                                                                            <c:when test="${liste.ClubRole eq 'Decline'}">
-                                                                                <td></td>
-                                                                            </c:when>
-                                                                            <c:otherwise>
-                                                                                <td class="">
-                                                                                    <a href="/student/checkrequestjoinclub/accept/${liste.ClubID}/${liste.StudentProfileID}" class="btn btn-rounded btn-success">Accept</a> 
-                                                                                    <a href="/student/checkrequestjoinclub/reject/${liste.ClubID}/${liste.StudentProfileID}" class="btn btn-rounded btn-danger">Reject</a> 
-                                                                                </td>
-                                                                            </c:otherwise>
-                                                                        </c:choose>
-                                                                        <c:choose>                                                                                                                                             
-                                                                            <c:when test="${liste.ClubRole eq 'Decline'}">
-                                                                                <td>
-                                                                                    <a href="/student/checkrequestjoinclub/delete/${liste.ClubID}/${liste.StudentProfileID}" class="btn btn-rounded btn-danger">Delete</a> 
-                                                                                </td>
-                                                                            </c:when>
-                                                                            <c:otherwise>
-                                                                                <td></td>
-                                                                            </c:otherwise>
-                                                                        </c:choose>
-                                                                    </tr>
+                                                                    <c:if test="${liste.ClubRole eq 'Decline' ||empty liste.ClubRole}">
+                                                                        <c:set var="countr" value="${countr + 1}"/>
+                                                                        <tr>
+                                                                            <td class="">${countr}</td>
+                                                                            <td style="padding-right: 50px;">
+                                                                                <a  href="#" class="avatar avatar-lg me-2">
+                                                                                    <img class="avatar-img rounded-circle" src="${pageContext.request.contextPath}/assets/img/avatar/${liste.Avatar}" alt="Avatar">
+                                                                                </a>
+                                                                                ${liste.LastName} ${liste.FirstName}
+                                                                            </td>
+                                                                            <td class="">${liste.RollNumber}</td>
+                                                                            <td class="">${liste.Major}</td>
+                                                                            <td class="">${liste.Email}</td>
+                                                                            <td class="">${liste.Gender}</td>
+                                                                            <td class="">${liste.DateOfBirth}</td>
+                                                                            <c:choose>                                                                                                                                             
+                                                                                <c:when test="${liste.ClubRole eq 'Decline'}">
+                                                                                    <td class="text-center"> <a href="/student/checkrequestjoinclub/remove/${liste.ClubID}/${liste.StudentProfileID}" class="btn btn-rounded btn-danger">Remove</a> </td>
+                                                                                </c:when>
+                                                                                <c:otherwise>
+                                                                                    <td class="text-center">
+                                                                                        <a href="/student/checkrequestjoinclub/accept/${liste.ClubID}/${liste.StudentProfileID}" class="btn btn-rounded btn-success">Accept</a> 
+                                                                                        <a href="/student/checkrequestjoinclub/reject/${liste.ClubID}/${liste.StudentProfileID}" class="btn btn-rounded btn-danger">Reject</a> 
+                                                                                    </td>
+                                                                                </c:otherwise>
+                                                                            </c:choose>
+                                                                        </tr>                                                                   
+                                                                    </c:if>                                                                  
                                                                 </c:forEach>
                                                             </c:if>      
                                                             <c:if test="${empty sessionScope.listCheckRequestJoin}">
                                                                 <tr>
-                                                                    <td colspan="9" class="text-center">No request found.</td>
+                                                                    <td colspan="8" class="text-center">No request found.</td>
                                                                 </tr>
                                                             </c:if>
                                                         </tbody>
@@ -245,12 +248,16 @@
                                                                 <th class="">Email</th>
                                                                 <th class="">Major</th>
                                                                 <th class="">Club Roll</th>
-
-                                                                <c:choose>
-                                                                    <c:when test="${sessionScope.clubRole eq 'Leader Club'}">
-                                                                        <th class="">Detail</th>
-                                                                        </c:when>
-                                                                        <c:otherwise>
+                                                                    <c:choose>
+                                                                        <c:when
+                                                                            test="${sessionScope.getClubRole eq 'Leader Club'}">
+                                                                        <td class="text-center">
+                                                                            <a style="background: #ea7127;border-color:#ea7127"
+                                                                               href="/student/viewClubMember/detailMember/${liste.StudentProfileID}/${liste.ClubID}"
+                                                                               class="btn btn-primary">Detail</a>
+                                                                        </td>
+                                                                    </c:when>
+                                                                    <c:otherwise>
 
                                                                     </c:otherwise>
                                                                 </c:choose>

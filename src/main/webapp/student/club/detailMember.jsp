@@ -34,7 +34,7 @@
                                     <div class="form-group students-up-files">
                                         <label>Upload Avatar</label>
                                         <div style="margin-bottom: 20px" class="profile-image">
-                                            <img id="avatarImg" width="100" alt="User Image" src="${pageContext.request.contextPath}/assets/img/logo_club/<%=rsStudent.getString("Avatar")%>">
+                                            <img id="avatarImg" width="100" alt="User Image" src="${pageContext.request.contextPath}/assets/img/avatar/<%=rsStudent.getString("Avatar")%>">
                                         </div>
 
                                     </div>
