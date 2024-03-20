@@ -10,11 +10,11 @@ public class DBConnection {
 
     public static Connection connect() throws SQLException {
 
-        String server = "KHUY";
+        String server = "DESKTOP-7UI977G\\SQLEXPRESS";
         String port = "1433";
         String database = "SROMS";
         String user = "sa";
-        String password = "111111";
+        String password = "123456";
         Connection conn = null;
 
         try {

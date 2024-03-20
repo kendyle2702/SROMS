@@ -34,7 +34,7 @@
                                 <thead class="thead-light">
                                     <tr>
                                         <th class="text-center">No.</th>                                       
-                                        <th style="width: 50px;" class="text-center">Name</th>
+                                        <th class="text-center">Name</th>
                                         <th class="text-center">Start Time</th>
                                         <th class="text-center">Organization</th>                                         
                                         <th class="text-center">Status</th>       
@@ -57,7 +57,7 @@
                                         %>
                                         <tr>
                                             <td class="">${count.index+1}</td>
-                                            <td style="width: 50px;" class="">${liste.getEventName()}</td>
+                                            <td style="white-space: break-spaces;">${liste.getEventName()}</td>
                                             <td class="">
                                        
                                         ${liste.getHoldTime()}

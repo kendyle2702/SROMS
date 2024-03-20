@@ -1,3 +1,8 @@
+<%@page import="java.util.List"%>
+<%@page import="java.util.ArrayList"%>
+<%@page import="java.util.Map"%>
+<%@page import="DAOs.UserProfileDAO"%>
+<%@page import="java.util.HashMap"%>
 <!--Student Profile alert-->
 <script>
     Validator({
@@ -433,3 +438,4 @@
         });
     });
 </script>
+

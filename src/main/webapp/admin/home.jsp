@@ -1,13 +1,22 @@
+<%@page import="DAOs.UserProfileDAO"%>
+<%@page import="DAOs.UserProfileDAO"%>
+<%@page import="java.util.Map"%>
+<%@page import="java.util.ArrayList"%>
+<%@page import="java.util.List"%>
+<%@page import="DAOs.UserRoleDAO"%>
 <%@page import="Models.UserProfile"%>
 <%@page import="Controllers.LoginController"%>
+<%
+    UserRoleDAO userRoleDAO = new UserRoleDAO();
+%>
 <div class="page-wrapper">
     <div class="content container-fluid">
-        <%UserProfile user = (UserProfile)session.getAttribute("user"); %>
+        <%UserProfile user = (UserProfile) session.getAttribute("user");%>
         <div class="page-header">
             <div class="row">
                 <div class="col-sm-12">
                     <div class="page-sub-header">
-                        <h3 class="page-title"></h3>
+                        <h3 class="page-title"><%=LoginController.getTimePeriod() + ", "%><span style="font-weight: bold"><%=user.getLastName() + " " + user.getFirstName()%></span></h3>
                         <ul class="breadcrumb">
                             <li class="breadcrumb-item active">Home</li>
                         </ul>
@@ -23,11 +32,27 @@
                     <div class="card-body">
                         <div class="db-widgets d-flex justify-content-between align-items-center">
                             <div class="db-info">
-                                <h6>Students</h6>
-                                <h3>50055</h3>
+                                <h6>Admin</h6>
+                                <h3><%=userRoleDAO.countAdmin()%></h3>
                             </div>
                             <div class="db-icon">
-                                <img src="assets/img/icons/dash-icon-01.svg" alt="Dashboard Icon">
+                                <img src="assets/img/icons/admin_mini.png" alt="Dashboard Icon">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-xl-3 col-sm-6 col-12 d-flex">
+                <div class="card bg-comman w-100">
+                    <div class="card-body">
+                        <div class="db-widgets d-flex justify-content-between align-items-center">
+                            <div class="db-info">
+                                <h6>Event Manager</h6>
+                                <h3><%=userRoleDAO.countEventManager()%></h3>
+                            </div>
+                            <div class="db-icon">
+                                <img src="assets/img/icons/eventManager_mini.png" alt="Dashboard Icon">
                             </div>
                         </div>
                     </div>
@@ -38,11 +63,11 @@
                     <div class="card-body">
                         <div class="db-widgets d-flex justify-content-between align-items-center">
                             <div class="db-info">
-                                <h6>Awards</h6>
-                                <h3>50+</h3>
+                                <h6>Club Manager</h6>
+                                <h3><%=userRoleDAO.countClubManager()%></h3>
                             </div>
                             <div class="db-icon">
-                                <img src="assets/img/icons/dash-icon-02.svg" alt="Dashboard Icon">
+                                <img src="assets/img/icons/clubManager_mini.png" alt="Dashboard Icon">
                             </div>
                         </div>
                     </div>
@@ -53,307 +78,217 @@
                     <div class="card-body">
                         <div class="db-widgets d-flex justify-content-between align-items-center">
                             <div class="db-info">
-                                <h6>Department</h6>
-                                <h3>30+</h3>
+                                <h6>Student</h6>
+                                <h3><%=userRoleDAO.countStudent()%></h3>
                             </div>
                             <div class="db-icon">
-                                <img src="assets/img/icons/dash-icon-03.svg" alt="Dashboard Icon">
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-xl-3 col-sm-6 col-12 d-flex">
-                <div class="card bg-comman w-100">
-                    <div class="card-body">
-                        <div class="db-widgets d-flex justify-content-between align-items-center">
-                            <div class="db-info">
-                                <h6>Revenue</h6>
-                                <h3>$505</h3>
-                            </div>
-                            <div class="db-icon">
-                                <img src="assets/img/icons/dash-icon-04.svg" alt="Dashboard Icon">
+                                <img src="assets/img/icons/student_mini.png" alt="Dashboard Icon">
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-
         <div class="row">
+            <div class="col-xl-6 col-sm-12 col-12">
+                <div class="card">
+                    <form id="selectSemester" action="/admin" method="post" style="margin-top: 20px;margin-left: 10px">
+                        <div class="row">
+                            <div class="col-12 col-sm-6">
+                                <div class="form-group local-forms">
+                                    <%String semesterIDString = (String) session.getAttribute("semesterIDStudentChart");%>
+                                    <label>Select Semester</label>
+                                    <select class="form-select form-control select" name="semesterID">
+                                        <option value="10" <%=semesterIDString.equals("10") ? "selected" : ""%> >Spring 2024</option>
+                                        <option value="9" <%=semesterIDString.equals("9") ? "selected" : ""%>>Fall 2023</option>
+                                        <option value="8" <%=semesterIDString.equals("8") ? "selected" : ""%>>Summer 2023</option>
+                                        <option value="7" <%=semesterIDString.equals("7") ? "selected" : ""%>>Spring 2023</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-12 col-sm-6">
+                                <div class="form-group">
+                                    <input type="hidden" name="selectChartSemester" value="selectChartSemester">
+                                    <button type="submit" name="filterStudentScore" class="btn btn-primary"><i style="margin-right: 10px" class="fas fa-clipboard-list"></i>Select</button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12 col-lg-6">
+                <div class="card card-chart">
+                    <div class="card-header">
+                        <div class="row align-items-center">
+                            <div class="col-6">
+                                <h5 class="card-title">Top 5 students</h5>
+                            </div>
+                            <div class="col-6">
+                                <ul class="chart-list-out">
+                                    <li><span class="circle-blue"></span>Point</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div id="top5StudentChart"></div>
+                    </div>
+                </div>
+            </div>
             <div class="col-md-12 col-lg-6">
 
                 <div class="card card-chart">
                     <div class="card-header">
                         <div class="row align-items-center">
                             <div class="col-6">
-                                <h5 class="card-title">Overview</h5>
+                                <h5 class="card-title">Top 5 Clubs</h5>
                             </div>
                             <div class="col-6">
                                 <ul class="chart-list-out">
-                                    <li><span class="circle-blue"></span>Teacher</li>
-                                    <li><span class="circle-green"></span>Student</li>
-                                    <li class="star-menus"><a href="javascript:;"><i class="fas fa-ellipsis-v"></i></a></li>
+                                    <li><span class="circle-blue"></span>Point</li>
                                 </ul>
                             </div>
                         </div>
                     </div>
                     <div class="card-body">
-                        <div id="apexcharts-area"></div>
-                    </div>
-                </div>
-
-            </div>
-            <div class="col-md-12 col-lg-6">
-
-                <div class="card card-chart">
-                    <div class="card-header">
-                        <div class="row align-items-center">
-                            <div class="col-6">
-                                <h5 class="card-title">Number of Students</h5>
-                            </div>
-                            <div class="col-6">
-                                <ul class="chart-list-out">
-                                    <li><span class="circle-blue"></span>Girls</li>
-                                    <li><span class="circle-green"></span>Boys</li>
-                                    <li class="star-menus"><a href="javascript:;"><i class="fas fa-ellipsis-v"></i></a></li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="card-body">
-                        <div id="bar"></div>
+                        <div id="top5ClubChart"></div>
                     </div>
                 </div>
 
             </div>
         </div>
-        <div class="row">
-            <div class="col-xl-6 d-flex">
-
-                <div class="card flex-fill student-space comman-shadow">
-                    <div class="card-header d-flex align-items-center">
-                        <h5 class="card-title">Star Students</h5>
-                        <ul class="chart-list-out student-ellips">
-                            <li class="star-menus"><a href="javascript:;"><i class="fas fa-ellipsis-v"></i></a></li>
-                        </ul>
-                    </div>
-                    <div class="card-body">
-                        <div class="table-responsive">
-                            <table class="table star-student table-hover table-center table-borderless table-striped">
-                                <thead class="thead-light">
-                                    <tr>
-                                        <th>ID</th>
-                                        <th>Name</th>
-                                        <th class="text-center">Marks</th>
-                                        <th class="text-center">Percentage</th>
-                                        <th class="text-end">Year</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td class="text-nowrap">
-                                            <div>PRE2209</div>
-                                        </td>
-                                        <td class="text-nowrap">
-                                            <a href="profile.html">
-                                                <img class="rounded-circle" src="assets/img/profiles/avatar-02.jpg" width="25" alt="Star Students">
-                                                John Smith
-                                            </a>
-                                        </td>
-                                        <td class="text-center">1185</td>
-                                        <td class="text-center">98%</td>
-                                        <td class="text-end">
-                                            <div>2019</div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="text-nowrap">
-                                            <div>PRE1245</div>
-                                        </td>
-                                        <td class="text-nowrap">
-                                            <a href="profile.html">
-                                                <img class="rounded-circle" src="assets/img/profiles/avatar-01.jpg" width="25" alt="Star Students">
-                                                Jolie Hoskins
-                                            </a>
-                                        </td>
-                                        <td class="text-center">1195</td>
-                                        <td class="text-center">99.5%</td>
-                                        <td class="text-end">
-                                            <div>2018</div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="text-nowrap">
-                                            <div>PRE1625</div>
-                                        </td>
-                                        <td class="text-nowrap">
-                                            <a href="profile.html">
-                                                <img class="rounded-circle" src="assets/img/profiles/avatar-03.jpg" width="25" alt="Star Students">
-                                                Pennington Joy
-                                            </a>
-                                        </td>
-                                        <td class="text-center">1196</td>
-                                        <td class="text-center">99.6%</td>
-                                        <td class="text-end">
-                                            <div>2017</div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="text-nowrap">
-                                            <div>PRE2516</div>
-                                        </td>
-                                        <td class="text-nowrap">
-                                            <a href="profile.html">
-                                                <img class="rounded-circle" src="assets/img/profiles/avatar-04.jpg" width="25" alt="Star Students">
-                                                Millie Marsden
-                                            </a>
-                                        </td>
-                                        <td class="text-center">1187</td>
-                                        <td class="text-center">98.2%</td>
-                                        <td class="text-end">
-                                            <div>2016</div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="text-nowrap">
-                                            <div>PRE2209</div>
-                                        </td>
-                                        <td class="text-nowrap">
-                                            <a href="profile.html">
-                                                <img class="rounded-circle" src="assets/img/profiles/avatar-05.jpg" width="25" alt="Star Students">
-                                                John Smith
-                                            </a>
-                                        </td>
-                                        <td class="text-center">1185</td>
-                                        <td class="text-center">98%</td>
-                                        <td class="text-end">
-                                            <div>2015</div>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-            <div class="col-xl-6 d-flex">
-
-                <div class="card flex-fill comman-shadow">
-                    <div class="card-header d-flex align-items-center">
-                        <h5 class="card-title ">Student Activity </h5>
-                        <ul class="chart-list-out student-ellips">
-                            <li class="star-menus"><a href="javascript:;"><i class="fas fa-ellipsis-v"></i></a></li>
-                        </ul>
-                    </div>
-                    <div class="card-body">
-                        <div class="activity-groups">
-                            <div class="activity-awards">
-                                <div class="award-boxs">
-                                    <img src="assets/img/icons/award-icon-01.svg" alt="Award">
-                                </div>
-                                <div class="award-list-outs">
-                                    <h4>1st place in "Chess?</h4>
-                                    <h5>John Doe won 1st place in "Chess"</h5>
-                                </div>
-                                <div class="award-time-list">
-                                    <span>1 Day ago</span>
-                                </div>
+        <!--        <div class="row">
+                    <div class="col-xl-6 d-flex">
+        
+                        <div class="card flex-fill student-space comman-shadow">
+                            <div class="card-header d-flex align-items-center">
+                                <h5 class="card-title"></h5>
                             </div>
-                            <div class="activity-awards">
-                                <div class="award-boxs">
-                                    <img src="assets/img/icons/award-icon-02.svg" alt="Award">
-                                </div>
-                                <div class="award-list-outs">
-                                    <h4>Participated in "Carrom"</h4>
-                                    <h5>Justin Lee participated in "Carrom"</h5>
-                                </div>
-                                <div class="award-time-list">
-                                    <span>2 hours ago</span>
-                                </div>
-                            </div>
-                            <div class="activity-awards">
-                                <div class="award-boxs">
-                                    <img src="assets/img/icons/award-icon-03.svg" alt="Award">
-                                </div>
-                                <div class="award-list-outs">
-                                    <h4>Internation conference in "St.John School"</h4>
-                                    <h5>Justin Leeattended internation conference in "St.John School"</h5>
-                                </div>
-                                <div class="award-time-list">
-                                    <span>2 Week ago</span>
-                                </div>
-                            </div>
-                            <div class="activity-awards mb-0">
-                                <div class="award-boxs">
-                                    <img src="assets/img/icons/award-icon-04.svg" alt="Award">
-                                </div>
-                                <div class="award-list-outs">
-                                    <h4>Won 1st place in "Chess"</h4>
-                                    <h5>John Doe won 1st place in "Chess"</h5>
-                                </div>
-                                <div class="award-time-list">
-                                    <span>3 Day ago</span>
-                                </div>
+                            <div class="card-body">
+        
                             </div>
                         </div>
+        
                     </div>
-                </div>
-
-            </div>
-        </div>
-
-        <div class="row">
-            <div class="col-xl-3 col-sm-6 col-12">
-                <div class="card flex-fill fb sm-box">
-                    <div class="social-likes">
-                        <p>Like us on facebook</p>
-                        <h6>50,095</h6>
+                    <div class="col-xl-6 d-flex">
+        
+                        <div class="card flex-fill comman-shadow">
+                            <div class="card-header d-flex align-items-center">
+                                <h5 class="card-title ">Chart </h5>
+                            </div>
+                            <div class="card-body">
+        
+                            </div>
+                        </div>
+        
                     </div>
-                    <div class="social-boxs">
-                        <img src="assets/img/icons/social-icon-01.svg" alt="Social Icon">
-                    </div>
-                </div>
-            </div>
-            <div class="col-xl-3 col-sm-6 col-12">
-                <div class="card flex-fill twitter sm-box">
-                    <div class="social-likes">
-                        <p>Follow us on twitter</p>
-                        <h6>48,596</h6>
-                    </div>
-                    <div class="social-boxs">
-                        <img src="assets/img/icons/social-icon-02.svg" alt="Social Icon">
-                    </div>
-                </div>
-            </div>
-            <div class="col-xl-3 col-sm-6 col-12">
-                <div class="card flex-fill insta sm-box">
-                    <div class="social-likes">
-                        <p>Follow us on instagram</p>
-                        <h6>52,085</h6>
-                    </div>
-                    <div class="social-boxs">
-                        <img src="assets/img/icons/social-icon-03.svg" alt="Social Icon">
-                    </div>
-                </div>
-            </div>
-            <div class="col-xl-3 col-sm-6 col-12">
-                <div class="card flex-fill linkedin sm-box">
-                    <div class="social-likes">
-                        <p>Follow us on linkedin</p>
-                        <h6>69,050</h6>
-                    </div>
-                    <div class="social-boxs">
-                        <img src="assets/img/icons/social-icon-04.svg" alt="Social Icon">
-                    </div>
-                </div>
-            </div>
-        </div>
+                </div>-->
 
     </div>
-
     <footer>
     </footer>
 
 </div>
+
+<%
+    String semesterIDStringChart = (String) session.getAttribute("semesterIDStudentChart");
+    int semesterID = Integer.parseInt(semesterIDStringChart);
+    UserProfileDAO userDAO = new UserProfileDAO();
+
+    List<Map.Entry<String, Integer>> clubMapList = userDAO.getTop5ClubBySemester(semesterID);
+
+    ArrayList<String> keyClubList = new ArrayList<>();
+    ArrayList<Integer> valueClubList = new ArrayList<>();
+
+    for (Map.Entry<String, Integer> entry : clubMapList) {
+        keyClubList.add(entry.getKey());
+        valueClubList.add(entry.getValue());
+    }
+
+%>
+<script>
+    var options = {
+        series: [{
+                name: "Point",
+                data: [{
+                        x: '<%=keyClubList.get(0)%>',
+                        y: <%=valueClubList.get(0)%>
+                    }, {
+                        x: '<%=keyClubList.get(1)%>',
+                        y: <%=valueClubList.get(1)%>
+                    }, {
+                        x: '<%=keyClubList.get(2)%>',
+                        y: <%=valueClubList.get(2)%>
+                    }, {
+                        x: '<%=keyClubList.get(3)%>',
+                        y: <%=valueClubList.get(3)%>
+                    }, {
+                        x: '<%=keyClubList.get(4)%>',
+                        y: <%=valueClubList.get(4)%>
+                    }]
+            }],
+        chart: {
+            type: 'bar',
+            height: 380
+        },
+        xaxis: {
+            type: 'category',
+        },
+        title: {
+            text: 'Club Name',
+        },
+    };
+
+    var chart = new ApexCharts(document.querySelector("#top5ClubChart"), options);
+    chart.render();
+</script>
+
+
+<%    List<Map.Entry<String, Integer>> studentMapList = userDAO.getTop5StudentBySemester(semesterID);
+    ArrayList<String> keyStudentList = new ArrayList<>();
+    ArrayList<Integer> valueStudentList = new ArrayList<>();
+
+    for (Map.Entry<String, Integer> entry : studentMapList) {
+        keyStudentList.add(entry.getKey());
+        valueStudentList.add(entry.getValue());
+    }
+%>
+<script>
+    var options = {
+        series: [{
+                name: "Point",
+                data: [{
+                        x: '<%=keyStudentList.get(0)%>',
+                        y: <%=valueStudentList.get(0)%>
+                    }, {
+                        x: '<%=keyStudentList.get(1)%>',
+                        y: <%=valueStudentList.get(1)%>
+                    }, {
+                        x: '<%=keyStudentList.get(2)%>',
+                        y: <%=valueStudentList.get(2)%>
+                    }, {
+                        x: '<%=keyStudentList.get(3)%>',
+                        y: <%=valueStudentList.get(3)%>
+                    }, {
+                        x: '<%=keyStudentList.get(4)%>',
+                        y: <%=valueStudentList.get(4)%>
+                    }]
+            }],
+        chart: {
+            type: 'bar',
+            height: 380
+        },
+        xaxis: {
+            type: 'category',
+        },
+        title: {
+            text: 'Student Member Code',
+        },
+    };
+
+    var chart = new ApexCharts(document.querySelector("#top5StudentChart"), options);
+    chart.render();
+</script>
+
