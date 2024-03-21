@@ -18,7 +18,8 @@
                 <div class="col">
                     <h3 class="page-title">List News</h3>
                     <ul class="breadcrumb">
-
+                        <li class="breadcrumb-item"><a href="/">Home</a></li>
+                        <li class="breadcrumb-item active">List News</li>
                     </ul>
                 </div>
             </div>

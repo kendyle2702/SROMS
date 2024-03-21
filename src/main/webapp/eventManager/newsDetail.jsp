@@ -6,9 +6,10 @@
             <div class="row align-items-center">
                 <div class="col-sm-12">
                     <div class="page-sub-header">
-                        <h3 class="page-title">News</h3>
+                        <h3 class="page-title">Detail News</h3>
                         <ul class="breadcrumb">
                             <li class="breadcrumb-item"><a href="/">Home</a></li>
+                            <li class="breadcrumb-item"><a href="/eventmanager/news/view">List News</a></li>
                             <li class="breadcrumb-item active">News Detail</li>
                         </ul>
                     </div>

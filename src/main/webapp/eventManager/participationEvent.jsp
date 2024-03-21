@@ -34,8 +34,7 @@
                     <div class="card-body">                                      
                         <div class="table-responsive">
 
-
-                            <form action="/eventmanager" method="post">
+                            <form id="checkAttendance" action="/eventmanager" method="post">
 
                                 <table id="tableCheckAttendance" class="table table-hover table-striped">                         
                                     <thead class="thead-light">
@@ -67,23 +66,26 @@
                                                         <div class="row">
                                                             <div class="col-6">
                                                                 <div class="form-check">
-                                                                    <input class="form-check-input" type="radio" id="presentRadio_${count.index}" name="checkAttendance/${liste.StudentProfileID}/${liste.EventID}" value="Present" <c:out value="${(liste.IsPresent == 1) ? 'checked' : ''}" />>
+                                                                    <input class="form-check-input isPresent" type="radio" id="presentRadio_${count.index}" name="checkAttendance/${liste.StudentProfileID}/${liste.EventID}" value="Present" <c:out value="${(liste.IsPresent == 1) ? 'checked' : ''}" />>
                                                                     <label class="form-check-label" for="presentRadio_${count.index}">Present</label><br>
                                                                 </div>
                                                             </div>
                                                             <div class="col-6">
                                                                 <div class="form-check">
-                                                                    <input class="form-check-input" type="radio" id="absentRadio_${count.index}" name="checkAttendance/${liste.StudentProfileID}/${liste.EventID}" value="Absent" <c:out value="${(liste.IsPresent == 0) ? 'checked' : ''}"/>>
+                                                                    <input class="form-check-input isAbsent" type="radio" id="absentRadio_${count.index}" name="checkAttendance/${liste.StudentProfileID}/${liste.EventID}" value="Absent" <c:out value="${(liste.IsPresent == 0) ? 'checked' : ''}"/>>
                                                                     <label class="form-check-label" for="absentRadio_${count.index}">Absent</label><br>                                                                    
                                                                 </div>
                                                             </div>
+
                                                         </div>
                                                     </td>                                
                                                 </tr>
                                             </c:forEach>
                                             <tr>
-                                                <td  colspan="6">
-                                                    <input style="background: #ea7127;border-color:#ea7127; margin-left:1300px;width: 150px;height: 60px" class="btn btn-primary" name="checkAttendanceForm" type="submit" value="Submit">
+                                                <td colspan="6">
+                                                    <div id="message-eror" style="color: red;text-align: right;font-size: 20px"></div>
+                                                    <input type="hidden" name="checkAttendanceForm" value="Submit">
+                                                    <input style="background: #ea7127;border-color:#ea7127; margin-left:1300px;width: 150px;height: 60px" class="btn btn-primary" type="submit">
                                                 </td>
                                             </tr>
                                         </c:if>         
@@ -103,3 +105,28 @@
         </div>     
     </div>
 </div>
+
+
+<script>
+    document.getElementById("checkAttendance").addEventListener('submit', function (event) {
+        event.preventDefault();
+        let radiosPresent = document.getElementsByClassName("isPresent");
+        let radiosAbsent = document.getElementsByClassName("isAbsent");
+
+        let isSubmit = true;
+        for (let i = 0; i < radiosPresent.length; i++) {
+            if (!radiosPresent[i].checked && !radiosAbsent[i].checked) {
+                isSubmit = false;
+                break;
+            }
+        }
+
+        if (!isSubmit) {
+            document.getElementById("message-eror").innerText = "You must take attendance for all participants!";
+        }
+        else{
+            document.getElementById("checkAttendance").submit();
+        }
+
+    });
+</script>

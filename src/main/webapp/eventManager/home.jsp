@@ -1,3 +1,5 @@
+<%@page import="Controllers.LoginController"%>
+<%@page import="Models.UserProfile"%>
 <%@page import="Models.News"%>
 <%@page import="DAOs.NewsDAO"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
@@ -9,13 +11,14 @@
 <%@page import="DAOs.EventDAO"%>
 <div class="page-wrapper">
     <div class="content container-fluid">
+        <%UserProfile user = (UserProfile) session.getAttribute("user");%>
         <div class="page-header">
             <div class="row align-items-center">
-                <div class="col-sm-12">
+                <div class="col-sm-12"> 
                     <div class="page-sub-header">
-                        <h3 class="page-title">Home</h3>
+                        <h3 class="page-title"><%=LoginController.getTimePeriod() + ", "%><span style="font-weight: bold"><%=user.getLastName() + " " + user.getFirstName()%></span></h3>
                         <ul class="breadcrumb">
-                            <li class="breadcrumb-item"><a href="#">Home</a></li>
+                            <li class="breadcrumb-item active">Home</li>
                         </ul>
                     </div>
                 </div>
