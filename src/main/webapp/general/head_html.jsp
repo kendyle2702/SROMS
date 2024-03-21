@@ -409,7 +409,7 @@
 <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/style.css">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css"/>
-<script src="${pageContext.request.contextPath}/assets/js/apexchart.js"></script>
+<script src="${pageContext.request.contextPath}/assets/js/apexchart.js"></script>   
 <style>
     body{
         background-color: #f7f7fa !important;

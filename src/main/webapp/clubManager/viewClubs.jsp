@@ -28,6 +28,7 @@
                                     <thead class="thead-light">
                                         <tr>
                                             <th class="text-center">No.</th>
+                                            <th class="text-center">Logo</th>
                                             <th class="text-center">Name</th>
                                             <th class="text-center">Establish Date</th>
                                             <th class="text-center">Status</th>
@@ -41,18 +42,19 @@
                                         <c:forEach items="${sessionScope.Club}" var="c" varStatus="varC">
                                             <tr>
                                                 <td class="text-center">${varC.index +1}</td>
+                                                <td class="text-center"><a href="#" class="avatar avatar-sm me-2"><img class="avatar-img rounded-circle" src="${pageContext.request.contextPath}/assets/img/logo_club/${c.getLogo()}" alt="Logo"></a></td>
                                                 <td class="text-center">${c.getClubName()}</td>
                                                 <td class="text-center">${c.getEstablishDate()}</td>
                                             <c:choose>
                                                 <c:when test="${c.getIsActive() == true}">
-                                                    <td class="text-center" ><button class="btn btn-outline-success active">Active</button></td>
+                                                    <td class="text-center" ><button class="btn btn-outline-primary active btn-rounded">Active</button></td>
                                                 </c:when>
                                                 <c:otherwise>
-                                                    <td class="text-center" ><button class="btn btn-outline-success active">Inactive</button></td>
+                                                    <td class="text-center" ><button class="btn btn-outline-danger active btn-rounded">Inactive</button></td>
                                                 </c:otherwise>
                                             </c:choose>
                                             <td  class="text-center">                                                                
-                                                <button style="background-color: #ea7127; border: none;" class="btn btn-primary btn-sm"><a style="color: white" href="/clubmanager/clubdetail/${c.getClubID()}" >View Detail</a></button>
+                                                <button style="background-color: #ea7127; border: none;" class="btn btn-primary"><a style="color: white" href="/clubmanager/clubdetail/${c.getClubID()}" > <i class="feather-edit-3"></i>View Detail</a></button>
                                             </td>
 
                                             </tr>

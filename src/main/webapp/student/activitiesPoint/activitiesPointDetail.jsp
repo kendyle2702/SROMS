@@ -37,6 +37,46 @@
                                     <div class="invoice-info">
                                         <p>Full Name: <b><%=rs.getString("LastName") + " " + rs.getString("FirstName")%></b></p> 
                                         <p>Student Roll number: <b><%=rs.getString("RollNumber")%></b></p> 
+                                        <div>
+                                            <div class="modal fade" id="bs-example-modal-lg" tabindex="-1" aria-labelledby="myLargeModalLabel" style="display: none;" aria-hidden="true">
+                                                <div class="modal-dialog modal-lg">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h4 class="modal-title" id="myLargeModalLabel"><strong>Calculate Points</strong></h4>
+                                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            <ol>
+                                                                <strong>Default Points:</strong>
+                                                                <ul>
+                                                                    Each user is allocated a default of 60 points.
+                                                                </ul>
+                                                                <strong>Points from Events:</strong>
+                                                                <ul>
+                                                                    Points from events include points from regular events and competitive events.
+                                                                    The total points from events should not exceed 60 points. If it exceeds, only a maximum of 60 points will be considered.
+                                                                </ul>
+
+                                                                <strong>Points from Clubs:</strong>
+                                                                <ul>
+                                                                    Each user can only receive a maximum of 30 points from clubs.
+                                                                </ul>
+
+                                                                <strong>Total Points:</strong>
+                                                                <ul>
+                                                                    The total points for each user are calculated by adding the default points, points from events, and points from clubs.</li>
+                                                                </ul>
+
+                                                            </ol>
+
+                                                            <p><strong>Note:</strong> If the points from events or clubs exceed the specified limit, the points will be trimmed to ensure that the total points do not exceed 150 points.</p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <button type="button" class="btn btn-info mt-1" data-bs-toggle="modal" data-bs-target="#bs-example-modal-lg">Calculate Points</button>
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="col-md-4">
@@ -169,33 +209,8 @@
 
                         <div class="row align-items-center justify-content-center">
                             <div class="col-lg-6 col-md-6">
-                                <div class="invoice-terms">
-                                    <ol>
-                                        <h4><strong>Default Points:</strong></h4>
-                                        <ul>
-                                            Each user is allocated a default of 60 points.
-                                        </ul>
-                                        <strong>Points from Events:</strong>
-                                        <ul>
-                                            Points from events include points from regular events and competitive events.
-                                            The total points from events should not exceed 60 points. If it exceeds, only a maximum of 60 points will be considered.
-                                        </ul>
-
-                                        <strong>Points from Clubs:</strong>
-                                        <ul>
-                                            Each user can only receive a maximum of 30 points from clubs.
-                                        </ul>
-
-                                        <strong>Total Points:</strong>
-                                        <ul>
-                                            The total points for each user are calculated by adding the default points, points from events, and points from clubs.</li>
-                                        </ul>
-
-                                    </ol>
-
-                                    <p><strong>Note:</strong> If the points from events or clubs exceed the specified limit, the points will be trimmed to ensure that the total points do not exceed 150 points.</p>
-                                </div>
                             </div>
+
                             <div class="col-lg-6 col-md-6">
                                 <div class="invoice-total-card">
                                     <div class="invoice-total-box">

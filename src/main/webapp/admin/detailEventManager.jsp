@@ -129,7 +129,7 @@
                                 </div>
                                 <div class="col-12 col-sm-4">
                                     <div class="form-group local-forms">
-                                        <label>Address</label>
+                                        <label>Address<span class="login-danger">*</span></label>
                                         <textarea id="address" name="address" class="form-control" id="exampleFormControlTextarea1" rows="3"><%=rsEvent.getString("Address")%></textarea>
                                         <div class="message"></div>
                                     </div>

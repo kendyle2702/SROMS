@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page import="Models.UserLogin"%>
 <%@page import="DAOs.UserLoginDAO"%>
 <%@page import="java.sql.ResultSet"%>
@@ -126,7 +127,10 @@
                                     </div>
                                 </div>
                                 <div class="col-12 col-sm-4"></div>
-                                <div class="col-12 col-sm-4"> <!-- Add text-center class here -->
+                               
+                                <c:choose>
+                                    <c:when test="${sessionScope.getClubRole eq 'Leader Club'}">
+                                         <div class="col-12 col-sm-4"> <!-- Add text-center class here -->
                                     <div class="form-group local-forms">
                                         Update Role:
                                         <select class="form-select" name="clubrole" id="clubrole">
@@ -139,14 +143,32 @@
                                 </div>
                                 <div class="col-12 col-sm-4"></div>
                                 <div class="col-12 col-sm-4"></div>
-                                <div class="col-12 col-sm-2">
-                                    <input type="hidden" value="<%=rsStudent.getInt("StudentProfileID")%>" name="studentId"><!-- comment -->
-                                    <input type="hidden" value="${sessionScope.clubId}" name="clubId">
-                                    <input type="submit" name="updateRoleMember" style="min-width: 160px;border-radius: 10px;" class="btn btn-success" value="Update">
+                                        <div class="col-12 col-sm-2">
+                                            <input type="hidden" value="<%=rsStudent.getInt("StudentProfileID")%>" name="studentId"><!-- comment -->
+                                            <input type="hidden" value="${sessionScope.clubId}" name="clubId">
+                                            <input type="submit" name="updateRoleMember" style="min-width: 160px;border-radius: 10px;" class="btn btn-success" value="Update">
+                                        </div>
+                                        <div style="margin-left: 70px;" class="col-12 col-sm-2"> 
+                                            <a  id="deleteMemberClub" href="/student/clubmember/deletemember/<%=rsStudent.getInt("StudentProfileID")%>/${sessionScope.clubId}" style="min-width: 160px;border-radius: 10px;" class="btn btn-danger" >Delete</a>
+                                        </div>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <div class="col-12 col-sm-4"> <!-- Add text-center class here -->
+                                    <div class="form-group local-forms">
+                                        Update Role:
+                                        <select class="form-select" name="clubrole" id="clubrole" disabled>
+                                            <option <%= session.getAttribute("clubRoleOfMember").equals("Leader Club") ? "selected" : ""%> value="Leader Club">Leader Club</option>
+                                            <option <%= session.getAttribute("clubRoleOfMember").equals("Board Of Directing") ? "selected" : ""%> value="Board Of Directing">Board Of Directing</option>
+                                            <option <%= session.getAttribute("clubRoleOfMember").equals("Member") ? "selected" : ""%> value="Member">Member</option>
+                                        </select>
+                                        <div class="message"></div>
+                                    </div>
                                 </div>
-                                <div style="margin-left: 70px;" class="col-12 col-sm-2"> 
-                                    <a  id="deleteMemberClub" href="/student/clubmember/deletemember/<%=rsStudent.getInt("StudentProfileID")%>/${sessionScope.clubId}" style="min-width: 160px;border-radius: 10px;" class="btn btn-danger" >Delete</a>
-                                </div>
+                                <div class="col-12 col-sm-4"></div>
+                                <div class="col-12 col-sm-4"></div>
+                                    </c:otherwise>
+                                </c:choose>
+
                                 <div class="col-12 col-sm-4"></div>
                             </div>
                         </form>

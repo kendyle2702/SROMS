@@ -1,3 +1,4 @@
+<%@page import="DAOs.EventDAO"%>
 <%@page import="Models.Club"%>
 <%@page import="java.sql.ResultSet"%>
 <%@page import="DAOs.ClubDAO"%>
@@ -7,10 +8,10 @@
         <div class="page-header">
             <div class="row">
                 <div class="col">
-                    <h3 class="page-title">Club Detail</h3>
+                    <h3 class="page-title">Club Point Detail</h3>
                     <ul class="breadcrumb">
-                        <li class="breadcrumb-item"><a href="/clubmanager/viewclubs">View Club</a></li>
-                        <li class="breadcrumb-item active">Club Detail</li>
+                        <li class="breadcrumb-item"><a href="/clubmanager/viewclubpoint">View Club Point</a></li>
+                        <li class="breadcrumb-item active">Club Point Detail</li>
                     </ul>
                 </div>
             </div>
@@ -29,14 +30,6 @@
                             <h4 class="user-name mb-0">${sessionScope.clubDetail.getClubName()}</h4>
                             <h6 style="color: green;" class="text-muted">Establish Date: ${sessionScope.clubDetail.getEstablishDate()}</h6>
                             <div class="user-Location">${sessionScope.clubDetail.getDescription()}</div>
-
-                        </div>
-                        <div class="col-auto profile-btn">
-                            <% 
-                             Club club = (Club)session.getAttribute("clubDetail");
-                            %>
-                            <a id="banClub" href="${pageContext.request.contextPath}/clubmanager/clubdetail/block/<%=session.getAttribute("rsClubCurrentID")%>" style='display: <%=club.getIsActive()== true ? "block":"none" %> '><button class="mb-2 mr-2 btn-icon btn btn-danger"><i class="pe-7s-trash btn-icon-wrapper"></i>Lock Club</button></a> 
-                            <a id="unbanClub" href="${pageContext.request.contextPath}/clubmanager/clubdetail/unblock/<%=session.getAttribute("rsClubCurrentID")%>" style='display: <%=club.getIsActive()== false ? "block":"none" %>'><button class="mb-2 mr-2 btn-icon btn btn-primary"><i class="pe-7s-tools btn-icon-wrapper"> </i>Unlock Club</button></a> 
 
                         </div>
                     </div>
@@ -59,27 +52,35 @@
                                                     <th class="text-center">No.</th>
                                                     <th class="text-center">Roll Number</th>
                                                     <th class="text-center">Full Name</th>
-
-                                                    <th class="text-center">Phone</th>
                                                     <th class="text-center">Club Role</th>
-
-
+                                                    <th class="text-center">Events Number</th>
+                                                    <th class="text-center">Total</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
                                                 <%
+                                                    EventDAO eventDAO = new EventDAO();
                                                     ClubDAO cDAO = new ClubDAO();
-                                                    ResultSet rs = (ResultSet) session.getAttribute("rsClubCurrent");
+                                                    String idSemString = (String) session.getAttribute("semesterIDClubScore");
+                                                    int semesterID = Integer.parseInt(idSemString);
+                                                    ResultSet rs = (ResultSet) session.getAttribute("memberCurrentClub");
                                                     int count = 1;
-                                                    while (rs.next()) {%> 
+                                                    while (rs.next()) {
+                                                        int studentID = rs.getInt("StudentProfileID");
+                                                        int totalEventNormal = eventDAO.getEventsScoreByStudentIDAndSemesterID(studentID, semesterID);
+                                                        int totalEventCompetition = eventDAO.getEventsScoreCompetitionByStudentIDAndSemesterID(studentID, semesterID);
+                                                        int totalScore = ((totalEventNormal + totalEventCompetition) >= 60 ? 60 : (totalEventNormal + totalEventCompetition));
+                                                %>
                                                 <tr>
                                                     <td class="text-center"><%=count++%></td>
                                                     <td class="text-center"><%=rs.getString("RollNumber")%></td>
 
                                                     <td class="text-center"><%=rs.getString("LastName") + " " + rs.getString("FirstName")%></td>
-                                                    <td class="text-center"><%=rs.getString("Phone")%></td>
                                                     <td class="text-center"><%=rs.getString("ClubRole")%></td>
 
+
+                                                    <td class="text-center"><%=eventDAO.countEventsByStudentIDAndSemesterID(studentID, semesterID)%></td>
+                                                    <td class="text-center"><%=totalScore%></td>
                                                 </tr>
                                                 <%}
                                                 %>

@@ -110,14 +110,13 @@
                                                                                 <c:set var="count" value="${count + 1}"/>
                                                                                 <tr>
                                                                                     <td class="">${count}</td>
-                                                                                    <td class="">${lieste.LastName} ${liste.FirstName}</td>
+                                                                                    <td class=""> ${liste.LastName} ${liste.FirstName}</td>
                                                                                     <td class="">${liste.RollNumber}</td>
                                                                                     <td class="">${liste.Email}</td>
                                                                                     <td class="">${liste.Major}</td>
                                                                                     <td class="">${liste.ClubRole}</td><!-- comment -->
                                                                                     <c:choose>
-                                                                                        <c:when
-                                                                                            test="${sessionScope.getClubRole eq 'Leader Club' || sessionScope.getClubRole eq 'Board Of Directing' }">
+                                                                                        <c:when test="${sessionScope.getClubRole eq 'Leader Club' || sessionScope.getClubRole eq 'Board Of Directing' }">
                                                                                             <td class="text-center">
                                                                                                 <a style="background: #ea7127;border-color:#ea7127"
                                                                                                    href="/student/viewClubMember/detailMember/${liste.StudentProfileID}/${liste.ClubID}"
@@ -269,7 +268,7 @@
                                                                         <c:set var="count" value="${count + 1}"/>
                                                                         <tr>
                                                                             <td class="">${count}</td>
-                                                                            <td class="">${lieste.LastName} ${liste.FirstName}</td>
+                                                                            <td class="">${liste.LastName} ${liste.FirstName}</td>
                                                                             <td class="">${liste.RollNumber}</td>
                                                                             <td class="">${liste.Email}</td>
                                                                             <td class="">${liste.Major}</td>

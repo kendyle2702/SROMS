@@ -27,18 +27,27 @@
                         <div class="col-6">
                             <h5 class="card-title">Club</h5>
                         </div>
-                        <div class="col-6 text-end">
-                            <a href="/student/clubs/create" class="btn btn-primary" style="background: #ea7127; border-color: #ea7127">Create Club</a>
-                        </div>
+                        <c:if test="${checkClubRole != 'Leader Club'}">
+                            <div class="col-6 text-end">
+                                <a style="background: #ea7127;border-color:#ea7127" href="/student/clubs/create" type="button" class="btn btn-primary">Create Club</a>
+                            </div>                    
+                        </c:if>
                     </div>
                 </div>
-                <div class="profile-menu">
+
+                <div class="card-body">
                     <ul class="nav nav-tabs nav-tabs-solid" role="tablist">
                         <li class="nav-item" role="presentation">
-                            <a href="#listClub" data-bs-toggle="tab" class="nav-link active" aria-selected="true" role="tab">List Club</a>
+                            <a href="#listClub" data-bs-toggle="tab" aria-expanded="false"
+                               class="nav-link active" aria-selected="false" role="tab" >
+                                List Club
+                            </a>
                         </li>
                         <li class="nav-item" role="presentation">
-                            <a href="#myClub" data-bs-toggle="tab" class="nav-link" aria-selected="false" role="tab">My Club</a>
+                            <a href="#myClub" data-bs-toggle="tab" aria-expanded="true" class="nav-link"
+                               aria-selected="true" role="tab">
+                                My Club
+                            </a>
                         </li>
                     </ul>
                 </div>

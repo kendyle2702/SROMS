@@ -171,13 +171,13 @@
                                                         %>
                                                         <c:choose>
                                                             <c:when test="${sessionScope.currentTime <= liste.getEndTime() && sessionScope.currentTime >= liste.getHoldTime() && liste.getApprove() eq 'AA'}">
-                                                                <td class=""><button type="button" class="btn btn-block btn-outline-success active">Happening</button></td>
+                                                                <td class=""><button type="button" class="btn btn-block btn-outline-success btn-rounded active">Happening</button></td>
                                                             </c:when>
                                                             <c:when test="${sessionScope.currentTime > liste.getEndTime() && liste.getApprove() eq 'AA'}">
-                                                                <td class=""><button type="button" class="btn btn-block btn-outline-primary active">Finished</button></td>
+                                                                <td class=""><button type="button" class="btn btn-block btn-outline-primary btn-rounded active">Finished</button></td>
                                                             </c:when>                            
                                                             <c:when test="${sessionScope.currentTime < liste.getHoldTime() && sessionScope.currentTime < liste.getEndTime()  && liste.getApprove() eq 'AA'}">
-                                                                <td class=""><button type="button" class="btn btn-block btn-outline-secondary active">Not Started</button></td>
+                                                                <td class=""><button type="button" class="btn btn-block btn-outline-secondary btn-rounded active">Not Started</button></td>
                                                             </c:when>
 
                                                         </c:choose>                    

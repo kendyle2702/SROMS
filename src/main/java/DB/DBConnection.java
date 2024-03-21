@@ -9,14 +9,12 @@ import java.util.logging.Logger;
 public class DBConnection {
 
     public static Connection connect() throws SQLException {
-
         String server = "VIETNGUYEN\\SQLEXPRESS";
         String port = "1433";
         String database = "SROMS";
         String user = "sa";
         String password = "Vietnguyen02";
         Connection conn = null;
-
         try {
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
 
