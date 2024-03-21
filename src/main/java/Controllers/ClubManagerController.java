@@ -17,8 +17,11 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.Instant;
+import java.time.LocalDate;
 import java.util.Enumeration;
 import java.util.List;
 import java.util.logging.Level;
@@ -96,11 +99,15 @@ public class ClubManagerController extends HttpServlet {
                     request.getRequestDispatcher("/clubManager.jsp").forward(request, response);
 
                 } else if (path.startsWith("/clubmanager/check/")) {
+                    UserProfile userProfile = (UserProfile) session.getAttribute("user");
+                    int managerProfileId = clubDAO.getManagerProfileIdByUserProfileID(userProfile.getUserProfileID());
+                    LocalDate currentDate = LocalDate.now();
+                    Date sqlcurrentDate = Date.valueOf(currentDate);
                     if (path.startsWith("/clubmanager/check/accept/")) {
                         String[] parts = path.split("/");
                         String p = parts[parts.length - 1];
-                        int id = Integer.parseInt(p);
-                        int checkAccept = clubDAO.checkRequestCreate(1, id);
+                        int clubId = Integer.parseInt(p);
+                        int checkAccept = clubDAO.checkRequestCreate(sqlcurrentDate, 1, 1, managerProfileId, clubId);
                         if (checkAccept > 0) {
                             session.setAttribute("checkrequestClub", "acceptSuccess");
                         } else {
@@ -109,8 +116,8 @@ public class ClubManagerController extends HttpServlet {
                     } else if (path.startsWith("/clubmanager/check/reject/")) {
                         String[] parts = path.split("/");
                         String p = parts[parts.length - 1];
-                        int id = Integer.parseInt(p);
-                        int checkReject = clubDAO.checkRequestCreate(0, id);
+                        int clubId = Integer.parseInt(p);
+                        int checkReject = clubDAO.checkRequestCreate(null, 0, 0, managerProfileId, clubId);
                         if (checkReject > 0) {
                             session.setAttribute("checkrequestClub", "rejectSuccess");
                         } else {
@@ -136,9 +143,9 @@ public class ClubManagerController extends HttpServlet {
                     ClubDAO cDAO = new ClubDAO();
                     Club clubDetail = clubDAO.getClubByClubID(id);
                     session.setAttribute("clubDetail", clubDetail);
-                    String currentSemester = (String)session.getAttribute("semesterIDClubScore");
+                    String currentSemester = (String) session.getAttribute("semesterIDClubScore");
                     int semesterID = Integer.parseInt(currentSemester);
-                    ResultSet clubCurrent = cDAO.getCurrentClubDetailBySemesterID(id,semesterID);
+                    ResultSet clubCurrent = cDAO.getCurrentClubDetailBySemesterID(id, semesterID);
                     session.setAttribute("memberCurrentClub", clubCurrent);
                     session.setAttribute("tabId", 8);
                     request.getRequestDispatcher("/clubManager.jsp").forward(request, response);
@@ -165,4 +172,5 @@ public class ClubManagerController extends HttpServlet {
             response.sendRedirect("/clubmanager/viewclubpoint");
         }
     }
+
 }
