@@ -163,11 +163,23 @@
                                                         <%}%>
                                                     </td>
                                                     <td>
-                                                        <% while (ep_rs.next()) {%>
+                                                        <% while (ep_rs.next()) {
+                                                                if (ep_rs.getString("Result") != null) {
+
+                                                        %>
                                                         <div>
-                                                            <p><%=ep_rs.getInt("Point")%></p>
+                                                            <p><%=ep_rs.getInt("Point") + 2%></p>
                                                         </div>
-                                                        <% }%>
+                                                        <% 
+                                                            } else {
+                                                        %>
+                                                        <div>
+                                                            <p><%=ep_rs.getInt("Point") %></p>
+                                                        </div>
+                                                        <%
+                                                                }
+                                                            }
+                                                        %>
                                                     </td>
                                                     <td class="text-end"><%=point_event%></td>
                                                 </tr>
@@ -185,6 +197,7 @@
                                                     <td>
                                                         <%
                                                             while (cp_rs.next()) {%>
+
                                                         <div>
                                                             <p><%=cp_rs.getInt("ClubPoint")%></p>
                                                         </div>
