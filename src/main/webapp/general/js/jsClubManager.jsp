@@ -33,3 +33,56 @@
         });
     });
 </script>
+<c:choose>
+    <c:when test="${sessionScope.checkrequestClub   == 'acceptSuccess'}">
+        <script>
+            Swal.fire({
+                position: "top-end",
+                icon: "success",
+                title: "You have successfully accepted the club!",
+                showConfirmButton: false,
+                timer: 1000
+            });
+        </script>
+        <%session.setAttribute("checkrequestClub", "sdsdsfdsf");%>
+    </c:when>
+    <c:when test="${sessionScope.checkrequestClub   == 'acceptFail'}">
+        <script>
+            Swal.fire({
+                position: "top-end",
+                icon: "success",
+                title: "You have successfully rejected the club!",
+                showConfirmButton: false,
+                timer: 1000
+            });
+        </script>  
+        <%session.setAttribute("checkrequestClub", "sdsdsfdsf");%>
+    </c:when> 
+</c:choose>
+
+<c:choose>
+    <c:when test="${sessionScope.checkrequestClub   == 'rejectSuccess'}">
+        <script>
+            Swal.fire({
+                position: "top-end",
+                icon: "success",
+                title: "You have successfully reject created the club!",
+                showConfirmButton: false,
+                timer: 1000
+            });
+        </script>
+        <%session.setAttribute("checkrequestClub", "sdsdsfdsf");%>
+    </c:when>
+    <c:when test="${sessionScope.checkrequestClub   == 'rejectFail'}">
+        <script>
+            Swal.fire({
+                position: "top-end",
+                icon: "success",
+                title: "You have failed rejected create the club!",
+                showConfirmButton: false,
+                timer: 1000
+            });
+        </script>  
+        <%session.setAttribute("checkrequestClub", "sdsdsfdsf");%>
+    </c:when> 
+</c:choose>

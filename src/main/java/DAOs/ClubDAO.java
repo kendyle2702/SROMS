@@ -10,7 +10,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Date;
 import java.sql.Statement;
+import java.sql.Timestamp;
 import java.sql.Types;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -166,19 +168,43 @@ public class ClubDAO {
         return fullName;
     }
 
-    public int checkRequestCreate(int IsApprove, int clubID) throws SQLException {
+    public int checkRequestCreate(Date establishDate, int isApprove, int isActive, int managerProfileID, int clubID) throws SQLException {
         int count = 0;
-        PreparedStatement ps = conn.prepareStatement("UPDATE [Club] SET IsApprove = ? where ClubID = ?;");
-        ps.setInt(1, IsApprove);
-        ps.setInt(2, clubID);
+        PreparedStatement ps = conn.prepareStatement("UPDATE [Club] SET EstablishDate = ?, IsApprove = ?, IsActive = ?, ManagerProfileID = ? WHERE ClubID = ?");
+    if (establishDate == null) {
+        ps.setNull(1, java.sql.Types.DATE);
+    } else {
+        // Nếu establishDate không null, chuyển đổi LocalDate thành java.sql.Date
+        ps.setDate(1, establishDate);
+    }
+        ps.setInt(2, isApprove);
+        ps.setInt(3, isActive);
+        ps.setInt(4, managerProfileID);
+        ps.setInt(5, clubID);
         count = ps.executeUpdate();
         return count;
+    }
+
+    public int getManagerProfileIdByUserProfileID(int studentProfileId) throws SQLException {
+        int managerProfileID = 0;
+        ResultSet rs = null;
+        PreparedStatement ps = conn.prepareStatement("SELECT ManagerProfileID FROM ManagerProfile Where UserProfileID = ?;");
+        ps.setInt(1, studentProfileId);
+        rs = ps.executeQuery();
+        if (rs.next()) {
+            managerProfileID = rs.getInt("ManagerProfileID");
+        }
+        return managerProfileID;
     }
 
     public List<Club> listCheckRequest() throws SQLException {
         List<Club> listC = new ArrayList<>();
         Club club = null;
-        String ex = "SELECT * FROM [Club] WHERE IsApprove IS NULL;";
+        String ex = "SELECT DISTINCT Club.[ClubID],[Logo],[ClubName],[EstablishDate],Club.[Description],[IsApprove],[IsActive],[ManagerProfileID],Club.[StudentProfileID] \n"
+                + "FROM [Club] \n"
+                + "INNER JOIN ClubMember ON Club.ClubID = ClubMember.ClubID \n"
+                + "INNER JOIN Semester ON ClubMember.SemesterID = Semester.SemesterID\n"
+                + "WHERE IsApprove IS NULL AND Semester.SemesterID = (SELECT MAX(SemesterID) FROM Semester);";
         PreparedStatement ps = conn.prepareStatement(ex);
         ResultSet rs = ps.executeQuery();
         while (rs.next()) {
@@ -421,7 +447,6 @@ public class ClubDAO {
 //        check = ps.executeUpdate();
 //        return check;
 //    }
-
     public int deleteClubMember(int studentProfileID, int clubID) throws SQLException {
         int check = 0;
         String query = "DELETE [ClubMember] WHERE StudentProfileID = ? AND ClubID= ? AND SemesterID = (SELECT MAX(SemesterID) FROM [SROMS].[dbo].[ClubMember]);";
@@ -647,6 +672,7 @@ public class ClubDAO {
         }
         return rs;
     }
+
     public ClubMember getClubMemberByClubID(int clubID) throws SQLException {
         ClubMember clubMember = null;
         String sql = "SELECT * FROM [SROMS].[dbo].[ClubMember] WHERE ClubID = ?";

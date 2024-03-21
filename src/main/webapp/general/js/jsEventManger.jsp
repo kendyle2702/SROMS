@@ -28,7 +28,6 @@
         </script>  
         <%session.setAttribute("checkRequestClub", "sdsdsfdsf");%>
     </c:when> 
-
 </c:choose>
 <c:choose>
     <c:when test="${sessionScope.checkRequestClub   == 'acceptFail'}">

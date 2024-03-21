@@ -26,6 +26,7 @@ import jakarta.servlet.http.HttpSession;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -227,6 +228,7 @@ public class StudentController extends HttpServlet {
                         int clubId = Integer.parseInt(isArray[isArray.length - 2]);
                         int studentId = Integer.parseInt(isArray[isArray.length - 1]);
                         int check = clubDAO.checkRequestJoinClub("Member", studentId, clubId);
+                        LocalDate currentDate = LocalDate.now();
                         if (check > 0) {
                             session.setAttribute("checkRequestJoinAccept", "success");
                         } else {
