@@ -29,7 +29,7 @@
                     <div class="card-body">
                         <c:choose>
                             <c:when test="${requestScope.eventDetail.CreateBy eq 'Event Manager'}">
-                                <form action="eventmanager" method="post">
+                                <form id="createEventFormal" action="eventmanager" method="post" >
                                     <div class="row">
                                         <div class="col-12">
                                             <h5 class="form-title"><span>Event Information</span></h5>
@@ -38,25 +38,29 @@
                                             <div class="col-12 col-sm-4">
                                                 <div class="form-group local-forms">
                                                     <label>Event Name</label>
-                                                    <input name="eventNameUpdate" type="text" class="form-control" value="${requestScope.eventDetail.EventName}">
+                                                    <input id="eventname" name="eventNameUpdate" type="text" class="form-control" value="${requestScope.eventDetail.EventName}">
+                                                     <div class="message"></div>
                                                 </div>
                                             </div>
                                             <div class="col-12 col-sm-4">
                                                 <div class="form-group local-forms">
                                                     <label>Preparation Time</label>
-                                                    <input name="preTimeUpdate" class="form-control" type="datetime-local" value="${requestScope.eventDetail.PreparationTime}">
+                                                    <input id="pretime" name="preTimeUpdate" class="form-control" type="datetime-local" value="${requestScope.eventDetail.PreparationTime}">
+                                                    <div class="message"></div>
                                                 </div>
                                             </div>
                                             <div class="col-12 col-sm-4">
                                                 <div class="form-group local-forms">
                                                     <label>Start Time</label>
-                                                    <input name="holeTimeUpdate" class="form-control" type="datetime-local" value="${requestScope.eventDetail.HoldTime}">
+                                                    <input id="holdtime" name="holeTimeUpdate" class="form-control" type="datetime-local" value="${requestScope.eventDetail.HoldTime}">
+                                                    <div class="message"></div>
                                                 </div>
                                             </div>
                                             <div class="col-12 col-sm-4">
                                                 <div class="form-group local-forms">
                                                     <label>End Time</label>
-                                                    <input name="endTimeUpdate" class="form-control" type="datetime-local" value="${requestScope.eventDetail.EndTime}">
+                                                    <input id="endtime" name="endTimeUpdate" class="form-control" type="datetime-local" value="${requestScope.eventDetail.EndTime}">
+                                                    <div class="message"></div>
                                                 </div>
                                             </div>  
                                             <c:choose>
@@ -65,16 +69,15 @@
                                                         <div class="form-group local-forms">
                                                             <label>Event Category</label>
                                                             <input type="text" class="form-control" value="${requestScope.eventDetail.EventCategoryName}" readonly="">
+                                                            <div class="message"></div>
                                                         </div>
                                                     </div>
                                                 </c:when>
                                                 <c:otherwise>
                                                     <div class="col-12 col-sm-4">
-                                                        <div class="form-group ">
-                                                            <label>Event Category<span
-                                                                    class="login-danger">*</span></label>
-                                                            <br>
-                                                            <select id="typeOfEvent" name="catelogyEventUpdate" class="form-control">
+                                                        <div class="form-group local-forms">        
+                                                            <label>Event Category</label>
+                                                            <select id="typeOfEvent" name="catelogyEventUpdate" class="form-control select form-select">
                                                                 <c:choose>
                                                                     <c:when test="${requestScope.eventDetail.EventCategoryName eq 'Soft Skills'}">
                                                                         <option value="Soft Skills" selected="">Soft Skills</option>
@@ -93,31 +96,36 @@
                                             <div class="col-12 col-sm-4">
                                                 <div class="form-group local-forms">
                                                     <label>Location</label>
-                                                    <input name="locationeUpdate"  type="text" class="form-control" value="${requestScope.eventDetail.Location}">
+                                                    <input id="location" name="locationeUpdate"  type="text" class="form-control" value="${requestScope.eventDetail.Location}">
+                                                    <div class="message"></div>
                                                 </div>
                                             </div>
                                             <div class="col-12 col-sm-4">
                                                 <div class="form-group local-forms">
                                                     <label>Cost</label>
-                                                    <input name="costUpdate" type="number" class="form-control" value="${requestScope.eventDetail.Cost}">
+                                                    <input id="cost" name="costUpdate" type="number" class="form-control" value="${requestScope.eventDetail.Cost}">
+                                                    <div class="message"></div>
                                                 </div>
                                             </div>
                                             <div class="col-12 col-sm-4">
                                                 <div class="form-group local-forms">
                                                     <label>Expected Number</label>
-                                                    <input name="exnumUpdate" type="number" class="form-control" value="${requestScope.eventDetail.ExpectedNumber}">
+                                                    <input id="exnum" name="exnumUpdate" type="number" class="form-control" value="${requestScope.eventDetail.ExpectedNumber}">
+                                                    <div class="message"></div>
                                                 </div>
                                             </div>
                                             <div class="col-12 col-sm-4">
                                                 <div class="form-group local-forms">
                                                     <label>Organization</label>
-                                                    <input name="organUpdate" type="text" class="form-control" value="${requestScope.eventDetail.Organization}">
+                                                    <input id="organization" name="organUpdate" type="text" class="form-control" value="${requestScope.eventDetail.Organization}">
+                                                    <div class="message"></div>
                                                 </div>
                                             </div>
                                             <div class="col-12 col-sm-4">
                                                 <div class="form-group local-forms">
                                                     <label>Feedback</label>
-                                                    <input name="feedbackUpdate" type="text" class="form-control" value="${requestScope.eventDetail.Feedback}" >
+                                                    <input id="feedback" name="feedbackUpdate" type="text" class="form-control" value="${requestScope.eventDetail.Feedback}" >
+                                                    <div class="message"></div>
                                                 </div> 
                                             </div>                                
 
@@ -160,7 +168,8 @@
                                             </div>
                                             <div class="form-group local-forms" style="margin-top: 50px;">
                                                 <label>Description</label>
-                                                <textarea name="descriptionUpdate" type="text" class="form-control" >${requestScope.eventDetail.Description}</textarea>
+                                                <textarea  id="description" name="descriptionUpdate" type="text" class="form-control" >${requestScope.eventDetail.Description}</textarea>
+                                                <div class="message"></div>
                                             </div>
                                             <c:choose>
                                                 <c:when test="${ empty requestScope.eventDetail.PrizeStructureID}">
@@ -179,7 +188,8 @@
                                                             <div class="col-12" style="margin-top: 40px;">
                                                                 <div class="student-submit">
                                                                     <input name="idUpdate" type="hidden" value="${requestScope.eventDetail.EventID}">
-                                                                    <input style="background: #ea7127;border-color:#ea7127;" class="btn btn-primary" name="UpdateEvent" id="submit" type="submit" value="Update">
+                                                                    <input type="hidden" name="UpdateEvent" value="Update">
+                                                                    <input style="background: #ea7127;border-color:#ea7127;" class="btn btn-primary"  id="submit" type="submit" >
                                                                 </div>
                                                             </div>
                                                         </c:otherwise>
@@ -192,7 +202,7 @@
                                                             <div class="col-lg-6 col-sm-6">
                                                                 <div class="form-group">
                                                                     <label>First<span class="login-danger">*</span></label>
-                                                                    <input id="firstPrize" name="firstPrizeUpdate" type="number" class="form-control" value="${requestScope.eventDetail.First}">
+                                                                    <input id="firtPrize" name="firstPrizeUpdate" type="number" class="form-control" value="${requestScope.eventDetail.First}">
                                                                     <div class="message"></div>
                                                                 </div>
                                                                 <div class="form-group">
@@ -231,7 +241,8 @@
                                                                 <div class="student-submit">
                                                                     <input name="prizeStructureIdUpdate" type="hidden" value="${requestScope.eventDetail.PrizeStructureID}">
                                                                     <input name="idUpdate" type="hidden" value="${requestScope.eventDetail.EventID}">
-                                                                    <input style="background: #ea7127;border-color:#ea7127;" class="btn btn-primary" name="UpdateCompatition" id="submit" type="submit" value="Update">
+                                                                    <input type="hidden" name="UpdateCompatition" value="Update">
+                                                                    <input style="background: #ea7127;border-color:#ea7127;" class="btn btn-primary" id="submit" type="submit">
                                                                 </div>
                                                             </div>
                                                         </c:otherwise>
