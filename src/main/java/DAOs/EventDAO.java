@@ -624,6 +624,26 @@ public class EventDAO {
         }
         return score;
     }
+    
+    public int getEventsScoreByStudentID(int studentID) {
+        int score = 0;
+        try {
+            PreparedStatement ps = conn.prepareStatement(
+                    "select p.StudentProfileID, sum(Point) as Total from ParticipationEventDetail as p \n"
+                    + "inner join Event as e on e.EventID = p.EventID\n"
+                    + "inner join EventCategory as ec on ec.EventCategoryID = e.EventCategoryID where (Result = '' or Result is null) and p.IsPresent = 1"
+                    + "group by p.StudentProfileID,e.SemesterID\n"
+                    + "having p.StudentProfileID = ?");
+            ps.setInt(1, studentID);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                score = rs.getInt("Total");
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(EventDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return score;
+    }
 
     public int getEventsScoreCompetitionByStudentIDAndSemesterID(int studentID, int semesterID) {
         int score = 0;
@@ -636,6 +656,26 @@ public class EventDAO {
                     + "having e.SemesterID = ? and p.StudentProfileID = ?");
             ps.setInt(1, semesterID);
             ps.setInt(2, studentID);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                score = rs.getInt("Total");
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(EventDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return score;
+    }
+    
+    public int getEventsScoreCompetitionByStudentID(int studentID) {
+        int score = 0;
+        try {
+            PreparedStatement ps = conn.prepareStatement(
+                    "select p.StudentProfileID, sum(Point+2) as Total from ParticipationEventDetail as p \n"
+                    + "inner join Event as e on e.EventID = p.EventID\n"
+                    + "inner join EventCategory as ec on ec.EventCategoryID = e.EventCategoryID where p.Result != '' and p.Result is not null and p.IsPresent = 1"
+                    + "group by p.StudentProfileID,e.SemesterID\n"
+                    + "having p.StudentProfileID = ?");
+            ps.setInt(1, studentID);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 score = rs.getInt("Total");

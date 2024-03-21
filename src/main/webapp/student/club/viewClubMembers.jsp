@@ -1,3 +1,6 @@
+<%@page import="Models.Club"%>
+<%@page import="Models.ClubMember"%>
+<%@page import="java.sql.ResultSet"%>
 <%@page import="DAOs.ClubDAO"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <div class="page-wrapper">
@@ -83,6 +86,12 @@
                                                             <ul class="chart-list-out student-ellips">
                                                                 <li class="star-menus"><a href="javascript:;"><i class="fas fa-ellipsis-v"></i></a></li>
                                                             </ul>
+                                                            <div class="col-md-8 text-end">
+                                                                <%
+                                                                    Club myClubInfo = (Club) session.getAttribute("clubMy");
+                                                                %>
+                                                                <a style="background: #ea7127;border-color:#ea7127" href="/student/clubs/feedback/<%=myClubInfo.getClubID()%>" type="button" class="btn btn-primary">Point & Feedback</a>
+                                                            </div>
                                                         </div>
                                                         <div class="table-responsive">
                                                             <table id="viewMemberRequest" class="table table-hover table-striped table-bordered">
@@ -222,6 +231,7 @@
                                 </div>
                             </div>
                         </div>
+
                     </div>
                 </c:if>
                 <c:if test="${sessionScope.getClubRole eq 'Member'}">

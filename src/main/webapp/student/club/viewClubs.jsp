@@ -27,7 +27,7 @@
                         <div class="col-6">
                             <h5 class="card-title">Club</h5>
                         </div>
-                        <c:if test="${checkClubRole != 'Leader Club'}">
+                        <c:if test="${sessionScope.checkClubRole != 'Leader Club'}">
                             <div class="col-6 text-end">
                                 <a style="background: #ea7127;border-color:#ea7127" href="/student/clubs/create" type="button" class="btn btn-primary">Create Club</a>
                             </div>                    
