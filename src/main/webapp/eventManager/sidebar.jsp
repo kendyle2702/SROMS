@@ -25,7 +25,7 @@
 
                     <ul>
                         <li>
-                            <a href="/eventmanager/events/create" class="<%=(session.getAttribute("tabId").equals(2) ? "active subdrop" : "")%>"><i class=""></i> <span>Create Event</span></a>
+                            <a href="/eventmanager/events/create" class="<%=(session.getAttribute("tabId").equals(2) ? "active subdrop" : "")%>"><i class=""></i><span>Create Event</span></a>
                         </li>
                         <li>
                             <a href="/eventmanager/events/viewevent" class="<%=(session.getAttribute("tabId").equals(3) ? "active subdrop" : "")%>"><i class=""></i><span>View Event</span></a>
@@ -39,23 +39,23 @@
                 <li class="submenu">
                     <a href="#"><i class="feather-clipboard"></i> <span class="title">Check Request</span> <span class="menu-arrow"></span></a>
                     <ul> <li>
-                            <a class=" <%=(session.getAttribute("tabId").equals(12)) ? "active subdrop" : ""%>" href="/eventmanager/events/eventswitingapprove"><i class=""></i><span>List Events Awaiting Approval</span></a>
+                            <a class=" <%=(session.getAttribute("tabId").equals(12)) ? "active subdrop" : ""%>" href="/eventmanager/events/eventswitingapprove"><i class=""></i><span>List Events Awaiting</span></a>
                         </li>
                         <li>
-                            <a class=" <%=(session.getAttribute("tabId").equals(11)) ? "active subdrop" : ""%>"  href="/eventmanager/events/checkrequestcreateevent"><i class=""></i><span>Check Request Create Event</span></a>
+                            <a class=" <%=(session.getAttribute("tabId").equals(11)) ? "active subdrop" : ""%>"  href="/eventmanager/events/checkrequestcreateevent"><i class=""></i><span>Check Request Events</span></a>
                         </li>
                     </ul>
                 </li>   <li class="menu-title">
                     <span>Participants Management</span>
                 </li>
                 <li class="submenu">
-                    <a href="#"><i class="feather-clipboard"></i> <span class="title">Attendant And Evaluate</span> <span class="menu-arrow"></span></a>
+                    <a href="#"><i class="feather-clipboard"></i> <span class="title">Attendant & Evaluate</span> <span class="menu-arrow"></span></a>
                     <ul> 
                         <li>
                             <a class=" <%=(session.getAttribute("tabId").equals(7)) || (session.getAttribute("tabId").equals(8)) ? "active subdrop" : ""%>" href="/eventmanager/events/checkAttandant"><i class=""></i><span>Check Attendant</span></a>
                         </li>
                         <li>
-                            <a class=" <%=(session.getAttribute("tabId").equals(9)) || (session.getAttribute("tabId").equals(10)) ? "active subdrop" : ""%>" href="/eventmanager/events/evaluate"><i class=""></i><span> Evaluate Student</span></a>
+                            <a class=" <%=(session.getAttribute("tabId").equals(9)) || (session.getAttribute("tabId").equals(10)) ? "active subdrop" : ""%>" href="/eventmanager/events/evaluate"><i class=""></i><span>Evaluate Student</span></a>
                         </li>
                     </ul>
                 </li>

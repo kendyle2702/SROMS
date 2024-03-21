@@ -54,8 +54,11 @@
                 <c:when test="${sessionScope.tabId == 12}">
                     <%@include file="./eventManager/viewEventWaitingAminAccept.jsp" %>
                 </c:when>
-                 <c:when test="${sessionScope.tabId == 13}">
-                    <%@include file="./student/news/viewNews.jsp" %>
+                <c:when test="${sessionScope.tabId == 13}">
+                    <%@include file="./eventManager/viewNews.jsp" %>
+                </c:when>
+                <c:when test="${sessionScope.tabId == 14}">
+                    <%@include file="./eventManager/newsDetail.jsp" %>
                 </c:when>
             </c:choose>
         </div>

@@ -59,7 +59,7 @@
                                                     </div>
                                                     <div class="col-12 col-sm-4">
                                                         <div class="form-group">
-                                                            <label>Hold Time <span class="login-danger">*</span></label>
+                                                            <label>Start Time <span class="login-danger">*</span></label>
                                                             <input id="holdtime" name="holetime" class="form-control"
                                                                    type="datetime-local" placeholder="YYYY-MM-DDTHH:MM"
                                                                    >
@@ -180,8 +180,17 @@
                                                 </div>
                                                 <div class="col-12 col-sm-4">
                                                     <div class="form-group">
-                                                        <label>Hold Time <span class="login-danger">*</span></label>
+                                                        <label>Start Time <span class="login-danger">*</span></label>
                                                         <input id="holdtime" name="holetime" class="form-control"
+                                                               type="datetime-local" placeholder="YYYY-MM-DDTHH:MM"
+                                                               >
+                                                        <div class="message"></div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-12 col-sm-4">
+                                                    <div class="form-group">
+                                                        <label>End Time <span class="login-danger">*</span></label>
+                                                        <input id="endtime" name="endtime" class="form-control"
                                                                type="datetime-local" placeholder="YYYY-MM-DDTHH:MM"
                                                                >
                                                         <div class="message"></div>
@@ -208,7 +217,7 @@
                                                         <label>Expected Number <span
                                                                 class="login-danger">*</span></label>
                                                         <input id="exnum" name="exnum" type="number"
-                                                               class="form-control" placeholder="Enter expected number join">
+                                                               class="form-control" placeholder="Enter expected number">
                                                         <div class="message"></div>
                                                     </div>
                                                 </div>
@@ -230,15 +239,7 @@
                                                         <div class="message"></div>
                                                     </div>
                                                 </div>
-                                                <div class="col-12 col-sm-4">
-                                                    <div class="form-group">
-                                                        <label>End Time <span class="login-danger">*</span></label>
-                                                        <input id="endtime" name="endtime" class="form-control"
-                                                               type="datetime-local" placeholder="YYYY-MM-DDTHH:MM"
-                                                               >
-                                                        <div class="message"></div>
-                                                    </div>
-                                                </div>
+                                                
                                                 <div class="col-12 col-sm-4">
                                                     <div class="form-group ">
                                                         <label>Description<span
@@ -247,7 +248,7 @@
                                                         <div class="message"></div>
                                                     </div>
                                                 </div>
-                                                <div style="border: solid 1px grey; border-radius: 5px;margin-top: 32px;" class="col-lg-8 col-sm-8">
+                                                <div style="border: solid 1px rgba(0,0,0,0.2); border-radius: 5px;margin-top: 32px;height: 255px" class="col-lg-8 col-sm-8">
                                                     <label>Prize Structure<span
                                                             class="login-danger">*</span></label>
                                                     <div class="row">
