@@ -104,37 +104,39 @@
                             <div class="col-xl-12 d-flex">
                                 <div class="card flex-fill student-space comman-shadow">
                                     <div class="card-body">
-                                        <div class="table-responsive">
-                                            <table id="viewClubs" class="table table-hover table-striped table-bordered">
-                                                <thead class="thead-light">
-                                                    <tr>
-                                                        <th class="text-center">No</th>
-                                                        <th class="text-center">Name</th>
-                                                        <th class="text-center">Description</th>
-                                                        <th class="text-center">Establish Date</th>
-                                                        <th class="text-center">Detail</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    <c:forEach items="${sessionScope.listMyClub}" var="clubM" varStatus="count">
+                                        <form action="/student" method="post">
+                                            <div class="table-responsive">
+                                                <table id="viewClubs" class="table table-hover table-striped table-bordered">
+                                                    <thead class="thead-light">
                                                         <tr>
-                                                            <td class="text-center">${count.index + 1}</td>
-                                                            <td class="text-center">${clubM.getClubName()}</td>
-                                                            <td class="text-center" style="white-space: break-spaces;">${clubM.getDescription()}</td>
-                                                            <td>${clubM.getEstablishDate()}</td>
-                                                            <td class="text-center">
-                                                                <a href="/student/clubs/viewClubMember/${clubM.clubID}" class="btn btn-primary" style="background: #ea7127; border-color: #ea7127">View Member Club</a>
-                                                            </td>
+                                                            <th class="text-center">No</th>
+                                                            <th class="text-center">Name</th>
+                                                            <th class="text-center">Description</th>
+                                                            <th class="text-center">Establish Date</th>
+                                                            <th class="text-center">Detail</th>
                                                         </tr>
-                                                    </c:forEach>
-                                                    <c:if test="${empty sessionScope.listMyClub}">
-                                                        <tr>
-                                                            <td colspan="5" class="text-center">You haven't joined any club yet.</td>
-                                                        </tr>
-                                                    </c:if>
-                                                </tbody>
-                                            </table>
-                                        </div>
+                                                    </thead>
+                                                    <tbody>
+                                                        <c:forEach items="${sessionScope.listMyClub}" var="clubM" varStatus="count">
+                                                            <tr>
+                                                                <td class="text-center">${count.index + 1}</td>
+                                                                <td class="text-center">${clubM.getClubName()}</td>
+                                                                <td class="text-center" style="white-space: break-spaces;">${clubM.getDescription()}</td>
+                                                                <td>${clubM.getEstablishDate()}</td>
+                                                                <td class="text-center">
+                                                                    <a href="/student/clubs/viewClubMember/${clubM.clubID}" class="btn btn-primary" style="background: #ea7127; border-color: #ea7127">View Member Club</a>
+                                                                </td>
+                                                            </tr>
+                                                        </c:forEach>
+                                                        <c:if test="${empty sessionScope.listMyClub}">
+                                                            <tr>
+                                                                <td colspan="5" class="text-center">You haven't joined any club yet.</td>
+                                                            </tr>
+                                                        </c:if>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </form>
                                     </div>
                                 </div>
                             </div>
