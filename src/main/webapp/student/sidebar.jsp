@@ -17,33 +17,33 @@
                 <li class="menu-title">
                     <span>News</span>
                 </li>
-                <li class="<%=(session.getAttribute("tabId").equals(2)) ? "active" : ""%>">
+                <li class="<%=(session.getAttribute("tabId").equals(2)||session.getAttribute("tabId").equals(13)) ? "active" : ""%>">
                     <a href="/student/news/view"><i class="feather-mail"></i><span> View News</span></a>
                 </li>
                 <li class="menu-title">
                     <span>Event</span>
                 </li>
-                <li class="submenu <%=(session.getAttribute("tabId").equals(3)) || (session.getAttribute("tabId").equals(14)) ? "active" : ""%>">
+                <li class="submenu <%=(session.getAttribute("tabId").equals(3)) || (session.getAttribute("tabId").equals(14))||(session.getAttribute("tabId").equals(7)) ? "active" : ""%>">
                     <a href="#"><i class="feather-clipboard"></i> <span class="title">Event</span> <span class="menu-arrow"></span></a>
                     <ul>
-                        <li><a href="/student/events/view"  class="<%=(session.getAttribute("tabId").equals(3) ? "active subdrop" : "")%>"> View Event</a></li>
+                        <li><a href="/student/events/view"  class="<%=(session.getAttribute("tabId").equals(3)||session.getAttribute("tabId").equals(7)|| session.getAttribute("tabId").equals(14)) ? "active subdrop" : ""%>"> View Event</a></li>
                     </ul>
                 </li>
 
                 <li class="menu-title">
                     <span>Club</span>
                 </li>
-                <li class="submenu <%=(session.getAttribute("tabId").equals(4)) ? "active" : ""%>">
+                <li class="submenu <%=(session.getAttribute("tabId").equals(4))||(session.getAttribute("tabId").equals(8))||session.getAttribute("tabId").equals(10) ? "active" : ""%>">
                     <a href="#"><i class="feather-user-plus"></i> <span class="title">Club</span><span class="menu-arrow"></span></a>
                     <ul>
-                        <li><a href="/student/clubs/view" class="<%= session.getAttribute("tabId").equals(4) ? "active subdrop" : ""%>"> View Clubs</a></li>                           
+                        <li><a href="/student/clubs/view" class="<%= session.getAttribute("tabId").equals(4)||session.getAttribute("tabId").equals(8)||session.getAttribute("tabId").equals(10) ? "active subdrop" : ""%>"> View Clubs</a></li>                           
                     </ul>
                 </li>
 
                 <li class="menu-title">
                     <span>Activities Point</span>
                 </li>
-                <li class="<%=(session.getAttribute("tabId").equals(12)) ? "active" : ""%>">
+                <li class="<%=(session.getAttribute("tabId").equals(15)) ? "active" : ""%>">
                     <a href="/student/point/view"><i class="feather-bookmark"></i><span> View Activities Point</span></a>
                 </li>
 

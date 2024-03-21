@@ -293,6 +293,11 @@
         $('#viewMyClub').DataTable();
     });
 </script>
+<script>
+    $(document).ready(function () {
+        $('#viewEventsHistory').DataTable();
+    });
+</script>
 
 
 <!--point and feedback club-->

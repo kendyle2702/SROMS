@@ -27,6 +27,9 @@
     $(document).ready(function () {
         $("#viewStudents").DataTable();
     });
+    $(document).ready(function () {
+        $("#viewClubList").DataTable();
+    });
 </script>
 
 

@@ -33,7 +33,7 @@
                 <li class="menu-title">
                     <span>Manage Event Requests</span>
                 </li>
-                <li class="submenu <%=(session.getAttribute("tabId").equals(11)||session.getAttribute("tabId").equals(1)) ? "active" : ""%>">
+                <li class="submenu <%=(session.getAttribute("tabId").equals(11)||session.getAttribute("tabId").equals(12)) ? "active" : ""%>">
                     <a href="#"><i class="feather-clipboard"></i> <span class="title">Check Request</span> <span class="menu-arrow"></span></a>
                     <ul> <li>
                             <a class=" <%=(session.getAttribute("tabId").equals(12)) ? "active subdrop" : ""%>" href="/eventmanager/events/eventswitingapprove"><i class=""></i><span>List Events Awaiting</span></a>

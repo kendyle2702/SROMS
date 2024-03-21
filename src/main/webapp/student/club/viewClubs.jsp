@@ -61,7 +61,7 @@
                                     <div class="card-body">
                                         <form action="/student" method="post">
                                             <div class="table-responsive">
-                                                <table id="viewMyClub" class="table table-hover table-striped table-bordered">
+                                                <table id="viewClubList" class="table table-hover table-striped table-bordered">
                                                     <thead class="thead-light">
                                                         <tr>
                                                             <th class="text-center">No</th>
@@ -105,7 +105,7 @@
                                 <div class="card flex-fill student-space comman-shadow">
                                     <div class="card-body">
                                         <div class="table-responsive">
-                                            <table id="viewClubs" class="table table-hover table-striped table-bordered">
+                                            <table id="viewMyClub" class="table table-hover table-striped table-bordered">
                                                 <thead class="thead-light">
                                                     <tr>
                                                         <th class="text-center">No</th>
@@ -129,11 +129,16 @@
                                                     </c:forEach>
                                                     <c:if test="${empty sessionScope.listMyClub}">
                                                         <tr>
+                                                            <td style="display: none">
+                                                            <td style="display: none">
+                                                            <td style="display: none">
+                                                            <td style="display: none">
                                                             <td colspan="5" class="text-center">You haven't joined any club yet.</td>
                                                         </tr>
                                                     </c:if>
                                                 </tbody>
                                             </table>
+
                                         </div>
                                     </div>
                                 </div>
