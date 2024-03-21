@@ -171,12 +171,12 @@ public class ClubDAO {
     public int checkRequestCreate(Date establishDate, int isApprove, int isActive, int managerProfileID, int clubID) throws SQLException {
         int count = 0;
         PreparedStatement ps = conn.prepareStatement("UPDATE [Club] SET EstablishDate = ?, IsApprove = ?, IsActive = ?, ManagerProfileID = ? WHERE ClubID = ?");
-    if (establishDate == null) {
-        ps.setNull(1, java.sql.Types.DATE);
-    } else {
-        // Nếu establishDate không null, chuyển đổi LocalDate thành java.sql.Date
-        ps.setDate(1, establishDate);
-    }
+        if (establishDate == null) {
+            ps.setNull(1, java.sql.Types.DATE);
+        } else {
+            // Nếu establishDate không null, chuyển đổi LocalDate thành java.sql.Date
+            ps.setDate(1, establishDate);
+        }
         ps.setInt(2, isApprove);
         ps.setInt(3, isActive);
         ps.setInt(4, managerProfileID);
@@ -283,22 +283,35 @@ public class ClubDAO {
         return listMyClub;
     }
 
+    public int getActiveAccount(int studentProfielID) throws SQLException {
+        int getActiveAccount = 0;
+        ps = conn.prepareStatement("SELECT IsActive FROM ClubMember LEFT JOIN StudentProfile ON ClubMember.StudentProfileID =StudentProfile.StudentProfileID "
+                + "LEFT JOIN UserProfile ON StudentProfile.UserProfileID = UserProfile.UserProfileID\n"
+                + "LEFT JOIN UserLogin ON UserProfile.UserProfileID = UserLogin.UserProfileID WHERE ClubMember.StudentProfileID = 1 AND SemesterID = (SELECT MAX(SemesterID) FROM ClubMember);");
+        ps.setInt(1, studentProfielID);
+        ResultSet rs = ps.executeQuery();
+        if (rs.next()) {
+            getActiveAccount = rs.getInt("IsActive");
+        }
+        return getActiveAccount;
+    }
+
     public List<Map<String, String>> getAllMembersClub(int clubId) throws SQLException {
         ResultSet rs = null;
         List<Map<String, String>> getListMember = new ArrayList<>();
-        String sql = "SELECT ClubRole, RollNumber, Major, FirstName, LastName, Email, ClubRole, StudentProfile.StudentProfileID,Club.ClubID \n"
+        String sql = "SELECT ClubRole, RollNumber, Major, FirstName, LastName, Email, ClubRole, StudentProfile.StudentProfileID,Club.ClubID\n"
                 + "FROM [SROMS].[dbo].[ClubMember] LEFT JOIN [SROMS].[dbo].[Club] ON ClubMember.ClubID = Club.ClubID\n"
                 + "LEFT JOIN StudentProfile ON ClubMember.StudentProfileID = StudentProfile.StudentProfileID \n"
-                + "LEFT JOIN UserProfile ON StudentProfile.UserProfileID = UserProfile.UserProfileID \n"
+                + "LEFT JOIN UserProfile ON StudentProfile.UserProfileID = UserProfile.UserProfileID LEFT JOIN UserLogin ON UserProfile.UserProfileID = UserLogin.UserProfileID \n"
                 + "WHERE Club.ClubID = ? AND SemesterID = (SELECT MAX(SemesterID) FROM [SROMS].[dbo].[ClubMember]) \n"
-                + "AND ClubMember.ClubRole IS NOT NULL AND ClubMember.ClubRole != 'Decline' \n"
+                + "AND ClubMember.ClubRole IS NOT NULL AND ClubMember.ClubRole != 'Decline' AND UserLogin.IsActive = 1\n"
                 + "ORDER BY \n"
-                + "    CASE \n"
+                + "      CASE \n"
                 + "        WHEN LEFT(ClubRole, 1) = 'L' THEN 1\n"
                 + "        WHEN LEFT(ClubRole, 1) = 'B' THEN 2\n"
                 + "        WHEN LEFT(ClubRole, 1) = 'M' THEN 3\n"
                 + "        ELSE 4  \n"
-                + "    END;";
+                + "           END;";
         PreparedStatement ps = conn.prepareStatement(sql);
         ps.setInt(1, clubId);
         rs = ps.executeQuery();

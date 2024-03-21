@@ -1,3 +1,4 @@
+<%@page import="DAOs.ClubDAO"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <div class="page-wrapper">
     <div class="page-header">
@@ -265,6 +266,7 @@
                                                             <c:if test="${not empty sessionScope.listClubMember}">
                                                                 <c:forEach items="${sessionScope.listClubMember}" var="liste">
                                                                     <c:if test="${not empty liste.ClubRole && liste.ClubRole!='Decline'}">
+
                                                                         <c:set var="count" value="${count + 1}"/>
                                                                         <tr>
                                                                             <td class="">${count}</td>

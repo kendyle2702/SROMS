@@ -1,3 +1,8 @@
+<%@page import="java.util.HashMap"%>
+<%@page import="DAOs.UserProfileDAO"%>
+<%@page import="java.util.ArrayList"%>
+<%@page import="java.util.ArrayList"%>
+<%@page import="java.util.Map"%>
 <%@page import="Models.News"%>
 <%@page import="DAOs.NewsDAO"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
@@ -127,78 +132,45 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-xl-12 d-flex">
-                    <div class="card flex-fill student-space comman-shadow">
-                        <div class="card-header d-flex align-items-center">
-                            <h5 class="card-title">Event List</h5>
-                            <ul class="chart-list-out student-ellips">
-                                <li class="star-menus"><a href="javascript:;"><i class="fas fa-ellipsis-v"></i></a></li>
-                            </ul>
-                        </div>
-                        <div class="card-body">                                      
-                            <div class="table-responsive">
-                                <table id="viewEvents" class="table table-hover table-striped table-bordered">
-                                    <thead class="thead-light">
-                                        <tr>
-                                            <th class="text-center">No.</th>
-                                            <th class="text-center">Name</th>
-                                            <th class="text-center">Location</th>
-                                            <th class="text-center">Start Time</th>            
-                                            <th class="text-center">Status</th>       
-                                            <th class="text-center"></th> 
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <c:if test="${not empty sessionScope.listEvent}">
-                                            <c:forEach items="${sessionScope.listEvent}" var="liste">
-                                                <c:if test="${liste.getApprove() eq 'AA'}">
-                                                    <c:set var="count" value="${count + 1}"/>
-                                                    <tr>
-                                                        <td class="">${count}</td>                                                        
-                                                        <td class="">${liste.getEventName()}</td>
-                                                        <td class="">${liste.getLocation()}</td>
-                                                        <td class="">${liste.getHoldTime()}</td>
-                                                        <%-- Scriptlets should be avoided, but for demonstration, I'm maintaining them --%>
-                                                        <%-- Scriptlets should be avoided, but for demonstration, I'm maintaining them --%>
-                                                        <%
-                                                            EventDAO dao = new EventDAO();
-                                                            List<Event> events = dao.eventList();
-                                                            Calendar calen = Calendar.getInstance();
-                                                            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH-mm-ss");
-                                                            Timestamp currentDateTime = new Timestamp(calen.getTimeInMillis());
-                                                            String currentDateTimeString = format.format(currentDateTime);
-                                                            session.setAttribute("currentTime", currentDateTimeString);
-                                                        %>
-                                                        <c:choose>
-                                                            <c:when test="${sessionScope.currentTime <= liste.getEndTime() && sessionScope.currentTime >= liste.getHoldTime() && liste.getApprove() eq 'AA'}">
-                                                                <td class=""><button type="button" class="btn btn-block btn-outline-success btn-rounded active">Happening</button></td>
-                                                            </c:when>
-                                                            <c:when test="${sessionScope.currentTime > liste.getEndTime() && liste.getApprove() eq 'AA'}">
-                                                                <td class=""><button type="button" class="btn btn-block btn-outline-primary btn-rounded active">Finished</button></td>
-                                                            </c:when>                            
-                                                            <c:when test="${sessionScope.currentTime < liste.getHoldTime() && sessionScope.currentTime < liste.getEndTime()  && liste.getApprove() eq 'AA'}">
-                                                                <td class=""><button type="button" class="btn btn-block btn-outline-secondary btn-rounded active">Not Started</button></td>
-                                                            </c:when>
-
-                                                        </c:choose>                    
-                                                        <td class="text-center">
-                                                            <a href="/eventmanager/events/detail/${liste.getEventID()}" class="mb-2 mr-2 btn btn-outline-organ text-white" style="background-color: #ea7127; border-color: #ea7127;">
-                                                                <i class="feather-edit-3"></i>Detail</a>
-                                                        </td>
-                                                    </tr>
-                                                </c:if>
-                                            </c:forEach>
-                                        </c:if>                                              
-                                        <c:if test="${empty sessionScope.listEvent}">
-                                            <tr>
-                                                <td colspan="7" class="text-center">No events found.</td>
-                                            </tr>
-                                        </c:if>
-                                    </tbody>
-                                </table>                                          
+                <div class="col-md-12 col-lg-6">
+                    <div class="card card-chart">
+                        <div class="card-header">
+                            <div class="row align-items-center">
+                                <div class="col-6">
+                                    <h5 class="card-title">Top 10 Students Participating In The Event The Most</h5>
+                                </div>
+                                <div class="col-6">
+                                    <ul class="chart-list-out">
+                                        <li><span class="circle-blue"></span>Full Name</li>
+                                    </ul>
+                                </div>
                             </div>
                         </div>
+                        <div class="card-body">
+                            <div id="top10StudentChart"></div>
+                        </div>
                     </div>
+                </div>
+                <div class="col-md-12 col-lg-6">
+
+                    <div class="card card-chart">
+                        <div class="card-header">
+                            <div class="row align-items-center">
+                                <div class="col-6">
+                                    <h5 class="card-title">Top 5 Event With Highest Attendance</h5>
+                                </div>
+                                <div class="col-6">
+                                    <ul class="chart-list-out">
+                                        <li><span class="circle-blue"></span>Number of participants</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div id="top5ClubChart"></div>
+                        </div>
+                    </div>
+
                 </div>
             </div>
         </div>     
@@ -224,3 +196,126 @@
     </div>
 </div>
 
+<%
+    EventDAO eventDAO = new EventDAO();
+    List<Map<String, String>> listtop5 = eventDAO.getTop5Event();
+    ArrayList<String> listName = new ArrayList<>();
+    ArrayList<String> listTop5 = new ArrayList<>();
+    for (Map<String, String> list : listtop5) {
+        for (Map.Entry<String, String> entry : list.entrySet()) {
+            if (entry.getKey().equals("EventName")) {
+                listName.add(entry.getValue());
+            } else {
+                listTop5.add(entry.getValue());
+            }
+        }
+    }
+%>
+<script>
+    var options = {
+        series: [{
+                name: "Number of participants",
+                data: [{
+                        x: '<%=listName.get(0)%>',
+                        y: <%=listTop5.get(0)%>
+                    }, {
+                        x: '<%=listName.get(1)%>',
+                        y: <%=listTop5.get(1)%>
+                    }, {
+                        x: '<%=listName.get(2)%>',
+                        y: <%=listTop5.get(2)%>
+                    }, {
+                        x: '<%=listName.get(3)%>',
+                        y: <%=listTop5.get(3)%>
+                    }, {
+                        x: '<%=listName.get(4)%>',
+                        y: <%=listTop5.get(4)%>
+                    }]
+            }],
+        chart: {
+            type: 'bar',
+            height: 380
+        },
+        xaxis: {
+            type: 'category',
+        },
+        title: {
+            text: 'Event Name',
+        },
+    };
+    var chart = new ApexCharts(document.querySelector("#top5ClubChart"), options);
+    chart.render();</script>
+
+
+
+<%
+    List<Map<String, String>> listTop5Student = eventDAO.getTop5Student();
+    ArrayList<String> listFullName = new ArrayList<>();
+    ArrayList<String> numberEvent = new ArrayList<>();
+    for (Map<String, String> list : listTop5Student) {
+        for (Map.Entry<String, String> entry : list.entrySet()) {
+            if (entry.getKey().equals("FullName")) {
+                listFullName.add(entry.getValue());
+            } else {
+                numberEvent.add(entry.getValue());
+            }
+        }
+    }
+%>
+
+
+<script>
+    var options = {
+        series: [{
+                name: "Top 10 Students Participating In The Event The Most",
+                data: [{
+                        x: '<%=listFullName.get(0)%>',
+                        y: <%=numberEvent.get(0)%>
+                    }, {
+                        x: '<%=listFullName.get(1)%>',
+                        y: <%=numberEvent.get(1)%>
+                    }, {
+                        x: '<%=listFullName.get(2)%>',
+                        y: <%=numberEvent.get(2)%>
+                    }, {
+                        x: '<%=listFullName.get(3)%>',
+                        y: <%=numberEvent.get(3)%>
+                    }, {
+                        x: '<%=listFullName.get(4)%>',
+                        y: <%=numberEvent.get(4)%>
+                    }
+                    , {
+                        x: '<%=listFullName.get(5)%>',
+                        y: <%=numberEvent.get(5)%>
+                    }
+                    , {
+                        x: '<%=listFullName.get(6)%>',
+                        y: <%=numberEvent.get(6)%>
+                    }
+                    , {
+                        x: '<%=listFullName.get(7)%>',
+                        y: <%=numberEvent.get(7)%>
+                    }
+                    , {
+                        x: '<%=listFullName.get(8)%>',
+                        y: <%=numberEvent.get(8)%>
+                    }
+                    , {
+                        x: '<%=listFullName.get(9)%>',
+                        y: <%=numberEvent.get(9)%>
+                    }]
+            }],
+        chart: {
+            type: 'line',
+            height: 380
+        },
+        xaxis: {
+            type: 'category',
+        },
+        title: {
+            text: 'Full Name',
+        },
+    };
+    var chart = new ApexCharts(document.querySelector("#top10StudentChart"), options);
+    chart.render();
+</script>
