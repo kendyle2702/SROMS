@@ -47,6 +47,15 @@ public class ClubManagerController extends HttpServlet {
                 session.setAttribute("Club", listClub);
                 session.setAttribute("totalClub", totalClub);
                 if (path.endsWith("/clubmanager")) {
+                    String semesterIDString = (String) session.getAttribute("semesterIDStudentChart");
+                    if (semesterIDString == null) {
+                        SemesterDAO semDAO = new SemesterDAO();
+                        String currentSemesterName = (String) session.getAttribute("semester");
+                        int semesterID = semDAO.getSemesterIDBySemesterName(currentSemesterName);
+                        session.setAttribute("semesterIDStudentChart", semesterID + "");
+                    } else {
+                        session.setAttribute("semesterIDStudentChart", semesterIDString);
+                    }
                     session.setAttribute("tabId", 1);
                     request.getRequestDispatcher("/clubManager.jsp").forward(request, response);
                 } else if (path.equals("/clubmanager/profile")) {

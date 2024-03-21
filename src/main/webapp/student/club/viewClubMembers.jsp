@@ -40,7 +40,7 @@
             <div class="col-md-12">
                 <div class="profile-menu">
                     <ul class="nav nav-tabs nav-tabs-solid" role="tablist">
-                        <c:if test="${sessionScope.getClubRole eq 'Leader Club' || sessionScope.getClubRole eq 'Board Of Directing' }">
+                            <c:if test="${sessionScope.getClubRole eq 'Leader Club' || sessionScope.getClubRole eq 'Board Of Directing' }">
                             <c:choose>
                                 <c:when test="${sessionScope.getClubRole eq 'Leader Club'}">
                                     <li class="nav-item" role="presentation">
@@ -49,9 +49,11 @@
                                     <li class="nav-item" role="presentation">
                                         <a class="nav-link" data-bs-toggle="tab" href="#per_details_tab" aria-selected="false" role="tab" tabindex="-1">View Club Member</a>
                                     </li>
+
                                     <li class="nav-item ms-auto"> <!-- 'ms-auto' class to push to the right -->
                                         <a style="background-color: #ea7127; color: white;" class="btn btn-primary" href="/student/createEventMyClub"><span>Create Event For Club</span></a>
                                     </li>
+
                                 </c:when>
                                 <c:otherwise>
                                     <li class="nav-item" role="presentation">
@@ -84,14 +86,15 @@
                                                         <div class="card-header d-flex align-items-center">
                                                             <h5 class="card-title">List Member</h5>
                                                             <ul class="chart-list-out student-ellips">
-                                                                <li class="star-menus"><a href="javascript:;"><i class="fas fa-ellipsis-v"></i></a></li>
                                                             </ul>
-                                                            <div class="col-md-8 text-end">
-                                                                <%
-                                                                    Club myClubInfo = (Club) session.getAttribute("clubMy");
-                                                                %>
-                                                                <a style="background: #ea7127;border-color:#ea7127" href="/student/clubs/feedback/<%=myClubInfo.getClubID()%>" type="button" class="btn btn-primary">Point & Feedback</a>
-                                                            </div>
+                                                            <c:if test="${sessionScope.getClubRole eq 'Leader Club'}">
+                                                                <div class="col-md-8 text-end">
+                                                                    <%
+                                                                        Club myClubInfo = (Club) session.getAttribute("clubMy");
+                                                                    %>
+                                                                    <a style="background: #ea7127;border-color:#ea7127" href="/student/clubs/feedback/<%=myClubInfo.getClubID()%>" type="button" class="btn btn-primary">Point & Feedback</a>
+                                                                </div>
+                                                            </c:if>
                                                         </div>
                                                         <div class="table-responsive">
                                                             <table id="viewMemberRequest" class="table table-hover table-striped table-bordered">

@@ -138,7 +138,7 @@
                     <div class="card-header">
                         <div class="row align-items-center">
                             <div class="col-6">
-                                <h5 class="card-title">Today's News</h5>
+                                <h5 class="card-title">Latest News</h5>
                             </div>
 
                             <div class="col-6">

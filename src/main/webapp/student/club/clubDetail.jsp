@@ -30,17 +30,29 @@
                                                 ${sessionScope.club.getEstablishDate()}</h6>
                                             <div class="user-Location">${sessionScope.club.getDescription()}</div>
                                             <c:choose>
-                                                <c:when test="${checkIsMember == true}">
+                                                <c:when test="${sessionScope.checkIsMember == true}">
                                                     <div class="student-submit text-end">
                                                         <input type="hidden" name="ClubID" value="${club.getClubID()}">
                                                         <input type="hidden" name="studentProfileID" value="${studentProfileID}">
                                                         <input style="background: #ea7127;border-color:#ea7127" type="submit" name="action" class="btn btn-primary" value="Register">
                                                     </div>
                                                 </c:when>
-                                                <c:when test="${checkIsMember == false}">
-                                                    <div class="text-end">
-                                                        <a style="background: #ea7127;border-color:#ea7127" href="/student/clubs/viewClubMember/${club.clubID}" class="btn btn-primary">View Member</a>
-                                                    </div>
+                                                <c:when test="${sessionScope.checkIsMember == false}">
+                                                    <c:if test="${sessionScope.getClubRole eq 'Member' || sessionScope.getClubRole eq 'Leader Club' || sessionScope.getClubRole eq 'Board Of Directing'}">
+                                                        <div class="text-end">
+                                                            <a style="background: #ea7127;border-color:#ea7127" href="/student/clubs/viewClubMember/${club.clubID}" class="btn btn-primary">View Member</a>
+                                                        </div>
+                                                    </c:if>
+                                                    <c:if test="${empty sessionScope.getClubRole }">
+                                                        <div class="text-end">
+                                                            <a style="background: #ea7127;border-color:#ea7127" href="/student/clubs/view" class="btn btn-primary">Wait For Accept</a>
+                                                        </div>
+                                                    </c:if>
+                                                    <c:if test="${sessionScope.getClubRole eq 'Decline'}">
+                                                        <div class="text-end">
+                                                            <a style="background: #ea7127;border-color:#ea7127" href="/student/clubs/view" class="btn btn-primary">Declines</a>
+                                                        </div>
+                                                    </c:if>
                                                 </c:when>
                                             </c:choose>
                                         </div>
