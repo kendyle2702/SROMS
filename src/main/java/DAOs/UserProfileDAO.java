@@ -192,11 +192,11 @@ public class UserProfileDAO {
         for (int i = 0; i < 5; i++) {
             result.add(pq.poll());
         }
-       
+
         return result;
     }
 
-    public  List<Map.Entry<String, Integer>> getTop5ClubBySemester(int semesterID) throws SQLException {
+    public List<Map.Entry<String, Integer>> getTop5ClubBySemester(int semesterID) throws SQLException {
         HashMap<String, Integer> clubMap = new HashMap<>();
         ClubDAO clubDAO = new ClubDAO();
         EventDAO eventDAO = new EventDAO();
@@ -211,9 +211,9 @@ public class UserProfileDAO {
                 totalEventCompetition += eventDAO.getEventsScoreCompetitionByStudentIDAndSemesterID(studentID, semesterID);
             }
             totalScore = totalEventNormal + totalEventCompetition;
-            clubMap.put(rs.getString("ClubName"),totalScore);
+            clubMap.put(rs.getString("ClubName"), totalScore);
         }
-        
+
         Comparator<Map.Entry<String, Integer>> comparator = new Comparator<Map.Entry<String, Integer>>() {
             @Override
             public int compare(Map.Entry<String, Integer> entry1, Map.Entry<String, Integer> entry2) {
@@ -232,7 +232,21 @@ public class UserProfileDAO {
         for (int i = 0; i < 5; i++) {
             result.add(pq.poll());
         }
-        
+
         return result;
+    }
+
+    public int getStudentPointByStudentProfileID(int studentID, int semesterID) throws SQLException {
+        HashMap<String, Integer> studentMap = new HashMap<>();
+        StudentProfileDAO stDAO = new StudentProfileDAO();
+        EventDAO eventDAO = new EventDAO();
+        ClubDAO clubDAO = new ClubDAO();
+
+        int pointClubs = clubDAO.getClubsScoreByStudentIDAndSemesterID(studentID, semesterID);
+        int pointEvensNormal = eventDAO.getEventsScoreByStudentIDAndSemesterID(studentID, semesterID);
+        int pointEvensCompetition = eventDAO.getEventsScoreCompetitionByStudentIDAndSemesterID(studentID, semesterID);
+        int total = (pointClubs >= 30 ? 30 : pointClubs) + ((pointEvensNormal + pointEvensCompetition) >= 60 ? 60 : (pointEvensNormal + pointEvensCompetition)) + 60;
+
+        return total;
     }
 }

@@ -10,6 +10,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Date;
 import java.sql.Statement;
+import java.sql.Timestamp;
+import java.sql.Types;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -165,19 +168,43 @@ public class ClubDAO {
         return fullName;
     }
 
-    public int checkRequestCreate(int IsApprove, int clubID) throws SQLException {
+    public int checkRequestCreate(Date establishDate, int isApprove, int isActive, int managerProfileID, int clubID) throws SQLException {
         int count = 0;
-        PreparedStatement ps = conn.prepareStatement("UPDATE [Club] SET IsApprove = ? where ClubID = ?;");
-        ps.setInt(1, IsApprove);
-        ps.setInt(2, clubID);
+        PreparedStatement ps = conn.prepareStatement("UPDATE [Club] SET EstablishDate = ?, IsApprove = ?, IsActive = ?, ManagerProfileID = ? WHERE ClubID = ?");
+        if (establishDate == null) {
+            ps.setNull(1, java.sql.Types.DATE);
+        } else {
+            // Nếu establishDate không null, chuyển đổi LocalDate thành java.sql.Date
+            ps.setDate(1, establishDate);
+        }
+        ps.setInt(2, isApprove);
+        ps.setInt(3, isActive);
+        ps.setInt(4, managerProfileID);
+        ps.setInt(5, clubID);
         count = ps.executeUpdate();
         return count;
+    }
+
+    public int getManagerProfileIdByUserProfileID(int studentProfileId) throws SQLException {
+        int managerProfileID = 0;
+        ResultSet rs = null;
+        PreparedStatement ps = conn.prepareStatement("SELECT ManagerProfileID FROM ManagerProfile Where UserProfileID = ?;");
+        ps.setInt(1, studentProfileId);
+        rs = ps.executeQuery();
+        if (rs.next()) {
+            managerProfileID = rs.getInt("ManagerProfileID");
+        }
+        return managerProfileID;
     }
 
     public List<Club> listCheckRequest() throws SQLException {
         List<Club> listC = new ArrayList<>();
         Club club = null;
-        String ex = "SELECT * FROM [Club] WHERE IsApprove IS NULL;";
+        String ex = "SELECT DISTINCT Club.[ClubID],[Logo],[ClubName],[EstablishDate],Club.[Description],[IsApprove],[IsActive],[ManagerProfileID],Club.[StudentProfileID] \n"
+                + "FROM [Club] \n"
+                + "INNER JOIN ClubMember ON Club.ClubID = ClubMember.ClubID \n"
+                + "INNER JOIN Semester ON ClubMember.SemesterID = Semester.SemesterID\n"
+                + "WHERE IsApprove IS NULL AND Semester.SemesterID = (SELECT MAX(SemesterID) FROM Semester);";
         PreparedStatement ps = conn.prepareStatement(ex);
         ResultSet rs = ps.executeQuery();
         while (rs.next()) {
@@ -259,17 +286,19 @@ public class ClubDAO {
     public List<Map<String, String>> getAllMembersClub(int clubId) throws SQLException {
         ResultSet rs = null;
         List<Map<String, String>> getListMember = new ArrayList<>();
-        String sql = "SELECT ClubRole, RollNumber, Major, FirstName, LastName, Email, ClubRole, StudentProfile.StudentProfileID,Club.ClubID FROM [SROMS].[dbo].[ClubMember]\n"
-                + "LEFT JOIN [SROMS].[dbo].[Club] ON ClubMember.ClubID = Club.ClubID\n"
+        String sql = "SELECT ClubRole, RollNumber, Major, FirstName, LastName, Email, ClubRole, StudentProfile.StudentProfileID,Club.ClubID \n"
+                + "FROM [SROMS].[dbo].[ClubMember] LEFT JOIN [SROMS].[dbo].[Club] ON ClubMember.ClubID = Club.ClubID\n"
                 + "LEFT JOIN StudentProfile ON ClubMember.StudentProfileID = StudentProfile.StudentProfileID \n"
                 + "LEFT JOIN UserProfile ON StudentProfile.UserProfileID = UserProfile.UserProfileID \n"
-                + "WHERE Club.ClubID = ? AND SemesterID = (SELECT MAX(SemesterID) FROM [SROMS].[dbo].[ClubMember]) ORDER BY \n"
-                + " CASE \n"
+                + "WHERE Club.ClubID = ? AND SemesterID = (SELECT MAX(SemesterID) FROM [SROMS].[dbo].[ClubMember]) \n"
+                + "AND ClubMember.ClubRole IS NOT NULL AND ClubMember.ClubRole != 'Decline' \n"
+                + "ORDER BY \n"
+                + "    CASE \n"
                 + "        WHEN LEFT(ClubRole, 1) = 'L' THEN 1\n"
                 + "        WHEN LEFT(ClubRole, 1) = 'B' THEN 2\n"
                 + "        WHEN LEFT(ClubRole, 1) = 'M' THEN 3\n"
                 + "        ELSE 4  \n"
-                + "END;";
+                + "    END;";
         PreparedStatement ps = conn.prepareStatement(sql);
         ps.setInt(1, clubId);
         rs = ps.executeQuery();
@@ -408,6 +437,16 @@ public class ClubDAO {
         return check;
     }
 
+//    public int updateRoleLeader(String roleMember, int studdentProfileID, int clubID) throws SQLException {
+//        int check = 0;
+//        String query = "UPDATE [ClubMember] SET ClubRole = ? WHERE StudentProfileID = ? AND ClubID= ? AND SemesterID = (SELECT MAX(SemesterID) FROM [SROMS].[dbo].[ClubMember]);";
+//        ps = conn.prepareStatement(query);
+//        ps.setString(1, roleMember);
+//        ps.setInt(2, studdentProfileID);
+//        ps.setInt(3, clubID);
+//        check = ps.executeUpdate();
+//        return check;
+//    }
     public int deleteClubMember(int studentProfileID, int clubID) throws SQLException {
         int check = 0;
         String query = "DELETE [ClubMember] WHERE StudentProfileID = ? AND ClubID= ? AND SemesterID = (SELECT MAX(SemesterID) FROM [SROMS].[dbo].[ClubMember]);";
@@ -426,6 +465,25 @@ public class ClubDAO {
                     + "  having StudentProfileID = ?");
             ps.setInt(1, semesterID);
             ps.setInt(2, studentID);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                score = rs.getInt("Total");
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(ClubDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return score;
+    }
+
+    public int getClubsScoreByStudentID(int studentID) {
+        int score = 0;
+        try {
+            PreparedStatement ps = conn.prepareStatement(
+                    "SELECT StudentProfileID, SUM(ClubPoint) AS Total \n"
+                    + "FROM ClubMember \n"
+                    + "WHERE StudentProfileID = ?\n"
+                    + "GROUP BY StudentProfileID, SemesterID");
+            ps.setInt(1, studentID);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 score = rs.getInt("Total");
@@ -491,7 +549,7 @@ public class ClubDAO {
                     + " left join ClubMember on Club.ClubID = ClubMember.ClubID\n"
                     + " left join StudentProfile on ClubMember.StudentProfileID = StudentProfile.StudentProfileID\n"
                     + " left join UserProfile on StudentProfile.UserProfileID = UserProfile.UserProfileID\n"
-                    + " where Club.ClubID = ? and SemesterID = 10");
+                    + " where Club.ClubID = ? and SemesterID = (SELECT MAX(SemesterID) FROM [ClubMember])");
             ps.setInt(1, clubID);
             rs = ps.executeQuery();
 
@@ -598,12 +656,40 @@ public class ClubDAO {
     }
 
     public int checkRequestJoinClub(String clubRole, int studentProfileId, int clubId) throws SQLException {
-        ps = conn.prepareStatement("UPDATE [ClubMember] SET ClubRole = ? WHERE ClubID =? AND StudentProfileID = ? AND SemesterID = (SELECT MAX(SemesterID) FROM ClubMember);");
-        ps.setString(1, clubRole);
+        int check = 0;
+        String updateQuery = "UPDATE ClubMember SET ClubRole = ? WHERE ClubID = ? AND StudentProfileID = ? AND SemesterID = (SELECT MAX(SemesterID) FROM ClubMember)";
+        ps = conn.prepareStatement(updateQuery);
+        ps.setString(1, clubRole); // Set ClubRole to the provided value
         ps.setInt(2, clubId);
         ps.setInt(3, studentProfileId);
+        check = ps.executeUpdate();
+        return check;
+    }
+
+    public int removeRequest(int studentProfileId, int clubId) throws SQLException {
+        String updateQuery = "DELETE ClubMember WHERE ClubID = ? AND StudentProfileID = ? AND SemesterID = (SELECT MAX(SemesterID) FROM ClubMember);";
+        ps = conn.prepareStatement(updateQuery);
+        ps.setInt(1, clubId);
+        ps.setInt(2, studentProfileId);
         int check = ps.executeUpdate();
         return check;
+    }
+
+    public ResultSet getCurrentClubDetailBySemesterID(int clubID, int semesterID) {
+        ResultSet rs = null;
+        try {
+            PreparedStatement ps = conn.prepareStatement("select RollNumber, FirstName, LastName, ClubRole,StudentProfile.StudentProfileID as StudentProfileID from Club left join ClubMember on Club.ClubID = ClubMember.ClubID\n"
+                    + "                    left join StudentProfile on ClubMember.StudentProfileID = StudentProfile.StudentProfileID\n"
+                    + "                   left join UserProfile on StudentProfile.UserProfileID = UserProfile.UserProfileID\n"
+                    + "                    where Club.ClubID = ? and SemesterID = ?");
+            ps.setInt(1, clubID);
+            ps.setInt(2, semesterID);
+            rs = ps.executeQuery();
+
+        } catch (SQLException ex) {
+            Logger.getLogger(StudentProfileDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return rs;
     }
 
     public ClubMember getClubMemberByClubID(int clubID) throws SQLException {
@@ -666,7 +752,7 @@ public class ClubDAO {
         return rs;
     }
 
-    public int updatePointAndReport(int clubID, int studentID, int semesterID, int point , String report) throws SQLException {
+    public int updatePointAndReport(int clubID, int studentID, int semesterID, int point, String report) throws SQLException {
         int count = 0; // Establish database connection
         String sql = "UPDATE ClubMember set ClubPoint = ?, Report = ? where ClubID =  and StudentProfileID = ? and SemesterID = ?";
         ps = conn.prepareStatement(sql);
@@ -678,4 +764,5 @@ public class ClubDAO {
         count = ps.executeUpdate();
         return count;
     }
+
 }

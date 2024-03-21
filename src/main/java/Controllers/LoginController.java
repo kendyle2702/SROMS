@@ -35,6 +35,11 @@ public class LoginController extends HttpServlet {
         String roleLogin = (String) session.getAttribute("roleLogin");
         String username = userInfor.getEmail();
         UserProfile userProfile = userLoginDAO.getUserProfileByUsername(username);
+        if(!userLoginDAO.checkAccountIsActive(userProfile)){
+            request.setAttribute("errorLogin", "Account has been locked!");
+            request.getRequestDispatcher("/login.jsp").forward(request, response);
+            return;
+        }
         if (userProfile != null) {
             boolean isLogin = userLoginDAO.loginWithGoogleByUsernameAndRole(username, roleLogin);
             if (isLogin) {
@@ -66,14 +71,13 @@ public class LoginController extends HttpServlet {
                 }
 
             } else {
-                request.setAttribute("errorLogin", "You don't have permission to log in to the \"" + (String) session.getAttribute("role") + "\" role");
+                request.setAttribute("errorLogin", "You don't have permission to log in to the \"" + (String) session.getAttribute("roleLogin") + "\" role");
                 request.getRequestDispatcher("/login.jsp").forward(request, response);
             }
         } else {
             request.setAttribute("errorLogin", "Account does not exist");
             request.getRequestDispatcher("/login.jsp").forward(request, response);
         }
-
     }
 
     @Override

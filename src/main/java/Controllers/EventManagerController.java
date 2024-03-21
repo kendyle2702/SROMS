@@ -4,7 +4,9 @@ import static Controllers.LoginController.getToken;
 import static Controllers.LoginController.getUserInfo;
 import DAOs.EventDAO;
 import DAOs.ManagerProfileDAO;
+import DAOs.NewsDAO;
 import Models.Event;
+import Models.News;
 import Models.ParticipationEventDetail;
 import Models.PrizeStructure;
 import Models.StudentProfile;
@@ -136,6 +138,17 @@ public class EventManagerController extends HttpServlet {
                     response.sendRedirect("/eventmanager/events/checkrequestcreateevent");
                 } else if (path.equals("/eventmanager/news/view")) {
                     session.setAttribute("tabId", 13);
+                    request.getRequestDispatcher("/eventManager.jsp").forward(request, response);
+                }else if (path.startsWith("/eventmanager/news/view/detail/")) {
+                        String[] idArray = path.split("/");
+                        int id = Integer.parseInt(idArray[idArray.length - 1]);
+                        NewsDAO newsDAO = new NewsDAO();
+                        News news = newsDAO.getNewsByID(id);
+                        String name = newsDAO.getNameAuthor(id);
+                        session.setAttribute("news", news);
+                        session.setAttribute("name", name);
+                        session.setAttribute("newsID", id);
+                    session.setAttribute("tabId", 14);
                     request.getRequestDispatcher("/eventManager.jsp").forward(request, response);
                 }
             } catch (SQLException ex) {

@@ -26,7 +26,7 @@ public class HomeController extends HttpServlet {
                 boolean logged = false;
                 for (Cookie c : cList) {
                     if (c.getName().equals("login")) {
-                        String[] userInfo = URLDecoder.decode(c.getValue(),"UTF-8").split("/");
+                        String[] userInfo = URLDecoder.decode(c.getValue(), "UTF-8").split("/");
                         username = userInfo[0];
                         role = userInfo[1];
                         logged = true;
@@ -36,12 +36,17 @@ public class HomeController extends HttpServlet {
                 if (logged) {
                     UserLoginDAO userLoginDAO = new UserLoginDAO();
                     UserProfile userProfile = userLoginDAO.getUserProfileByUsername(username);
+                    if (!userLoginDAO.checkAccountIsActive(userProfile)) {
+                        request.setAttribute("errorLogin", "Account has been locked!");
+                        request.getRequestDispatcher("/login.jsp").forward(request, response);
+                        return;
+                    }
                     if (userProfile != null) {
                         session.setAttribute("user", userProfile);
                         session.setAttribute("role", role);
                         session.setAttribute("semester", getSemester());
                     }
-                    switch(role) {
+                    switch (role) {
                         case "Admin":
                             session.setAttribute("roleURL", "admin");
                             response.sendRedirect("/admin");
@@ -66,7 +71,7 @@ public class HomeController extends HttpServlet {
                 response.sendRedirect("/login");
             }
         } else {
-            String role = (String)session.getAttribute("role");
+            String role = (String) session.getAttribute("role");
             switch (role) {
                 case "Admin":
                     response.sendRedirect("/admin");

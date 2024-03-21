@@ -94,6 +94,13 @@ public class UploadController extends HttpServlet {
             String gender = request.getParameter("gender");
             Date birthdate = Date.valueOf(request.getParameter("birthdate"));
             Date enrollDate = Date.valueOf(request.getParameter("enrolldate"));
+            
+            if(birthdate.compareTo(enrollDate)>=0){
+                session.setAttribute("createStudent", "failDate");
+                response.sendRedirect("/admin/account/student/create");
+                return;
+            }
+            
             String address = request.getParameter("address");
             String email = request.getParameter("email");
             String phone = request.getParameter("phone");
@@ -122,7 +129,7 @@ public class UploadController extends HttpServlet {
             UserProfileDAO uProfileDAO = new UserProfileDAO();
             UserProfile newUser = new UserProfile(firstName, lastName, avatar, gender, birthdate, address, enrollDate,
                     email, phone);
-
+            
             UserProfile user = uProfileDAO.addUserProfile(newUser);
             if (user == null) {
                 session.setAttribute("createStudent", "fail");
@@ -152,6 +159,14 @@ public class UploadController extends HttpServlet {
             String gender = request.getParameter("gender");
             Date birthdate = Date.valueOf(request.getParameter("birthdate"));
             Date enrollDate = Date.valueOf(request.getParameter("enrolldate"));
+            
+            if(birthdate.compareTo(enrollDate)>=0){
+                session.setAttribute("editStudent", "failDate");
+                response.sendRedirect("/admin/account/student/detail/" + studentID);
+                return;
+            }
+            
+            
             String address = request.getParameter("address");
             String email = request.getParameter("email");
             String phone = request.getParameter("phone");
@@ -200,6 +215,13 @@ public class UploadController extends HttpServlet {
             String gender = request.getParameter("gender");
             Date birthdate = Date.valueOf(request.getParameter("birthdate"));
             Date enrollDate = Date.valueOf(request.getParameter("enrollmentdate"));
+            
+            if(birthdate.compareTo(enrollDate)>=0){
+                session.setAttribute("creatEventManager", "failDate");
+                response.sendRedirect("/admin/account/eventmanager/create");
+                return;
+            }
+            
             String address = request.getParameter("address");
             String email = request.getParameter("email");
             String phone = request.getParameter("phone");
@@ -258,6 +280,13 @@ public class UploadController extends HttpServlet {
             String gender = request.getParameter("gender");
             Date birthdate = Date.valueOf(request.getParameter("birthdate"));
             Date enrollDate = Date.valueOf(request.getParameter("enrollmentdate"));
+            
+            if(birthdate.compareTo(enrollDate)>=0){
+                session.setAttribute("editEventManager", "failDate");
+                response.sendRedirect("/admin/account/eventmanager/detail/" + managerID);
+                return;
+            }
+            
             String address = request.getParameter("address");
             String email = request.getParameter("email");
             String phone = request.getParameter("phone");
@@ -306,6 +335,13 @@ public class UploadController extends HttpServlet {
             String gender = request.getParameter("gender");
             Date birthdate = Date.valueOf(request.getParameter("birthdate"));
             Date enrollDate = Date.valueOf(request.getParameter("enrollmentdate"));
+            
+            if(birthdate.compareTo(enrollDate)>=0){
+                session.setAttribute("createClubManager", "failDate");
+                response.sendRedirect("/admin/account/clubmanager/create");
+                return;
+            }
+            
             String address = request.getParameter("address");
             String email = request.getParameter("email");
             String phone = request.getParameter("phone");
@@ -364,6 +400,13 @@ public class UploadController extends HttpServlet {
             String gender = request.getParameter("gender");
             Date birthdate = Date.valueOf(request.getParameter("birthdate"));
             Date enrollDate = Date.valueOf(request.getParameter("enrollmentdate"));
+            
+            if(birthdate.compareTo(enrollDate)>=0){
+                session.setAttribute("editClubManager", "failDate");
+                response.sendRedirect("/admin/account/clubmanager/detail/" + managerID);
+                return;
+            }
+            
             String address = request.getParameter("address");
             String email = request.getParameter("email");
             String phone = request.getParameter("phone");

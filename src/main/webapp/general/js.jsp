@@ -16,7 +16,7 @@
 <script src="${pageContext.request.contextPath}/assets/plugins/sweetalert/sweetalert2.all.min.js" type="text/javascript"></script>>
 <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
 <script src="${pageContext.request.contextPath}/assets/js/Validator.js"></script>
-<script src="${pageContext.request.contextPath}/assets/js/apexchart.js"></script>
+
 <script>
     $(document).ready(function () {
         $("#viewEvents").DataTable();

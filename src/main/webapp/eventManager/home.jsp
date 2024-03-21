@@ -20,23 +20,24 @@
                     </div>
                 </div>
             </div>
-            <div class="card flex-fill comman-shadow">
+            <div style="margin-top: 30px" class="card flex-fill comman-shadow">
                 <div class="card-header">
                     <div class="row align-items-center">
                         <div class="col-4">
-                            <h5 class="card-title"> New</h5>
+                            <h5 class="card-title">News</h5>
                         </div>
                         <div class="col-8">
                             <ul class="chart-list-out">
                                 <li class="lesson-view-all"><a href="/eventmanager/news/view">View All</a></li>
                             </ul>
                         </div>
+
                         <!-- box show 1 new on today -->
                         <div class="card flex-fill comman-shadow">
                             <div class="card-header">
                                 <div class="row align-items-center">
                                     <div class="col-4">
-                                        <h5 class="card-title">Today's New</h5>
+                                        <h5 class="card-title">Latest News</h5>
                                     </div>
                                 </div>
                                 <%
@@ -49,7 +50,7 @@
                                 <div class="card-header">
                                     <div class="row align-items-center">
                                         <div class="col-10">
-                                            <h3 class="blog-title"><%= latestNews.getTitle()%></h3>
+                                            <h4 class="blog-title"><%=latestNews.getTitle()%></h3>
                                         </div>
                                         <div class="col-2">
                                             <a style="background: #ea7127;border-color:#ea7127" href="#" data-bs-toggle="modal" data-bs-target="#news_detail<%= latestNews.getNewsID()%>" class="btn btn-primary paid-cancel-btn">
@@ -125,82 +126,26 @@
                     </div>
                 </div>
             </div>
-            <div class="row">
-                <div class="col-xl-12 d-flex">
-                    <div class="card flex-fill student-space comman-shadow">
-                        <div class="card-header d-flex align-items-center">
-                            <h5 class="card-title">Event List</h5>
-                            <ul class="chart-list-out student-ellips">
-                                <li class="star-menus"><a href="javascript:;"><i class="fas fa-ellipsis-v"></i></a></li>
-                            </ul>
+        </div>     
+        <div class="modal custom-modal fade" id="news_detail<%= latestNews.getNewsID()%>" aria-hidden="true" style="display: none;">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-body">
+                        <h3><%=latestNews.getTitle()%></h3>
+                        <div class="form-header">
+                            <p><%=latestNews.getContent()%></p>
                         </div>
-                        <div class="card-body">                                      
-                            <div class="table-responsive">
-                                <table id="viewEvents" class="table table-hover table-striped table-bordered">
-                                    <thead class="thead-light">
-                                        <tr>
-                                            <th class="text-center">No.</th>
-                                            <th class="text-center">Name</th>
-                                            <th class="text-center">Location</th>
-                                            <th class="text-center">Start Time</th>            
-                                            <th class="text-center">Status</th>       
-                                            <th class="text-center"></th> 
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <c:if test="${not empty sessionScope.listEvent}">
-                                            <c:forEach items="${sessionScope.listEvent}" var="liste">
-                                                <c:if test="${liste.getApprove() eq 'AA'}">
-                                                    <c:set var="count" value="${count + 1}"/>
-                                                    <tr>
-                                                        <td class="">${count}</td>                                                        
-                                                        <td class="">${liste.getEventName()}</td>
-                                                        <td class="">${liste.getLocation()}</td>
-                                                        <td class="">${liste.getHoldTime()}</td>
-                                                        <%-- Scriptlets should be avoided, but for demonstration, I'm maintaining them --%>
-                                                        <%-- Scriptlets should be avoided, but for demonstration, I'm maintaining them --%>
-                                                        <%
-                                                            EventDAO dao = new EventDAO();
-                                                            List<Event> events = dao.eventList();
-                                                            Calendar calen = Calendar.getInstance();
-                                                            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH-mm-ss");
-                                                            Timestamp currentDateTime = new Timestamp(calen.getTimeInMillis());
-                                                            String currentDateTimeString = format.format(currentDateTime);
-                                                            session.setAttribute("currentTime", currentDateTimeString);
-                                                        %>
-                                                        <c:choose>
-                                                            <c:when test="${sessionScope.currentTime <= liste.getEndTime() && sessionScope.currentTime >= liste.getHoldTime() && liste.getApprove() eq 'AA'}">
-                                                                <td class=""><button type="button" class="btn btn-block btn-outline-success active">Happening</button></td>
-                                                            </c:when>
-                                                            <c:when test="${sessionScope.currentTime > liste.getEndTime() && liste.getApprove() eq 'AA'}">
-                                                                <td class=""><button type="button" class="btn btn-block btn-outline-primary active">Finished</button></td>
-                                                            </c:when>                            
-                                                            <c:when test="${sessionScope.currentTime < liste.getHoldTime() && sessionScope.currentTime < liste.getEndTime()  && liste.getApprove() eq 'AA'}">
-                                                                <td class=""><button type="button" class="btn btn-block btn-outline-secondary active">Not Started</button></td>
-                                                            </c:when>
-
-                                                        </c:choose>                    
-                                                        <td class="text-center">
-                                                            <a href="/eventmanager/events/detail/${liste.getEventID()}" class="mb-2 mr-2 btn btn-outline-organ text-white" style="background-color: #ea7127; border-color: #ea7127;">
-                                                                <i class="feather-edit-3"></i>Detail</a>
-                                                        </td>
-                                                    </tr>
-                                                </c:if>
-                                            </c:forEach>
-                                        </c:if>                                              
-                                        <c:if test="${empty sessionScope.listEvent}">
-                                            <tr>
-                                                <td colspan="7" class="text-center">No events found.</td>
-                                            </tr>
-                                        </c:if>
-                                    </tbody>
-                                </table>                                          
+                        <div class="modal-btn delete-action">
+                            <div class="row">
+                                <div class="text-center sorting">
+                                    <a href="javascript:void(0);" data-bs-dismiss="modal" class="btn btn-primary paid-cancel-btn">Cancel</a>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>     
+        </div>
     </div>
 </div>
 

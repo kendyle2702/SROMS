@@ -51,7 +51,7 @@
                                         <c:if test="${not empty sessionScope.listEvent}">
                                             <c:forEach items="${sessionScope.listEvent}" var="liste">
                                                 <c:if test="${liste.getApprove() eq 'SC'}">
-                                                     <c:set var="count" value="${count + 1}"/>
+                                                    <c:set var="count" value="${count + 1}"/>
                                                     <tr>
                                                         <td class="">${count}</td>
                                                         <td style="width: 50px;" class="">${liste.getEventName()}</td>
@@ -68,7 +68,7 @@
                                         </c:if>
                                         <c:if test="${empty sessionScope.listEvent}">
                                             <tr>
-                                                <td colspan="7" class="text-center">No events found.</td>
+                                                <td colspan="8" class="text-center">No events found.</td>
                                             </tr>
                                         </c:if>
                                     </tbody>

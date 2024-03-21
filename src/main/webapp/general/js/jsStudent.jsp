@@ -124,7 +124,7 @@
         document.getElementById('deleteMemberClub').addEventListener('click', function (event) {
             event.preventDefault(); // Prevent the default link behavior
 
-            // S? d?ng SweetAlert2 ?? xác nh?n hành ??ng xóa
+            // S? d?ng SweetAlert2 ?? xï¿½c nh?n hï¿½nh ??ng xï¿½a
             Swal.fire({
                 title: "Are you sure?",
                 text: "You won't be able to revert this!",
@@ -135,7 +135,7 @@
                 confirmButtonText: "Yes, delete it!"
             }).then((result) => {
                 if (result.isConfirmed) {
-                    // N?u ng??i dùng xác nh?n xóa, chuy?n h??ng ??n URL ?ã xác nh?n xóa
+                    // N?u ng??i dï¿½ng xï¿½c nh?n xï¿½a, chuy?n h??ng ??n URL ?ï¿½ xï¿½c nh?n xï¿½a
                     window.location.href = document.getElementById('deleteMemberClub').getAttribute('href');
                 }
             });
@@ -198,9 +198,9 @@
         </script> 
     </c:when>
 </c:choose>
-<!--Alert check request join club for student-->
+<!--Alert check request join club for student accept-->
 <c:choose>
-    <c:when test="${sessionScope.checkRequestJoin == 'success'}">
+    <c:when test="${sessionScope.checkRequestJoinAccept == 'success'}">
         <script>
             Swal.fire({
                 position: "top-end",
@@ -209,10 +209,10 @@
                 showConfirmButton: false,
                 timer: 1500
             });
-            <%session.setAttribute("checkRequestJoin", "sdsdsfdsf");%>
+            <%session.setAttribute("checkRequestJoinAccept", "sdsdsfdsf");%>
         </script> 
     </c:when>
-    <c:when test="${sessionScope.checkRequestJoin == 'fail'}">
+    <c:when test="${sessionScope.checkRequestJoinAccept == 'fail'}">
         <script>
             Swal.fire({
                 position: "top-end",
@@ -221,11 +221,66 @@
                 showConfirmButton: false,
                 timer: 1500
             });
-            <%session.setAttribute("checkRequestJoin", "sdsdsfdsf");%>
+            <%session.setAttribute("checkRequestJoinAccept", "sdsdsfdsf");%>
         </script> 
     </c:when>
 </c:choose>
 
+<!--Alert check request join club for student reject-->
+<c:choose>
+    <c:when test="${sessionScope.checkRequestJoinReject == 'success'}">
+        <script>
+            Swal.fire({
+                position: "top-end",
+                icon: "success",
+                title: "You have rejected the member as successfully!",
+                showConfirmButton: false,
+                timer: 1500
+            });
+            <%session.setAttribute("checkRequestJoinReject", "sdsdsfdsf");%>
+        </script> 
+    </c:when>
+    <c:when test="${sessionScope.checkRequestJoinReject == 'fail'}">
+               <script>
+            Swal.fire({
+                position: "top-end",
+                icon: "warning",
+                title: "You have rejected the member as failure!",
+                showConfirmButton: false,
+                timer: 1500
+            });
+            <%session.setAttribute("checkRequestJoinReject", "sdsdsfdsf");%>
+        </script> 
+    </c:when>
+</c:choose>
+
+<!--alert remove request-->
+<c:choose>
+    <c:when test="${sessionScope.checkRequestJoinRemove == 'success'}">
+        <script>
+            Swal.fire({
+                position: "top-end",
+                icon: "success",
+                title: "You have removed the member as successfully!",
+                showConfirmButton: false,
+                timer: 1500
+            });
+            <%session.setAttribute("checkRequestJoinRemove", "sdsdsfdsf");%>
+        </script> 
+    </c:when>
+    <c:when test="${sessionScope.checkRequestJoinRemove == 'fail'}">
+        <script>
+            Swal.fire({
+                position: "top-end",
+                icon: "warning",
+                title: "You have removed the member as failure!",
+                showConfirmButton: false,
+                timer: 1500
+            });
+            <%session.setAttribute("checkRequestJoinRemove", "sdsdsfdsf");%>
+        </script> 
+    </c:when>
+</c:choose>
 
 
 <script>

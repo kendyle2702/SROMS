@@ -47,7 +47,7 @@
                                 <div class="col-12 col-sm-4">
                                     <div class="form-group local-forms">
                                         <label>Last Name <span class="login-danger">*</span></label>
-                                        <input id="lastname" name="lastname" class="form-control" type="text" placeholder="Enter First Name">
+                                        <input id="lastname" name="lastname" class="form-control" type="text" placeholder="Enter Last Name">
                                         <div class="message"></div>
                                     </div>
                                 </div>
