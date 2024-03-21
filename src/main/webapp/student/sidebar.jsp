@@ -33,10 +33,10 @@
                 <li class="menu-title">
                     <span>Club</span>
                 </li>
-                <li class="submenu <%=(session.getAttribute("tabId").equals(4))||(session.getAttribute("tabId").equals(8))||session.getAttribute("tabId").equals(10) ? "active" : ""%>">
+                <li class="submenu <%=(session.getAttribute("tabId").equals(4))||(session.getAttribute("tabId").equals(8))||session.getAttribute("tabId").equals(10)||session.getAttribute("tabId").equals(9) ? "active" : ""%>">
                     <a href="#"><i class="feather-user-plus"></i> <span class="title">Club</span><span class="menu-arrow"></span></a>
                     <ul>
-                        <li><a href="/student/clubs/view" class="<%= session.getAttribute("tabId").equals(4)||session.getAttribute("tabId").equals(8)||session.getAttribute("tabId").equals(10) ? "active subdrop" : ""%>"> View Clubs</a></li>                           
+                        <li><a href="/student/clubs/view" class="<%= session.getAttribute("tabId").equals(4)||session.getAttribute("tabId").equals(8)||session.getAttribute("tabId").equals(10)||session.getAttribute("tabId").equals(9) ? "active subdrop" : ""%>"> View Clubs</a></li>                           
                     </ul>
                 </li>
 
