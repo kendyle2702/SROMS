@@ -28,13 +28,13 @@ import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Enumeration;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import static jdk.nashorn.internal.runtime.Debug.id;
 
 public class StudentController extends HttpServlet {
 
@@ -134,10 +134,38 @@ public class StudentController extends HttpServlet {
                         List<Map<String, String>> listClubMember = clubDAO.getAllMembersClub(clubId);
                         session.setAttribute("listClubMember", listClubMember);
                         Club myClubInfo = clubDAO.getClubByClubID(clubId);
+                        Club clubMy = clubDAO.getClubByClubID(clubId);
                         session.setAttribute("myClubInfo", myClubInfo);
+                        session.setAttribute("clubMy", clubMy);
                         List<Map<String, String>> listCheckRequestJoin = clubDAO.getRequestJoinClub(clubId);
                         session.setAttribute("listCheckRequestJoin", listCheckRequestJoin);
+
                         session.setAttribute("tabId", 9);
+                        request.getRequestDispatcher("/student.jsp").forward(request, response);
+                    } else if (path.startsWith("/student/clubs/feedback/")) {
+
+                        String[] idArray = path.split("/");
+                        int id = Integer.parseInt(idArray[idArray.length - 1]);
+
+                        Club clubMy = clubDAO.getClubByClubID(id);
+                        Club club = clubDAO.getClub(id);
+                        String semesterIDString = (String) session.getAttribute("semesterIDStudentScore");
+
+                        if (semesterIDString == null) {
+                            SemesterDAO semDAO = new SemesterDAO();
+                            String currentSemesterName = (String) session.getAttribute("semester");
+                            int semesterID = semDAO.getSemesterIDBySemesterName(currentSemesterName);
+                            session.setAttribute("semesterIDStudentScore", semesterID + "");
+                        } else {
+                            session.setAttribute("semesterIDStudentScore", semesterIDString);
+                        }
+                        ResultSet rsStudent = studentProfileDAO.getStudentProfileMorebyEventID(id);
+                        session.setAttribute("studentProfileID", studentProfileID);
+                        session.setAttribute("rsStudent", rsStudent);
+                        session.setAttribute("rsClubID", id);
+                        session.setAttribute("clubMy", clubMy);
+                        session.setAttribute("club", club);
+                        session.setAttribute("tabId", 16);
                         request.getRequestDispatcher("/student.jsp").forward(request, response);
                     }
                 } else if (path.startsWith("/student/events")) {
@@ -262,7 +290,22 @@ public class StudentController extends HttpServlet {
                         }
                         response.sendRedirect("/student/clubs/viewClubMember/" + clubId);
                     }
+                } else if (path.startsWith("/student/clubs/feedback")) {
+                    String[] idArray = path.split("/");
+                    int id = Integer.parseInt(idArray[idArray.length - 1]);
 
+                    Club clubMy = clubDAO.getClubByClubID(id);
+                    Club club = clubDAO.getClub(id);
+
+                    ResultSet rsStudent = studentProfileDAO.getStudentProfileMorebyEventID(id);
+                    session.setAttribute("studentProfileID", studentProfileID);
+                    session.setAttribute("rsStudent", rsStudent);
+                    session.setAttribute("rsClubID", id);
+                    session.setAttribute("clubMy", clubMy);
+                    session.setAttribute("club", club);
+                    session.setAttribute("tabId", 16);
+                    request.getRequestDispatcher("/student.jsp").forward(request, response);
+//                    response.sendRedirect("/student/clubs/viewClubMember/" + id);
                 } else {
                     response.sendRedirect("/");
                 }
@@ -281,6 +324,7 @@ public class StudentController extends HttpServlet {
         String path = request.getRequestURI();
         String createCompatition = request.getParameter("createCompatitionClub");
         String createEvent = request.getParameter("createEventClub");
+        String pointAndReportForStudent = request.getParameter("pointAndReportForStudent");
         String updateRoleMember = request.getParameter("updateRoleMember");
         try {
             if (action != null && action.equals("Join")) {
@@ -309,10 +353,16 @@ public class StudentController extends HttpServlet {
                     response.sendRedirect("/student/events/view");
                 }
 
-            }else if (request.getParameter("selectStudentScoreSemester") != null) {
-                    String semesterID = request.getParameter("semesterID");
-                    session.setAttribute("semesterIDStudentScore", semesterID);
-                    response.sendRedirect("/student/point/view");
+            } else if (request.getParameter("selectStudentScoreSemester") != null) {
+                String semesterID = request.getParameter("semesterID");
+                session.setAttribute("semesterIDStudentScore", semesterID);
+                response.sendRedirect("/student/point/view");
+            } else if (request.getParameter("selectClubScoreSemester") != null) {
+                String semesterID = request.getParameter("semesterID");
+                String clubID = request.getParameter("clubIDfromViewClubMember");
+                session.setAttribute("semesterIDStudentScore", semesterID);
+                session.setAttribute("clubID", clubID);
+                response.sendRedirect("/student/clubs/feedback/" + clubID);
             } else if (action != null && action.equals("Register")) {
                 int clubID = Integer.parseInt(request.getParameter("ClubID"));
 
@@ -403,7 +453,7 @@ public class StudentController extends HttpServlet {
                     session.setAttribute("checkCreateEvent", "fail");
                 }
                 response.sendRedirect("/student/viewEventMyClub");
-            } else if (updateRoleMember.startsWith("Update")) {
+            } else if (updateRoleMember != null && updateRoleMember.startsWith("Update")) {
                 String[] isArray = path.split("/");
                 int studentId = Integer.parseInt(request.getParameter("studentId"));
                 int clubId = Integer.parseInt(request.getParameter("clubId"));
@@ -416,7 +466,66 @@ public class StudentController extends HttpServlet {
                     session.setAttribute("checkUpdateRole", "fail");
                 }
                 response.sendRedirect("/student/clubs/viewClubMember/" + clubId);
-            } 
+            } else if (pointAndReportForStudent != null && pointAndReportForStudent.equals("Submit")) {
+                int count = 0;
+                Enumeration<String> parameterNames = request.getParameterNames();
+                ArrayList<String> pointList = new ArrayList<>();
+                ArrayList<String> reportList = new ArrayList<>();
+                while (parameterNames.hasMoreElements()) {
+                    String paramName = parameterNames.nextElement();
+                    if (paramName.startsWith("pointStudent")) {
+                        pointList.add(paramName);
+                    } else if (paramName.startsWith("reportStudent")) {
+                        reportList.add(paramName);
+                    }
+                }
+
+                for (int i = 0; i < pointList.size(); i++) {
+
+                    String[] pointSplit = pointList.get(i).split("/");
+                    int clubId = Integer.parseInt(pointSplit[1]);
+                    int studentProfileId = Integer.parseInt(pointSplit[2]);
+                    int semesterID = Integer.parseInt(pointSplit[3]);
+
+                    int point = Integer.parseInt(request.getParameter(pointList.get(i)));
+                    String report = request.getParameter(reportList.get(i));
+
+                    ClubDAO clubDAO = new ClubDAO();
+
+                    int rs = clubDAO.updatePointAndReport(clubId, studentProfileId, semesterID, point, report);
+                    session.setAttribute("checkEvaluateStudentMember", "success");
+                    response.sendRedirect("/student/clubs/feedback/" + clubId);
+                }
+
+                while (parameterNames.hasMoreElements()) {
+                    String paramName = parameterNames.nextElement();
+                    String paramNameReport = parameterNames.nextElement();
+
+                    if (paramName.startsWith("pointStudent/") || paramNameReport.startsWith("reportStudent/")) {
+                        String[] ids = paramName.split("/");
+                        int clubId = Integer.parseInt(ids[1]);
+                        int studentProfileId = Integer.parseInt(ids[2]);
+                        int semesterID = Integer.parseInt(ids[3]);
+
+                        String pointString = request.getParameter(paramName);
+                        String report = request.getParameter(paramNameReport);
+
+                        int point = Integer.parseInt(pointString);
+                        ClubDAO clubDAO = new ClubDAO();
+                        int rs = clubDAO.updatePointAndReport(clubId, studentProfileId, semesterID, point, report);
+                        if (rs > 0) {
+                            count++;
+                        }
+                        if (count > 0) {
+                            session.setAttribute("checkEvaluateStudentMember", "success");
+                        } else {
+                            session.setAttribute("checkEvaluateStudentMember", "fail");
+                        }
+
+                        response.sendRedirect("/student/clubs/feedback/" + clubId);
+                    }
+                }
+            }
         } catch (SQLException ex) {
             Logger.getLogger(StudentController.class.getName()).log(Level.SEVERE, null, ex);
         }

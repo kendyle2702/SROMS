@@ -227,6 +227,7 @@
 </c:choose>
 
 
+
 <script>
     $(document).ready(function () {
         $('#viewMemberRequest').DataTable();
@@ -237,3 +238,32 @@
         $('#viewMyClub').DataTable();
     });
 </script>
+
+
+<!--point and feedback club-->
+<c:choose>
+    <c:when test="${sessionScope.checkRequestJoin == 'success'}">
+        <script>
+            Swal.fire({
+                position: "top-end",
+                icon: "success",
+                title: "Thank for your feedback the member",
+                showConfirmButton: false,
+                timer: 1500
+            });
+            <%session.setAttribute("checkEvaluateStudentMember", "sdsdsfdsf");%>
+        </script> 
+    </c:when>
+    <c:when test="${sessionScope.checkRequestJoin == 'fail'}">
+        <script>
+            Swal.fire({
+                position: "top-end",
+                icon: "warning",
+                title: "false for feedback!",
+                showConfirmButton: false,
+                timer: 1500
+            });
+            <%session.setAttribute("checkEvaluateStudentMember", "sdsdsfdsf");%>
+        </script> 
+    </c:when>
+</c:choose>

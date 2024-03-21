@@ -19,7 +19,7 @@
             <%@include file="./student/sidebar.jsp" %>
             <c:choose>
                 <c:when test="${sessionScope.tabId == 1}">
-                    <%@include file="./student/home.jsp" %>
+                    <%@include file="./student/home_new_student.jsp" %>
                 </c:when>
                 <c:when test="${sessionScope.tabId == 2}">
                     <%@include file="./student/news/viewNews.jsp" %>
@@ -65,6 +65,10 @@
                 <c:when test="${sessionScope.tabId == 15}">
                     <%@include file="./student/activitiesPoint/activitiesPointDetail.jsp" %>
                 </c:when>
+                <c:when test="${sessionScope.tabId == 16}">
+                    <%@include file="./student/club/feedback.jsp" %>
+                </c:when>
+                
             </c:choose>
         </div>
         <%@include file="./general/js.jsp" %>
