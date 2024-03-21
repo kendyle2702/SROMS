@@ -1,4 +1,3 @@
-
 <style>
     /* Apply hover effect directly to the anchor tag */
     li a:hover {
@@ -16,18 +15,20 @@
                     <a href="/clubmanager"><i class="feather-home"></i> <span>Home</span></a>
                 </li>
                 <li class="menu-title">
-                    <span>Event Management</span>
+                    <span>Club Management</span>
                 </li>
                 <li class="<%=(session.getAttribute("tabId").equals(4))|| (session.getAttribute("tabId").equals(5))? "active" : ""%>">
-                    <a href="/clubmanager/viewclubs"><i class=""></i> <span>View Club</span></a>
+                    <a href="/clubmanager/viewclubs"><i class="feather-eye"></i> <span>View Club</span></a>
                 </li>
                 <li  class="<%=(session.getAttribute("tabId").equals(6)) ? "active" : ""%>">
-                    <a href="/clubmanager/checkrequestClub"><i class=""></i> <span>Check Request Clubs</span></a>
+                    <a href="/clubmanager/checkrequestClub"><i class="feather-check-square"></i> <span>Check Request Clubs</span></a>
+                </li>
+                <li class="menu-title">
+                    <span>Club Score Statistics</span>
                 </li>
                 <li class="<%=(session.getAttribute("tabId").equals(7)||session.getAttribute("tabId").equals(8)) ? "active" : ""%>">
-                    <a href="/clubmanager/viewclubpoint"><i class=""></i><span>View Club Point</span></a>
+                    <a href="/clubmanager/viewclubpoint"><i class="feather-award"></i> <span class="title">View Club Point</span> </a>
                 </li>
-                
             </ul>
         </div>
     </div>
