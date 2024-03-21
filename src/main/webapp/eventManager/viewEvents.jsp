@@ -43,7 +43,7 @@
                                             <th class="text-center">Organization</th>                                         
                                             <th class="text-center">Location</th>
                                             <th class="text-center">Status</th>       
-                                            <th class="text-center"></th> 
+                                            <th class="text-center">Action</th> 
                                         </tr>
                                     </thead>
                                     <tbody>

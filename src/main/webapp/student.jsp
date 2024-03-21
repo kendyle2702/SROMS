@@ -19,7 +19,7 @@
             <%@include file="./student/sidebar.jsp" %>
             <c:choose>
                 <c:when test="${sessionScope.tabId == 1}">
-                    <%@include file="./student/home_new_student.jsp" %>
+                    <%@include file="./student/home.jsp" %>
                 </c:when>
                 <c:when test="${sessionScope.tabId == 2}">
                     <%@include file="./student/news/viewNews.jsp" %>

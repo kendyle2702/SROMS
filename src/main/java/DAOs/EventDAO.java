@@ -812,4 +812,40 @@ public class EventDAO {
         }
         return count;
     }
+
+    public List<Map<String, String>> getTop5Event() throws SQLException {
+        List<Map<String, String>> listTop = new ArrayList<>();
+        String checkQuery = "SELECT TOP 5 EventName, COUNT(*) AS TotalParticipants\n"
+                + "FROM ParticipationEventDetail LEFT JOIN Event ON ParticipationEventDetail.EventID = Event.EventID\n"
+                + "GROUP BY EventName\n"
+                + "ORDER BY TotalParticipants DESC ";
+        ps = conn.prepareStatement(checkQuery);
+        ResultSet rs = ps.executeQuery();
+        while (rs.next()) {
+            Map<String, String> top = new HashMap<>();
+            top.put("EventName", rs.getString("EventName"));
+            top.put("TotalParticipants", rs.getString("TotalParticipants"));
+            listTop.add(top);
+        }
+        return listTop;
+    }
+
+    public List<Map<String, String>> getTop5Student() throws SQLException {
+        List<Map<String, String>> listTop = new ArrayList<>();
+        String checkQuery = "SELECT TOP 10 ParticipationEventDetail.StudentProfileID, COUNT(*) AS TotalParticipants, CONCAT(UserProfile.LastName, ' ', UserProfile.FirstName) AS FullName \n"
+                + "FROM ParticipationEventDetail\n"
+                + "INNER JOIN StudentProfile ON ParticipationEventDetail.StudentProfileID = StudentProfile.StudentProfileID\n"
+                + "INNER JOIN UserProfile ON StudentProfile.UserProfileID = UserProfile.UserProfileID\n"
+                + "GROUP BY ParticipationEventDetail.StudentProfileID, CONCAT(UserProfile.LastName, ' ', UserProfile.FirstName) \n"
+                + "ORDER BY TotalParticipants DESC;";
+        ps = conn.prepareStatement(checkQuery);
+        ResultSet rs = ps.executeQuery();
+        while (rs.next()) {
+            Map<String, String> top = new HashMap<>();
+            top.put("FullName", rs.getString("FullName"));
+            top.put("TotalParticipants", rs.getString("TotalParticipants"));
+            listTop.add(top);
+        }
+        return listTop;
+    }
 }

@@ -97,6 +97,16 @@
         </script> 
         <%session.setAttribute("checkCreateEvent", "sdsdsfdsf");%>
     </c:when>
+    <c:when test="${sessionScope.checkCreateEvent == 'failDate'}">
+        <script>
+            Swal.fire({
+                icon: "error",
+                title: "Date not valid!",
+                text: "Please enter \"Prepare Date < Start Date, Start Date < End Date and Prepare Date < End Date\"",
+            });
+        </script> 
+        <%session.setAttribute("checkCreateEvent", "sdsdsfdsf");%>
+    </c:when>    
     <c:when test="${sessionScope.checkCreateEvent == 'fail'}">
         <script>
             Swal.fire({
@@ -164,3 +174,56 @@
         <%session.setAttribute("checkEvaluateStudent", "sdsdsfdsf");%>
     </c:when>
 </c:choose> 
+
+<script>
+    Validator({
+        form: "#createEventFormal",
+        message: ".message", // Selector class
+        invalid: "invalid", // T�n class message
+        rules: [
+            Validator.isRequire("#eventname", "Event Name is required"),
+            Validator.isRequire("#pretime", "Preparation Time is required"),
+            Validator.isRequire("#holdtime", "Start Time is required"),
+            Validator.isRequire("#endtime", "End Time is required"),
+            Validator.isRequire("#location", "Location is required"),
+            Validator.isRequire("#cost", "Cost is required"),
+            Validator.isPositive("#cost", "Cost must be postive integer"),
+            Validator.isRequire("#exnum", "Expected Number is required"),
+            Validator.isPositive("#exnum", "Expected Number must be postive integer"),
+
+            Validator.isRequire("#organization", "Organization is required"),
+            Validator.isRequire("#feedback", "Feedback is required"),
+            Validator.isRequire("#description", "Description is required"),
+        ]
+    });
+</script>     
+<script>
+    Validator({
+        form: "#createCompetition",
+        message: ".message", // Selector class
+        invalid: "invalid", // T�n class message
+        rules: [
+            Validator.isRequire("#eventname", "Event Name is required"),
+            Validator.isRequire("#pretime", "Preparation Time is required"),
+            Validator.isRequire("#holdtime", "Start Time is required"),
+            Validator.isRequire("#endtime", "End Time is required"),
+            Validator.isRequire("#location", "Location is required"),
+            Validator.isRequire("#cost", "Cost is required"),
+            Validator.isPositive("#cost", "Cost must be postive integer"),
+            Validator.isRequire("#exnum", "Expected Number is required"),
+            Validator.isPositive("#exnum", "Expected Number must be postive integer"),
+
+            Validator.isRequire("#organization", "Organization is required"),
+            Validator.isRequire("#feedback", "Feedback is required"),
+            Validator.isRequire("#description", "Description is required"),
+            Validator.isRequire("#firtPrize", "First Prize is required"),
+            Validator.isPositive("#firtPrize", "First Prize must be postive integer"),
+            Validator.isRequire("#secondPrize", "Second Prize is required"),
+            Validator.isPositive("#secondPrize", "Second Prize must be postive integer"),
+            Validator.isRequire("#thirdPrize", "Third Prize is required"),
+            Validator.isPositive("#thirdPrize", "Third Prize must be postive integer"),
+            Validator.isRequire("#encouragementPrize", "Encouragement Prize is required"),
+        ]
+    });
+</script>  
+

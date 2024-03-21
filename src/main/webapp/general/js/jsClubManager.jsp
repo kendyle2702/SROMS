@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <script>
     document.querySelector("#banClub").addEventListener("click", function (event) {
         event.preventDefault();

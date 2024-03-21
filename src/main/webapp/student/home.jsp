@@ -1,353 +1,252 @@
-<%@page import="java.sql.Timestamp"%>
-<%@page import="java.text.SimpleDateFormat"%>
-<%@page import="java.util.Calendar"%>
-<%@page import="DAOs.EventDAO"%>
-<%@page import="DAOs.ClubDAO"%>
+<%@page import="java.util.Arrays"%>
+<%@page import="java.util.Map"%>
+<%@page import="java.util.ArrayList"%>
 <%@page import="java.util.List"%>
+<%@page import="DAOs.UserProfileDAO"%>
 <%@page import="Models.News"%>
 <%@page import="DAOs.NewsDAO"%>
+<%@page import="java.sql.ResultSet"%>
+<%@page import="DAOs.StudentProfileDAO"%>
+<%@page import="DAOs.UserLoginDAO"%>
+<%@page import="DAOs.EventDAO"%>
+<%@page import="DAOs.ClubDAO"%>
+<%@page import="Controllers.LoginController"%>
+<%@page import="Models.UserProfile"%>
+<%@page import="DAOs.UserRoleDAO"%>
+<%
+    UserRoleDAO userRoleDAO = new UserRoleDAO();
 
-<div class="page-wrapper" style="min-height: 691px;">
+    UserProfile userPro = (UserProfile) session.getAttribute("user");
+    UserLoginDAO userLoginDAO = new UserLoginDAO();
+    int studentProfileID = userLoginDAO.getStudentProfileIDByUserProfileID(userPro.getUserProfileID());
+
+    StudentProfileDAO stDAO = new StudentProfileDAO();
+    ResultSet rs = stDAO.getStudentProfileMoreByID(studentProfileID);
+    while (rs.next()) {
+%>
+
+<div class="page-wrapper" style="min-height: 471px;">
     <div class="content container-fluid">
+        <%UserProfile user = (UserProfile) session.getAttribute("user");%>
         <div class="page-header">
             <div class="row">
                 <div class="col-sm-12">
                     <div class="page-sub-header">
-                        <h3 class="page-title">Welcome Student!</h3>
+                        <h3 class="page-title"><%=LoginController.getTimePeriod() + ", "%><span style="font-weight: bold"><%=user.getLastName() + " " + user.getFirstName()%></span></h3>
                         <ul class="breadcrumb">
-
+                            <li class="breadcrumb-item active">Home</li>
                         </ul>
                     </div>
                 </div>
             </div>
         </div>
+        <%
+            ClubDAO clubDAO = new ClubDAO();
+            EventDAO eventDAO = new EventDAO();
+            int semesterID = 10;
+            int countClubs = clubDAO.countClubsByStudentIDAndSemesterID(rs.getInt("StudentProfileID"), semesterID);
+            int countEvents = eventDAO.countEventsByStudentIDAndSemesterID(rs.getInt("StudentProfileID"), semesterID);
+
+            int pointClubs = clubDAO.getClubsScoreByStudentIDAndSemesterID(rs.getInt("StudentProfileID"), semesterID);
+            int pointEvensNormal = eventDAO.getEventsScoreByStudentIDAndSemesterID(rs.getInt("StudentProfileID"), semesterID);
+            int pointEvensCompetition = eventDAO.getEventsScoreCompetitionByStudentIDAndSemesterID(rs.getInt("StudentProfileID"), semesterID);
+            int point_default = 60;
+            int total = 0;
+
+            int point_event = pointEvensNormal + pointEvensCompetition;
+            if (point_event > 60) {
+                point_event = 60;
+            }
+            if (pointClubs > 30) {
+                pointClubs = 30;
+            }
+            total = point_default + pointClubs + point_event;
+
+        %>
 
         <div class="row">
-            <div class="col-12 col-lg-12 col-xl-12">
+            <div class="col-xl-4 col-sm-6 col-12 d-flex">
+                <div class="card bg-comman w-100">
+                    <div class="card-body">
+                        <div class="db-widgets d-flex justify-content-between align-items-center">
+                            <div class="db-info">
+                                <h6>Participation Event</h6>
+                                <h3 class="text-center"><%=countEvents%></h3>
+                            </div>  
+                            <div class="db-info">
+                                <h6>Point Event</h6>
+                                <h3 class="text-center"><%=point_event%>/60</h3>
+                            </div>
+                            <div class="db-icon">
+                                <img src="assets/img/icons/teacher-icon-01.svg" alt="Dashboard Icon">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-4 col-sm-6 col-12 d-flex">
+                <div class="card bg-comman w-100">
+                    <div class="card-body">
+                        <div class="db-widgets d-flex justify-content-between align-items-center">
+                            <div class="db-info">
+                                <h6>Clubs</h6>
+                                <h3 class="text-center"><%=countClubs%></h3>
+                            </div>
+                            <div class="db-info">
+                                <h6>Point Club</h6>
+                                <h3 class="text-center"><%=pointClubs%>/30</h3>
+                            </div>
+                            <div class="db-icon">
+                                <img src="assets/img/icons/teacher-icon-02.svg" alt="Dashboard Icon">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-4 col-sm-6 col-12 d-flex">
+                <div class="card bg-comman w-100">
+                    <div class="card-body">
+                        <div class="db-widgets d-flex justify-content-between align-items-center">
+                            <div class="db-info text-center">
+                                <h6></h6>
+                                <h3></h3>
+                            </div>
+                            <div class="db-info text-center">
+                                <h6>Total Point</h6>
+                                <h3><%=total%>/150</h3>
+                            </div>
+
+                            <div class="db-icon">
+                                <img src="assets/img/icons/student-icon-01.svg" alt="Dashboard Icon">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <%
+            // Create an instance of NewsDAO
+            NewsDAO newsDAO = new NewsDAO();
+
+            // Call the getLatestNews method to fetch the latest news article
+            News latestNews = newsDAO.getLatestNews();
+        %>
+
+        <div class="row">
+            <div class="col-12 col-lg-4 col-xl-12">
                 <div class="card flex-fill comman-shadow">
                     <div class="card-header">
                         <div class="row align-items-center">
-                            <div class="col-4">
-                                <h5 class="card-title"> New</h5>
+                            <div class="col-6">
+                                <h5 class="card-title">Today's News</h5>
                             </div>
-                            <div class="col-8">
+
+                            <div class="col-6">
                                 <ul class="chart-list-out">
+                                    <!--<li><span class="circle-blue"></span><span class="circle-gray"></span><span class="circle-gray"></span></li>-->
                                     <li class="lesson-view-all"><a href="/student/news/view">View All</a></li>
+                                    <!--<li class="s    tar-menus"><a href="javascript:;"><i class="fas fa-ellipsis-v"></i></a></li>-->
                                 </ul>
                             </div>
-
-                            <!-- box show 1 new on today -->
-                            <div class="card flex-fill comman-shadow">
-                                <div class="card-header">
-                                    <div class="row align-items-center">
-                                        <div class="col-4">
-                                            <h5 class="card-title">Today's New</h5>
-                                        </div>
-                                    </div>
-                                    <%
-                                        // Create an instance of NewsDAO
-                                        NewsDAO newsDAO = new NewsDAO();
-
-                                        // Call the getLatestNews method to fetch the latest news article
-                                        News latestNews = newsDAO.getLatestNews();
-                                    %>
-                                    <div class="card-header">
-                                        <div class="row align-items-center">
-                                            <div class="col-10">
-                                                <h3 class="blog-title"><%= latestNews.getTitle()%></h3>
-                                            </div>
-                                            <div class="col-2">
-                                                <a style="background: #ea7127;border-color:#ea7127" href="#" data-bs-toggle="modal" data-bs-target="#news_detail<%= latestNews.getNewsID()%>" class="btn btn-primary paid-cancel-btn">
-                                                    Read
-                                                </a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
                         </div>
                     </div>
-                </div>
-
-                <div class="card flex-fill comman-shadow">
-                    <div class="card-header">
-                        <div class="row align-items-center">
-                            <div class="col-6">
-                                <h5 class="card-title"> Club</h5>
-                            </div>
-                            <div class="col-6">
-                                <span class="float-end view-link"><a href="/student/clubs/view"> View All</a></span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="card-body">
-                        <ul class="nav nav-pills navtab-bg nav-justified" role="tablist">
-                            <li class="nav-item" role="presentation">
-                                <a href="#listClub" data-bs-toggle="tab" aria-expanded="false"
-                                   class="nav-link active" aria-selected="false" role="tab">
-                                    List Club
-                                </a>
-                            </li>
-                            <li class="nav-item" role="presentation">
-                                <a href="#myClub" data-bs-toggle="tab" aria-expanded="true" class="nav-link"
-                                   aria-selected="true" role="tab">
-                                    My Club
-                                </a>
-                            </li>
-                        </ul>
-                        <div class="tab-content">
-
-                            <!-- List Club Tab -->
-                            <div class="tab-pane active show" id="listClub" role="tabpanel">
-                                <div class="row">
-                                    <div class="col-xl-12 d-flex">
-                                        <div class="card flex-fill student-space comman-shadow">
-                                            <div class="card-body">
-                                                <form action="/student" method="post">
-                                                    <div class="table-responsive">
-                                                        <table id="viewClubs" class="table table-hover table-striped table-bordered">
-                                                            <thead class="thead-light">
-                                                                <tr>
-                                                                    <th class="text-center">No</th>
-                                                                    <th class="text-center">Name</th>
-                                                                    <th class="text-center">Description</th>
-                                                                    <th class="text-center">Detail</th> 
-                                                                </tr>
-                                                            </thead>
-                                                            <tbody>
-                                                            <c:forEach items="${sessionScope.listClub}" var="club" varStatus="count">
-                                                                <c:if test="${count.index < 3}">
-                                                                    <tr>
-                                                                        <td>${count.index + 1}</td>
-                                                                        <td >${club.clubName}</td>
-                                                                        <td style="white-space: break-spaces;">${club.description}</td>
-                                                                        <td class="text-center">
-                                                                            <a style="background: #ea7127;border-color:#ea7127" href="/student/clubs/detail/${club.clubID}" type="button" class="btn btn-primary">Detail</a>
-                                                                        </td>
-                                                                    </tr>
-                                                                </c:if>
-                                                            </c:forEach>
-                                                            <c:if test="${empty sessionScope.listClub}">
-                                                                <tr>
-                                                                    <td colspan="7" class="text-center">No clubs found..</td>
-                                                                </tr>
-                                                            </c:if>
-                                                            </tbody>
-                                                        </table>
-                                                    </div>
-                                                </form>
-                                            </div>
-                                        </div>
+                    <div class="col-md-8 col-xl-12 col-sm-8">
+                        <div class="blog grid-blog flex-fill">
+                            <a href="/student/news/detail/<%=latestNews.getNewsID()%>">
+                                <div class="row align-items-center">
+                                    <div class="col-8">
+                                        <h3 style="color: black" class="blog-title">
+                                            <%=latestNews.getTitle()%> 
+                                        </h3>
+                                    </div>
+                                    <div class="col-4 text-end">
+                                        <%=latestNews.getCreateAt()%>
                                     </div>
                                 </div>
-                            </div>
-
-                            <!-- My Club Tab -->
-                            <div class="tab-pane" id="myClub" role="tabpanel">
-                                <div class="row">
-                                    <div class="col-xl-12 d-flex">
-                                        <div class="card flex-fill student-space comman-shadow">
-                                            <div class="card-body">
-                                                <form action="/student" method="post">
-                                                    <div class="table-responsive">
-                                                        <table id="viewMyClub" class="table table-hover table-striped table-bordered">
-                                                            <thead class="thead-light">
-                                                                <tr>
-                                                                    <th class="text-center">No</th>
-                                                                    <th class="text-center">Name</th>
-                                                                    <th class="text-center">Description</th>
-                                                                    <th class="text-center">Establish Date</th>
-                                                                    <th class="text-center">Detail</th> 
-                                                                    <th></th>
-                                                                </tr>
-                                                            </thead>
-                                                            <tbody>
-                                                            <c:forEach items="${sessionScope.listMyClub}" var="clubM" varStatus="count">
-                                                                <tr>
-                                                                    <td class="text-center">${count.index + 1}</td>
-                                                                    <td  style="white-space: break-spaces;">${clubM.getClubName()}</td>
-                                                                    <td style="white-space: break-spaces;">${clubM.getDescription()}</td>
-                                                                    <td class="text-center">${clubM.getEstablishDate()}</td>
-                                                                    <td class="text-center">
-                                                                        <a style="background: #ea7127;border-color:#ea7127" href="/student/clubs/detail/${club.clubID}" type="button" class="btn btn-primary">Detail</a>
-                                                                    </td>
-                                                                    <td class="text-center">
-                                                                        <a style="background: #ea7127;border-color:#ea7127;border-radius: 10px;" href="/student/clubs/viewClubMember/${clubM.clubID}" class="btn btn-primary">View Member Club</a>
-                                                                    </td>
-                                                                </tr>
-                                                            </c:forEach>
-                                                            <c:if test="${empty sessionScope.listMyClub}">
-                                                                <tr>
-                                                                    <td colspan="7" class="text-center">You haven't joined the club yet.</td>
-                                                                </tr>
-                                                            </c:if>
-                                                            </tbody>
-                                                        </table>
-                                                    </div>
-                                                </form>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="card flex-fill comman-shadow">
-                <div class="card-body">
-                    <ul class="nav nav-pills navtab-bg nav-justified" role="tablist">
-                        <li class="nav-item" role="presentation">
-                            <a href="#listEvent" data-bs-toggle="tab" aria-expanded="false"
-                               class="nav-link active" aria-selected="false" role="tab">
-                                Upcoming Event
                             </a>
-                        </li>
-                        <li class="nav-item" role="tablist  ">
-                            <a href="#participated" data-bs-toggle="tab" aria-expanded="true" class="nav-link"
-                               aria-selected="true" role="tab">
-                                User participated 
-                            </a>
-                        </li>
-                    </ul>
-                    <div class="tab-content">
-
-                        <%
-                            EventDAO dao = new EventDAO();
-                            Calendar calen = Calendar.getInstance();
-                            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH-mm-ss");
-                            Timestamp currentDateTime = new Timestamp(calen.getTimeInMillis());
-                            String currentDateTimeString = format.format(currentDateTime);
-                            session.setAttribute("currentTime", currentDateTimeString);
-                        %>
-
-                        <!-- List Event Tab -->
-                        <div class="tab-pane active show" id="listEvent" role="tabpanel">
-                            <div class="row">
-                                <div class="col-xl-12 d-flex">
-                                    <div class="card flex-fill student-space comman-shadow">
-
-                                        <!-- Event List -->
-                                        <div class="card-body">
-                                            <div class="table-responsive">
-                                                <table id="viewEvents" class="table table-hover table-striped table-bordered">
-                                                    <thead class="thead-light">
-                                                        <tr>
-                                                            <th class="text-center">No</th>
-                                                            <th class="text-center">Name</th>
-                                                            <th class="text-center">Location</th>
-                                                            <th class="text-center">Date</th>
-                                                            <th class="text-center">Category</th>
-                                                            <th class="text-center"></th> 
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                    <c:set var="eventCount" value="0" />
-                                                    <c:forEach items="${sessionScope.listEvent}"  var="event">
-                                                        <c:if test="${sessionScope.currentTime < event.getHoldTime() && event.getApprove() eq 'AA'}">
-                                                            <c:set var="eventCount" value="${eventCount + 1}" />
-                                                            <tr>    
-                                                                <td>${eventCount}</td>
-                                                                <td style="white-space: break-spaces;">${event.eventName}</td>
-                                                                <td style="white-space: break-spaces;">${event.location}</td>
-                                                                <td>${event.holdTime}</td>
-                                                                <td>${sessionScope.eventCategoryNames[event.eventID]}</td>
-                                                                <td class="text-center">
-                                                                    <a style="background: #ea7127;border-color:#ea7127;border-radius: 10px;" href="/student/events/detail/${event.eventID}" type="button" class="btn btn-primary">Detail</a>
-                                                                </td>
-                                                            </tr>
-                                                        </c:if>
-                                                    </c:forEach>
-                                                    <c:if test="${empty sessionScope.listEvent}">
-                                                        <tr>
-                                                            <td colspan="7" class="text-center">No events found.</td>
-                                                        </tr>
-                                                    </c:if>
-                                                    </tbody>
-                                                </table>  
-                                            </div>
-                                        </div>
-
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- User participated -->
-                        <div class="tab-pane" id="participated" role="tabpanel">
-                            <div class="row">
-                                <div class="col-xl-12 d-flex">
-                                    <div class="card flex-fill student-space comman-shadow">
-
-                                        <!-- Event List -->
-                                        <div class="card-body">
-                                            <div class="table-responsive">
-                                                <table id="viewEvents" class="table table-hover table-striped table-bordered">
-                                                    <thead class="thead-light">
-                                                        <tr>
-                                                            <th class="text-center">No</th>
-                                                            <th class="text-center">Name</th>
-                                                            <th class="text-center">Location</th>
-                                                            <th class="text-center">Date</th>
-                                                            <th class="text-center">Category</th>
-                                                            <th class="text-center"></th> 
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                    <c:set var="eventCount" value="0" />
-                                                    <c:forEach items="${sessionScope.listEventStudent}"  var="event">
-                                                        <c:if test="${sessionScope.currentTime > event.getEndTime() && event.getApprove() eq 'AA'}">
-                                                            <c:set var="eventCount" value="${eventCount + 1}" />
-                                                            <tr>    
-                                                                <td>${eventCount}</td>
-                                                                <td style="white-space: break-spaces;">${event.eventName}</td>
-                                                                <td style="white-space: break-spaces;">${event.location}</td>
-                                                                <td>${event.holdTime}</td>
-                                                                <td>${sessionScope.eventCategoryNames[event.eventID]}</td>
-                                                                <td class="text-center">
-                                                                    <a style="background: #ea7127;border-color:#ea7127;border-radius: 10px;" href="/student/events/detail/${event.eventID}" type="button" class="btn btn-primary">Detail</a>
-                                                                </td>
-                                                            </tr>
-                                                        </c:if>
-                                                    </c:forEach>
-                                                    <c:if test="${empty sessionScope.listEvent}">
-                                                        <tr>
-                                                            <td colspan="7" class="text-center">No events found.</td>
-                                                        </tr>
-                                                    </c:if>
-                                                    </tbody>
-                                                </table>  
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
                         </div>
                     </div>
                 </div>
-            </div>  
-
-        </div>
-        <div class="modal custom-modal fade" id="news_detail<%= latestNews.getNewsID()%>" aria-hidden="true" style="display: none;">
-            <div class="modal-dialog modal-dialog-centered">
-                <div class="modal-content">
-                    <div class="modal-body">
-                        <h3><%=latestNews.getTitle()%></h3>
-                        <div class="form-header">
-                            <p><%=latestNews.getContent()%></p>
-                        </div>
-                        <div class="modal-btn delete-action">
-                            <div class="row">
-                                <div class="text-center sorting">
-                                    <a href="javascript:void(0);" data-bs-dismiss="modal" class="btn btn-primary paid-cancel-btn">Cancel</a>
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card flex-fill comman-shadow">
+                            <div class="card-header">
+                                <div class="row align-items-center">
+                                    <div class="col-6">
+                                        <h5 class="card-title">Activities Point</h5>
+                                    </div>
+                                    <div class="col-6">
+                                        <ul class="chart-list-out">
+                                            <li><span class="circle-blue"></span>Point</li>
+                                        </ul>
+                                    </div>
                                 </div>
+                            </div>
+                            <div class="card-body">
+                                <div id="top5ClubChart"></div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+        <%}
+        %>
     </div>
+
+    <footer>
+    </footer>
+
 </div>
+
+
+<%
+    String semesterIDStringChart = (String) session.getAttribute("semesterIDStudentChart");
+    int semesterID = Integer.parseInt(semesterIDStringChart);
+    UserProfileDAO userDAO = new UserProfileDAO();
+
+    List<String> semesterName = new ArrayList<>(Arrays.asList("Spring 2023", "Summer 2023", "Fall 2023", "Spring 2024"));
+    List<Integer> semesterInt = new ArrayList<>();
+    semesterInt.add(7);
+    semesterInt.add(8);
+    semesterInt.add(9);
+    semesterInt.add(10);
+    ArrayList<Integer> valueClubList = new ArrayList<>();
+    for (Integer elem : semesterInt) {
+            int total = userDAO.getStudentPointByStudentProfileID(studentProfileID, elem);
+            valueClubList.add(total);
+        }
+%>
+<script>
+    var options = {
+        series: [{
+                name: "Point",
+                data: [{
+                        x: '<%=semesterName.get(0)%>',
+                        y: <%=valueClubList.get(0)%>
+                    }, {
+                        x: '<%=semesterName.get(1)%>',
+                        y: <%=valueClubList.get(1)%>
+                    }, {
+                        x: '<%=semesterName.get(2)%>',
+                        y: <%=valueClubList.get(2)%>
+                    }, {
+                        x: '<%=semesterName.get(3)%>',
+                        y: <%=valueClubList.get(3)%>
+                    }]
+            }],
+        chart: {
+            type: 'area',
+            height: 380
+        },
+        xaxis: {
+            type: 'category',
+        },
+        title: {
+            text: 'Semester Name',
+        },
+    };
+
+    var chart = new ApexCharts(document.querySelector("#top5ClubChart"), options);
+    chart.render();
+</script>
