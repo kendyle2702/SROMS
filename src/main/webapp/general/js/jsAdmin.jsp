@@ -42,6 +42,12 @@
         showConfirmButton: false,
         timer: 1000
     });
+    <%} else if (createStudent.equals("failDate")) {%>
+    Swal.fire({
+        icon: "error",
+        title: "Date not valid!",
+        text: "Birthdate must be less than Enroll Date!",
+    });
     <%
     } else {
     %>
@@ -73,6 +79,13 @@
         showConfirmButton: false,
         timer: 1000
     });
+    <%} else if (editStudent.equals("failDate")) {%>
+    Swal.fire({
+        icon: "error",
+        title: "Date not valid!",
+        text: "Birthdate must be less than Enroll Date!",
+    });
+
     <%
     } else {
     %>
@@ -89,6 +102,7 @@
         session.removeAttribute("editStudent");
     %>
 </script>
+
 <script>
     Validator({
         form: "#formEditStudent",
@@ -244,6 +258,12 @@
         showConfirmButton: false,
         timer: 1000
     });
+    <%} else if (createEventManager.equals("failDate")) {%>
+    Swal.fire({
+        icon: "error",
+        title: "Date not valid!",
+        text: "Birthdate must be less than Enroll Date!",
+    });
     <%
     } else {
     %>
@@ -324,6 +344,12 @@
         showConfirmButton: false,
         timer: 1000
     });
+    <%} else if (createClubManager.equals("failDate")) {%>
+    Swal.fire({
+        icon: "error",
+        title: "Date not valid!",
+        text: "Birthdate must be less than Enroll Date!",
+    });
     <%
     } else {
     %>
@@ -353,6 +379,12 @@
         title: "Edit Event Manager Successfully!",
         showConfirmButton: false,
         timer: 1000
+    });
+    <%} else if (editEventManager.equals("failDate")) {%>
+    Swal.fire({
+        icon: "error",
+        title: "Date not valid!",
+        text: "Birthdate must be less than Enroll Date!",
     });
     <%
     } else {
@@ -384,6 +416,12 @@
         title: "Edit Club Manager Successfully!",
         showConfirmButton: false,
         timer: 1000
+    });
+    <%} else if (editClubManager.equals("failDate")) {%>
+    Swal.fire({
+        icon: "error",
+        title: "Date not valid!",
+        text: "Birthdate must be less than Enroll Date!",
     });
     <%
     } else {
