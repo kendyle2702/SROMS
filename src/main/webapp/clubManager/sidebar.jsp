@@ -24,9 +24,10 @@
                 <li  class="<%=(session.getAttribute("tabId").equals(6)) ? "active" : ""%>">
                     <a href="/clubmanager/checkrequestClub"><i class=""></i> <span>Check Request Clubs</span></a>
                 </li>
-                <li class="submenu <%=(session.getAttribute("tabId").equals(7)||session.getAttribute("tabId").equals(8)) ? "active" : ""%>">
-                    <a href="/clubmanager/viewclubpoint"><i class=""></i> <span class="title">View Club Point</span> <span class=""></span></a>
+                <li class="<%=(session.getAttribute("tabId").equals(7)||session.getAttribute("tabId").equals(8)) ? "active" : ""%>">
+                    <a href="/clubmanager/viewclubpoint"><i class=""></i><span>View Club Point</span></a>
                 </li>
+                
             </ul>
         </div>
     </div>

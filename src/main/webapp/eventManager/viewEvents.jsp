@@ -13,7 +13,7 @@
                 <div class="col-sm-12">
                     <div class="page-sub-header">
                         <h3 class="page-title">View Event</h3>
-                        <ul class="breadcrumb">>
+                        <ul class="breadcrumb">
                             <li class="breadcrumb-item active"><a href="#">Event</a></li>
                             <li class="breadcrumb-item active"><a href="#">View Event</a></li>
                         </ul>
@@ -50,7 +50,7 @@
                                         <c:if test="${not empty sessionScope.listEvent}">
                                             <c:forEach items="${sessionScope.listEvent}" var="liste" >
                                                 <c:if test="${liste.getApprove() eq 'AA'}">
-                                                     <c:set var="count" value="${count + 1}"/>
+                                                    <c:set var="count" value="${count + 1}"/>
                                                     <tr>
                                                         <td class="">${count}</td>
                                                         <td style="width: 50px;" class="">${liste.getEventName()}</td>
@@ -69,13 +69,13 @@
                                                         %>
                                                         <c:choose>
                                                             <c:when test="${sessionScope.currentTime <= liste.getEndTime() && sessionScope.currentTime >= liste.getHoldTime() && liste.getApprove() eq 'AA'}">
-                                                                <td class=""><button type="button" class="btn btn-block btn-outline-success active">Happening</button></td>
+                                                                <td class=""><button type="button" class="btn btn-block btn-outline-success btn-rounded active">Happening</button></td>
                                                             </c:when>
                                                             <c:when test="${sessionScope.currentTime > liste.getEndTime() && liste.getApprove() eq 'AA'}">
-                                                                <td class=""><button type="button" class="btn btn-block btn-outline-primary active">Finished</button></td>
+                                                                <td class=""><button type="button" class="btn btn-block btn-outline-primary btn-rounded active">Finished</button></td>
                                                             </c:when>                            
                                                             <c:when test="${sessionScope.currentTime < liste.getHoldTime() && sessionScope.currentTime < liste.getEndTime()  && liste.getApprove() eq 'AA'}">
-                                                                <td class=""><button type="button" class="btn btn-block btn-outline-secondary active">Not Started</button></td>
+                                                                <td class=""><button type="button" class="btn btn-block btn-outline-secondary btn-rounded active">Not Started</button></td>
                                                             </c:when>
                                                         </c:choose>                                       
                                                         <td><a style="background: #ea7127;border-color:#ea7127;" href="/eventmanager/events/detail/${liste.getEventID()}" type="button" class="mb-2 mr-2 btn btn-outline-organ text-white" style="background-color: #ea7127; border-color: #ea7127;">

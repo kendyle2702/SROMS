@@ -198,9 +198,9 @@
         </script> 
     </c:when>
 </c:choose>
-<!--Alert check request join club for student-->
+<!--Alert check request join club for student accept-->
 <c:choose>
-    <c:when test="${sessionScope.checkRequestJoin == 'success'}">
+    <c:when test="${sessionScope.checkRequestJoinAccept == 'success'}">
         <script>
             Swal.fire({
                 position: "top-end",
@@ -209,10 +209,10 @@
                 showConfirmButton: false,
                 timer: 1500
             });
-            <%session.setAttribute("checkRequestJoin", "sdsdsfdsf");%>
+            <%session.setAttribute("checkRequestJoinAccept", "sdsdsfdsf");%>
         </script> 
     </c:when>
-    <c:when test="${sessionScope.checkRequestJoin == 'fail'}">
+    <c:when test="${sessionScope.checkRequestJoinAccept == 'fail'}">
         <script>
             Swal.fire({
                 position: "top-end",
@@ -221,11 +221,66 @@
                 showConfirmButton: false,
                 timer: 1500
             });
-            <%session.setAttribute("checkRequestJoin", "sdsdsfdsf");%>
+            <%session.setAttribute("checkRequestJoinAccept", "sdsdsfdsf");%>
         </script> 
     </c:when>
 </c:choose>
 
+<!--Alert check request join club for student reject-->
+<c:choose>
+    <c:when test="${sessionScope.checkRequestJoinReject == 'success'}">
+        <script>
+            Swal.fire({
+                position: "top-end",
+                icon: "success",
+                title: "You have rejected the member as successfully!",
+                showConfirmButton: false,
+                timer: 1500
+            });
+            <%session.setAttribute("checkRequestJoinReject", "sdsdsfdsf");%>
+        </script> 
+    </c:when>
+    <c:when test="${sessionScope.checkRequestJoinReject == 'fail'}">
+        <script>
+            Swal.fire({
+                position: "top-end",
+                icon: "warning",
+                title: "You have rejected the member as failure!",
+                showConfirmButton: false,
+                timer: 1500
+            });
+            <%session.setAttribute("checkRequestJoinReject", "sdsdsfdsf");%>
+        </script> 
+    </c:when>
+</c:choose>
+
+<!--alert remove request-->
+<c:choose>
+    <c:when test="${sessionScope.checkRequestJoinRemove == 'success'}">
+        <script>
+            Swal.fire({
+                position: "top-end",
+                icon: "success",
+                title: "You have removed the member as successfully!",
+                showConfirmButton: false,
+                timer: 1500
+            });
+            <%session.setAttribute("checkRequestJoinRemove", "sdsdsfdsf");%>
+        </script> 
+    </c:when>
+    <c:when test="${sessionScope.checkRequestJoinRemove == 'fail'}">
+        <script>
+            Swal.fire({
+                position: "top-end",
+                icon: "warning",
+                title: "You have removed the member as failure!",
+                showConfirmButton: false,
+                timer: 1500
+            });
+            <%session.setAttribute("checkRequestJoinRemove", "sdsdsfdsf");%>
+        </script> 
+    </c:when>
+</c:choose>
 
 <script>
     $(document).ready(function () {
@@ -235,5 +290,11 @@
 <script>
     $(document).ready(function () {
         $('#viewMyClub').DataTable();
+    });
+</script>
+
+<script>
+    $(document).ready(function () {
+        $('#viewMemberList').DataTable();
     });
 </script>

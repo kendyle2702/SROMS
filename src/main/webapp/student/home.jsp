@@ -9,7 +9,6 @@
 
 <div class="page-wrapper" style="min-height: 691px;">
     <div class="content container-fluid">
-
         <div class="page-header">
             <div class="row">
                 <div class="col-sm-12">
@@ -351,5 +350,4 @@
             </div>
         </div>
     </div>
-
 </div>
