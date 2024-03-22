@@ -130,7 +130,7 @@
                                                             </c:forEach>
                                                             <c:if test="${empty sessionScope.listClub}">
                                                                 <tr>
-                                                                    <td colspan="7" class="text-center">No clubs found..</td>
+                                                                    <td colspan="4" class="text-center">No clubs found..</td>
                                                                 </tr>
                                                             </c:if>
                                                             </tbody>
@@ -179,7 +179,7 @@
                                                             </c:forEach>
                                                             <c:if test="${empty sessionScope.listMyClub}">
                                                                 <tr>
-                                                                    <td colspan="7" class="text-center">You haven't joined the club yet.</td>
+                                                                    <td colspan="5" class="text-center">You haven't joined the club yet.</td>
                                                                 </tr>
                                                             </c:if>
                                                             </tbody>
@@ -262,7 +262,7 @@
                                                     </c:forEach>
                                                     <c:if test="${empty sessionScope.listEvent}">
                                                         <tr>
-                                                            <td colspan="7" class="text-center">No events found.</td>
+                                                            <td colspan="6" class="text-center">No events found.</td>
                                                         </tr>
                                                     </c:if>
                                                     </tbody>
@@ -314,7 +314,7 @@
                                                     </c:forEach>
                                                     <c:if test="${empty sessionScope.listEvent}">
                                                         <tr>
-                                                            <td colspan="7" class="text-center">No events found.</td>
+                                                            <td colspan="6" class="text-center">No events found.</td>
                                                         </tr>
                                                     </c:if>
                                                     </tbody>

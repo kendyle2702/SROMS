@@ -54,6 +54,9 @@
                         <li>
                             <a class=" <%=(session.getAttribute("tabId").equals(9)) || (session.getAttribute("tabId").equals(10)) ? "active subdrop" : ""%>" href="/eventmanager/events/evaluate"><i class=""></i><span>Evaluate Student</span></a>
                         </li>
+                        <li>
+                            <a class=" <%=(session.getAttribute("tabId").equals(15)) ? "active subdrop" : ""%>" href="/eventmanager/events/evaluatecompotition"><i class=""></i><span>Evaluate Composition Student</span></a>
+                        </li>
                     </ul>
                 </li>
             </ul>

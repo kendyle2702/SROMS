@@ -275,8 +275,8 @@ public class StudentController extends HttpServlet {
         String action = request.getParameter("action");
         EventDAO eventManagerDAO = new EventDAO();
         String path = request.getRequestURI();
-        String createCompatition = request.getParameter("createCompatitionClub");
-        String createEvent = request.getParameter("createEventClub");
+        String createCompatition = request.getParameter("createCompatition");
+        String createEvent = request.getParameter("createEvent");
         String updateRoleMember = request.getParameter("updateRoleMember");
         try {
             if (action != null && action.equals("Join")) {
@@ -297,10 +297,10 @@ public class StudentController extends HttpServlet {
                     response.sendRedirect("/student/events/view");
                 }
 
-            }else if (request.getParameter("selectStudentScoreSemester") != null) {
-                    String semesterID = request.getParameter("semesterID");
-                    session.setAttribute("semesterIDStudentScore", semesterID);
-                    response.sendRedirect("/student/point/view");
+            } else if (request.getParameter("selectStudentScoreSemester") != null) {
+                String semesterID = request.getParameter("semesterID");
+                session.setAttribute("semesterIDStudentScore", semesterID);
+                response.sendRedirect("/student/point/view");
             } else if (action != null && action.equals("Register")) {
                 int clubID = Integer.parseInt(request.getParameter("ClubID"));
 
@@ -331,7 +331,7 @@ public class StudentController extends HttpServlet {
                 ManagerProfileDAO managerProfileDAO = new ManagerProfileDAO();
                 String eventName = request.getParameter("eventname");
                 Timestamp preTime = formatTime(LocalDateTime.parse(request.getParameter("pretime")));
-                Timestamp holeTime = formatTime(LocalDateTime.parse(request.getParameter("holetime")));
+                Timestamp holeTime = formatTime(LocalDateTime.parse(request.getParameter("holdtime")));
                 String location = request.getParameter("location");
                 int cost = Integer.parseInt(request.getParameter("cost"));
                 int exNum = Integer.parseInt(request.getParameter("exnum"));
@@ -362,7 +362,7 @@ public class StudentController extends HttpServlet {
                 ManagerProfileDAO managerProfileDAO = new ManagerProfileDAO();
                 String eventName = request.getParameter("eventname");
                 Timestamp preTime = formatTime(LocalDateTime.parse(request.getParameter("pretime")));
-                Timestamp holeTime = formatTime(LocalDateTime.parse(request.getParameter("holetime")));
+                Timestamp holeTime = formatTime(LocalDateTime.parse(request.getParameter("holdtime")));
                 String location = request.getParameter("location");
                 int cost = Integer.parseInt(request.getParameter("cost"));
                 int exNum = Integer.parseInt(request.getParameter("exnum"));
@@ -415,7 +415,7 @@ public class StudentController extends HttpServlet {
                     }
                     response.sendRedirect("/student/clubs/viewClubMember/" + clubId);
                 }
-            } 
+            }
         } catch (SQLException ex) {
             Logger.getLogger(StudentController.class.getName()).log(Level.SEVERE, null, ex);
         }

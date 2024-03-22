@@ -226,4 +226,48 @@
         ]
     });
 </script>  
+<script>
+    $(document).ready(function () {
+        $('#viewEvaluateCompotitionStudent').DataTable();
+    });
+</script>
 
+<script>
+    function handleCheckboxChange(checkbox) {
+        if (checkbox.checked) {
+            var checkboxes = document.getElementsByClassName("prize-checkbox");
+            for (var i = 0; i < checkboxes.length; i++) {
+                if (checkboxes[i] !== checkbox) {
+                    checkboxes[i].checked = false;
+                }
+            }
+        }
+    }
+</script>
+
+<c:choose>
+    <c:when test="${sessionScope.checkComposition == 'success'}">
+        <script>
+            Swal.fire({
+                position: "top-end",
+                icon: "success",
+                title: "You have evaluate compostition students the event as successfully!",
+                showConfirmButton: false,
+                timer: 1500
+            });
+        </script> 
+        <%session.setAttribute("checkComposition", "sdsdsfdsf");%>
+    </c:when>
+    <c:when test="${sessionScope.checkComposition == 'fail'}">
+        <script>
+            Swal.fire({
+                position: "top-end",
+                icon: "warning",
+                title: "You have evaluate composition students the event as failure!",
+                showConfirmButton: false,
+                timer: 1500
+            });
+        </script> 
+        <%session.setAttribute("checkComposition", "sdsdsfdsf");%>
+    </c:when>
+</c:choose> 
