@@ -8,7 +8,20 @@
 <%@page import="Models.UserProfile"%>
 <div class="page-wrapper" style="min-height: 471px;">
     <div class="content container-fluid">
-
+        <div class="page-header">
+            <div class="row align-items-center">
+                <div class="col-sm-12">
+                    <div class="page-sub-header">
+                        <h3 class="page-title">Activities Point</h3>
+                        <ul class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="/">Home</a></li>
+                            <li class="breadcrumb-item active">View Activities Point</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
         <div class="row justify-content-center">
             <div class="col-xl-10">
                 <div class="card invoice-info-card">
@@ -163,11 +176,23 @@
                                                         <%}%>
                                                     </td>
                                                     <td>
-                                                        <% while (ep_rs.next()) {%>
+                                                        <% while (ep_rs.next()) {
+                                                                if (ep_rs.getString("Result") != null) {
+
+                                                        %>
                                                         <div>
-                                                            <p><%=ep_rs.getInt("Point")%></p>
+                                                            <p><%=ep_rs.getInt("Point") + 2%></p>
                                                         </div>
-                                                        <% }%>
+                                                        <% 
+                                                            } else {
+                                                        %>
+                                                        <div>
+                                                            <p><%=ep_rs.getInt("Point") %></p>
+                                                        </div>
+                                                        <%
+                                                                }
+                                                            }
+                                                        %>
                                                     </td>
                                                     <td class="text-end"><%=point_event%></td>
                                                 </tr>
@@ -185,6 +210,7 @@
                                                     <td>
                                                         <%
                                                             while (cp_rs.next()) {%>
+
                                                         <div>
                                                             <p><%=cp_rs.getInt("ClubPoint")%></p>
                                                         </div>

@@ -114,6 +114,9 @@ public class StudentController extends HttpServlet {
                         String[] idArray = path.split("/");
                         int id = Integer.parseInt(idArray[idArray.length - 1]);
 
+                        
+                        String checkClubRole = clubDAO.getClubRole(studentProfileID);
+                        session.setAttribute("checkClubRole", checkClubRole);
                         ResultSet rsStudent = studentProfileDAO.getStudentProfileMorebyEventID(id);
                         session.setAttribute("studentProfileID", studentProfileID);
                         session.setAttribute("rsStudent", rsStudent);
