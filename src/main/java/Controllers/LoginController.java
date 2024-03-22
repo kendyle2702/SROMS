@@ -46,7 +46,7 @@ public class LoginController extends HttpServlet {
                 session.setAttribute("user", userProfile);
                 session.setAttribute("role", roleLogin);
                 session.setAttribute("semester", getSemester());
-                System.out.println(getSemester());
+//                System.out.println(getSemester());
                 Cookie c = new Cookie("login", URLEncoder.encode(userProfile.getEmail() + "/" + roleLogin, "UTF-8"));
                 c.setMaxAge(24 * 60 * 60 * 3);
                 response.addCookie(c);

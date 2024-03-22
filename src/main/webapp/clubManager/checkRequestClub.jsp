@@ -27,7 +27,7 @@
                                     <thead class="thead-light">
                                         <tr>
                                             <th class="text-center">No.</th>
-                                            <th class="text-center">Club ID</th>
+                                            <th class="text-center">Logo</th>
                                             <th class="text-center">Club Name</th>
                                             <th class="text-center">Establish Date</th>
                                             <th class="text-center">Description</th>
@@ -41,7 +41,7 @@
                                             <c:forEach items="${sessionScope.listCheckRequestClub}" var="c" varStatus="varC">
                                                 <tr>
                                                     <td class="text-center">${varC.index +1}</td>
-                                                    <td class="text-center">${c.getClubID()}</td>
+                                                    <td class="text-center"><a href="#" class="avatar avatar-sm me-2"><img class="avatar-img rounded-circle" src="${pageContext.request.contextPath}/assets/img/logo_club/${c.getLogo()}" alt="Logo"></a></td>
                                                     <td class="text-center">${c.getClubName()}</td>
                                                     <td class="text-center">${c.getEstablishDate()}</td>
                                                     <td class="text-center" style="white-space: pre-line;">${c.getDescription()}</td>

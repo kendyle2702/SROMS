@@ -46,7 +46,7 @@ public class StudentProfileDAO {
         }
         return rs;
     }
-    
+
     public StudentProfile getStudentProfileByEmail(String email) {
         StudentProfile studentProfile = null;
         try {
@@ -108,7 +108,7 @@ public class StudentProfileDAO {
         return rs;
     }
 
-    public StudentProfile updateStudentProfileByUserProfileID(StudentProfile user,int userProfileID){
+    public StudentProfile updateStudentProfileByUserProfileID(StudentProfile user, int userProfileID) {
         int count = 0;
         try {
             PreparedStatement ps = conn.prepareStatement("update StudentProfile set RollNumber =?, MemberCode=?, Major=?, Mode=? where UserProfileID =?");
@@ -123,5 +123,5 @@ public class StudentProfileDAO {
         }
         return (count == 0) ? null : user;
     }
-   
+
 }

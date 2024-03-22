@@ -16,7 +16,7 @@
         <div class="page-header">
             <div class="row align-items-center">
                 <div class="col">
-                    <h3 class="page-title">List News</h3>
+                    <h3 class="page-title">View News</h3>
                     <ul class="breadcrumb">
 
                     </ul>

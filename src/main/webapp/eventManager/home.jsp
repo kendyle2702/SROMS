@@ -31,41 +31,44 @@
             <div style="margin-top: 30px" class="card flex-fill comman-shadow">
                 <div class="card-header">
                     <div class="row align-items-center">
-                        <div class="col-4">
-                            <h5 class="card-title">News</h5>
-                        </div>
-                        <div class="col-8">
-                            <ul class="chart-list-out">
-                                <li class="lesson-view-all"><a href="/eventmanager/news/view">View All</a></li>
-                            </ul>
-                        </div>
+                        <%
+                            // Create an instance of NewsDAO
+                            NewsDAO newsDAO = new NewsDAO();
 
+                            // Call the getLatestNews method to fetch the latest news article
+                            News latestNews = newsDAO.getLatestNews();
+                        %>
                         <!-- box show 1 new on today -->
                         <div class="card flex-fill comman-shadow">
                             <div class="card-header">
                                 <div class="row align-items-center">
-                                    <div class="col-4">
+                                    <div class="col-6">
                                         <h5 class="card-title">Latest News</h5>
                                     </div>
-                                </div>
-                                <%
-                                    // Create an instance of NewsDAO
-                                    NewsDAO newsDAO = new NewsDAO();
 
-                                    // Call the getLatestNews method to fetch the latest news article
-                                    News latestNews = newsDAO.getLatestNews();
-                                %>
-                                <div class="card-header">
-                                    <div class="row align-items-center">
-                                        <div class="col-10">
-                                            <h4 class="blog-title"><%=latestNews.getTitle()%></h3>
-                                        </div>
-                                        <div class="col-2">
-                                            <a style="background: #ea7127;border-color:#ea7127" href="#" data-bs-toggle="modal" data-bs-target="#news_detail<%= latestNews.getNewsID()%>" class="btn btn-primary paid-cancel-btn">
-                                                Read
-                                            </a>
-                                        </div>
+                                    <div class="col-6">
+                                        <ul class="chart-list-out">
+                                            <!--<li><span class="circle-blue"></span><span class="circle-gray"></span><span class="circle-gray"></span></li>-->
+                                            <li class="lesson-view-all"><a href="/eventmanager/news/view">View All</a></li>
+                                            <!--<li class="s    tar-menus"><a href="javascript:;"><i class="fas fa-ellipsis-v"></i></a></li>-->
+                                        </ul>
                                     </div>
+                                </div>
+                            </div>
+                            <div class="col-md-8 col-xl-12 col-sm-8">
+                                <div class="blog grid-blog flex-fill">
+                                    <a href="/eventmanager/news/view/detail/<%=latestNews.getNewsID()%>">
+                                        <div class="row align-items-center">
+                                            <div class="col-8">
+                                                <h3 style="color: black" class="blog-title">
+                                                    <%=latestNews.getTitle()%> 
+                                                </h3>
+                                            </div>
+                                            <div class="col-4 text-end">
+                                                <%=latestNews.getCreateAt()%>
+                                            </div>
+                                        </div>
+                                    </a>
                                 </div>
                             </div>
                         </div>
@@ -73,6 +76,7 @@
                 </div>
             </div>
         </div>
+                                            
         <div class="row">
             <div class="col-xl-3 col-sm-6 col-12 d-flex">
                 <div class="card bg-comman w-100">
@@ -322,3 +326,4 @@
     var chart = new ApexCharts(document.querySelector("#top10StudentChart"), options);
     chart.render();
 </script>
+

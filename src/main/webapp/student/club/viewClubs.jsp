@@ -11,9 +11,10 @@
             <div class="row">
                 <div class="col-sm-12">
                     <div class="page-sub-header">
-                        <h3 class="page-title">Welcome Student!</h3>
+                        <h3 class="page-title">View Clubs</h3>
                         <ul class="breadcrumb">
-
+                            <li class="breadcrumb-item"><a href="/">Home</a></li>
+                            <li class="breadcrumb-item"><a href="/student/clubs/view">View Clubs</a></li>
                         </ul>
                     </div>
                 </div>
@@ -27,7 +28,7 @@
                         <div class="col-6">
                             <h5 class="card-title">Club</h5>
                         </div>
-                        <c:if test="${checkClubRole != 'Leader Club'}">
+                        <c:if test="${sessionScope.checkClubRole != 'Leader Club'}">
                             <div class="col-6 text-end">
                                 <a style="background: #ea7127;border-color:#ea7127" href="/student/clubs/create" type="button" class="btn btn-primary">Create Club</a>
                             </div>                    
@@ -61,7 +62,7 @@
                                     <div class="card-body">
                                         <form action="/student" method="post">
                                             <div class="table-responsive">
-                                                <table id="viewMyClub" class="table table-hover table-striped table-bordered">
+                                                <table id="viewClubList" class="table table-hover table-striped table-bordered">
                                                     <thead class="thead-light">
                                                         <tr>
                                                             <th class="text-center">No</th>
@@ -105,7 +106,7 @@
                                 <div class="card flex-fill student-space comman-shadow">
                                     <div class="card-body">
                                         <div class="table-responsive">
-                                            <table id="viewClubs" class="table table-hover table-striped table-bordered">
+                                            <table id="viewMyClub" class="table table-hover table-striped table-bordered">
                                                 <thead class="thead-light">
                                                     <tr>
                                                         <th class="text-center">No</th>
@@ -129,11 +130,16 @@
                                                     </c:forEach>
                                                     <c:if test="${empty sessionScope.listMyClub}">
                                                         <tr>
+                                                            <td style="display: none">
+                                                            <td style="display: none">
+                                                            <td style="display: none">
+                                                            <td style="display: none">
                                                             <td colspan="5" class="text-center">You haven't joined any club yet.</td>
                                                         </tr>
                                                     </c:if>
                                                 </tbody>
                                             </table>
+
                                         </div>
                                     </div>
                                 </div>

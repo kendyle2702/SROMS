@@ -47,6 +47,15 @@ public class ClubManagerController extends HttpServlet {
                 session.setAttribute("Club", listClub);
                 session.setAttribute("totalClub", totalClub);
                 if (path.endsWith("/clubmanager")) {
+                    String semesterIDString = (String) session.getAttribute("semesterIDStudentChart");
+                    if (semesterIDString == null) {
+                        SemesterDAO semDAO = new SemesterDAO();
+                        String currentSemesterName = (String) session.getAttribute("semester");
+                        int semesterID = semDAO.getSemesterIDBySemesterName(currentSemesterName);
+                        session.setAttribute("semesterIDStudentChart", semesterID + "");
+                    } else {
+                        session.setAttribute("semesterIDStudentChart", semesterIDString);
+                    }
                     session.setAttribute("tabId", 1);
                     request.getRequestDispatcher("/clubManager.jsp").forward(request, response);
                 } else if (path.equals("/clubmanager/profile")) {
@@ -94,7 +103,9 @@ public class ClubManagerController extends HttpServlet {
                         studentProfileID = club.getStudentProfileID();
                         fullName = clubDAO.getFullName(clubID, studentProfileID);
                     }
+
                     session.setAttribute("fullNameCreateClub", fullName);
+                    session.setAttribute("IDStudentCreateClub", studentProfileID);
                     session.setAttribute("listCheckRequestClub", listCheckRequestClub);
                     request.getRequestDispatcher("/clubManager.jsp").forward(request, response);
 
@@ -108,6 +119,14 @@ public class ClubManagerController extends HttpServlet {
                         String p = parts[parts.length - 1];
                         int clubId = Integer.parseInt(p);
                         int checkAccept = clubDAO.checkRequestCreate(sqlcurrentDate, 1, 1, managerProfileId, clubId);
+
+                        int studentIDCreateClub = (int) session.getAttribute("IDStudentCreateClub");
+                        String currentSemesterString = (String)session.getAttribute("semester");
+                        SemesterDAO semDAO = new SemesterDAO();
+                        int semesterID = semDAO.getSemesterIDBySemesterName(currentSemesterString);
+
+                        clubDAO.addLeaderClub(studentIDCreateClub, clubId, semesterID);
+
                         if (checkAccept > 0) {
                             session.setAttribute("checkrequestClub", "acceptSuccess");
                         } else {

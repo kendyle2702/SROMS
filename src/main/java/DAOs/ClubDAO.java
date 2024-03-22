@@ -200,11 +200,7 @@ public class ClubDAO {
     public List<Club> listCheckRequest() throws SQLException {
         List<Club> listC = new ArrayList<>();
         Club club = null;
-        String ex = "SELECT DISTINCT Club.[ClubID],[Logo],[ClubName],[EstablishDate],Club.[Description],[IsApprove],[IsActive],[ManagerProfileID],Club.[StudentProfileID] \n"
-                + "FROM [Club] \n"
-                + "INNER JOIN ClubMember ON Club.ClubID = ClubMember.ClubID \n"
-                + "INNER JOIN Semester ON ClubMember.SemesterID = Semester.SemesterID\n"
-                + "WHERE IsApprove IS NULL AND Semester.SemesterID = (SELECT MAX(SemesterID) FROM Semester);";
+        String ex = "select * from Club where IsApprove is null";
         PreparedStatement ps = conn.prepareStatement(ex);
         ResultSet rs = ps.executeQuery();
         while (rs.next()) {
@@ -488,6 +484,25 @@ public class ClubDAO {
         return score;
     }
 
+    public int getClubsScoreByStudentID(int studentID) {
+        int score = 0;
+        try {
+            PreparedStatement ps = conn.prepareStatement(
+                    "SELECT StudentProfileID, SUM(ClubPoint) AS Total \n"
+                    + "FROM ClubMember \n"
+                    + "WHERE StudentProfileID = ?\n"
+                    + "GROUP BY StudentProfileID, SemesterID");
+            ps.setInt(1, studentID);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                score = rs.getInt("Total");
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(ClubDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return score;
+    }
+
     public int countClubsByStudentIDAndSemesterID(int studentID, int semesterID) {
         int count = 0;
         try {
@@ -722,4 +737,49 @@ public class ClubDAO {
         return true;
     }
 
+    public ResultSet getAllMenberClubByClubIDAndSemesterID(int clubID, int semesterID) {
+        ResultSet rs = null;
+        try {
+            conn = DBConnection.connect();
+            String sql = "SELECT * FROM [SROMS].[dbo].[ClubMember]\n"
+                    + "                INNER JOIN [SROMS].[dbo].[Club] ON ClubMember.ClubID = Club.ClubID\n"
+                    + "                INNER JOIN StudentProfile ON ClubMember.StudentProfileID = StudentProfile.StudentProfileID\n"
+                    + "                INNER JOIN UserProfile ON StudentProfile.UserProfileID = UserProfile.UserProfileID\n"
+                    + "                WHERE Club.ClubID = ? AND SemesterID = ? ORDER BY\n"
+                    + "                 CASE \n"
+                    + "                        WHEN LEFT(ClubRole, 1) = 'L' THEN 1\n"
+                    + "                        WHEN LEFT(ClubRole, 1) = 'B' THEN 2\n"
+                    + "			       WHEN LEFT(ClubRole, 1) = 'M' THEN 3\n"
+                    + "				END;";
+            ps = conn.prepareStatement(sql);
+            ps.setInt(1, clubID);
+            ps.setInt(2, semesterID);
+            rs = ps.executeQuery();
+        } catch (SQLException ex) {
+            Logger.getLogger(ClubDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return rs;
+    }
+
+    public int updatePointAndReport(int clubID, int studentID, int semesterID, int point, String report) throws SQLException {
+        int count = 0; // Establish database connection
+        String sql = "UPDATE ClubMember set ClubPoint = ?, Report = ? where ClubID =  and StudentProfileID = ? and SemesterID = ?";
+        ps = conn.prepareStatement(sql);
+        ps.setInt(1, point);
+        ps.setString(2, report);
+        ps.setInt(3, clubID);
+        ps.setInt(4, studentID);
+        ps.setInt(5, semesterID);
+        count = ps.executeUpdate();
+        return count;
+    }
+    public void addLeaderClub(int studentID, int clubID,int semesterID) throws SQLException{
+        String sql = "Insert into ClubMember values (?,?,?,?,NULL,NULL)";
+        ps = conn.prepareStatement(sql);
+        ps.setInt(1, studentID);
+        ps.setInt(2, clubID);
+        ps.setInt(3, semesterID);
+        ps.setString(4, "Leader Club");
+        ps.executeUpdate();
+    }
 }

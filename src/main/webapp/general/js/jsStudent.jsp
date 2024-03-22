@@ -124,7 +124,7 @@
         document.getElementById('deleteMemberClub').addEventListener('click', function (event) {
             event.preventDefault(); // Prevent the default link behavior
 
-            // S? d?ng SweetAlert2 ?? xác nh?n hành ??ng xóa
+            // S? d?ng SweetAlert2 ?? xï¿½c nh?n hï¿½nh ??ng xï¿½a
             Swal.fire({
                 title: "Are you sure?",
                 text: "You won't be able to revert this!",
@@ -135,7 +135,7 @@
                 confirmButtonText: "Yes, delete it!"
             }).then((result) => {
                 if (result.isConfirmed) {
-                    // N?u ng??i dùng xác nh?n xóa, chuy?n h??ng ??n URL ?ã xác nh?n xóa
+                    // N?u ng??i dï¿½ng xï¿½c nh?n xï¿½a, chuy?n h??ng ??n URL ?ï¿½ xï¿½c nh?n xï¿½a
                     window.location.href = document.getElementById('deleteMemberClub').getAttribute('href');
                 }
             });
@@ -241,7 +241,7 @@
         </script> 
     </c:when>
     <c:when test="${sessionScope.checkRequestJoinReject == 'fail'}">
-        <script>
+               <script>
             Swal.fire({
                 position: "top-end",
                 icon: "warning",
@@ -282,6 +282,7 @@
     </c:when>
 </c:choose>
 
+
 <script>
     $(document).ready(function () {
         $('#viewMemberRequest').DataTable();
@@ -292,10 +293,9 @@
         $('#viewMyClub').DataTable();
     });
 </script>
-
 <script>
     $(document).ready(function () {
-        $('#viewMemberList').DataTable();
+        $('#viewEventsHistory').DataTable();
     });
 </script>
 
@@ -351,3 +351,31 @@
     });
 </script>  
 
+
+<!--point and feedback club-->
+<c:choose>
+    <c:when test="${sessionScope.checkRequestJoin == 'success'}">
+        <script>
+            Swal.fire({
+                position: "top-end",
+                icon: "success",
+                title: "Thank for your feedback the member",
+                showConfirmButton: false,
+                timer: 1500
+            });
+            <%session.setAttribute("checkEvaluateStudentMember", "sdsdsfdsf");%>
+        </script> 
+    </c:when>
+    <c:when test="${sessionScope.checkRequestJoin == 'fail'}">
+        <script>
+            Swal.fire({
+                position: "top-end",
+                icon: "warning",
+                title: "false for feedback!",
+                showConfirmButton: false,
+                timer: 1500
+            });
+            <%session.setAttribute("checkEvaluateStudentMember", "sdsdsfdsf");%>
+        </script> 
+    </c:when>
+</c:choose>

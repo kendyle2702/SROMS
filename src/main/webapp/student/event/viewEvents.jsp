@@ -13,9 +13,10 @@
             <div class="row">
                 <div class="col-sm-12">
                     <div class="page-sub-header">
-                        <h3 class="page-title">Welcome Student!</h3>
+                        <h3 class="page-title">View Events</h3>
                         <ul class="breadcrumb">
-
+                            <li class="breadcrumb-item"><a href="/">Home</a></li>
+                            <li class="breadcrumb-item active"><a href="#">View Event</a></li>
                         </ul>
                     </div>
                 </div>
@@ -120,7 +121,7 @@
                                         <!-- Event List -->
                                         <div class="card-body">
                                             <div class="table-responsive">
-                                                <table id="viewEvents" class="table table-hover table-striped table-bordered">
+                                                <table id="viewEventsHistory" class="table table-hover table-striped table-bordered">
                                                     <thead class="thead-light">
                                                         <tr>
                                                             <th class="text-center">No</th>
@@ -160,7 +161,7 @@
                                                     </c:forEach>
                                                     <c:if test="${empty sessionScope.listEvent}">
                                                         <tr>
-                                                            <td colspan="7" class="text-center">No events found.</td>
+                                                            <td colspan="6" class="text-center">No events found.</td>
                                                         </tr>
                                                     </c:if>
                                                     </tbody>

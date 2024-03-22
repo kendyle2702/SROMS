@@ -8,6 +8,8 @@
                         <h3 class="page-title">Create Event</h3>
                         <ul class="breadcrumb">
                             <li class="breadcrumb-item"><a href="/">Home</a></li>
+                            <li class="breadcrumb-item"><a href="/student/clubs/view">View Club</a></li>
+                            <li class="breadcrumb-item"><a href="/student/clubs/viewClubMember/${sessionScope.clubId}">View Member Club</a></li>
                             <li class="breadcrumb-item active"><a href="#">Create Event</a></li>
                         </ul>
                     </div>

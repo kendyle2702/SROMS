@@ -271,3 +271,29 @@
         <%session.setAttribute("checkComposition", "sdsdsfdsf");%>
     </c:when>
 </c:choose> 
+<c:choose>
+    <c:when test="${sessionScope.checkRequestCreateEvent == 'success'}">
+        <script>
+            Swal.fire({
+                position: "top-end",
+                icon: "success",
+                title: "You have accepted the event as successfully!",
+                showConfirmButton: false,
+                timer: 1500
+            });
+        </script> 
+        <%session.setAttribute("checkRequestCreateEvent", "sdsdsfdsf");%>
+    </c:when>
+    <c:when test="${sessionScope.checkRequestCreateEvent == 'fail'}">
+        <script>
+            Swal.fire({
+                position: "top-end",
+                icon: "warning",
+                title: "You have accepted the event as failure!",
+                showConfirmButton: false,
+                timer: 1500
+            });
+        </script> 
+        <%session.setAttribute("checkRequestCreateEvent", "sdsdsfdsf");%>
+    </c:when>
+</c:choose> 
