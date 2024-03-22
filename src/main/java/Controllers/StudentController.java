@@ -477,7 +477,6 @@ public class StudentController extends HttpServlet {
                     }
                     response.sendRedirect("/student/clubs/viewClubMember/" + clubId);
                 }
-                response.sendRedirect("/student/clubs/viewClubMember/" + clubId);
             } else if (pointAndReportForStudent != null && pointAndReportForStudent.equals("Submit")) {
                 int count = 0;
                 Enumeration<String> parameterNames = request.getParameterNames();
