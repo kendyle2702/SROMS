@@ -329,8 +329,8 @@ public class StudentController extends HttpServlet {
         String action = request.getParameter("action");
         EventDAO eventManagerDAO = new EventDAO();
         String path = request.getRequestURI();
-        String createCompatition = request.getParameter("createCompatitionClub");
-        String createEvent = request.getParameter("createEventClub");
+        String createCompatition = request.getParameter("createCompatition");
+        String createEvent = request.getParameter("createEvent");
         String pointAndReportForStudent = request.getParameter("pointAndReportForStudent");
         String updateRoleMember = request.getParameter("updateRoleMember");
         try {
@@ -388,7 +388,6 @@ public class StudentController extends HttpServlet {
                 }
             } else if (createEvent != null && createEvent.equals("Submit")) {
                 int count = 0;
-                System.out.println("mmm");
                 ManagerProfileDAO managerProfileDAO = new ManagerProfileDAO();
                 String eventName = request.getParameter("eventname");
                 Timestamp preTime = formatTime(LocalDateTime.parse(request.getParameter("pretime")));
@@ -417,7 +416,7 @@ public class StudentController extends HttpServlet {
                 } else {
                     session.setAttribute("checkCreateEvent", "fail");
                 }
-                response.sendRedirect("/student/viewEventMyClub");
+                response.sendRedirect("/student/events/view");
             } else if (createCompatition != null && createCompatition.equals("Submit")) {
                 int count = 0;
                 ManagerProfileDAO managerProfileDAO = new ManagerProfileDAO();
@@ -447,7 +446,7 @@ public class StudentController extends HttpServlet {
                 } else {
                     session.setAttribute("checkCreateEvent", "fail");
                 }
-                response.sendRedirect("/student/viewEventMyClub");
+                response.sendRedirect("/student/events/view");
             } else if (updateRoleMember != null && updateRoleMember.startsWith("Update")) {
                 String[] isArray = path.split("/");
                 int studentId = Integer.parseInt(request.getParameter("studentId"));

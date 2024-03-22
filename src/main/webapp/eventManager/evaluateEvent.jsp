@@ -67,7 +67,7 @@
                                                 </c:forEach>
                                                 <tr>
                                                     <td  colspan="6">
-                                                        <input style="background: #ea7127;border-color:#ea7127; margin-left:1300px;width: 150px;height: 60px" class="btn btn-primary" name="evaluateStudentForm" type="submit" value="Submit">
+                                                        <input style="background: #ea7127;border-color:#ea7127; margin-left:1700px;width: 150px;height: 60px" class="btn btn-primary" name="evaluateStudentForm" type="submit" value="Submit">
                                                     </td>
                                                 </tr>
                                             </c:if>         

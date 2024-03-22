@@ -38,7 +38,6 @@
                 <div class="tab-pane" id="participated" role="tabpanel">
                     <div class="row">
                         <div class="col-xl-12 d-flex">
-
                             <div class="table-responsive">
                                 <table id="viewEvents" class="table table-hover table-striped table-bordered">
                                     <thead class="thead-light">

@@ -85,7 +85,7 @@
                                                 <td colspan="6">
                                                     <div id="message-eror" style="color: red;text-align: right;font-size: 20px"></div>
                                                     <input type="hidden" name="checkAttendanceForm" value="Submit">
-                                                    <input style="background: #ea7127;border-color:#ea7127; margin-left:1300px;width: 150px;height: 60px" class="btn btn-primary" type="submit">
+                                                    <input style="background: #ea7127;border-color:#ea7127; margin-left:1700px;width: 150px;height: 60px" class="btn btn-primary" type="submit">
                                                 </td>
                                             </tr>
                                         </c:if>         
