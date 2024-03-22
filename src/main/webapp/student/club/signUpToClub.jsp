@@ -8,6 +8,7 @@
                         <h3 class="page-title">Sign Up Club</h3>
                         <ul class="breadcrumb">
                             <li class="breadcrumb-item"><a href="/">Home</a></li>
+                            <li class="breadcrumb-item"><a href="/student/clubs/view">View Club</a></li>
                             <li class="breadcrumb-item active">Sign-Up Club</li>
                         </ul>
                     </div>
