@@ -200,11 +200,7 @@ public class ClubDAO {
     public List<Club> listCheckRequest() throws SQLException {
         List<Club> listC = new ArrayList<>();
         Club club = null;
-        String ex = "SELECT DISTINCT Club.[ClubID],[Logo],[ClubName],[EstablishDate],Club.[Description],[IsApprove],[IsActive],[ManagerProfileID],Club.[StudentProfileID] \n"
-                + "FROM [Club] \n"
-                + "INNER JOIN ClubMember ON Club.ClubID = ClubMember.ClubID \n"
-                + "INNER JOIN Semester ON ClubMember.SemesterID = Semester.SemesterID\n"
-                + "WHERE IsApprove IS NULL AND Semester.SemesterID = (SELECT MAX(SemesterID) FROM Semester);";
+        String ex = "select * from Club where IsApprove is null";
         PreparedStatement ps = conn.prepareStatement(ex);
         ResultSet rs = ps.executeQuery();
         while (rs.next()) {
@@ -777,5 +773,13 @@ public class ClubDAO {
         count = ps.executeUpdate();
         return count;
     }
-
+    public void addLeaderClub(int studentID, int clubID,int semesterID) throws SQLException{
+        String sql = "Insert into ClubMember values (?,?,?,?,NULL,NULL)";
+        ps = conn.prepareStatement(sql);
+        ps.setInt(1, studentID);
+        ps.setInt(2, clubID);
+        ps.setInt(3, semesterID);
+        ps.setString(4, "Leader Club");
+        ps.executeUpdate();
+    }
 }

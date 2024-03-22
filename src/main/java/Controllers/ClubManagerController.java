@@ -103,7 +103,9 @@ public class ClubManagerController extends HttpServlet {
                         studentProfileID = club.getStudentProfileID();
                         fullName = clubDAO.getFullName(clubID, studentProfileID);
                     }
+
                     session.setAttribute("fullNameCreateClub", fullName);
+                    session.setAttribute("IDStudentCreateClub", studentProfileID);
                     session.setAttribute("listCheckRequestClub", listCheckRequestClub);
                     request.getRequestDispatcher("/clubManager.jsp").forward(request, response);
 
@@ -117,6 +119,14 @@ public class ClubManagerController extends HttpServlet {
                         String p = parts[parts.length - 1];
                         int clubId = Integer.parseInt(p);
                         int checkAccept = clubDAO.checkRequestCreate(sqlcurrentDate, 1, 1, managerProfileId, clubId);
+
+                        int studentIDCreateClub = (int) session.getAttribute("IDStudentCreateClub");
+                        String currentSemesterString = (String)session.getAttribute("semester");
+                        SemesterDAO semDAO = new SemesterDAO();
+                        int semesterID = semDAO.getSemesterIDBySemesterName(currentSemesterString);
+
+                        clubDAO.addLeaderClub(studentIDCreateClub, clubId, semesterID);
+
                         if (checkAccept > 0) {
                             session.setAttribute("checkrequestClub", "acceptSuccess");
                         } else {
