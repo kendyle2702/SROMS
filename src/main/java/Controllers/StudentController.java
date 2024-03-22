@@ -114,7 +114,6 @@ public class StudentController extends HttpServlet {
                         String[] idArray = path.split("/");
                         int id = Integer.parseInt(idArray[idArray.length - 1]);
 
-                        
                         String checkClubRole = clubDAO.getClubRole(studentProfileID);
                         session.setAttribute("checkClubRole", checkClubRole);
                         ResultSet rsStudent = studentProfileDAO.getStudentProfileMorebyEventID(id);
@@ -393,7 +392,7 @@ public class StudentController extends HttpServlet {
                 ManagerProfileDAO managerProfileDAO = new ManagerProfileDAO();
                 String eventName = request.getParameter("eventname");
                 Timestamp preTime = formatTime(LocalDateTime.parse(request.getParameter("pretime")));
-                Timestamp holeTime = formatTime(LocalDateTime.parse(request.getParameter("holetime")));
+                Timestamp holeTime = formatTime(LocalDateTime.parse(request.getParameter("holdtime")));
                 String location = request.getParameter("location");
                 int cost = Integer.parseInt(request.getParameter("cost"));
                 int exNum = Integer.parseInt(request.getParameter("exnum"));
@@ -424,7 +423,7 @@ public class StudentController extends HttpServlet {
                 ManagerProfileDAO managerProfileDAO = new ManagerProfileDAO();
                 String eventName = request.getParameter("eventname");
                 Timestamp preTime = formatTime(LocalDateTime.parse(request.getParameter("pretime")));
-                Timestamp holeTime = formatTime(LocalDateTime.parse(request.getParameter("holetime")));
+                Timestamp holeTime = formatTime(LocalDateTime.parse(request.getParameter("holdtime")));
                 String location = request.getParameter("location");
                 int cost = Integer.parseInt(request.getParameter("cost"));
                 int exNum = Integer.parseInt(request.getParameter("exnum"));

@@ -30,6 +30,7 @@ import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Enumeration;
 import java.util.HashMap;
@@ -57,18 +58,12 @@ public class EventManagerController extends HttpServlet {
                 int totalEventTaking = eventManagerDAO.getTotalEventTaking();
                 long totalCost = eventManagerDAO.getTotalCost();
                 int totalEventNotStarted = eventManagerDAO.getTotalEventNotStarted();
-                //    List<StudentProfile> studentList = eventManagerDAO.participateEventList();
-                Calendar calen = Calendar.getInstance();
-                SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH-mm-ss");
-                List<Map<String, Integer>> numberParti = eventManagerDAO.getTotalIsPresent();
-                Timestamp d = new Timestamp(calen.getTimeInMillis());
                 if (path.equals("/eventmanager")) {
                     session.setAttribute("listEvent", listE);
                     session.setAttribute("totalevent", totalEventTaking);
                     session.setAttribute("totalEventTook", totalEventTook);
                     session.setAttribute("totalcost", totalCost);
                     session.setAttribute("totalEventNotStarted", totalEventNotStarted);
-                    String s = format.format(d);
                     session.setAttribute("tabId", 1);
                     request.getRequestDispatcher("/eventManager.jsp").forward(request, response);
                 } else if (path.startsWith("/eventmanager/profile")) {
@@ -139,16 +134,28 @@ public class EventManagerController extends HttpServlet {
                 } else if (path.equals("/eventmanager/news/view")) {
                     session.setAttribute("tabId", 13);
                     request.getRequestDispatcher("/eventManager.jsp").forward(request, response);
-                }else if (path.startsWith("/eventmanager/news/view/detail/")) {
-                        String[] idArray = path.split("/");
-                        int id = Integer.parseInt(idArray[idArray.length - 1]);
-                        NewsDAO newsDAO = new NewsDAO();
-                        News news = newsDAO.getNewsByID(id);
-                        String name = newsDAO.getNameAuthor(id);
-                        session.setAttribute("news", news);
-                        session.setAttribute("name", name);
-                        session.setAttribute("newsID", id);
+                } else if (path.startsWith("/eventmanager/news/view/detail/")) {
+                    String[] idArray = path.split("/");
+                    int id = Integer.parseInt(idArray[idArray.length - 1]);
+                    NewsDAO newsDAO = new NewsDAO();
+                    News news = newsDAO.getNewsByID(id);
+                    String name = newsDAO.getNameAuthor(id);
+                    session.setAttribute("news", news);
+                    session.setAttribute("name", name);
+                    session.setAttribute("newsID", id);
                     session.setAttribute("tabId", 14);
+                    request.getRequestDispatcher("/eventManager.jsp").forward(request, response);
+                } else if (path.equals("/eventmanager/events/evaluatecompotition")) {
+                    List<Map<String, String>> listEvaluate = eventManagerDAO.getEventEvaluateCompotition();
+                    session.setAttribute("evaluateCompotitionStudent", listEvaluate);
+                    session.setAttribute("tabId", 15);
+                    request.getRequestDispatcher("/eventManager.jsp").forward(request, response);
+                } else if (path.startsWith("/eventmanager/events/compositionstudent/")) {
+                    String[] isArray = path.split("/");
+                    int eventID = Integer.parseInt(isArray[isArray.length - 1]);
+                    List<Map<String, String>> listComposition = eventManagerDAO.getListAttendant(eventID);
+                    session.setAttribute("listComposition", listComposition);
+                    session.setAttribute("tabId", 16);
                     request.getRequestDispatcher("/eventManager.jsp").forward(request, response);
                 }
             } catch (SQLException ex) {
@@ -180,6 +187,7 @@ public class EventManagerController extends HttpServlet {
             String createEvent = request.getParameter("createEvent");
             String checkAttendanceForm = request.getParameter("checkAttendanceForm");
             String evaluateStudentForm = request.getParameter("evaluateStudentForm");
+            String evaluateComposition = request.getParameter("evaluateComposition");
             if (createEvent != null && createEvent.equals("Submit")) {
                 int count = 0;
                 ManagerProfileDAO managerProfileDAO = new ManagerProfileDAO();
@@ -193,13 +201,13 @@ public class EventManagerController extends HttpServlet {
                 String description = request.getParameter("description");
                 String feedback = request.getParameter("feedback");
                 Timestamp endTime = formatTime(LocalDateTime.parse(request.getParameter("endtime")));
-                
-                if(preTime.compareTo(holeTime) > 0 || holeTime.compareTo(endTime)>0 ||preTime.compareTo(endTime)>0){
+
+                if (preTime.compareTo(holeTime) > 0 || holeTime.compareTo(endTime) > 0 || preTime.compareTo(endTime) > 0) {
                     session.setAttribute("checkCreateEvent", "failDate");
                     response.sendRedirect("/eventmanager/events/create");
                     return;
                 }
-                
+
                 UserProfile userProfile = (UserProfile) session.getAttribute("user");
                 String role = (String) session.getAttribute("role");
                 int id = managerProfileDAO.getManagerProfileIdByEmail(userProfile.getEmail());
@@ -231,13 +239,13 @@ public class EventManagerController extends HttpServlet {
                 String description = request.getParameter("description");
                 String feedback = request.getParameter("feedback");
                 Timestamp endTime = formatTime(LocalDateTime.parse(request.getParameter("endtime")));
-                
-                if(preTime.compareTo(holeTime) > 0 || holeTime.compareTo(endTime)>0 ||preTime.compareTo(endTime)>0){
+
+                if (preTime.compareTo(holeTime) > 0 || holeTime.compareTo(endTime) > 0 || preTime.compareTo(endTime) > 0) {
                     session.setAttribute("checkCreateEvent", "failDate");
                     response.sendRedirect("/eventmanager/events/create");
                     return;
                 }
-                
+
                 UserProfile userProfile = (UserProfile) session.getAttribute("user");
                 String role = (String) session.getAttribute("role");
                 int firtPrize = Integer.parseInt(request.getParameter("firtPrize"));
@@ -255,7 +263,6 @@ public class EventManagerController extends HttpServlet {
                     session.setAttribute("checkCreateEvent", "fail");
                     response.sendRedirect("/eventmanager/events/create");
                 }
-                
 
             } else if (updateEvent != null && updateEvent.equals("Update")) {
                 int count = 0;
@@ -370,8 +377,29 @@ public class EventManagerController extends HttpServlet {
 
                 response.sendRedirect("/eventmanager/events/evaluate");
 
-            }
+            } else if (evaluateComposition != null && evaluateComposition.equalsIgnoreCase("Submit")) {
+                int count = 0;
+                Enumeration<String> parameterNames = request.getParameterNames();
+                while (parameterNames.hasMoreElements()) {
+                    String paramName = parameterNames.nextElement();
+                    // Kiểm tra xem tên tham số bắt đầu bằng "checkAttendance_"
+                    if (paramName.startsWith("prize/")) {
+                        String[] ids = paramName.split("/");
+                        int studentProfileId = Integer.parseInt(ids[2]);
+                        int eventId = Integer.parseInt(ids[1]);
+                        String prizeValue = request.getParameter(paramName);
+                        count = eventManagerDAO.compodsitionStudent(prizeValue, eventId, studentProfileId);
+                    } else {
 
+                    }
+                }
+                if (count > 0) {
+                    session.setAttribute("checkComposition", "success");
+                } else {
+                    session.setAttribute("checkComposition", "fail");
+                }
+                response.sendRedirect("/eventmanager/events/evaluatecompotition");
+            }
         } catch (SQLException ex) {
             Logger.getLogger(EventManagerController.class
                     .getName()).log(Level.SEVERE, null, ex);

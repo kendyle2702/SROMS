@@ -326,3 +326,4 @@
     var chart = new ApexCharts(document.querySelector("#top10StudentChart"), options);
     chart.render();
 </script>
+

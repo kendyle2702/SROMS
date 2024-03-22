@@ -40,7 +40,7 @@
                                             <h5 class="card-title d-flex justify-content-between">
                                                 <span>Create Talkshow And Soft Skills</span>
                                             </h5>
-                                            <form action="/student" method="post" id="createEvent">
+                                            <form action="/student" method="post" id="createEventFormal">
                                                 <div class="row">
                                                     <div class="col-12 col-sm-4">
                                                         <div class="form-group">
@@ -54,7 +54,7 @@
                                                         <div class="form-group">
                                                             <label>Preparation Time <span
                                                                     class="login-danger">*</span></label>
-                                                            <input id="preparetime" name="pretime" class="form-control"
+                                                            <input id="pretime" name="pretime" class="form-control"
                                                                    type="datetime-local" placeholder="YYYY-MM-DDTHH:MM"
                                                                    >
                                                             <div class="message"></div>
@@ -63,7 +63,7 @@
                                                     <div class="col-12 col-sm-4">
                                                         <div class="form-group">
                                                             <label>Start Time <span class="login-danger">*</span></label>
-                                                            <input id="holdtime" name="holetime" class="form-control"
+                                                            <input id="holdtime" name="holdtime" class="form-control"
                                                                    type="datetime-local" placeholder="YYYY-MM-DDTHH:MM"
                                                                    >
                                                             <div class="message"></div>
@@ -143,11 +143,12 @@
                                                     </div>
                                                 </div>
                                                 <div class="col-12">
-                                                    <div class="student-submit">
-                                                        <input style="background: #ea7127;border-color:#ea7127;" name="createEventClub" class="btn btn-primary" id="submit"
-                                                               type="submit" value="Submit">
-                                                    </div>
+                                                <div class="student-submit">
+                                                    <input type="hidden" name="createEvent" value="Submit">
+                                                    <input style="background: #ea7127;border-color:#ea7127;" class="btn btn-primary" id="submit"
+                                                           type="submit">
                                                 </div>
+                                            </div>
                                             </form>
                                         </div>
                                     </div>
@@ -161,7 +162,7 @@
                                 <h5 class="card-title">Creat Compatition</h5>
                                 <div class="row">
                                     <div class="col-lg-12">
-                                        <form action="/student" method="post"  id="createCompatition">
+                                        <form action="/student" method="post"  id="createCompetition">
                                             <div class="row">
                                                 <div class="col-12 col-sm-4">
                                                     <div class="form-group">
@@ -176,7 +177,7 @@
                                                     <div class="form-group">
                                                         <label>Preparation Time <span
                                                                 class="login-danger">*</span></label>
-                                                        <input id="preparetime" name="pretime" class="form-control"
+                                                        <input id="pretime" name="pretime" class="form-control"
                                                                type="datetime-local" placeholder="YYYY-MM-DDTHH:MM"
                                                                >
                                                         <div class="message"></div>
@@ -185,7 +186,16 @@
                                                 <div class="col-12 col-sm-4">
                                                     <div class="form-group">
                                                         <label>Start Time <span class="login-danger">*</span></label>
-                                                        <input id="holdtime" name="holetime" class="form-control"
+                                                        <input id="holdtime" name="holdtime" class="form-control"
+                                                               type="datetime-local" placeholder="YYYY-MM-DDTHH:MM"
+                                                               >
+                                                        <div class="message"></div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-12 col-sm-4">
+                                                    <div class="form-group">
+                                                        <label>End Time <span class="login-danger">*</span></label>
+                                                        <input id="endtime" name="endtime" class="form-control"
                                                                type="datetime-local" placeholder="YYYY-MM-DDTHH:MM"
                                                                >
                                                         <div class="message"></div>
@@ -233,16 +243,7 @@
                                                                class="form-control" placeholder="Enter link feedback">
                                                         <div class="message"></div>
                                                     </div>
-                                                </div>
-                                                <div class="col-12 col-sm-4">
-                                                    <div class="form-group">
-                                                        <label>End Time <span class="login-danger">*</span></label>
-                                                        <input id="endtime" name="endtime" class="form-control"
-                                                               type="datetime-local" placeholder="YYYY-MM-DDTHH:MM"
-                                                               >
-                                                        <div class="message"></div>
-                                                    </div>
-                                                </div>
+                                                </div>                  
                                                 <div class="col-12 col-sm-4">
                                                     <div class="form-group ">
                                                         <label>Description<span
@@ -296,10 +297,12 @@
                                             </div>
                                             <div class="col-12">
                                                 <div class="student-submit">
-                                                    <input style="background: #ea7127;border-color:#ea7127;" name="createCompatitionClub" class="btn btn-primary" id="submit"
-                                                           type="submit" value="Submit">
+                                                    <input type="hidden" name="createCompatition" value="Submit">
+                                                    <input style="background: #ea7127;border-color:#ea7127;" class="btn btn-primary" id="submit"
+                                                           type="submit" >
                                                 </div>
                                             </div>
+                                           
                                         </form>
                                     </div>
                                 </div>
